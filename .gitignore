@@ -1,0 +1,17 @@
+# Local environments and generated files
+.venv/
+.julia/
+*.ji
+.ipynb_checkpoints/
+.DS_Store
+
+# Downloaded or generated datasets; keep directory markers
+data/raw/**
+!data/raw/.gitkeep
+data/processed/**
+!data/processed/.gitkeep
+data/benchmark/**
+!data/benchmark/.gitkeep
+
+# Local benchmark scratch files
+results/**/tmp/

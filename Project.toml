@@ -1,0 +1,7 @@
+name = "EclatFIM"
+uuid = "f035e606-8504-4775-8232-c73e28f25aa6"
+authors = ["Trung", "Khang", "Duy"]
+version = "0.1.0"
+
+[compat]
+julia = "1.9"
