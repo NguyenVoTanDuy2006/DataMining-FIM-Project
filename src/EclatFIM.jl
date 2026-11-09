@@ -8,6 +8,7 @@ include("algorithm/EclatOptimized.jl")
 include("applications/Groceries.jl")
 include("applications/AssociationRules.jl")
 include("applications/FashionMNIST.jl")
+include("applications/FashionEDA.jl")
 include("applications/VisualCodebook.jl")
 include("applications/VisualMining.jl")
 

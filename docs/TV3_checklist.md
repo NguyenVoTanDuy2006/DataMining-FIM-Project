@@ -4,14 +4,14 @@
 
 **Phạm vi của Duy:** dữ liệu Fashion-MNIST → patch/descriptor → K-means codebook → visual-word transactions → Eclat chung của Trung → pattern theo class, hình và ablation. Duy phụ trách phần Fashion-MNIST trong báo cáo, notebook Colab/README về tái lập, và review phần Groceries của Khang. Trung sở hữu Eclat; Khang sở hữu benchmark và luật giỏ hàng.
 
-**Tình trạng 08/11:** repo có `Project.toml` và các tệp Julia khung, nhưng các module ứng dụng và test chưa có chức năng. Máy hiện chưa có lệnh `julia`. Chỉ đánh dấu hoàn thành sau khi có file, lệnh chạy và bằng chứng kiểm tra tương ứng.
+**Cập nhật 09/11:** Julia 1.13.3 đã chạy được. Loader/checksum Fashion-MNIST và hai notebook kiểm tra/EDA nằm trong repo chính. Julia tests và notebook được xác nhận chạy từ kernel mới. Patch extraction, codebook và mining chưa thuộc phạm vi nhánh EDA này.
 
 ## Tuần 1 — 08–10/11: môi trường và dữ liệu nhỏ
 
 - [ ] **08/11 — Chốt phụ thuộc với Trung:** xác nhận `mine(transactions, minsup; backend=...)`, input `Vector{Vector{Int}}`, output itemset → support count, quy tắc minsup và cách import `EclatFIM`. Ghi quyết định vào PR hoặc tài liệu nhóm. **Bàn giao:** một ví dụ input/output mà cả hai cùng xác nhận.
 - [ ] **08/11 — Cài và kiểm tra Julia ≥ 1.9:** chạy `julia --version` và `julia --project=. -e 'using Pkg; Pkg.instantiate(); using EclatFIM'`. Nếu chưa cài được, báo nhóm trong ngày; vẫn tiếp tục thiết kế dữ liệu/kiểm tra ảnh độc lập. Chốt seed và xin TA xác nhận package cho đọc ảnh, K-means, plotting trước khi phụ thuộc vào chúng.
-- [ ] **09/11 — Tải Fashion-MNIST:** dùng nguồn trong `plan.md`; ghi URL, cách tải và checksum/phiên bản nếu có. Kiểm tra ảnh grayscale 28×28, nhãn 0–9, số mẫu train/test. Giữ dữ liệu thô trong `data/raw/`, không commit vào Git.
-- [ ] **09/11 — EDA:** lưu một hình có ảnh đại diện của cả 10 class, bảng số ảnh/class và nhận xét sơ bộ về nền đen vào `results/fashion/`.
+- [x] **09/11 — Tải Fashion-MNIST:** dùng nguồn trong `plan.md`; ghi URL, cách tải và checksum/phiên bản nếu có. Kiểm tra ảnh grayscale 28×28, nhãn 0–9, số mẫu train/test. Giữ dữ liệu thô trong `data/raw/`, không commit vào Git.
+- [x] **09/11 — EDA:** lưu một hình có ảnh đại diện của cả 10 class, bảng số ảnh/class và nhận xét sơ bộ về nền đen vào `results/fashion/`.
 - [ ] **10/11 — MVP 100 ảnh:** viết `src/applications/FashionMNIST.jl` để đọc ảnh và cắt **16 patch 7×7** theo lưới 4×4. Viết test về kích thước, thứ tự patch và việc không mất/lặp pixel; chạy trên 100 ảnh.
 
 **Mốc 10/11:** đọc được dữ liệu thật, có hình EDA và patch extraction chạy/test được trên 100 ảnh. Nếu Julia vẫn chưa chạy, báo blocker rõ cho Trung và ghi những phần đã chuẩn bị độc lập.

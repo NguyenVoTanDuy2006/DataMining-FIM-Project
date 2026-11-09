@@ -6,7 +6,9 @@ Julia project for a from-scratch Eclat implementation, SPMF comparison, four ben
 
 ## Current state
 
-This repository is a **structure-only scaffold**. The algorithm, applications, benchmark runner, CLI, tests, and Colab demo still need implementation. Placeholder files mark the planned module boundaries; they do not provide working results.
+The Fashion-MNIST download, checksum verification, IDX reader, and basic EDA
+are implemented in Julia. Eclat, the remaining applications, and benchmark
+runner are still under development.
 
 ## Julia setup
 
@@ -17,6 +19,32 @@ julia --project=. -e 'using Pkg; Pkg.instantiate()'
 julia --project=. -e 'using EclatFIM'
 ```
 
-Generate and commit `Manifest.toml` with the selected Julia dependencies so experiments can be reproduced. Run the future test suite with `julia --project=. test/runtests.jl`. The CLI and demo scripts will be documented when implemented.
+Dependencies are pinned in `Project.toml` and `Manifest.toml`. Run the tests
+and open the Julia notebooks from the repository root:
+
+```sh
+julia --project=. -e 'using Pkg; Pkg.instantiate()'
+julia --project=. test/runtests.jl
+julia --project=. -e 'using IJulia; IJulia.notebook(dir="notebook")'
+```
+
+Choose the Julia 1.13 kernel in Jupyter. The notebooks activate this project
+themselves and work independently from a fresh kernel.
+
+## Fashion-MNIST: dataset validation and EDA
+
+- [01 — Download, checksums, and dataset validation](notebook/01_fashion_mnist_dataset.ipynb)
+- [02 — Basic EDA](notebook/02_fashion_mnist_eda.ipynb)
+
+The official `.gz` archives are kept locally under `data/raw/fashion-mnist/`
+and are not committed. Notebook 01 validates SHA-256, image/label IDX headers,
+28×28 grayscale images, labels 0–9, and the 60,000/10,000 train/test split.
+Notebook 02 reports class counts and black-pixel fractions, selects one
+training image per class with seed 42, displays the sample grid, and saves the
+CSV, SVG, index list, summary, and metadata to `results/fashion/`.
+
+Latest verification: Julia 1.13.3; **43/43 tests pass**; both notebooks execute
+from fresh Julia kernels; 6,000 train and 1,000 test images per class. See
+`results/fashion/` for the validation report and EDA outputs.
 
 Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.

@@ -1,4 +1,5 @@
 using Test
 using EclatFIM
 
-# TODO(TV1): Add correctness tests and include application tests from TV2/TV3.
+include("test_fashion_mnist.jl")
+include("test_fashion_eda.jl")
