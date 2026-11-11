@@ -15,7 +15,7 @@ function mine(
     transactions::Vector{Vector{Int}},
     minsup::Real;
     backend::Symbol = :set
-)
+)::Dict{Tuple{Vararg{Int}}, Int}
     if backend == :set
         return mine_baseline(transactions, minsup)
     end

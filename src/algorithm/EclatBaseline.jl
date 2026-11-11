@@ -1,4 +1,6 @@
-function build_vertical(transactions::Vector{Vector{Int}})
+function build_vertical(
+    transactions::Vector{Vector{Int}}
+)::Dict{Int, Set{Int}}
     vertical = Dict{Int, Set{Int}}()
 
     for (tid, transaction) in enumerate(transactions)
@@ -21,7 +23,7 @@ end
 function get_frequent_items(
     vertical::Dict{Int, Set{Int}},
     min_count::Int
-)
+)::Vector{Tuple{Int, Set{Int}}}
     candidates = Tuple{Int, Set{Int}}[]
 
     for item in sort(collect(keys(vertical)))
@@ -40,7 +42,7 @@ function eclat_dfs!(
     prefix::Vector{Int},
     candidates::Vector{Tuple{Int, Set{Int}}},
     min_count::Int
-)
+)::Nothing
     for i in eachindex(candidates)
         item, tids = candidates[i]
         new_prefix = [prefix; item]
@@ -68,7 +70,7 @@ end
 function mine_baseline(
     transactions::Vector{Vector{Int}},
     minsup::Real
-)
+)::Dict{Tuple{Vararg{Int}}, Int}
     if !(0 < minsup <= 1)
         throw(ArgumentError("minsup must be in (0, 1]"))
     end
