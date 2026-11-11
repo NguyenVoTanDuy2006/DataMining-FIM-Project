@@ -1,7 +1,7 @@
 module EclatFIM
 
-# Source files are included in dependency order. Implementations will define
-# their public API here as the project plan is completed.
+export mine
+
 include("utils/SPMFIO.jl")
 include("algorithm/EclatBaseline.jl")
 include("algorithm/EclatOptimized.jl")
@@ -11,4 +11,16 @@ include("applications/FashionMNIST.jl")
 include("applications/VisualCodebook.jl")
 include("applications/VisualMining.jl")
 
-end # module EclatFIM
+function mine(
+    transactions::Vector{Vector{Int}},
+    minsup::Real;
+    backend::Symbol = :set
+)
+    if backend == :set
+        return mine_baseline(transactions, minsup)
+    end
+
+    throw(ArgumentError("Backend $backend is not implemented yet"))
+end
+
+end
