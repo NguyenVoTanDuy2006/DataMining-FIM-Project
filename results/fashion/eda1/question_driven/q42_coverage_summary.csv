@@ -1,0 +1,133 @@
+extractor,threshold_method,label,metric,valid_images,missing_images,mean
+ORB,Q10+,-1,on_foreground,195,5,0.8645847742001588
+ORB,Q10+,-1,foreground_patch_coverage,200,0,0.1883848252938688
+ORB,Q10+,-1,edge_patch_coverage,200,0,0.1708023976467237
+ORB,Q10+,0,on_foreground,17,3,0.946078431372549
+ORB,Q10+,0,foreground_patch_coverage,20,0,0.10249659961542826
+ORB,Q10+,0,edge_patch_coverage,20,0,0.09721863792422261
+ORB,Q10+,1,on_foreground,20,0,0.7773214285714286
+ORB,Q10+,1,foreground_patch_coverage,20,0,0.23675087108013937
+ORB,Q10+,1,edge_patch_coverage,20,0,0.22100171697119936
+ORB,Q10+,2,on_foreground,20,0,0.8333333333333333
+ORB,Q10+,2,foreground_patch_coverage,20,0,0.10689567784844356
+ORB,Q10+,2,edge_patch_coverage,20,0,0.09439058833890332
+ORB,Q10+,3,on_foreground,20,0,0.849419191919192
+ORB,Q10+,3,foreground_patch_coverage,20,0,0.24494983978243154
+ORB,Q10+,3,edge_patch_coverage,20,0,0.23469963688023343
+ORB,Q10+,4,on_foreground,19,1,0.9233025746183641
+ORB,Q10+,4,foreground_patch_coverage,20,0,0.14562905576087348
+ORB,Q10+,4,edge_patch_coverage,20,0,0.10297059105814613
+ORB,Q10+,5,on_foreground,20,0,0.7832378732378733
+ORB,Q10+,5,foreground_patch_coverage,20,0,0.2518455695752775
+ORB,Q10+,5,edge_patch_coverage,20,0,0.23857961559622823
+ORB,Q10+,6,on_foreground,19,1,0.8887169847696165
+ORB,Q10+,6,foreground_patch_coverage,20,0,0.1491568295855466
+ORB,Q10+,6,edge_patch_coverage,20,0,0.1296443965591809
+ORB,Q10+,7,on_foreground,20,0,0.9193037518037519
+ORB,Q10+,7,foreground_patch_coverage,20,0,0.32227700129123604
+ORB,Q10+,7,edge_patch_coverage,20,0,0.29227519425231097
+ORB,Q10+,8,on_foreground,20,0,0.8478102453102453
+ORB,Q10+,8,foreground_patch_coverage,20,0,0.14348476496800797
+ORB,Q10+,8,edge_patch_coverage,20,0,0.12537089099876458
+ORB,Q10+,9,on_foreground,20,0,0.8936904761904761
+ORB,Q10+,9,foreground_patch_coverage,20,0,0.1803620434313034
+ORB,Q10+,9,edge_patch_coverage,20,0,0.17187270788804765
+ORB,Global Otsu,-1,on_foreground,195,5,0.7104483266021727
+ORB,Global Otsu,-1,foreground_patch_coverage,200,0,0.20207127920806156
+ORB,Global Otsu,-1,edge_patch_coverage,200,0,0.1708023976467237
+ORB,Global Otsu,0,on_foreground,17,3,0.6321374703727645
+ORB,Global Otsu,0,foreground_patch_coverage,20,0,0.12243823207063897
+ORB,Global Otsu,0,edge_patch_coverage,20,0,0.09721863792422261
+ORB,Global Otsu,1,on_foreground,20,0,0.6055952380952381
+ORB,Global Otsu,1,foreground_patch_coverage,20,0,0.233599709114415
+ORB,Global Otsu,1,edge_patch_coverage,20,0,0.22100171697119936
+ORB,Global Otsu,2,on_foreground,20,0,0.6624999999999999
+ORB,Global Otsu,2,foreground_patch_coverage,20,0,0.11452159690486685
+ORB,Global Otsu,2,edge_patch_coverage,20,0,0.09439058833890332
+ORB,Global Otsu,3,on_foreground,20,0,0.675138888888889
+ORB,Global Otsu,3,foreground_patch_coverage,20,0,0.2448721505567276
+ORB,Global Otsu,3,edge_patch_coverage,20,0,0.23469963688023343
+ORB,Global Otsu,4,on_foreground,19,1,0.860663021189337
+ORB,Global Otsu,4,foreground_patch_coverage,20,0,0.17424506595305025
+ORB,Global Otsu,4,edge_patch_coverage,20,0,0.10297059105814613
+ORB,Global Otsu,5,on_foreground,20,0,0.6919662282162282
+ORB,Global Otsu,5,foreground_patch_coverage,20,0,0.27899297893131725
+ORB,Global Otsu,5,edge_patch_coverage,20,0,0.23857961559622823
+ORB,Global Otsu,6,on_foreground,19,1,0.6925359727991307
+ORB,Global Otsu,6,foreground_patch_coverage,20,0,0.15409733064936104
+ORB,Global Otsu,6,edge_patch_coverage,20,0,0.1296443965591809
+ORB,Global Otsu,7,on_foreground,20,0,0.7795562770562772
+ORB,Global Otsu,7,foreground_patch_coverage,20,0,0.3559647279964618
+ORB,Global Otsu,7,edge_patch_coverage,20,0,0.29227519425231097
+ORB,Global Otsu,8,on_foreground,20,0,0.7700324675324676
+ORB,Global Otsu,8,foreground_patch_coverage,20,0,0.15137857408621794
+ORB,Global Otsu,8,edge_patch_coverage,20,0,0.12537089099876458
+ORB,Global Otsu,9,on_foreground,20,0,0.7292261904761904
+ORB,Global Otsu,9,foreground_patch_coverage,20,0,0.19060242581755865
+ORB,Global Otsu,9,edge_patch_coverage,20,0,0.17187270788804765
+SIFT,Q10+,-1,on_foreground,183,17,0.732610012937882
+SIFT,Q10+,-1,foreground_patch_coverage,200,0,0.09883747509700207
+SIFT,Q10+,-1,edge_patch_coverage,200,0,0.09487104105170913
+SIFT,Q10+,0,on_foreground,18,2,0.8150533108866442
+SIFT,Q10+,0,foreground_patch_coverage,20,0,0.07437486508115501
+SIFT,Q10+,0,edge_patch_coverage,20,0,0.0721449128476589
+SIFT,Q10+,1,on_foreground,14,6,0.6505102040816327
+SIFT,Q10+,1,foreground_patch_coverage,20,0,0.05101045296167247
+SIFT,Q10+,1,edge_patch_coverage,20,0,0.047775594466847524
+SIFT,Q10+,2,on_foreground,18,2,0.9444444444444444
+SIFT,Q10+,2,foreground_patch_coverage,20,0,0.0816499265730721
+SIFT,Q10+,2,edge_patch_coverage,20,0,0.07293653776778733
+SIFT,Q10+,3,on_foreground,18,2,0.5627865961199294
+SIFT,Q10+,3,foreground_patch_coverage,20,0,0.0984040858823951
+SIFT,Q10+,3,edge_patch_coverage,20,0,0.09803259168747855
+SIFT,Q10+,4,on_foreground,19,1,0.8429824561403508
+SIFT,Q10+,4,foreground_patch_coverage,20,0,0.0806850069483225
+SIFT,Q10+,4,edge_patch_coverage,20,0,0.07264502893464155
+SIFT,Q10+,5,on_foreground,19,1,0.714961208382261
+SIFT,Q10+,5,foreground_patch_coverage,20,0,0.18926033713436122
+SIFT,Q10+,5,edge_patch_coverage,20,0,0.17885339189603316
+SIFT,Q10+,6,on_foreground,17,3,0.8235294117647058
+SIFT,Q10+,6,foreground_patch_coverage,20,0,0.07688035841121825
+SIFT,Q10+,6,edge_patch_coverage,20,0,0.07519053083707275
+SIFT,Q10+,7,on_foreground,20,0,0.627797619047619
+SIFT,Q10+,7,foreground_patch_coverage,20,0,0.13010408783396402
+SIFT,Q10+,7,edge_patch_coverage,20,0,0.12225101231508553
+SIFT,Q10+,8,on_foreground,20,0,0.7261363636363637
+SIFT,Q10+,8,foreground_patch_coverage,20,0,0.11313055051830623
+SIFT,Q10+,8,edge_patch_coverage,20,0,0.11388894533524832
+SIFT,Q10+,9,on_foreground,20,0,0.6239880952380952
+SIFT,Q10+,9,foreground_patch_coverage,20,0,0.092875079625554
+SIFT,Q10+,9,edge_patch_coverage,20,0,0.09499186442923765
+SIFT,Global Otsu,-1,on_foreground,183,17,0.6523211154358696
+SIFT,Global Otsu,-1,foreground_patch_coverage,200,0,0.10213639773184523
+SIFT,Global Otsu,-1,edge_patch_coverage,200,0,0.09487104105170913
+SIFT,Global Otsu,0,on_foreground,18,2,0.7493967452300786
+SIFT,Global Otsu,0,foreground_patch_coverage,20,0,0.08280268244269583
+SIFT,Global Otsu,0,edge_patch_coverage,20,0,0.0721449128476589
+SIFT,Global Otsu,1,on_foreground,14,6,0.5255102040816327
+SIFT,Global Otsu,1,foreground_patch_coverage,20,0,0.054076707606119365
+SIFT,Global Otsu,1,edge_patch_coverage,20,0,0.047775594466847524
+SIFT,Global Otsu,2,on_foreground,18,2,0.7916666666666666
+SIFT,Global Otsu,2,foreground_patch_coverage,20,0,0.08193756224791694
+SIFT,Global Otsu,2,edge_patch_coverage,20,0,0.07293653776778733
+SIFT,Global Otsu,3,on_foreground,18,2,0.5072310405643738
+SIFT,Global Otsu,3,foreground_patch_coverage,20,0,0.0956977719217708
+SIFT,Global Otsu,3,edge_patch_coverage,20,0,0.09803259168747855
+SIFT,Global Otsu,4,on_foreground,19,1,0.7640350877192982
+SIFT,Global Otsu,4,foreground_patch_coverage,20,0,0.0825697139500219
+SIFT,Global Otsu,4,edge_patch_coverage,20,0,0.07264502893464155
+SIFT,Global Otsu,5,on_foreground,19,1,0.6325500522868944
+SIFT,Global Otsu,5,foreground_patch_coverage,20,0,0.2052940503094504
+SIFT,Global Otsu,5,edge_patch_coverage,20,0,0.17885339189603316
+SIFT,Global Otsu,6,on_foreground,17,3,0.6953781512605042
+SIFT,Global Otsu,6,foreground_patch_coverage,20,0,0.0794208963469906
+SIFT,Global Otsu,6,edge_patch_coverage,20,0,0.07519053083707275
+SIFT,Global Otsu,7,on_foreground,20,0,0.550297619047619
+SIFT,Global Otsu,7,foreground_patch_coverage,20,0,0.12620524964371713
+SIFT,Global Otsu,7,edge_patch_coverage,20,0,0.12225101231508553
+SIFT,Global Otsu,8,on_foreground,20,0,0.6653030303030303
+SIFT,Global Otsu,8,foreground_patch_coverage,20,0,0.12027923632599624
+SIFT,Global Otsu,8,edge_patch_coverage,20,0,0.11388894533524832
+SIFT,Global Otsu,9,on_foreground,20,0,0.6239880952380952
+SIFT,Global Otsu,9,foreground_patch_coverage,20,0,0.0930801065237735
+SIFT,Global Otsu,9,edge_patch_coverage,20,0,0.09499186442923765

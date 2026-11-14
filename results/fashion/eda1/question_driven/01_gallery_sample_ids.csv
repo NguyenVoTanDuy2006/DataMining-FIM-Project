@@ -1,0 +1,11 @@
+label,class_name,image_id,source_split,source_index
+0,T-shirt/top,4719,train,4719
+1,Trouser,39378,train,39378
+2,Pullover,29433,train,29433
+3,Dress,53105,train,53105
+4,Coat,56927,train,56927
+5,Sandal,47809,train,47809
+6,Shirt,27463,train,27463
+7,Sneaker,65859,test,5859
+8,Bag,31572,train,31572
+9,Ankle boot,35277,train,35277

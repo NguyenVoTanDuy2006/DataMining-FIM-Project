@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="455" viewBox="0 0 1100 455"><rect width="100%" height="100%" fill="white"/>
+<text x="550.0" y="28" font-family="sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#172338">Q2.3 Đánh đổi giảm patch và mất gradient</text>
+<text x="85.0" y="400" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="middle" fill="#172338">0</text>
+<text x="77" y="384.0" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="end" fill="#172338">0</text>
+<line x1="85" y1="380.0" x2="735" y2="380.0" stroke="#e2e8f0"/>
+<text x="247.5" y="400" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="middle" fill="#172338">0.121</text>
+<text x="77" y="304.0" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="end" fill="#172338">0.0375</text>
+<line x1="85" y1="300.0" x2="735" y2="300.0" stroke="#e2e8f0"/>
+<text x="410.0" y="400" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="middle" fill="#172338">0.241</text>
+<text x="77" y="224.0" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="end" fill="#172338">0.0749</text>
+<line x1="85" y1="220.0" x2="735" y2="220.0" stroke="#e2e8f0"/>
+<text x="572.5" y="400" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="middle" fill="#172338">0.362</text>
+<text x="77" y="144.0" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="end" fill="#172338">0.112</text>
+<line x1="85" y1="140.0" x2="735" y2="140.0" stroke="#e2e8f0"/>
+<text x="735.0" y="400" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="middle" fill="#172338">0.482</text>
+<text x="77" y="64.0" font-family="sans-serif" font-size="10" font-weight="normal" text-anchor="end" fill="#172338">0.15</text>
+<line x1="85" y1="60.0" x2="735" y2="60.0" stroke="#e2e8f0"/>
+<circle cx="85.0" cy="380.0" r="3" fill="#1768ac" fill-opacity="0.65"/>
+<text x="755" y="77" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#1768ac">4×4, No-filter, α=missing</text>
+<circle cx="590.5611019164476" cy="285.749132288094" r="3" fill="#e4572e" fill-opacity="0.65"/>
+<text x="755" y="94" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#e4572e">4×4, Q10+, α=0.0</text>
+<circle cx="614.8291384905822" cy="253.634576326196" r="3" fill="#3a923a" fill-opacity="0.65"/>
+<text x="755" y="111" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#3a923a">4×4, Q10+, α=0.0625</text>
+<circle cx="638.4702615954048" cy="212.51890603271815" r="3" fill="#8e5ea2" fill-opacity="0.65"/>
+<text x="755" y="128" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#8e5ea2">4×4, Q10+, α=0.125</text>
+<circle cx="668.710287669684" cy="190.05321905080808" r="3" fill="#d89c18" fill-opacity="0.65"/>
+<text x="755" y="145" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#d89c18">4×4, Global Otsu, α=0.0</text>
+<circle cx="703.5364117752703" cy="128.58395665486438" r="3" fill="#218c8c" fill-opacity="0.65"/>
+<text x="755" y="162" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#218c8c">4×4, Global Otsu, α=0.0625</text>
+<circle cx="735.0" cy="60.0" r="3" fill="#b83b5e" fill-opacity="0.65"/>
+<text x="755" y="179" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#b83b5e">4×4, Global Otsu, α=0.125</text>
+<circle cx="85.0" cy="380.0" r="3" fill="#536878" fill-opacity="0.65"/>
+<text x="755" y="196" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#536878">7×7, No-filter, α=missing</text>
+<circle cx="402.2735125809001" cy="349.36844603589344" r="3" fill="#a05a2c" fill-opacity="0.65"/>
+<text x="755" y="213" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#a05a2c">7×7, Q10+, α=0.0</text>
+<circle cx="452.40696223160035" cy="315.57727210402055" r="3" fill="#52796f" fill-opacity="0.65"/>
+<text x="755" y="230" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#52796f">7×7, Q10+, α=0.0625</text>
+<circle cx="501.7784614482231" cy="261.5436037843808" r="3" fill="#1768ac" fill-opacity="0.65"/>
+<text x="755" y="247" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#1768ac">7×7, Q10+, α=0.125</text>
+<circle cx="457.93682051620056" cy="312.36765107742974" r="3" fill="#e4572e" fill-opacity="0.65"/>
+<text x="755" y="264" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#e4572e">7×7, Global Otsu, α=0.0</text>
+<circle cx="530.6519291610456" cy="243.42473943824388" r="3" fill="#3a923a" fill-opacity="0.65"/>
+<text x="755" y="281" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#3a923a">7×7, Global Otsu, α=0.0625</text>
+<circle cx="599.1275600352415" cy="147.01326104303408" r="3" fill="#8e5ea2" fill-opacity="0.65"/>
+<text x="755" y="298" font-family="sans-serif" font-size="9" font-weight="normal" text-anchor="start" fill="#8e5ea2">7×7, Global Otsu, α=0.125</text>
+<text x="410.0" y="430" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" fill="#172338">Patch reduction (0–1)</text>
+<g transform="translate(18,220) rotate(-90)">
+<text x="0" y="0" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" fill="#172338">EdgeLoss (0–1)</text>
+</g>
+</svg>

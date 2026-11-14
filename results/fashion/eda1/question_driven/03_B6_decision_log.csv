@@ -1,0 +1,2 @@
+section,observation,evidence,interpretation,candidate_decision,validation_needed
+B,Per-image FR and sensitivity were calculated for both global masks.,03_B2 summary; mean Q10+=0.44786639941690964; mean Otsu=0.3603938411078717; delta sign is Q10+ minus Otsu.,A low FR does not prove the removed pixels are background.,Carry both methods into patch analysis; use original grayscale for descriptors.,Inspect high absolute delta images and preservation measures in C.

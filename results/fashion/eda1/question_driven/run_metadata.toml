@@ -1,0 +1,43 @@
+additional_fixed_threshold_tau = 10
+alpha = [0.0, 0.0625, 0.125]
+edge_mean_threshold = 80.0
+gradient_definition = "sum(hypot(Gx,Gy)); original grayscale; Sobel replicate"
+images = 70000
+input_index_sha256 = "6598319e03fb8568bd80f0983c5437df10c80d24b5ad96c6f575345aeb26fade"
+input_path = "data/processed/fashion-mnist/combined"
+julia_version = "1.13.3"
+metrics_path = "data/processed/fashion-mnist/eda1/patch_metrics.csv.gz"
+metrics_sha256 = "710bce625cf26de332619cbda9b29eb3ac0f62453f8fa3660910be1a746cfcb4"
+near_zero_variance_rule = "0 < variance <= 1"
+opencv_julia_version = "4.11.0"
+opencv_version = "4.14.0"
+orientation_bins = 8
+output_path = "results/fashion/eda1/question_driven"
+patch_sizes = [4, 7]
+pilot_images = 200
+pilot_per_class = 20
+raw_normalization = "Float32(pixel)/255; no per-patch normalization"
+reference_count = 1024
+rows = 4550000
+schema_version = 1
+seed = 42
+strides = [4, 7]
+thresholds = [29, 97]
+
+[orb_parameters]
+WTA_K = 2
+edgeThreshold = 8
+fastThreshold = 10
+firstLevel = 0
+nfeatures = 500
+nlevels = 1
+patchSize = 15
+scaleFactor = 1.2
+
+[sift_parameters]
+contrastThreshold = 0.04
+edgeThreshold = 10.0
+enable_precise_upscale = false
+nOctaveLayers = 3
+nfeatures = 0
+sigma = 1.6

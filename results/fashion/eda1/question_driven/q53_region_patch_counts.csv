@@ -1,0 +1,15 @@
+patch_size,scheme,region,patch_count,represented_pixel_slots
+4,bands3,top,14,224
+4,bands3,middle,21,336
+4,bands3,bottom,14,224
+4,quadrants,top-left,9,144
+4,quadrants,top-right,12,192
+4,quadrants,bottom-left,12,192
+4,quadrants,bottom-right,16,256
+7,bands3,top,4,196
+7,bands3,middle,8,392
+7,bands3,bottom,4,196
+7,quadrants,top-left,4,196
+7,quadrants,top-right,4,196
+7,quadrants,bottom-left,4,196
+7,quadrants,bottom-right,4,196

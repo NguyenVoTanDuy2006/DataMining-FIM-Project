@@ -1,0 +1,3 @@
+method,pilot_images,zero_rate,zero_descriptor_rate,low_descriptor_rate,pilot_seconds,n,mean,minimum,p05,p25,median,p75,p95,maximum
+ORB,200,0.025,0.025,0.1,0.385751452,200,6.885,0.0,2.0,4.0,7.0,9.0,13.049999999999983,18.0
+SIFT,200,0.085,0.085,0.3,0.125731231,200,4.24,0.0,0.0,2.0,4.0,6.0,10.0,13.0

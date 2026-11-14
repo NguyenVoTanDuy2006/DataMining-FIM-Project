@@ -1,0 +1,2 @@
+section,observation,evidence,interpretation,candidate_decision,validation_needed
+A,One global threshold per method was calculated on combined data.,02_thresholds.csv; zero fraction 0.5017434584548105; Q10+=29; Otsu=97.,"Intensity masks are foreground proxies, not semantic segmentation.",Carry both methods to B/C; record if numeric thresholds coincide.,Inspect masks and patch/gradient preservation before selection.

@@ -1,4 +1,5 @@
 # Local environments and generated files
+.venv/
 .julia/
 *.ji
 .ipynb_checkpoints/
@@ -15,3 +16,6 @@ data/benchmark/**
 # Local benchmark scratch files
 results/**/tmp/
 .learn/
+
+# Legacy EDA outputs are superseded by results/fashion/eda1/question_driven/
+results/fashion/eda1/[0-9]*
