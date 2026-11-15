@@ -18,9 +18,11 @@ function mine(
 )::Dict{Tuple{Vararg{Int}}, Int}
     if backend == :set
         return mine_baseline(transactions, minsup)
+    elseif backend == :bitvector
+        return mine_optimized(transactions, minsup)
     end
 
-    throw(ArgumentError("Backend $backend is not implemented yet"))
+    throw(ArgumentError("Unsupported backend: $backend"))
 end
 
 end
