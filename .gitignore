@@ -14,4 +14,4 @@ data/benchmark/**
 !data/benchmark/.gitkeep
 
 # Local benchmark scratch files
-results/**/tmp/
+results/
