@@ -1,3 +1,0 @@
-patch_size,significant_patches,zero_gradient_patches,mean_entropy,mean_shift_cosine
-4,5785,2049,1.4381174554415097,0.9315299102744339
-7,2263,457,1.8245420440792517,0.9751276798790243

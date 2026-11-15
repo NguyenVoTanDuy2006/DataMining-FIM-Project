@@ -1,3 +1,0 @@
-method,threshold,rule,pixels_le_tau,total_pixels,cdf_at_tau
-Q10+,29,positive pixels; nearest rank 10%; no interpolation,30301092,54880000,0.5521336005830904
-Global Otsu,97,all pixels incl. 0; Otsu between-class variance; lowest tie,35101586,54880000,0.6396061588921282

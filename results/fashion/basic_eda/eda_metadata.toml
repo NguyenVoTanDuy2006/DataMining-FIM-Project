@@ -1,7 +1,0 @@
-dataset = "Fashion-MNIST"
-julia_version = "1.13.3"
-seed = 42
-source = "https://github.com/zalandoresearch/fashion-mnist"
-test_images = 10000
-train_black_pixel_fraction = 0.5020514030612245
-train_images = 60000

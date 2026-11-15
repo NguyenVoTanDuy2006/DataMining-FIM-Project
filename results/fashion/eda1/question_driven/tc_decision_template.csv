@@ -1,6 +1,0 @@
-component,question,evidence,observation,interpretation,candidate,validation_needed
-TC1 — Patch extraction,4×4 hay 7×7 làm baseline?,q11/q12/q13; i1 gallery; q23 tradeoff,,,,So codebook và transactions EDA-2
-TC2 — Filtering,No-filter hay τ/α nào?,q21/q22/q23/q24,,,,Không bỏ ảnh hết patch; đo chi phí và support
-TC3 — Descriptor,Raw/gradient/histogram hướng nào đáng thử?,q31/q32/q33,,,,"Thiết kế normalization, K-means và chất lượng words"
-TC3 — Strategy,Dense hay SIFT/ORB?,q41/q42; pilot 200 ảnh,,,,Kiểm tra quy mô toàn tập và ảnh zero-feature
-TC6 — Encoding,No-spatial hay bands3/quadrants?,q51/q52/q53,,,,"Đo item count, transaction length, support và ý nghĩa patterns"
