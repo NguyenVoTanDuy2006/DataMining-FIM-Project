@@ -85,6 +85,10 @@ function mine_optimized(
 
     results = Dict{Tuple{Vararg{Int}}, Int}()
 
+    for transaction in transactions, item in transaction
+        item > 0 || throw(ArgumentError("item IDs must be positive"))
+    end
+
     isempty(transactions) && return results
 
     min_count = ceil(Int, minsup * length(transactions))

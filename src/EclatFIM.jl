@@ -1,6 +1,7 @@
 module EclatFIM
 
-export mine
+export mine, read_spmf_transactions, write_spmf_itemsets,
+       read_spmf_itemsets, compare_itemsets
 
 include("utils/SPMFIO.jl")
 include("algorithm/EclatBaseline.jl")
