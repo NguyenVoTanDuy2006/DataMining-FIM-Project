@@ -1,0 +1,106 @@
+[eclat_smoke]
+run_parameter_grid = false
+enabled = true
+minsup_type = "absolute"
+use_full_smoke_transactions = true
+minsup_count = 2
+
+[run]
+run_id = "T2_K8_seed42"
+output_root = "results/fashion/tc/smoke/T2_K8_seed42"
+overwrite_production_artifacts = false
+mode = "smoke"
+fail_fast = true
+
+[tc5_word_assignment]
+method = "nearest_centroid"
+distance = "squared_euclidean"
+apply_to = ["smoke_train", "smoke_validation"]
+word_id_base = 1
+chunk_size = 128
+
+[tc1_patch_extraction]
+patch_id_base = 1
+patch_size = [4, 4]
+stride = [4, 4]
+padding = "none"
+expected_patches_per_image = 49
+preserve_coordinates = true
+patch_order = "row_major"
+
+[tc3_feature_extraction]
+strategy = "dense_patches"
+dimension = 16
+dtype = "Float32"
+normalization = "divide_by_255"
+flatten_order = "column_major"
+include_labels = false
+descriptor = "raw_pixels"
+include_position = false
+
+[execution]
+execute_all_tc_notebooks_in_order = true
+fresh_kernel_per_notebook = true
+save_executed_notebook_logs = true
+stop_on_first_failure = true
+run_without_manual_cell_edits = true
+
+[tc4_codebook]
+initialization = "kmeans++"
+max_iterations = 20
+fit_split = "smoke_train"
+seed = 42
+tolerance = 0.0001
+run_stability_benchmark = false
+algorithm = "Clustering.jl_full_batch_kmeans"
+k = 8
+number_of_fits = 1
+fit_all_retained_descriptors = true
+run_k_grid = false
+
+[tc6_transactions]
+sort = true
+encoding = "binary_bovw"
+deduplicate = true
+spatial = false
+preserve_empty = true
+one_image_one_transaction = true
+
+[dataset]
+train_per_class = 10
+name = "Fashion-MNIST"
+save_selected_image_ids = true
+validation_per_class = 2
+expected_train_images = 100
+selection = "stratified_deterministic"
+expected_validation_images = 20
+train_source = "original_train"
+sample_seed = 42
+expected_class_count = 10
+validation_source = "original_test"
+
+[tc7_export]
+save_codebook = true
+save_validation_report = true
+expected_full_transactions = 120
+save_assignments = true
+save_mapping = true
+save_config = true
+expected_validation_transactions = 20
+expected_train_transactions = 100
+
+[tc0_preprocessing]
+method = "q10_positive"
+quantile = 0.1
+foreground_comparison = "strict_greater"
+fit_split = "smoke_train_only"
+positive_pixel_only = true
+
+[tc2_patch_filtering]
+method = "foreground_ratio"
+threshold_source = "tc0_smoke_train"
+alpha = 0.0
+keep_comparison = "strict_greater"
+modify_raw_pixel_values = false
+run_other_filter_variants = false
+experiment = "T2"

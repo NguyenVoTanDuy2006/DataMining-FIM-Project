@@ -1,0 +1,3 @@
+split,retained_patches,unique_patches,duplicate_patches,duplicate_rate
+train,1836369,1826507,9862,0.005370380353839521
+validation,307377,306530,847,0.002755573774225084
