@@ -1,5 +1,11 @@
 # Dữ liệu benchmark
 
+Auto test đọc toàn bộ Groceries từ `data/processed/groceries_spmf.txt` và bốn
+CSDL chuẩn hóa từ `data/benchmark/processed/processes/`. Groceries được mã hóa
+bởi `scripts/groceries_demo.jl`; bốn benchmark dùng `prepare_input` trong
+`scripts/benchmark_processes.jl`. Không dùng Toy hoặc fixture lấy mẫu cho bước
+đối chiếu 5 CSDL. Xem lệnh chuẩn bị và chạy test trong [README](../README.md).
+
 Tải ngày 2026-11-16 từ [FIMI Repository](https://fimi.uantwerpen.be/data/).
 Các file gốc nằm trong `data/benchmark/raw/`, được Git-ignore và chưa chỉnh sửa.
 Thống kê dưới đây được đếm trực tiếp từ file đã tải, không chép từ bảng mô tả.
@@ -54,3 +60,19 @@ File tập con và danh sách chỉ số nằm trong `data/benchmark/processed/s
 được Git-ignore. Metadata ở `results/benchmarks/scalability/metadata.md` ghi seed,
 phiên bản Julia, SHA-256 từng tập con và chỉ số để kiểm chứng tái lập. Giữ minsup
 tương đối 4% trên cả năm mức; ngưỡng support tuyệt đối thay đổi theo số giao dịch.
+
+## CSDL tổng hợp thay đổi độ dài giao dịch
+
+`scripts/benchmark_transaction_length.jl` sinh N = 5.000 giao dịch trên M = 64
+item với `MersenneTwister(20261116)`. Mỗi giao dịch có một hoán vị riêng của 1:M;
+chọn 4, 8, 12, 16, 20 item đầu rồi sắp tăng dần. Tái sử dụng cùng hoán vị cho
+các mức của cùng TID, nên các giỏ được mở rộng theo quan hệ lồng nhau.
+
+Mọi giao dịch của một CSDL có cùng độ dài L, nên trung bình bằng L. Giữ số giao
+dịch, số item quan sát và minsup 5% cố định; min_count luôn bằng 250. Các item
+trong một giỏ là duy nhất; giao dịch trùng không bị xóa. Mật độ bằng L/64 và
+tổng số lần xuất hiện item bằng 5.000×L.
+
+Dữ liệu sinh nằm trong `data/benchmark/processed/transaction_length/`, được
+Git-ignore. `results/benchmarks/transaction_length/metadata.md` lưu seed,
+phiên bản Julia, thiết kế, checksum từng file sinh và tham chiếu SPMF để tái lập.

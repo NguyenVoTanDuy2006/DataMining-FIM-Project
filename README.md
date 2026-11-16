@@ -8,6 +8,11 @@ Julia project for a from-scratch Eclat implementation, SPMF comparison, four ben
 
 Eclat baseline (`:set`), optimized (`:bitvector`) và ứng dụng Groceries đã có cài đặt. Groceries đọc giỏ hàng, tạo mapping, mã hóa giao dịch, khai thác luật, xuất top 10 theo lift và so sánh 12 cấu hình. Các test áp dụng cho hai backend, SPMF I/O và phần ứng dụng của TV2; xem thêm kết quả đối chiếu của TV1 trong [tài liệu thuật toán](docs/TV1_algorithm.md). Demo Colab vẫn cần hoàn tất.
 
+Phần code/thực nghiệm TV2 bao gồm runtime/count theo minsup cho Set, BitVector
+và SPMF, Peak RAM, scalability Retail và dữ liệu tổng hợp tăng độ dài giao dịch.
+Xem [checklist bàn giao](docs/TV2_checklist.md) để phân biệt kết quả đã có với
+Colab, bản lưu trữ dữ liệu và PDF còn cần tích hợp trước khi nộp.
+
 ## Julia setup
 
 Install Julia 1.9 or newer, then run:
@@ -17,7 +22,9 @@ julia --project=. -e 'using Pkg; Pkg.instantiate()'
 julia --project=. -e 'using EclatFIM'
 ```
 
-Generate and commit `Manifest.toml` with the selected Julia dependencies so experiments can be reproduced. Chạy các lệnh bên dưới từ thư mục gốc dự án trong terminal PowerShell, không nhập vào dấu nhắc `julia>`.
+`Manifest.toml` ghi môi trường Julia 1.13.3 của lần kiểm chứng; core và các runner
+hiện không cần package Julia bên ngoài. Chạy các lệnh bên dưới từ thư mục gốc
+dự án trong terminal PowerShell, không nhập vào dấu nhắc `julia>`.
 
 Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.
 
@@ -41,14 +48,87 @@ Chạy từ thư mục gốc dự án trong terminal PowerShell:
 julia --project=. test/runtests.jl
 ```
 
-`test/runtests.jl` kiểm tra Eclat Set/BitVector, SPMF I/O và nạp hai file kiểm thử ứng dụng:
+`test/runtests.jl` kiểm tra Eclat Set/BitVector, SPMF I/O và nạp các file kiểm thử:
 
 - [test_groceries.jl](test/test_groceries.jl): làm sạch tên, bỏ sản phẩm trùng trong một giỏ, giữ các giao dịch giống nhau, mã hóa ID và ghi mapping.
 - [test_association_rules.jl](test/test_association_rules.jl): công thức support/confidence/lift, hai chiều của luật, các tập con hợp lệ, sinh luật và lọc confidence tại ngưỡng.
+- [test_eclat_optimized.jl](test/test_eclat_optimized.jl): lọc singleton trước khi cấp BitVector và đối chiếu phép đếm vét cạn.
+- [test_benchmark.jl](test/test_benchmark.jl): đọc toàn bộ Groceries, Chess, Mushroom, Retail và T10I4D100K đã chuẩn hóa trong `data/`, so sánh mọi itemset/support của Set và BitVector với đáp án SPMF đã lưu trong `results/`.
 
-Các test ứng dụng không chạy script demo, không cần mạng hoặc file Groceries thật, và không ghi đè kết quả thật.
+Auto test dùng Julia, không cần Python hoặc gọi Java. Cần có đủ năm CSDL đầy đủ
+đã chuẩn hóa trong `data/`; thiếu file sẽ báo lỗi, không tự lấy mẫu hoặc bỏ qua
+test. Dữ liệu lớn được Git-ignore và phải chuẩn bị trước trên máy chạy test.
+Các đáp án SPMF nhỏ nằm trong `results/`; test chỉ đọc, không ghi đè kết quả.
 
-Theo đề bài, trước khi nộp nhóm cần chạy toàn bộ bộ test và dán output của lần chạy cuối trực tiếp vào README. Nhóm sẽ bổ sung output sau khi hoàn tất mã nguồn; không cần tạo file log riêng.
+Groceries đọc từ `data/processed/groceries_spmf.txt`; bốn CSDL còn lại đọc từ
+`data/benchmark/processed/processes/`.
+
+| CSDL | Giao dịch | Minsup | Itemsets SPMF |
+| --- | ---: | ---: | ---: |
+| Groceries | 9.835 | 1% | 333 |
+| Chess | 3.196 | 87,5% | 1.386 |
+| Mushroom | 8.124 | 70% | 31 |
+| Retail | 88.162 | 4% | 18 |
+| T10I4D100K | 100.000 | 1,5% | 237 |
+
+Nếu chưa có input chuẩn hóa, chuẩn bị các file gốc theo
+[benchmark_data.md](docs/benchmark_data.md), chạy demo Groceries để mã hóa, rồi
+gọi bước chuẩn hóa bốn benchmark từ terminal PowerShell tại repo root:
+
+```powershell
+julia --project=. scripts/groceries_demo.jl
+@'
+include("scripts/benchmark_processes.jl")
+foreach(prepare_input, DATASETS)
+'@ | julia --project=. -
+```
+
+Đáp án Groceries và nguồn gốc nằm trong
+[groceries_spmf_0.01_metadata.md](results/groceries/groceries_spmf_0.01_metadata.md).
+Đáp án bốn benchmark nằm trong `results/benchmarks/peak_ram/spmf/`, dùng đúng
+đầu vào và minsup được ghi trong metadata của phép đo Peak RAM.
+
+Theo [đề bài](docs/itemset.md), auto test phải bao phủ ít nhất 5 CSDL, khớp SPMF, và output lần chạy cuối phải có trong README. File `test_benchmark.jl` trong cấu trúc gợi ý không có nghĩa là bắt buộc unit test từng hàm đo runtime, Peak RAM hoặc sinh CSV.
+
+Lần chạy gần nhất ngày 2026-11-16 trên Julia 1.13.3 / Windows: **439/439 assertions pass**.
+Set và BitVector đều khớp 100% itemset/support của cả 5 CSDL đầy đủ; không thiếu/thừa
+itemset hoặc sai support.
+
+<details>
+<summary>Output của julia --project=. test/runtests.jl</summary>
+
+```text
+Test Summary:                    | Pass  Total  Time
+Eclat correctness and edge cases |   21     21  2.9s
+Test Summary:                 | Pass  Total  Time
+SPMF I/O and exact comparison |   11     11  2.7s
+Test Summary:              | Pass  Total  Time
+Groceries - xu ly gio hang |   10     10  0.5s
+Test Summary:            | Pass  Total  Time
+Luat ket hop - cong thuc |   11     11  0.1s
+Test Summary:                 | Pass  Total  Time
+Luat ket hop - tap con hop le |    7      7  0.8s
+Test Summary:              | Pass  Total  Time
+Luat ket hop - sinh va loc |   59     59  1.6s
+Test Summary:                                 | Pass  Total  Time
+BitVector singleton pruning before allocation |   18     18  0.4s
+Test Summary:                                          | Pass  Total  Time
+Pruned BitVector matches independent exhaustive oracle |  280    280  0.6s
+Groceries / set: matched=333/333; missing=0; extra=0; support_mismatches=0
+Groceries / bitvector: matched=333/333; missing=0; extra=0; support_mismatches=0
+Chess / set: matched=1386/1386; missing=0; extra=0; support_mismatches=0
+Chess / bitvector: matched=1386/1386; missing=0; extra=0; support_mismatches=0
+Mushroom / set: matched=31/31; missing=0; extra=0; support_mismatches=0
+Mushroom / bitvector: matched=31/31; missing=0; extra=0; support_mismatches=0
+Retail / set: matched=18/18; missing=0; extra=0; support_mismatches=0
+Retail / bitvector: matched=18/18; missing=0; extra=0; support_mismatches=0
+T10I4D100K / set: matched=237/237; missing=0; extra=0; support_mismatches=0
+T10I4D100K / bitvector: matched=237/237; missing=0; extra=0; support_mismatches=0
+Test Summary:                | Pass  Total  Time
+Correctness SPMF tren 5 CSDL |   22     22  3.7s
+```
+
+</details>
 
 ## Chạy ứng dụng Groceries
 
@@ -67,6 +147,11 @@ Kết quả đã kiểm tra trên dữ liệu thật: 9.835 giao dịch, 169 s�
 - `results/groceries/top10_rules.csv`: 10 luật đứng đầu theo lift.
 - `results/groceries/parameter_summary.csv`: 12 cấu hình.
 
+[Báo cáo Groceries](docs/report_groceries.md) trình bày top 10, cách tính từng
+chỉ số, ví dụ giải thích luật và các giới hạn khi áp dụng vào bán lẻ.
+[Checklist TV2](docs/TV2_checklist.md) đối chiếu công việc với phân công và
+liệt kê các bước tích hợp chung còn lại trước khi nộp.
+
 ## Đo runtime toàn bộ tiến trình Julia và SPMF
 
 Chương trình điều khiển [benchmark_processes.jl](scripts/benchmark_processes.jl) chạy
@@ -79,16 +164,16 @@ julia --startup-file=no --project=. scripts/benchmark_processes.jl
 python scripts/plot_process_benchmarks.py
 ```
 
-Lệnh Python cần `matplotlib`, chỉ dùng để kiểm tra CSV, vẽ biểu đồ và tạo báo cáo;
+Lệnh Python cần `matplotlib`, chỉ dùng để đọc/kiểm tra CSV và vẽ biểu đồ;
 khai thác và đo thời gian thực hiện bằng Julia/Java. Mặc định đo 5 lần cho mỗi
-backend/cấu hình, thêm một lượt chuẩn bị không ghi nhận và đảo thứ tự chạy hai
-backend giữa các lần. Mỗi mẫu tạo tiến trình mới, tính khởi động/JIT, đọc dữ liệu,
+backend/cấu hình, thêm một lượt chuẩn bị không ghi nhận và xoay vòng thứ tự chạy
+Set, BitVector, SPMF giữa các lần. Mỗi mẫu tạo tiến trình mới, tính khởi động/JIT, đọc dữ liệu,
 khai thác và ghi kết quả. Chương trình so sánh từng itemset và support count sau mỗi
-cặp chạy, bên ngoài phần tính thời gian.
+nhóm ba chương trình, bên ngoài phần tính thời gian.
 
 Kết quả nằm trong `results/benchmarks/processes/`:
 
-- [report.md](results/benchmarks/processes/report.md): phương pháp, kết quả và giới hạn.
+- [Báo cáo runtime](docs/report_benchmark.md#runtime): phương pháp, kết quả và giới hạn.
 - [runs.csv](results/benchmarks/processes/runs.csv): từng lần đo.
 - [summary.csv](results/benchmarks/processes/summary.csv): median/min/max và tỉ số runtime.
 - [metadata.md](results/benchmarks/processes/metadata.md): cấu hình máy, phiên bản và checksum.
@@ -103,9 +188,10 @@ một ngưỡng và số lần đo, ví dụ:
 julia --startup-file=no --project=. scripts/benchmark_processes.jl --dataset T10I4D100K --minsup 0.02 --runs 5 --output-dir results/benchmarks/processes_T10_002
 ```
 
-Phép đo runtime trên chỉ so sánh Set với SPMF tại thời điểm chạy. Phép đo RAM
-Set/BitVector và Scalability được trình bày riêng bên dưới. Ảnh hưởng độ dài
-giao dịch và Colab tiếp tục được theo dõi trong [kế hoạch nhóm](docs/plan.md).
+Phép đo runtime trên so sánh Set, BitVector và SPMF trên 28 cấu hình, 420 mẫu.
+Phép đo RAM
+Set/BitVector, Scalability và ảnh hưởng độ dài giao dịch được trình bày riêng
+bên dưới. Colab tiếp tục được theo dõi trong [kế hoạch nhóm](docs/plan.md).
 
 ## Peak RAM: baseline và optimized
 
@@ -134,7 +220,7 @@ sánh mọi itemset/support của mỗi lần chạy với tham chiếu. Cần J
 
 Kết quả trong `results/benchmarks/peak_ram/`:
 
-- [report.md](results/benchmarks/peak_ram/report.md): bảng kết quả, phân tích và giới hạn.
+- [Báo cáo Peak RAM](docs/report_benchmark.md#peak-ram): bảng kết quả, phân tích và giới hạn.
 - [peak_ram.png](results/benchmarks/peak_ram/peak_ram.png): biểu đồ median và min–max; có bản SVG.
 - [runs.csv](results/benchmarks/peak_ram/runs.csv): từng peak RSS tính bằng byte và correctness.
 - [summary.csv](results/benchmarks/peak_ram/summary.csv): median/min/max theo MiB, tỉ số và phần trăm giảm.
@@ -176,7 +262,7 @@ bên trong `mine` vẫn được tính. SPMF tạo tham chiếu cho từng tập
 
 Kết quả trong `results/benchmarks/scalability/`:
 
-- [report.md](results/benchmarks/scalability/report.md): bảng kết quả và nhận xét tuyến tính/phi tuyến trong miền đo.
+- [Báo cáo scalability](docs/report_benchmark.md#scalability): bảng kết quả và nhận xét tuyến tính/phi tuyến trong miền đo.
 - [scalability.png](results/benchmarks/scalability/scalability.png): runtime theo số giao dịch và đường chuẩn hóa; có bản SVG.
 - [runs.csv](results/benchmarks/scalability/runs.csv): từng thời gian `mine` và trạng thái correctness.
 - [summary.csv](results/benchmarks/scalability/summary.csv): median/min/max và throughput.
@@ -194,8 +280,52 @@ julia --startup-file=no --project=. scripts/benchmark_scalability.jl --runs 5 --
 python scripts/plot_scalability.py results/benchmarks/scalability_run
 ```
 
-Kiểm thử bằng `julia --startup-file=no --project=. test/runtests.jl` và
-`python -B test/test_plot_scalability.py`.
+Kiểm thử tự động bằng `julia --project=. test/runtests.jl`.
+
+## Ảnh hưởng của độ dài giao dịch trung bình
+
+Sinh một họ CSDL tổng hợp với **N = 5.000 giao dịch, M = 64 loại item, minsup
+5% (min_count = 250)** giữ cố định. Mỗi giao dịch có đúng **4 / 8 / 12 / 16 / 20
+item**, nên độ dài trung bình lần lượt bằng các mức đó. Mọi CSDL đều quan sát
+đủ 64 item; giao dịch không chứa item trùng và các giỏ trùng nhau vẫn được giữ.
+
+Mỗi TID dùng một hoán vị ngẫu nhiên riêng của 1:M với seed `20261116`. Các mức
+độ dài lấy tiền tố của cùng hoán vị cho TID đó, nên mức dài chỉ thêm item vào
+cùng giỏ; không nhân bản dữ liệu. Dữ liệu sinh được Git-ignore tại
+`data/benchmark/processed/transaction_length/`.
+
+```powershell
+julia --startup-file=no --project=. scripts/benchmark_transaction_length.jl
+python scripts/plot_transaction_length.py
+```
+
+Đo riêng `mine` sau warm-up bằng cùng worker scalability, 5 lần mỗi backend/CSDL,
+một luồng, đảo thứ tự Set/BitVector. Mỗi output khớp toàn bộ itemset/support với
+SPMF; các tham chiếu cũng được kiểm tra quan hệ support không giảm khi thêm item
+vào từng giao dịch. Giữ N và minsup nên ngưỡng support tuyệt đối cố định.
+
+Kết quả tại `results/benchmarks/transaction_length/`:
+
+- [Báo cáo độ dài giao dịch](docs/report_benchmark.md#transaction-length): thiết kế, số liệu và phân tích cơ chế ảnh hưởng.
+- [transaction_length.png](results/benchmarks/transaction_length/transaction_length.png): runtime theo độ dài và số frequent itemsets; có bản SVG. Trục thời gian dùng thang log.
+- [runs.csv](results/benchmarks/transaction_length/runs.csv): từng mẫu thời gian và correctness.
+- [summary.csv](results/benchmarks/transaction_length/summary.csv): độ dài, mật độ, output, median/min/max.
+- [metadata.md](results/benchmarks/transaction_length/metadata.md): mô tả tiếng Việt, seed, máy, phiên bản và checksum.
+- `spmf/`: tham chiếu mới của từng CSDL.
+
+Tăng độ dài đồng thời tăng mật độ, số lần xuất hiện item và có thể tăng số ứng
+viên/output. Thí nghiệm minh chứng tác động tổng hợp đó, chưa tách riêng đóng góp
+của từng cơ chế; không suy rộng một seed sang mọi phân bố. Không đo lại Peak RAM
+hoặc runtime SPMF trong phần này.
+
+Runner từ chối ghi đè; chọn `--output-dir` mới khi chạy lại. Có thể thay
+`--transactions`, `--items`, `--lengths`, `--minsup`, `--seed`, `--runs` và
+`--timeout-seconds`; phải giữ đủ M item quan sát được ở mọi độ dài.
+
+Kiểm thử tự động bằng `julia --project=. test/runtests.jl`.
+
+Các phân tích được tập trung trong [docs/report_benchmark.md](docs/report_benchmark.md).
+Các script Python chỉ đọc/kiểm tra CSV và vẽ PNG/SVG, không tạo hay sửa báo cáo.
 
 ## CLI
 
@@ -203,8 +333,8 @@ The minimal CLI reads and writes SPMF-compatible text files:
 
 ```sh
 julia --project=. scripts/eclat_cli.jl \
-    --input data/toy/example.txt \
-    --minsup 0.4 \
+    --input data/processed/groceries_spmf.txt \
+    --minsup 0.01 \
     --backend bitvector \
     --output results/output.txt
 ```
@@ -224,7 +354,6 @@ julia --project=. scripts/verify_spmf.jl INPUT SPMF_OUTPUT MINSUP set
 julia --project=. scripts/verify_spmf.jl INPUT SPMF_OUTPUT MINSUP bitvector
 ```
 
-The TV1 verification set is the toy database, Chess, Mushroom, Retail, and
-T10I4D100K. The downloaded reference versions and chosen thresholds are recorded
-in [the TV1 algorithm note](docs/TV1_algorithm.md); large datasets are not
-committed.
+The automated verification set uses the full Groceries, Chess, Mushroom, Retail,
+and T10I4D100K databases from `data/`. Counts and thresholds are recorded in
+[the TV1 algorithm note](docs/TV1_algorithm.md); large inputs are not committed.

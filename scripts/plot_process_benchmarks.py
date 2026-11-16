@@ -1,4 +1,4 @@
-"""Kiểm tra CSV, vẽ biểu đồ và tạo báo cáo phép đo toàn bộ tiến trình."""
+"""Đọc, kiểm tra CSV và vẽ biểu đồ phép đo toàn bộ tiến trình."""
 
 import csv
 from collections import defaultdict
@@ -40,6 +40,7 @@ def validate(summary, runs):
         summary_keys.add((dataset, minsup))
         for backend, field in (
             ("julia_set", "julia_median_seconds"),
+            ("julia_bitvector", "optimized_median_seconds"),
             ("spmf_eclat", "spmf_median_seconds"),
         ):
             key = (dataset, minsup, backend)
@@ -53,10 +54,16 @@ def validate(summary, runs):
             measured = [float(s["runtime_seconds"]) for s in samples]
             assert all(t > 0 for t in measured), key
             assert abs(median(measured) - float(row[field])) < 1e-10, key
+            prefix = field.removesuffix("_median_seconds")
+            assert abs(min(measured) - float(row[f"{prefix}_min_seconds"])) < 1e-10, key
+            assert abs(max(measured) - float(row[f"{prefix}_max_seconds"])) < 1e-10, key
         ratio = float(row["julia_median_seconds"]) / float(row["spmf_median_seconds"])
         assert abs(ratio - float(row["julia_over_spmf"])) < 1e-10, row
+        optimized = float(row["optimized_median_seconds"])
+        assert abs(optimized / float(row["spmf_median_seconds"]) - float(row["optimized_over_spmf"])) < 1e-10, row
+        assert abs(float(row["julia_median_seconds"]) / optimized - float(row["set_over_optimized"])) < 1e-10, row
     assert set(groups) == expected_keys
-    assert len(runs) == sum(2 * int(row["n_runs"]) for row in summary)
+    assert len(runs) == sum(3 * int(row["n_runs"]) for row in summary)
 
 
 def plot_results(summary, output_dir):
@@ -75,6 +82,7 @@ def plot_results(summary, output_dir):
         x = [100 * float(r["minsup"]) for r in rows]
         for prefix, label, color in (
             ("julia", "Julia Set baseline", "#1f77b4"),
+            ("optimized", "Julia BitVector optimized", "#2b8c45"),
             ("spmf", "SPMF Eclat", "#d95f02"),
         ):
             y = [float(r[f"{prefix}_median_seconds"]) for r in rows]
@@ -97,124 +105,16 @@ def plot_results(summary, output_dir):
         count_ax.grid(True, alpha=0.25)
 
     fig.suptitle("Fresh-process end-to-end runtime\nMedian; shaded band = min-max of recorded runs")
-    count_fig.suptitle("Output size versus minimum support\nJulia and SPMF itemsets/support counts match exactly")
+    count_fig.suptitle("Output size versus minimum support\nSet, BitVector and SPMF itemsets/support counts match exactly")
     for figure, stem in ((fig, "runtime_processes"), (count_fig, "itemset_counts")):
         figure.savefig(output_dir / f"{stem}.png", dpi=240)
-        figure.savefig(output_dir / f"{stem}.svg")
+        svg_path = output_dir / f"{stem}.svg"
+        figure.savefig(svg_path)
+        svg_path.write_text(
+            "\n".join(line.rstrip() for line in svg_path.read_text(encoding="utf-8").splitlines()) + "\n",
+            encoding="utf-8",
+        )
         plt.close(figure)
-
-
-def write_report(summary, runs, output_dir):
-    # Chỉ kết luận trong phạm vi đã đo; không gọi đây là tốc độ thuần của thuật toán.
-    lines = [
-        "# Báo cáo runtime Julia baseline và SPMF",
-        "",
-        f"Đã chạy {len(summary)} cấu hình và ghi nhận {len(runs)} lần đo. "
-        "Mọi lần đo đều được đối chiếu toàn bộ itemset và support count giữa hai chương trình.",
-        "",
-        "## Cách đo",
-        "",
-        "Mỗi mẫu tạo tiến trình mới, tính khởi động Julia/Java, nạp package/lớp, JIT, "
-        "đọc đầu vào, dựng TID-set, khai thác và ghi kết quả/log. Hai bên dùng cùng file đã chuẩn hóa "
-        "và cùng minsup. Mỗi cấu hình có một lượt chuẩn bị mỗi backend không ghi nhận, "
-        "sau đó đo lặp; lượt đo vẫn là tiến trình mới và vẫn tính JIT. Thứ tự hai backend đảo "
-        "giữa các lần. Chuẩn hóa dữ liệu và so sánh kết quả thực hiện ngoài đồng hồ.",
-        "",
-        "Các số này là thời gian toàn bộ tiến trình. Không ghép trực tiếp với các CSV "
-        "`*_baseline.csv` trước đó vốn đo riêng `mine` trên dữ liệu trong RAM sau warm-up. "
-        "Các lần chạy dùng cache hệ điều hành có sẵn; không phải thí nghiệm cold disk cache. "
-        "Các tiến trình nền của Windows không được kiểm soát hoàn toàn.",
-        "",
-        "Cấu hình máy, phiên bản Java/Julia và checksum nằm trong [metadata.md](metadata.md). "
-        "SPMF được nhận diện bằng SHA-256 của JAR; nhãn ECLAT v2.65 trong log không được dùng "
-        "để suy ra phiên bản toàn bộ thư viện.",
-        "",
-        "Mã chạy lại nằm trong `scripts/` của dự án. Metadata chỉ lưu checksum mã tại thời điểm đo; "
-        "checksum có thể khác nếu sửa script sau lần đo.",
-        "",
-        "## Kết quả tại minsup thấp nhất của mỗi bộ",
-        "",
-        "| Dataset | Minsup | Itemset | Julia median (s) | SPMF median (s) | Julia/SPMF |",
-        "| --- | ---: | ---: | ---: | ---: | ---: |",
-    ]
-    for dataset in DATASET_ORDER:
-        rows = [r for r in summary if r["dataset"] == dataset]
-        if not rows:
-            continue
-        row = min(rows, key=lambda r: float(r["minsup"]))
-        lines.append(
-            f"| {dataset} | {float(row['minsup']):g} | {row['n_itemsets']} | "
-            f"{float(row['julia_median_seconds']):.4f} | "
-            f"{float(row['spmf_median_seconds']):.4f} | {float(row['julia_over_spmf']):.2f} |"
-        )
-    n_spmf_faster = sum(float(r["julia_over_spmf"]) > 1 for r in summary)
-    lines.extend([
-        "",
-        f"SPMF có median toàn bộ tiến trình thấp hơn tại {n_spmf_faster}/{len(summary)} cấu hình. "
-        "Tỉ số Julia/SPMF lớn hơn 1 nghĩa là Julia mất nhiều thời gian hơn trong phép đo này.",
-        "",
-        "## Phân tích và giới hạn",
-        "",
-        "- Khi minsup giảm, số itemset tăng hoặc giữ nguyên. Output lớn hơn tạo thêm việc "
-        "giao TID-set, duyệt nhánh, cấp phát và ghi file. Runtime thực tế còn chịu chi phí "
-        "khởi động, JIT, GC và dao động hệ thống, nên không bắt buộc tăng tại mọi điểm.",
-        "- Dense/sparse là một yếu tố, nhưng không thể dùng riêng số giao dịch hoặc số itemset "
-        "để giải thích hết runtime. Chi phí giao Set còn phụ thuộc kích thước TID-set và số ứng viên.",
-        "- Không suy ra ngôn ngữ hay thuật toán nào luôn nhanh hơn từ phép đo này. Chưa có "
-        "phép đo kernel Julia và Java cùng warm-up trong tiến trình lâu dài; chưa tách riêng "
-        "thời gian I/O/JIT. Khoảng min-max trên hình là độ dao động quan sát, không phải khoảng tin cậy.",
-        "- Correctness xác nhận trên các dữ liệu và ngưỡng đã chạy; không thay thế kiểm thử "
-        "tổng quát và không chứng minh backend chưa được cài đặt.",
-        "",
-        "## Bảng đầy đủ",
-        "",
-        "| Dataset | Minsup | Itemset | Julia median (s) | SPMF median (s) | Julia/SPMF | Khớp |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | --- |",
-    ])
-    for row in summary:
-        lines.append(
-            f"| {row['dataset']} | {float(row['minsup']):g} | {row['n_itemsets']} | "
-            f"{float(row['julia_median_seconds']):.4f} | "
-            f"{float(row['spmf_median_seconds']):.4f} | "
-            f"{float(row['julia_over_spmf']):.2f} | {row['exact_match']} |"
-        )
-    lines.extend([
-        "",
-        "## Biểu đồ và dữ liệu gốc",
-        "",
-        "![Runtime toàn bộ tiến trình](runtime_processes.png)",
-        "",
-        "![Số itemset](itemset_counts.png)",
-        "",
-        "- [summary.csv](summary.csv): median/min/max và tỉ số từng cấu hình.",
-        "- [runs.csv](runs.csv): từng mẫu thời gian và kết quả đối chiếu.",
-        "- Có thêm bản SVG để dùng trong báo cáo.",
-        "",
-        "## Phần Lab 2 còn lại",
-        "",
-        "- Backend BitVector của TV1 chưa có, nên chưa so sánh baseline với optimized.",
-        "- Chưa đo peak RSS cho baseline/optimized tại minsup trung bình. "
-        "Không dùng số allocation hoặc thống kê memory nội bộ Java thay thế peak RSS.",
-        "- Chưa đo scalability Retail 10%, 25%, 50%, 75%, 100%.",
-        "- Chưa chạy thí nghiệm tổng hợp thay đổi độ dài giao dịch.",
-        "- Hướng tối ưu đề xuất để đánh giá tiếp: giao tidset bằng BitVector/popcount khi phù hợp; "
-        "sắp xếp nhánh theo support và giảm các bản sao/cấp phát Set. Chưa có bằng chứng "
-        "thực nghiệm trong lần đo này rằng các thay đổi đó chắc chắn nhanh hơn.",
-        "",
-        "## Chạy lại",
-        "",
-        "Tại thư mục dự án, chạy tuần tự:",
-        "",
-        "```powershell",
-        "julia --startup-file=no --project=. scripts/benchmark_processes.jl",
-        "python scripts/plot_process_benchmarks.py",
-        "```",
-        "",
-        "Python cần matplotlib cho bước vẽ; khai thác và đo thời gian dùng Julia/Java. "
-        "Lệnh đo mặc định ghi đè runs.csv, summary.csv và metadata của lần đo trước trong "
-        "thư mục processes; dùng --output-dir để giữ một lần đo riêng.",
-    ])
-    (output_dir / "report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main():
@@ -228,9 +128,8 @@ def main():
     runs = read_csv(output_dir / "runs.csv")
     validate(summary, runs)
     plot_results(summary, output_dir)
-    write_report(summary, runs, output_dir)
     print(f"Đã kiểm tra {len(summary)} cấu hình, {len(runs)} mẫu; median khớp CSV gốc.")
-    print(f"Đã tạo biểu đồ và báo cáo: {output_dir / 'report.md'}")
+    print(f"Đã lưu biểu đồ tại: {output_dir}")
 
 
 if __name__ == "__main__":

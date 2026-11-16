@@ -85,7 +85,7 @@ The public `mine` API and result contract are unchanged.
 
 On the TV2 Retail input at minsup 4%, only 7 of 16,470 observed items survive.
 The full-dataset peak RSS measurements for Set and the pruned BitVector miner
-are in [the memory report](../results/benchmarks/peak_ram/report.md).
+are in [the memory report](report_benchmark.md#peak-ram).
 
 ## Correctness verification
 
@@ -103,23 +103,24 @@ julia --project=. scripts/verify_spmf.jl INPUT SPMF_OUTPUT MINSUP set
 julia --project=. scripts/verify_spmf.jl INPUT SPMF_OUTPUT MINSUP bitvector
 ```
 
-Both commands compare every itemset key and support count, not only the number
-of results. The local verification run used the toy database, Chess, Mushroom,
-Retail, and T10I4D100K. The downloaded Mushroom version contains 8,416
-transactions, which differs from the approximate count in the assignment table.
+The automated suite compares every itemset key and support count, not only the
+number of results, for the full Groceries, Chess, Mushroom, Retail and T10I4D100K
+databases in `data/`. It reads the normalized SPMF inputs and saved SPMF reference
+outputs; it does not sample transactions or call Java during the test run.
+The current Mushroom input has 8,124 transactions.
 
 | Database   | Transactions | Minsup | Frequent itemsets | Set   | BitVector |
 | ---------- | -----------: | -----: | ----------------: | ----- | --------- |
-| Toy        |            5 |   0.40 |                 7 | exact | exact     |
-| Chess      |        3,196 |   0.80 |             8,227 | exact | exact     |
-| Mushroom   |        8,416 |   0.80 |                17 | exact | exact     |
-| Retail     |       88,162 |   0.10 |                 9 | exact | exact     |
-| T10I4D100K |      100,000 |   0.10 |                 0 | exact | exact     |
+| Groceries  |        9,835 |   0.01 |               333 | exact | exact     |
+| Chess      |        3,196 |  0.875 |             1,386 | exact | exact     |
+| Mushroom   |        8,124 |   0.70 |                31 | exact | exact     |
+| Retail     |       88,162 |   0.04 |                18 | exact | exact     |
+| T10I4D100K |      100,000 |  0.015 |               237 | exact | exact     |
 
 ## Optimization measurements
 
 Use the current four-dataset results in
-[results/benchmarks/peak_ram/report.md](../results/benchmarks/peak_ram/report.md).
+[the benchmark report](report_benchmark.md#peak-ram).
 Each backend runs in five independent single-threaded Julia processes at the
 middle minsup of the existing pilot grid. Peak RSS is recorded with
 `Sys.maxrss()` after mining and before output serialization; it includes Julia
@@ -127,11 +128,24 @@ startup, JIT, toy warm-up and input loading. The report contains median/min/max,
 raw samples, exact SPMF checks and source/data checksums. These RAM measurements
 do not establish runtime improvements.
 
+The [fresh-process runtime experiment](report_benchmark.md#runtime) compares
+Set, BitVector and SPMF on all four datasets and seven minsup thresholds each.
+It includes startup/JIT and I/O for all three programs; it does not isolate
+the mining kernel or promise a speedup for every threshold.
+
 The Retail scalability experiment measures post-warm-up `mine` wall-clock time
 for both backends on nested 10%, 25%, 50%, 75% and 100% subsets, holding relative
-minsup at 4%. See [the scalability report](../results/benchmarks/scalability/report.md)
+minsup at 4%. See [the scalability report](report_benchmark.md#scalability)
 for the curves and their limits; these timings exclude startup, input loading
 and output writing and must not be mixed with the whole-process Julia/SPMF timings.
+
+The [transaction-length experiment](report_benchmark.md#transaction-length)
+holds N=5,000, M=64 and minsup=5% fixed while extending each synthetic basket to
+4, 8, 12, 16 and 20 distinct items. It reuses the same per-TID permutation across
+lengths, so supports cannot decrease. The experiment measures post-warm-up mine
+time and frequent-itemset counts for both backends, verified against SPMF. Longer
+transactions change TID density, candidate survival and output size together;
+the report does not attribute all runtime changes to one isolated mechanism.
 
 ## Original paper
 

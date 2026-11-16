@@ -3,6 +3,7 @@ using SHA
 using Statistics: median
 
 const PROJECT_DIR = normpath(joinpath(@__DIR__, ".."))
+const BACKENDS = ("julia_set", "julia_bitvector", "spmf_eclat")
 const DATASETS = [
     (name = "retail", offset = 1, n_transactions = 88162,
         minsups = [0.10, 0.08, 0.06, 0.04, 0.02, 0.01, 0.005]),
@@ -121,11 +122,14 @@ function write_metadata(output_dir, configs, n_runs, java_path, jar_path, inputs
         println(io, "Chuẩn hóa dữ liệu, tạo lệnh, mở log và đối chiếu kết quả không tính vào thời gian.")
         println(io, "Mỗi cấu hình chạy chuẩn bị một lần cho mỗi backend; các lần đo sau vẫn ",
             "tạo tiến trình mới và vẫn tính JIT. Không phải đo cold disk cache.")
-        println(io, "Chạy tuần tự, luân phiên thứ tự Julia/SPMF giữa các lần; lấy median, ",
-            "giữ min/max và mọi số đo gốc. Đối chiếu toàn bộ Dict sau mỗi cặp chạy.")
-        println(io, "Giữ cùng số giao dịch, ID và minsup; Julia Set baseline và SPMF Eclat. ",
+        println(io, "Chạy tuần tự, xoay vòng thứ tự ba chương trình giữa các lần; lấy median, ",
+            "giữ min/max và mọi số đo gốc. Đối chiếu toàn bộ Dict của hai backend Julia với SPMF.")
+        println(io, "Giữ cùng số giao dịch, ID và minsup; Julia Set baseline, Julia BitVector tối ưu và SPMF Eclat. ",
             "Không so trực tiếp với các CSV đo mine sau warm-up trước đó.")
         println(io, "Không đo peak RSS, không dùng Maximum memory usage của Java thay cho peak RSS.\n")
+        for source in ("src/algorithm/EclatBaseline.jl", "src/algorithm/EclatOptimized.jl", "Manifest.toml")
+            println(io, "- SHA-256 ", source, ": `", file_sha256(joinpath(PROJECT_DIR, source)), "`")
+        end
         println(io, "## Dữ liệu\n")
         for config in configs
             println(io, "- ", config.name, ": ", config.n_transactions,
@@ -167,39 +171,42 @@ function main(args = ARGS)
             write_row(summary_io, ("dataset", "measurement", "minsup", "n_transactions",
                 "min_count", "n_itemsets", "n_runs", "julia_median_seconds",
                 "spmf_median_seconds", "julia_min_seconds", "julia_max_seconds",
-                "spmf_min_seconds", "spmf_max_seconds", "julia_over_spmf", "exact_match"))
+                "spmf_min_seconds", "spmf_max_seconds", "julia_over_spmf",
+                "optimized_median_seconds", "optimized_min_seconds", "optimized_max_seconds",
+                "optimized_over_spmf", "set_over_optimized", "exact_match"))
             for config in configs, minsup in config.minsups
                 input_path = inputs[config.name]
                 min_count = ceil(Int, minsup * config.n_transactions)
-                times = Dict("julia_set" => Float64[], "spmf_eclat" => Float64[])
+                times = Dict(backend => Float64[] for backend in BACKENDS)
                 expected = nothing
                 println("\n[$(completed + 1)/$total_configs] $(config.name), minsup=$minsup")
                 flush(stdout)
                 for run_id in 0:n_runs
                     outputs = Dict{String, String}()
                     commands = Dict{String, Cmd}()
-                    for backend in ("julia_set", "spmf_eclat")
+                    for backend in BACKENDS
                         prefix = joinpath(scratch_dir,
                             "$(config.name)_$(minsup)_$(run_id)_$(backend)")
                         output_path = prefix * ".txt"
                         outputs[backend] = output_path
-                        if backend == "julia_set"
-                            commands[backend] = `$julia_executable --startup-file=no --history-file=no --threads=1 --project=$PROJECT_DIR $worker_path $input_path $output_path $minsup`
+                        if backend != "spmf_eclat"
+                            representation = backend == "julia_set" ? "set" : "bitvector"
+                            commands[backend] = `$julia_executable --startup-file=no --history-file=no --threads=1 --project=$PROJECT_DIR $worker_path $input_path $output_path $minsup $representation`
                         else
                             percent = string(minsup * 100, "%")
                             commands[backend] = `$java_path -jar $jar_path run Eclat $input_path $output_path $percent`
                         end
                     end
-                    # Lượt 0 chuẩn bị cache; thứ tự đảo giữa các lần ghi nhận.
-                    order = isodd(run_id) ? ("julia_set", "spmf_eclat") :
-                        ("spmf_eclat", "julia_set")
+                    # Lượt 0 chuẩn bị cache; xoay vòng thứ tự để giảm thiên lệch vị trí.
+                    order = circshift(collect(BACKENDS), mod(run_id, length(BACKENDS)))
                     elapsed = Dict{String, Float64}()
                     for backend in order
                         elapsed[backend] = measure_command(commands[backend], outputs[backend] * ".log")
                     end
                     julia_itemsets = read_itemsets(outputs["julia_set"])
+                    optimized_itemsets = read_itemsets(outputs["julia_bitvector"])
                     spmf_itemsets = read_itemsets(outputs["spmf_eclat"])
-                    julia_itemsets == spmf_itemsets || error(
+                    julia_itemsets == optimized_itemsets == spmf_itemsets || error(
                         "Sai lệch kết quả $(config.name), minsup=$minsup, lần=$run_id")
                     all(count -> min_count <= count <= config.n_transactions,
                         values(julia_itemsets)) || error("Support count ngoài miền hợp lệ")
@@ -209,21 +216,22 @@ function main(args = ARGS)
                         expected == julia_itemsets || error("Kết quả không ổn định giữa các lần chạy")
                     end
                     run_id == 0 && continue
-                    for backend in ("julia_set", "spmf_eclat")
+                    for backend in BACKENDS
                         push!(times[backend], elapsed[backend])
                         write_row(raw_io, (config.name, backend, "end_to_end_fresh_process",
                             minsup, config.n_transactions, min_count, run_id,
                             elapsed[backend], length(julia_itemsets), true))
                     end
                 end
-                jt, st = times["julia_set"], times["spmf_eclat"]
-                jm, sm = median(jt), median(st)
+                jt, ot, st = times["julia_set"], times["julia_bitvector"], times["spmf_eclat"]
+                jm, om, sm = median(jt), median(ot), median(st)
                 write_row(summary_io, (config.name, "end_to_end_fresh_process", minsup,
                     config.n_transactions, min_count, length(expected), n_runs,
-                    jm, sm, minimum(jt), maximum(jt), minimum(st), maximum(st), jm / sm, true))
+                    jm, sm, minimum(jt), maximum(jt), minimum(st), maximum(st), jm / sm,
+                    om, minimum(ot), maximum(ot), om / sm, jm / om, true))
                 completed += 1
                 println("  itemsets=$(length(expected)) | Julia=$(round(jm; digits=4))s",
-                    " | SPMF=$(round(sm; digits=4))s | khớp=true")
+                    " | BitVector=$(round(om; digits=4))s | SPMF=$(round(sm; digits=4))s | khớp=true")
                 flush(stdout)
             end
         end

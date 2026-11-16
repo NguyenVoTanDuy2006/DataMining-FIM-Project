@@ -84,4 +84,4 @@ end
 include("test_groceries.jl")
 include("test_association_rules.jl")
 include("test_eclat_optimized.jl")
-include("test_scalability.jl")
+include("test_benchmark.jl")

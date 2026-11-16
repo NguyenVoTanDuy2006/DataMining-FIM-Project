@@ -1,4 +1,4 @@
-# TODO(TV2): Derive association rules from mined itemsets and support counts.
+# Sinh luật kết hợp từ frequent itemsets và support counts của Eclat.
 function rule_metrics(count_xy, count_x, count_y, n_transactions)
     support = count_xy / n_transactions
     confidence = count_xy / count_x

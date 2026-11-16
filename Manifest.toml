@@ -1,0 +1,10 @@
+# This file is machine-generated - editing it directly is not advised
+
+julia_version = "1.13.3"
+manifest_format = "2.1"
+project_hash = "bc8ac1fd4470bcfd3274adf928bc4fe0e007b430"
+
+[[deps.EclatFIM]]
+path = "."
+uuid = "f035e606-8504-4775-8232-c73e28f25aa6"
+version = "0.1.0"

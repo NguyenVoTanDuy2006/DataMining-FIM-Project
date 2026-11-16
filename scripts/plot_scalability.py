@@ -1,10 +1,10 @@
-"""Validate Retail scalability evidence, draw figures, and write a Vietnamese report."""
+"""Read and validate Retail scalability CSV evidence, then draw figures."""
 
 import csv
 from collections import defaultdict
 from math import ceil, isfinite, isclose
 from pathlib import Path
-from statistics import mean, median
+from statistics import median
 import sys
 
 import matplotlib
@@ -82,17 +82,6 @@ def backend_rows(summary, backend):
     return sorted((r for r in summary if r["backend"] == backend), key=lambda r: int(r["percent"]))
 
 
-def linear_fit(rows):
-    x = [int(r["n_transactions"]) for r in rows]
-    y = [float(r["median_seconds"]) for r in rows]
-    x_mean, y_mean = mean(x), mean(y)
-    slope = sum((a - x_mean) * (b - y_mean) for a, b in zip(x, y)) / sum((a - x_mean)**2 for a in x)
-    intercept = y_mean - slope * x_mean
-    residual = sum((b - (slope * a + intercept))**2 for a, b in zip(x, y))
-    total = sum((b - y_mean)**2 for b in y)
-    return slope, intercept, (1 - residual / total if total else None)
-
-
 def save_figure(figure, output_dir, stem):
     for extension in ("png", "svg"):
         path = output_dir / f"{stem}.{extension}"
@@ -132,79 +121,6 @@ def plot_results(summary, output_dir):
     save_figure(figure, output_dir, "scalability")
 
 
-def write_report(summary, runs, output_dir):
-    set_rows, bit_rows = backend_rows(summary, "set"), backend_rows(summary, "bitvector")
-    minsup = float(set_rows[0]["minsup"])
-    lines = ["# Scalability: Retail 10%, 25%, 50%, 75%, 100%", "",
-        f"Đã đo {len(runs)} mẫu Julia trên năm kích thước Retail, cho cả Set và BitVector, "
-        f"giữ minsup tương đối cố định ở {100 * minsup:g}%. Mọi output được đối chiếu toàn bộ itemset/support với SPMF.", "",
-        "## Phương pháp", "",
-        "- Retail đầy đủ có 88.162 giao dịch; cộng 1 vào ID để đáp ứng hợp đồng ID dương. "
-        "Từ một hoán vị chỉ số dòng có seed cố định, lấy lần lượt floor(N × tỷ lệ) chỉ số đầu, "
-        "rồi sắp lại theo thứ tự dòng gốc. Tập nhỏ nằm trong tập lớn. Giao dịch trùng vẫn giữ riêng. "
-        "Seed, thuật toán chọn và checksum từng tập con/chỉ số nằm trong [metadata.md](metadata.md).",
-        "- Mỗi mẫu tạo tiến trình Julia mới, một luồng; đọc tập con và warm-up mine một lần "
-        "trên đúng tập con/cùng minsup. Sau GC, đo một lần mine bằng @elapsed. "
-        "Không tính khởi động, đọc input, warm-up/JIT, GC trước đo, ghi output hoặc correctness. "
-        "GC bên trong mine được tính. Thứ tự hai backend đảo giữa các lần.",
-        "- Đây là wall-clock của hàm mine sau warm-up, khác phép đo toàn bộ tiến trình trong processes/. "
-        "SPMF tạo tham chiếu ngoài phép đo, không được đặt lên cùng đường runtime với kernel Julia.",
-        "- Giữ minsup tương đối nên min_count tăng theo số giao dịch. Số itemset có thể thay đổi do "
-        "phân bố tập con và làm tròn support. Runtime không bắt buộc tăng tại mọi điểm.", "",
-        "## Kết quả", "",
-        "| Retail | Giao dịch | Min count | Itemsets | Set median ms [min–max] | BitVector median ms [min–max] | Set / BitVector |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
-    for s, b in zip(set_rows, bit_rows):
-        lines.append(f"| {s['percent']}% | {s['n_transactions']} | {s['min_count']} | {s['n_itemsets']} | "
-            f"{1000 * float(s['median_seconds']):.3f} [{1000 * float(s['min_seconds']):.3f}–{1000 * float(s['max_seconds']):.3f}] | "
-            f"{1000 * float(b['median_seconds']):.3f} [{1000 * float(b['min_seconds']):.3f}–{1000 * float(b['max_seconds']):.3f}] | "
-            f"{float(s['median_seconds']) / float(b['median_seconds']):.2f} |")
-    lines += ["", "Tỉ số Set / BitVector lớn hơn 1 nghĩa là Set mất nhiều thời gian hơn trong cấu hình tương ứng.", "",
-        "![Scalability Retail](scalability.png)", "", "## Nhận xét về xu hướng", ""]
-    n_factor = int(set_rows[-1]["n_transactions"]) / int(set_rows[0]["n_transactions"])
-    lines.append(f"Số giao dịch ở mức 100% gấp {n_factor:.4f} lần mức 10%. Đường y = x ở hình chuẩn hóa "
-                 "là tham chiếu tăng tỷ lệ thuận với N, không phải đường dự đoán bắt buộc của Eclat.")
-    lines.append("")
-    for backend, label in (("set", "Set"), ("bitvector", "BitVector")):
-        rows = backend_rows(summary, backend)
-        slope, intercept, r_squared = linear_fit(rows)
-        growth = float(rows[-1]["median_seconds"]) / float(rows[0]["median_seconds"])
-        relative_growth = growth / n_factor
-        r_text = f"{r_squared:.4f}" if r_squared is not None else "không xác định"
-        trend = ("Năm điểm phù hợp khá tốt với xu hướng tăng gần tuyến tính trong miền đo."
-                 if r_squared is not None and r_squared >= 0.95 and slope > 0 else
-                 "Năm điểm chưa cho thấy xu hướng tăng gần tuyến tính đủ rõ theo tiêu chí mô tả R² ≥ 0,95.")
-        lines.append(f"- {label}: tỉ số median thời gian 100% / 10% = {growth:.3f}; "
-                     f"tỉ số tăng thời gian / tăng số giao dịch = {relative_growth:.3f}. "
-                     f"Khớp mô tả tuyến tính t = aN + b trên năm median: a = {slope:.8g} s/giao dịch, "
-                     f"b = {intercept:.6f} s, R² = {r_text}. {trend}")
-    lines += [
-        "- Tỉ số tăng thời gian / tăng số giao dịch lớn hơn 1 nghĩa là thời gian tăng nhanh hơn "
-        "tỷ lệ N khi xét hai mốc 10% và 100%. Khớp tốt với t = aN + b có hệ số chặn khác 0 "
-        "không đồng nghĩa với tỷ lệ thuận t = aN; cần đọc cả đường chuẩn hóa và các số đo gốc.",
-        "- Eclat còn phụ thuộc số item, support TID-set, số ứng viên và số frequent itemset. "
-        "Vì vậy năm điểm trên chỉ mô tả miền đo ở minsup này; R² hoặc tỉ số thời gian không chứng minh "
-        "độ phức tạp tuyến tính tổng quát. Độ lệch khỏi đường tỷ lệ thuận có thể đến từ cấu trúc tập con, "
-        "cấp phát/GC, cache và dao động hệ thống; chưa tách riêng từng nguyên nhân.",
-        "- Với Set, TID-set lớn hơn làm tăng chi phí dựng bảng băm và giao tập. Với BitVector, "
-        "vector dài theo số giao dịch; bản hiện tại lọc singleton trước khi cấp vector. "
-        "Các chi phí này tăng cùng N nhưng số nhánh/output cũng có thể thay đổi.",
-        "- Đường thời gian dùng median; min–max chỉ là độ dao động quan sát, không phải khoảng tin cậy. "
-        "Một hoán vị cố định giúp tái lập và lồng các tập con, nhưng chưa đánh giá độ nhạy trên nhiều seed.", "",
-        "## Tệp kết quả và chạy lại", "",
-        "- [runs.csv](runs.csv): từng thời gian mine và correctness.",
-        "- [summary.csv](summary.csv): median/min/max và throughput theo cấu hình.",
-        "- [metadata.md](metadata.md): phương pháp tiếng Việt, máy, phiên bản, seed và checksum.",
-        "- `spmf/`: năm tham chiếu được tạo từ đúng các tập con.",
-        "- `scalability.svg`: bản vector để đưa vào báo cáo.", "",
-        "```powershell", "julia --startup-file=no --project=. scripts/benchmark_scalability.jl",
-        "python scripts/plot_scalability.py", "```", "",
-        "Runner từ chối ghi đè kết quả. Khi chạy lại, dùng --output-dir mới và truyền cùng thư mục "
-        "cho script vẽ. Có thể chọn --runs, --minsup, --seed và --timeout-seconds; metadata ghi lại "
-        "đúng các thiết lập. Python cần matplotlib; Julia dùng thư viện chuẩn và package cục bộ.", ""]
-    (output_dir / "report.md").write_text("\n".join(lines), encoding="utf-8")
-
-
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -212,8 +128,7 @@ def main():
     summary, runs = read_csv(output_dir / "summary.csv"), read_csv(output_dir / "runs.csv")
     validate(summary, runs)
     plot_results(summary, output_dir)
-    write_report(summary, runs, output_dir)
-    print(f"Đã kiểm chứng {len(summary)} cấu hình / {len(runs)} mẫu. Báo cáo: {output_dir / 'report.md'}")
+    print(f"Đã kiểm chứng {len(summary)} cấu hình / {len(runs)} mẫu. Biểu đồ: {output_dir}")
 
 
 if __name__ == "__main__":
