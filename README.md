@@ -104,8 +104,8 @@ julia --startup-file=no --project=. scripts/benchmark_processes.jl --dataset T10
 ```
 
 Phép đo runtime trên chỉ so sánh Set với SPMF tại thời điểm chạy. Phép đo RAM
-Set/BitVector được trình bày riêng bên dưới. Scalability, ảnh hưởng độ dài giao
-dịch và Colab tiếp tục được theo dõi trong [kế hoạch nhóm](docs/plan.md).
+Set/BitVector và Scalability được trình bày riêng bên dưới. Ảnh hưởng độ dài
+giao dịch và Colab tiếp tục được theo dõi trong [kế hoạch nhóm](docs/plan.md).
 
 ## Peak RAM: baseline và optimized
 
@@ -153,6 +153,49 @@ Chạy bộ kiểm thử dự án:
 ```powershell
 julia --startup-file=no --project=. test/runtests.jl
 ```
+
+## Scalability: Retail 10%, 25%, 50%, 75%, 100%
+
+Giữ minsup tương đối ở 4%, lấy năm tập con lồng nhau từ một hoán vị chỉ số dòng
+với seed `20261116`. Kích thước dùng `floor(N × tỷ lệ)`: 8.816, 22.040, 44.081,
+66.121 và 88.162 giao dịch. Giữ giao dịch trùng, cộng 1 vào ID Retail, và khôi
+phục thứ tự dòng gốc trong mỗi tập con. File dữ liệu/chỉ số nằm trong
+`data/benchmark/processed/scalability/`, không đưa vào Git.
+
+```powershell
+julia --startup-file=no --project=. scripts/benchmark_scalability.jl
+python scripts/plot_scalability.py
+```
+
+Mỗi cấu hình Set/BitVector đo 5 lần trong các tiến trình mới, một luồng, đảo
+thứ tự hai backend giữa các lần. Sau khi đọc input và warm-up trên đúng toàn
+bộ tập con, chạy GC rồi dùng `@elapsed` đo một lần `mine`. Thời gian không tính
+khởi động, đọc input, warm-up/JIT, GC trước đo, ghi output và correctness; GC
+bên trong `mine` vẫn được tính. SPMF tạo tham chiếu cho từng tập con ngoài phần
+đo và dùng để kiểm tra toàn bộ itemset/support của mỗi output.
+
+Kết quả trong `results/benchmarks/scalability/`:
+
+- [report.md](results/benchmarks/scalability/report.md): bảng kết quả và nhận xét tuyến tính/phi tuyến trong miền đo.
+- [scalability.png](results/benchmarks/scalability/scalability.png): runtime theo số giao dịch và đường chuẩn hóa; có bản SVG.
+- [runs.csv](results/benchmarks/scalability/runs.csv): từng thời gian `mine` và trạng thái correctness.
+- [summary.csv](results/benchmarks/scalability/summary.csv): median/min/max và throughput.
+- [metadata.md](results/benchmarks/scalability/metadata.md): mô tả tiếng Việt, seed, máy, phiên bản và checksum dữ liệu/source.
+- `spmf/`: tham chiếu mới cho năm tập con.
+
+Đây là thời gian `mine` sau warm-up, không ghép trực tiếp với thời gian toàn bộ
+tiến trình của thí nghiệm Julia/SPMF. Minsup tương đối cố định khiến ngưỡng đếm
+tăng theo N; số frequent itemset có thể thay đổi giữa các tập con.
+
+Runner từ chối ghi đè kết quả. Để chạy một lần riêng:
+
+```powershell
+julia --startup-file=no --project=. scripts/benchmark_scalability.jl --runs 5 --minsup 0.04 --seed 20261116 --output-dir results/benchmarks/scalability_run
+python scripts/plot_scalability.py results/benchmarks/scalability_run
+```
+
+Kiểm thử bằng `julia --startup-file=no --project=. test/runtests.jl` và
+`python -B test/test_plot_scalability.py`.
 
 ## CLI
 

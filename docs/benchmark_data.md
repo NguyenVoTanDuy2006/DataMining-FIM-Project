@@ -41,3 +41,16 @@ Tham chiếu SPMF Chess tại minsup 0,875 ở `results/benchmarks/spmf/` từ l
 hành cũ dùng mapping ID +1 so với Chess hiện tại. Runner Peak RAM không dùng lại các file tham chiếu
 cũ: tạo tham chiếu mới từ đúng đầu vào chuẩn hóa và lưu trong thư mục kết quả
 riêng. Hai cách gán ID bảo toàn support nhưng phải cùng mapping khi đối chiếu.
+
+## Tập con Retail cho Scalability
+
+`scripts/benchmark_scalability.jl` dùng Retail chuẩn hóa đầy đủ, tạo một hoán vị
+chỉ số dòng với `MersenneTwister(20261116)` và lấy các tiền tố có kích thước
+`floor(N × tỷ lệ)` cho 10%, 25%, 50%, 75%, 100%. Sắp lại chỉ số theo thứ tự dòng
+gốc trước khi ghi file. Các tập con lồng nhau, giao dịch trùng vẫn được giữ;
+mức 100% khớp toàn bộ file Retail chuẩn hóa.
+
+File tập con và danh sách chỉ số nằm trong `data/benchmark/processed/scalability/`,
+được Git-ignore. Metadata ở `results/benchmarks/scalability/metadata.md` ghi seed,
+phiên bản Julia, SHA-256 từng tập con và chỉ số để kiểm chứng tái lập. Giữ minsup
+tương đối 4% trên cả năm mức; ngưỡng support tuyệt đối thay đổi theo số giao dịch.

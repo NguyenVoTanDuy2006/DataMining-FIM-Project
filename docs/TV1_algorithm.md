@@ -127,6 +127,12 @@ startup, JIT, toy warm-up and input loading. The report contains median/min/max,
 raw samples, exact SPMF checks and source/data checksums. These RAM measurements
 do not establish runtime improvements.
 
+The Retail scalability experiment measures post-warm-up `mine` wall-clock time
+for both backends on nested 10%, 25%, 50%, 75% and 100% subsets, holding relative
+minsup at 4%. See [the scalability report](../results/benchmarks/scalability/report.md)
+for the curves and their limits; these timings exclude startup, input loading
+and output writing and must not be mixed with the whole-process Julia/SPMF timings.
+
 ## Original paper
 
 M. J. Zaki, "Scalable Algorithms for Association Mining," _IEEE Transactions
