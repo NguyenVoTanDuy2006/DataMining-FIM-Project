@@ -103,9 +103,56 @@ một ngưỡng và số lần đo, ví dụ:
 julia --startup-file=no --project=. scripts/benchmark_processes.jl --dataset T10I4D100K --minsup 0.02 --runs 5 --output-dir results/benchmarks/processes_T10_002
 ```
 
-Backend tối ưu, peak RSS, scalability, ảnh hưởng độ dài giao dịch và Colab tiếp tục
-được theo dõi trong [kế hoạch nhóm](docs/plan.md). Runtime mới không thay thế các
-phần thực nghiệm còn thiếu này.
+Phép đo runtime trên chỉ so sánh Set với SPMF tại thời điểm chạy. Phép đo RAM
+Set/BitVector được trình bày riêng bên dưới. Scalability, ảnh hưởng độ dài giao
+dịch và Colab tiếp tục được theo dõi trong [kế hoạch nhóm](docs/plan.md).
+
+## Peak RAM: baseline và optimized
+
+Theo [yêu cầu bộ nhớ](docs/itemset.md), đo toàn bộ 4 dataset tại điểm giữa của
+dải 7 minsup hiện có: Retail 4%, Chess 87,5%, Mushroom 70%, T10I4D100K 1,5%.
+
+Backend BitVector đếm support trước, chỉ cấp vector cho item đạt ngưỡng,
+rồi điền TID trong lượt quét tiếp theo. Cách đếm xử lý đúng item trùng trong
+một giỏ và giữ các giao dịch trùng nhau.
+
+```powershell
+julia --startup-file=no --project=. scripts/benchmark_peak_ram.jl
+python scripts/plot_peak_ram.py
+```
+
+Mỗi backend (`:set`, `:bitvector`) chạy trong 5 tiến trình độc lập, một luồng,
+đảo thứ tự giữa các lần. Worker warm-up trên cùng toy database rồi GC; đọc
+input thật và GC trước mining. `Sys.maxrss()` lấy peak RSS của hệ điều hành
+ngay sau `mine`, trước khi ghi output. Peak gồm Julia/JIT, warm-up, input và
+mining; không phải allocation hay peak riêng của hàm `mine`. Bộ đếm peak không
+reset sau warm-up, nên không trừ peak trước mining khỏi peak cuối.
+
+Runner tạo tham chiếu SPMF mới từ đúng file chuẩn hóa ngoài phép đo RAM và so
+sánh mọi itemset/support của mỗi lần chạy với tham chiếu. Cần Java, JAR tại
+`data/benchmark/tools/spmf.jar` và bốn raw datasets như phép đo runtime.
+
+Kết quả trong `results/benchmarks/peak_ram/`:
+
+- [report.md](results/benchmarks/peak_ram/report.md): bảng kết quả, phân tích và giới hạn.
+- [peak_ram.png](results/benchmarks/peak_ram/peak_ram.png): biểu đồ median và min–max; có bản SVG.
+- [runs.csv](results/benchmarks/peak_ram/runs.csv): từng peak RSS tính bằng byte và correctness.
+- [summary.csv](results/benchmarks/peak_ram/summary.csv): median/min/max theo MiB, tỉ số và phần trăm giảm.
+- [metadata.md](results/benchmarks/peak_ram/metadata.md): quy trình, máy, phiên bản và checksum.
+- `spmf/`: tham chiếu mới cùng dữ liệu, minsup và mapping ID đã đo.
+
+Runner từ chối ghi đè lần đo cũ. Ví dụ đo một bộ, lưu vào thư mục mới:
+
+```powershell
+julia --startup-file=no --project=. scripts/benchmark_peak_ram.jl --dataset retail --runs 5 --output-dir results/benchmarks/peak_ram_retail
+python scripts/plot_peak_ram.py results/benchmarks/peak_ram_retail
+```
+
+Chạy bộ kiểm thử dự án:
+
+```powershell
+julia --startup-file=no --project=. test/runtests.jl
+```
 
 ## CLI
 

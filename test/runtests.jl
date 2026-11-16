@@ -83,3 +83,4 @@ end
 # Giữ test thuật toán ở trên và bổ sung test phần ứng dụng của TV2.
 include("test_groceries.jl")
 include("test_association_rules.jl")
+include("test_eclat_optimized.jl")
