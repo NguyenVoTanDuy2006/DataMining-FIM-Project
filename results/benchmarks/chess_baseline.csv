@@ -1,0 +1,8 @@
+dataset,backend,minsup,n_itemsets,median_seconds
+chess,set,0.95,77,0.0398296
+chess,set,0.925,267,0.1144282
+chess,set,0.9,622,0.1848947
+chess,set,0.875,1386,0.3599809
+chess,set,0.85,2669,0.5398502
+chess,set,0.825,4777,0.7481037
+chess,set,0.8,8227,1.4920544

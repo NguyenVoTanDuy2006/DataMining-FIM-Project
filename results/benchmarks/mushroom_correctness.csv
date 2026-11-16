@@ -1,0 +1,8 @@
+dataset,backend,minsup,n_julia,n_spmf,exact_match
+mushroom,set,0.95,7,7,true
+mushroom,set,0.9,9,9,true
+mushroom,set,0.8,23,23,true
+mushroom,set,0.7,31,31,true
+mushroom,set,0.6,51,51,true
+mushroom,set,0.5,153,153,true
+mushroom,set,0.4,565,565,true

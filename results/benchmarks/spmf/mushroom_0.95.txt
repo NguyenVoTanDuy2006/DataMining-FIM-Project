@@ -1,0 +1,9 @@
+@FILETYPE="Frequent itemsets"
+@SOURCE="SPMF SOFTWARE https://philippe-fournier-viger.com/spmf/"
+34 #SUP: 7914
+85 #SUP: 8124
+86 #SUP: 7924
+34 86 #SUP: 7906
+34 85 #SUP: 7914
+34 86 85 #SUP: 7906
+86 85 #SUP: 7924

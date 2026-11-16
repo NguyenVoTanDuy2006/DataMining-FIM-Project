@@ -55,3 +55,42 @@ Kết quả đã kiểm tra trên dữ liệu thật: 9.835 giao dịch, 169 s�
 - `results/groceries/top10_rules.csv`: 10 luật đứng đầu theo lift.
 - `results/groceries/parameter_summary.csv`: 12 cấu hình.
 
+## Đo runtime toàn bộ tiến trình Julia và SPMF
+
+Chương trình điều khiển [benchmark_processes.jl](scripts/benchmark_processes.jl) chạy
+Retail, Chess, Mushroom và T10I4D100K, mỗi bộ 7 ngưỡng minsup. Chuẩn bị bốn file
+gốc theo [nguồn và checksum](docs/benchmark_data.md), đặt JAR SPMF tại
+`data/benchmark/tools/spmf.jar` và bảo đảm `java` có trong PATH.
+
+```powershell
+julia --startup-file=no --project=. scripts/benchmark_processes.jl
+python scripts/plot_process_benchmarks.py
+```
+
+Lệnh Python cần `matplotlib`, chỉ dùng để kiểm tra CSV, vẽ biểu đồ và tạo báo cáo;
+khai thác và đo thời gian thực hiện bằng Julia/Java. Mặc định đo 5 lần cho mỗi
+backend/cấu hình, thêm một lượt chuẩn bị không ghi nhận và đảo thứ tự chạy hai
+backend giữa các lần. Mỗi mẫu tạo tiến trình mới, tính khởi động/JIT, đọc dữ liệu,
+khai thác và ghi kết quả. Chương trình so sánh từng itemset và support count sau mỗi
+cặp chạy, bên ngoài phần tính thời gian.
+
+Kết quả nằm trong `results/benchmarks/processes/`:
+
+- [report.md](results/benchmarks/processes/report.md): phương pháp, kết quả và giới hạn.
+- [runs.csv](results/benchmarks/processes/runs.csv): từng lần đo.
+- [summary.csv](results/benchmarks/processes/summary.csv): median/min/max và tỉ số runtime.
+- [metadata.md](results/benchmarks/processes/metadata.md): cấu hình máy, phiên bản và checksum.
+- `runtime_processes.png/.svg`, `itemset_counts.png/.svg`: biểu đồ để dùng trong báo cáo.
+
+Đây là phép đo toàn bộ tiến trình, giữ riêng với các file `*_baseline.csv` đo
+`mine` trên dữ liệu trong RAM sau warm-up. Lệnh chạy lại ghi đè bảng kết quả trong
+thư mục mặc định; dùng `--output-dir` để giữ một lần đo riêng. Có thể chọn một bộ,
+một ngưỡng và số lần đo, ví dụ:
+
+```powershell
+julia --startup-file=no --project=. scripts/benchmark_processes.jl --dataset T10I4D100K --minsup 0.02 --runs 5 --output-dir results/benchmarks/processes_T10_002
+```
+
+Backend tối ưu, peak RSS, scalability, ảnh hưởng độ dài giao dịch và Colab tiếp tục
+được theo dõi trong [kế hoạch nhóm](docs/plan.md). Runtime mới không thay thế các
+phần thực nghiệm còn thiếu này.
