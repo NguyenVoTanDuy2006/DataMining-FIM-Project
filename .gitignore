@@ -13,7 +13,10 @@ data/processed/**
 data/benchmark/**
 !data/benchmark/.gitkeep
 
-# Local benchmark scratch files
+# Generated results; retain selected benchmark and Groceries artifacts
+results/*
+!results/benchmarks/
+!results/groceries/
 results/**/tmp/
 
 /docs/lab2_context.txt

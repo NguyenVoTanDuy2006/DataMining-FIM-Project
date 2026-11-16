@@ -6,7 +6,7 @@ Julia project for a from-scratch Eclat implementation, SPMF comparison, four ben
 
 ## Current state
 
-Baseline Eclat và ứng dụng Groceries đã có cài đặt. Groceries đọc giỏ hàng, tạo mapping, mã hóa giao dịch, khai thác luật, xuất top 10 theo lift và so sánh 12 cấu hình. Các test hiện tại áp dụng cho baseline và phần ứng dụng của TV2; không thay thế đối chiếu SPMF trên ít nhất 5 CSDL hoặc chạy demo Colab.
+Eclat baseline (`:set`), optimized (`:bitvector`) và ứng dụng Groceries đã có cài đặt. Groceries đọc giỏ hàng, tạo mapping, mã hóa giao dịch, khai thác luật, xuất top 10 theo lift và so sánh 12 cấu hình. Các test áp dụng cho hai backend, SPMF I/O và phần ứng dụng của TV2; xem thêm kết quả đối chiếu của TV1 trong [tài liệu thuật toán](docs/TV1_algorithm.md). Demo Colab vẫn cần hoàn tất.
 
 ## Julia setup
 
@@ -21,6 +21,18 @@ Generate and commit `Manifest.toml` with the selected Julia dependencies so expe
 
 Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.
 
+The core API is:
+
+```julia
+using EclatFIM
+transactions = [[1, 2, 3], [1, 2], [2, 3]]
+mine(transactions, 0.5; backend = :bitvector)
+```
+
+`minsup` is a relative threshold in `(0, 1]` and is converted with
+`ceil(minsup * transaction_count)`. The result maps sorted itemset tuples to
+support counts. The `:set` and `:bitvector` backends have the same output.
+
 ## Kiểm thử tự động
 
 Chạy từ thư mục gốc dự án trong terminal PowerShell:
@@ -29,7 +41,7 @@ Chạy từ thư mục gốc dự án trong terminal PowerShell:
 julia --project=. test/runtests.jl
 ```
 
-`test/runtests.jl` giữ các test baseline Eclat và nạp hai file kiểm thử ứng dụng:
+`test/runtests.jl` kiểm tra Eclat Set/BitVector, SPMF I/O và nạp hai file kiểm thử ứng dụng:
 
 - [test_groceries.jl](test/test_groceries.jl): làm sạch tên, bỏ sản phẩm trùng trong một giỏ, giữ các giao dịch giống nhau, mã hóa ID và ghi mapping.
 - [test_association_rules.jl](test/test_association_rules.jl): công thức support/confidence/lift, hai chiều của luật, các tập con hợp lệ, sinh luật và lọc confidence tại ngưỡng.
@@ -94,3 +106,35 @@ julia --startup-file=no --project=. scripts/benchmark_processes.jl --dataset T10
 Backend tối ưu, peak RSS, scalability, ảnh hưởng độ dài giao dịch và Colab tiếp tục
 được theo dõi trong [kế hoạch nhóm](docs/plan.md). Runtime mới không thay thế các
 phần thực nghiệm còn thiếu này.
+
+## CLI
+
+The minimal CLI reads and writes SPMF-compatible text files:
+
+```sh
+julia --project=. scripts/eclat_cli.jl \
+    --input data/toy/example.txt \
+    --minsup 0.4 \
+    --backend bitvector \
+    --output results/output.txt
+```
+
+Each output line has the form `1 2 3 #SUP: 4`. Use `--backend set` for the
+baseline implementation.
+
+## SPMF correctness verification
+
+Keep external datasets and the SPMF jar outside this repository. For each
+dataset, first generate an SPMF reference output and then compare every itemset
+key and support count with both backends:
+
+```sh
+java -jar /path/to/spmf2.64.jar run Eclat INPUT SPMF_OUTPUT MINSUP
+julia --project=. scripts/verify_spmf.jl INPUT SPMF_OUTPUT MINSUP set
+julia --project=. scripts/verify_spmf.jl INPUT SPMF_OUTPUT MINSUP bitvector
+```
+
+The TV1 verification set is the toy database, Chess, Mushroom, Retail, and
+T10I4D100K. The downloaded reference versions and chosen thresholds are recorded
+in [the TV1 algorithm note](docs/TV1_algorithm.md); large datasets are not
+committed.

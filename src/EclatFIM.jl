@@ -1,6 +1,7 @@
 module EclatFIM
 
-export mine
+export mine, read_spmf_transactions, write_spmf_itemsets,
+       read_spmf_itemsets, compare_itemsets
 
 include("utils/SPMFIO.jl")
 include("algorithm/EclatBaseline.jl")
@@ -18,9 +19,11 @@ function mine(
 )::Dict{Tuple{Vararg{Int}}, Int}
     if backend == :set
         return mine_baseline(transactions, minsup)
+    elseif backend == :bitvector
+        return mine_optimized(transactions, minsup)
     end
 
-    throw(ArgumentError("Backend $backend is not implemented yet"))
+    throw(ArgumentError("Unsupported backend: $backend"))
 end
 
 end
