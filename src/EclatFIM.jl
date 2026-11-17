@@ -13,5 +13,6 @@ include("applications/FashionMNIST.jl")
 include("applications/VisualCodebook.jl")
 include("applications/VisualMining.jl")
 include("applications/FashionTC.jl")
+include("applications/FashionTCv2.jl")
 
 end # module EclatFIM

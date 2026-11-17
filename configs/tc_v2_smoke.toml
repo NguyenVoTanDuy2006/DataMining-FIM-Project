@@ -1,0 +1,91 @@
+[run]
+mode = "smoke"
+run_id = "FashionMNIST_T2_S0_B0_SMOKE"
+output_root = "results/fashion/tc/v2_smoke_s0_final2"
+overwrite_production_artifacts = false
+fail_fast = true
+
+[dataset]
+name = "Fashion-MNIST"
+data_dir = "data/raw/fashion-mnist"
+selection = "stratified_deterministic"
+smoke_per_class = 2
+sample_seed = 42
+expected_images = 20
+
+[tc1_patch_extraction]
+patch_size = [4, 4]
+stride = [4, 4]
+overlap = false
+padding = "none"
+patch_order = "row_major"
+patch_id_base = 1
+preserve_coordinates = true
+
+[tc2_patch_filtering]
+experiment_id = "T2"
+enabled = true
+method = "foreground_ratio"
+threshold_source = "eda_q10_positive_fixed"
+foreground_threshold = 29
+alpha = 0.0
+threshold_comparison = "strict_greater"
+keep_comparison = "strict_greater"
+modify_grayscale_pixels = false
+
+[tc3_feature_extraction]
+descriptor = "raw_pixels"
+normalization = "divide_by_255"
+dtype = "Float32"
+dimension = 16
+flatten_order = "column_major"
+include_labels = false
+include_coordinates_in_descriptor = false
+
+[tc4_codebook]
+training_method = "raw_full_batch_kmeans"
+k_candidates = [4]
+random_seeds = [42]
+initialization = "kmeans++"
+max_iterations = 40
+tolerance = 0.0001
+distance = "squared_euclidean"
+sequential_runs = true
+checkpoint_after_each_run = true
+stability_seed = 2026
+stability_sample_size = 100
+
+[tc4_methods.q20_weighted_kmeans]
+quantization_step = 20
+reuse_existing_weighted_kmeans_implementation = true
+
+[tc5_word_assignment]
+method = "hard_assignment"
+input_descriptor_space = "raw_16d"
+codebook_space = "raw_16d"
+distance = "squared_euclidean"
+word_id_base = 1
+batch_size = 16384
+preserve_coordinates = true
+
+[tc6_transaction_encoding]
+method = "binary_bovw"
+variant = "S0"
+spatial = false
+deduplicate = true
+sort_items = true
+include_labels = false
+preserve_empty = true
+one_image_one_transaction = true
+
+[tc7_export_validation]
+save_codebook = true
+save_patch_assignments = true
+save_tid_image_mapping = true
+save_config = true
+save_tc4_metrics = true
+save_integrity_report = true
+verify_eclat_support_denominator = true
+
+[execution]
+backend = "cpu"
