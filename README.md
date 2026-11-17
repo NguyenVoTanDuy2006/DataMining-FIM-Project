@@ -25,11 +25,15 @@ and open the Julia notebooks from the repository root:
 ```sh
 julia --project=. -e 'using Pkg; Pkg.instantiate()'
 julia --project=. test/runtests.jl
-julia --project=. -e 'using IJulia; IJulia.notebook(dir="notebook")'
+julia --project=. scripts/install_fashion_tc_kernel.jl
+julia --project=environments/fashion_notebooks -e 'using IJulia; IJulia.notebook(dir="notebook")'
 ```
 
-Choose the Julia 1.13 kernel in Jupyter. The notebooks activate this project
-themselves and work independently from a fresh kernel.
+Choose the Julia Fashion-MNIST TC kernel in Jupyter. Each notebook activates
+its runtime environment from a fresh kernel. TC uses the repository root for
+CPU or `environments/fashion_gpu/` for CUDA; smoke/full share the same runtime
+for their backend. `environments/fashion_notebooks/` holds IJulia and the PNG
+export tools needed by notebook 01, keeping them out of TC's dependencies.
 
 ## Fashion-MNIST: dataset validation and EDA
 

@@ -19,3 +19,9 @@ results/**/tmp/
 
 # Legacy EDA outputs are superseded by results/fashion/eda1/question_driven/
 results/fashion/eda1/[0-9]*
+
+
+.agents/
+.specify/
+.codex/
+.jupyter-agent-bridge/

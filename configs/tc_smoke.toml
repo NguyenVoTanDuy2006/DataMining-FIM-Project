@@ -99,6 +99,7 @@ minsup_count = 2
 run_parameter_grid = false
 
 [execution]
+backend = "cpu"
 execute_all_tc_notebooks_in_order = true
 fresh_kernel_per_notebook = true
 run_without_manual_cell_edits = true

@@ -95,3 +95,6 @@ save_config = true
 save_benchmark_results = true
 save_validation_report = true
 verify_eclat_support_denominator = true
+
+[execution]
+backend = "cpu"

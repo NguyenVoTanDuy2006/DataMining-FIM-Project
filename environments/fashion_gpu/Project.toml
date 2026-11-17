@@ -1,0 +1,11 @@
+[deps]
+CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
+EclatFIM = "f035e606-8504-4775-8232-c73e28f25aa6"
+
+[sources]
+EclatFIM = {path = "../.."}
+
+[compat]
+CUDA = "5.11.3"
+EclatFIM = "0.1.0"
+julia = "1.11"

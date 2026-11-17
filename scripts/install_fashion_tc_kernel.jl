@@ -1,12 +1,18 @@
 using Pkg
 
 const ROOT = dirname(@__DIR__)
-Pkg.activate(ROOT)
+const NOTEBOOK_ENV = joinpath(ROOT, "environments", "fashion_notebooks")
+Pkg.activate(NOTEBOOK_ENV)
+# IJulia chỉ phục vụ kernel; TC kích hoạt môi trường CPU/CUDA trong notebook.
+cd(NOTEBOOK_ENV) do
+    Pkg.develop(path="../..")
+end
+Pkg.instantiate()
 using IJulia
 
 kernel_path = IJulia.installkernel(
     "Fashion-MNIST TC",
-    "--project=$(ROOT)";
+    "--project=$(NOTEBOOK_ENV)";
     specname="fashion-mnist-tc",
     displayname="Julia Fashion-MNIST TC",
 )

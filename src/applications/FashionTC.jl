@@ -5,22 +5,47 @@ using Random
 using SHA
 using Serialization
 using Statistics
+using Tar
 using TOML
+
+const DEFAULT_GPU_BATCH_SIZE = 65_536
 
 export read_config, balanced_smoke_indices, fit_q10_positive, extract_patches,
     make_descriptors, fit_kmeans, assign_words, encode_transactions, run_smoke,
     prepare_run, run_tc0!, run_tc1!, run_tc2!, run_tc3!, run_tc4!, run_tc5!,
-    run_tc6!, run_tc7!, run_full, run_tc
+    run_tc6!, run_tc7!, run_full, run_tc, gpu_available, gpu_device_info,
+    gpu_warmup!
 
 mutable struct TCState
     config_path::String
     data_dir::String
     output_root::String
+    work_root::String
     config::Dict{String,Any}
     checks::Dict{String,String}
     data::Dict{Symbol,Any}
     started_at::Float64
 end
+
+function _cuda_backend()
+    extension = Base.get_extension(parentmodule(@__MODULE__), :FashionTCGPUCUDAExt)
+    isnothing(extension) && throw(ArgumentError(
+        "CUDA backend chưa được nạp. Chạy using CUDA trong project trước khi chọn backend=\"cuda\"."
+    ))
+    return extension
+end
+
+"""Báo CUDA có extension và thiết bị hoạt động trong phiên hiện tại hay không."""
+function gpu_available()
+    extension = Base.get_extension(parentmodule(@__MODULE__), :FashionTCGPUCUDAExt)
+    return !isnothing(extension) && extension.available()
+end
+
+"""Trả thông tin thiết bị hiện hành; yêu cầu extension CUDA đã được nạp."""
+gpu_device_info() = _cuda_backend().device_info()
+
+"""Làm nóng GPU bằng dữ liệu nhỏ trước khi đo thời gian TC4/TC5."""
+gpu_warmup!(; kwargs...) = _cuda_backend().warmup!(; kwargs...)
 
 """Đọc TOML, chấp nhận smoke/full và kiểm tra output path tách biệt."""
 function read_config(path::AbstractString)
@@ -30,6 +55,8 @@ function read_config(path::AbstractString)
     mode in ("smoke", "full") || throw(ArgumentError("run.mode phải là smoke hoặc full"))
     output_root = get(run_config, "output_root", "")
     isempty(output_root) && throw(ArgumentError("Thiếu run.output_root"))
+    backend = get(get(config, "execution", Dict()), "backend", "cpu")
+    backend in ("cpu", "cuda") || throw(ArgumentError("execution.backend phải là cpu hoặc cuda"))
     if mode == "smoke"
         occursin(joinpath("tc", "smoke"), output_root) ||
             throw(ArgumentError("Smoke output phải nằm trong thư mục riêng tc/smoke"))
@@ -118,23 +145,44 @@ function _patch_status_rows(split, patches, index, tau, alpha)
         tau, alpha, "T2") for (patch, row) in zip(patches, index)]
 end
 
-"""Fit K-means full-batch bằng Clustering.jl với khởi tạo K-means++."""
-function fit_kmeans(X; k=8, seed=42, maxiter=20, tolerance=1e-4)
+"""Fit full-batch K-means bằng backend CPU hoặc CUDA; K-means++ dùng seed đã chỉ định."""
+function fit_kmeans(X; k=8, seed=42, maxiter=20, tolerance=1e-4,
+    backend="cpu", batch_size=DEFAULT_GPU_BATCH_SIZE, device_data=nothing,
+    initial_indices=nothing)
     _, n = size(X)
     n >= k || throw(ArgumentError("Cần tối thiểu K descriptors train; nhận $n, K=$k"))
-    result = Clustering.kmeans(X, k; init=:kmpp, maxiter, tol=tolerance,
+    backend in ("cpu", "cuda") || throw(ArgumentError("backend phải là cpu hoặc cuda"))
+    if backend == "cuda"
+        return _cuda_backend().fit_kmeans(X; k, seed, maxiter, tolerance,
+            batch_size, device_data, initial_indices)
+    end
+    fit_started = time()
+    initialization = isnothing(initial_indices) ? :kmpp : initial_indices
+    result = Clustering.kmeans(X, k; init=initialization, maxiter, tol=tolerance,
         display=:none, rng=MersenneTwister(seed))
     return (; centroids=result.centers, labels=result.assignments,
         objective=result.totalcost, iterations=result.iterations,
-        converged=result.converged, library="Clustering.jl",
-        library_version=string(Base.pkgversion(Clustering)), initialization=":kmpp",
+        converged=result.converged,
+        stop_reason=result.converged ? "library_tolerance" : "max_iterations",
+        history=NamedTuple[], initialization_seconds=NaN,
+        fit_seconds=time() - fit_started, backend="cpu", batch_size,
+        library="Clustering.jl",
+        library_version=string(Base.pkgversion(Clustering)),
+        initialization=isnothing(initial_indices) ? ":kmpp" : "provided descriptor indices",
         maxiter, tolerance)
 end
 
 """Gán nearest centroid theo chunk; tie-break chọn word ID nhỏ nhất."""
-function assign_words(X, centroids; chunk_size=128)
+function assign_words(X, centroids; backend="cpu", chunk_size=128,
+    batch_size=DEFAULT_GPU_BATCH_SIZE, device_data=nothing,
+    device_centroids=nothing)
     d, n = size(X)
     size(centroids, 1) == d || throw(ArgumentError("Số chiều centroid không khớp"))
+    backend in ("cpu", "cuda") || throw(ArgumentError("backend phải là cpu hoặc cuda"))
+    if backend == "cuda"
+        return _cuda_backend().assign_words(X, centroids; batch_size,
+            device_data, device_centroids)
+    end
     words = Vector{Int}(undef, n)
     for lo in 1:chunk_size:n
         for j in lo:min(lo + chunk_size - 1, n)
@@ -200,6 +248,10 @@ function _json_escape(s)
     replace(string(s), "\\" => "\\\\", "\"" => "\\\"", "\n" => "\\n")
 end
 
+function _json_number(value)
+    return isfinite(value) ? string(value) : "null"
+end
+
 function _write_csv(path, header, rows)
     open(path, "w") do io
         println(io, join(header, ','))
@@ -209,15 +261,214 @@ function _write_csv(path, header, rows)
     end
 end
 
-"""Đọc cấu hình đã chọn, xác thực đường dẫn và chuẩn bị phiên dùng chung TC0–TC7."""
-function prepare_run(config_path; data_dir, output_root=nothing)
+function _backend(state::TCState)
+    return get(state.data, :backend, get(get(state.config, "execution", Dict()), "backend", "cpu"))
+end
+
+function _fit_fingerprint(state::TCState, k, seed)
+    config = state.config
+    values = Dict(
+        "backend" => _backend(state),
+        "julia_version" => string(VERSION),
+        "backend_library_version" => _backend(state) == "cuda" ?
+            string(Base.pkgversion(_cuda_backend().CUDA)) :
+            string(Base.pkgversion(Clustering)),
+        "data_archive_sha256" => state.data[:archive_checksums],
+        "train_descriptor_sha256" => state.data[:descriptor_checksums]["train"],
+        "validation_descriptor_sha256" => state.data[:descriptor_checksums]["validation"],
+        "k" => k,
+        "seed" => seed,
+        "max_iterations" => config["tc4_codebook"]["max_iterations"],
+        "tolerance" => config["tc4_codebook"]["tolerance"],
+        "batch_size" => get(config["tc4_codebook"], "batch_size",
+            get(config["tc5_word_assignment"], "batch_size", 65_536)),
+        "initialization" => "K-means++",
+        "algorithm" => "Lloyd full-batch squared Euclidean",
+        "patch_config" => config["tc1_patch_extraction"],
+        "filter_config" => config["tc2_patch_filtering"],
+        "feature_config" => config["tc3_feature_extraction"],
+    )
+    canonical = join(["$key=$(repr(values[key]))" for key in sort!(collect(keys(values)))], "\n")
+    return bytes2hex(sha256(codeunits(canonical)))
+end
+
+function _checkpoint_dir(state::TCState, run_id, fingerprint)
+    return joinpath(state.output_root, "checkpoints", _backend(state), run_id, fingerprint)
+end
+
+function _history_rows(history)
+    return [(row.iteration, row.objective, row.objective_delta,
+        row.max_centroid_shift, row.cost_increased) for row in history]
+end
+
+function _write_iteration_history(path, history)
+    return _write_csv(path,
+        ["iteration", "objective", "objective_delta", "max_centroid_shift", "cost_increased"],
+        _history_rows(history))
+end
+
+function _read_iteration_history(path)
+    lines = readlines(path)
+    length(lines) <= 1 && return NamedTuple[]
+    return [(;
+        iteration=parse(Int, fields[1]),
+        objective=parse(Float64, fields[2]),
+        objective_delta=parse(Float64, fields[3]),
+        max_centroid_shift=parse(Float64, fields[4]),
+        cost_increased=parse(Bool, fields[5]),
+    ) for fields in (split(line, ',') for line in lines[2:end])]
+end
+
+function _load_fit_checkpoint(state::TCState, run_id, k, seed, fingerprint)
+    checkpoint = _checkpoint_dir(state, run_id, fingerprint)
+    metadata_path = joinpath(checkpoint, "checkpoint.toml")
+    codebook_path = joinpath(checkpoint, "codebook.bin")
+    history_path = joinpath(checkpoint, "iteration_history.csv")
+    isfile(metadata_path) || return nothing
+    isfile(codebook_path) && isfile(history_path) ||
+        throw(ArgumentError("Checkpoint không hoàn chỉnh: $checkpoint"))
+    metadata = TOML.parsefile(metadata_path)
+    get(metadata, "complete", false) || throw(ArgumentError("Checkpoint chưa hoàn tất: $checkpoint"))
+    metadata["fingerprint"] == fingerprint || throw(ArgumentError("Fingerprint checkpoint không khớp: $checkpoint"))
+    metadata["backend"] == _backend(state) || throw(ArgumentError("Không thể dùng checkpoint backend khác"))
+    metadata["run_id"] == run_id || throw(ArgumentError("run_id trong checkpoint không khớp"))
+    metadata["k"] == k && metadata["seed"] == seed ||
+        throw(ArgumentError("K hoặc seed trong checkpoint không khớp"))
+    metadata["train_descriptor_sha256"] == state.data[:descriptor_checksums]["train"] ||
+        throw(ArgumentError("Checkpoint dùng descriptor train khác"))
+    metadata["validation_descriptor_sha256"] == state.data[:descriptor_checksums]["validation"] ||
+        throw(ArgumentError("Checkpoint dùng descriptor validation khác"))
+    bytes2hex(open(sha256, codebook_path)) == metadata["codebook_sha256"] ||
+        throw(ArgumentError("Checksum codebook trong checkpoint không khớp"))
+    bytes2hex(open(sha256, history_path)) == metadata["history_sha256"] ||
+        throw(ArgumentError("Checksum iteration history trong checkpoint không khớp"))
+    centroids = open(deserialize, codebook_path)
+    size(centroids) == (state.config["tc3_feature_extraction"]["dimension"], k) ||
+        throw(ArgumentError("Kích thước codebook trong checkpoint sai"))
+    return (; centroids, objective=Float64(metadata["objective"]),
+        iterations=Int(metadata["iterations"]), converged=Bool(metadata["converged"]),
+        stop_reason=String(metadata["stop_reason"]), history=_read_iteration_history(history_path),
+        initialization_seconds=Float64(get(metadata, "initialization_seconds", NaN)),
+        fit_seconds=Float64(get(metadata, "fit_seconds", NaN)),
+        library=String(metadata["library"]), library_version=String(metadata["library_version"]),
+        initialization=String(metadata["initialization"]), maxiter=Int(metadata["max_iterations"]),
+        tolerance=Float64(metadata["tolerance"]), batch_size=Int(metadata["batch_size"]),
+        backend=String(metadata["backend"]), resumed=true)
+end
+
+function _save_fit_checkpoint!(state::TCState, run_id, k, seed, fingerprint, model, run_dir)
+    local_checkpoint = joinpath(run_dir, "fit_checkpoint")
+    mkpath(local_checkpoint)
+    codebook_path = joinpath(local_checkpoint, "codebook.bin")
+    history_path = joinpath(local_checkpoint, "iteration_history.csv")
+    open(codebook_path, "w") do io
+        serialize(io, Matrix{Float32}(model.centroids))
+    end
+    _write_iteration_history(history_path, model.history)
+    metadata = Dict(
+        "complete" => true,
+        "fingerprint" => fingerprint,
+        "backend" => _backend(state),
+        "run_id" => run_id,
+        "k" => k,
+        "seed" => seed,
+        "julia_version" => string(VERSION),
+        "cuda_package_version" => _backend(state) == "cuda" ?
+            string(Base.pkgversion(_cuda_backend().CUDA)) : "not_used",
+        "gpu_device_name" => get(state.data, :gpu_device_info,
+            (; name="not_used")).name,
+        "gpu_vram_bytes" => get(state.data, :gpu_device_info,
+            (; total_memory_bytes=0)).total_memory_bytes,
+        "library" => model.library,
+        "library_version" => model.library_version,
+        "initialization" => model.initialization,
+        "max_iterations" => model.maxiter,
+        "tolerance" => model.tolerance,
+        "batch_size" => model.batch_size,
+        "iterations" => model.iterations,
+        "converged" => model.converged,
+        "stop_reason" => model.stop_reason,
+        "objective" => model.objective,
+        "initialization_seconds" => model.initialization_seconds,
+        "fit_seconds" => model.fit_seconds,
+        "train_descriptor_sha256" => state.data[:descriptor_checksums]["train"],
+        "validation_descriptor_sha256" => state.data[:descriptor_checksums]["validation"],
+        "source_archive_sha256" => state.data[:archive_checksums],
+        "codebook_sha256" => bytes2hex(open(sha256, codebook_path)),
+        "history_sha256" => bytes2hex(open(sha256, history_path)),
+    )
+    metadata_path = joinpath(local_checkpoint, "checkpoint.toml")
+    open(metadata_path, "w") do io
+        TOML.print(io, metadata; sorted=true)
+    end
+
+    target = _checkpoint_dir(state, run_id, fingerprint)
+    mkpath(dirname(target))
+    ispath(target) && throw(ArgumentError("Đích checkpoint đã tồn tại nhưng không được nạp: $target"))
+    temporary_target = mktempdir(dirname(target); prefix=".$(basename(target)).tmp-")
+    transfer_started = time()
+    try
+        for filename in ("codebook.bin", "iteration_history.csv")
+            cp(joinpath(local_checkpoint, filename), joinpath(temporary_target, filename))
+        end
+        for filename in ("codebook.bin", "iteration_history.csv")
+            source = joinpath(local_checkpoint, filename)
+            copied = joinpath(temporary_target, filename)
+            bytes2hex(open(sha256, source)) == bytes2hex(open(sha256, copied)) ||
+                error("Checkpoint Drive không khớp checksum: $filename")
+        end
+        cp(metadata_path, joinpath(temporary_target, "checkpoint.toml"))
+        bytes2hex(open(sha256, metadata_path)) ==
+            bytes2hex(open(sha256, joinpath(temporary_target, "checkpoint.toml"))) ||
+            error("Checkpoint metadata trên Drive không khớp checksum")
+        mv(temporary_target, target)
+    finally
+        isdir(temporary_target) && rm(temporary_target; recursive=true, force=true)
+    end
+    return time() - transfer_started
+end
+
+function _archive_run!(state::TCState, run_id, stage)
+    run_dir = _run_output_dir(state, run_id)
+    fingerprint = state.data[:fit_fingerprints][run_id]
+    archive_root = joinpath(state.output_root, "archives", _backend(state))
+    mkpath(archive_root)
+    archive_name = "$(run_id)_$(stage)_$(fingerprint[1:12]).tar"
+    destination = joinpath(archive_root, archive_name)
+    temporary_root = mktempdir()
+    local_archive = joinpath(temporary_root, archive_name)
+    pack_started = time()
+    try
+        Tar.create(run_dir, local_archive; portable=true)
+        pack_seconds = time() - pack_started
+        archive_hash = bytes2hex(open(sha256, local_archive))
+        transfer_started = time()
+        cp(local_archive, destination; force=true)
+        copied_hash = bytes2hex(open(sha256, destination))
+        copied_hash == archive_hash || error("TAR Drive không khớp SHA-256: $destination")
+        open(destination * ".sha256", "w") do io
+            println(io, "$archive_hash  $archive_name")
+        end
+        transfer_seconds = time() - transfer_started
+        state.checks["archive_$(stage)_$(run_id)"] = "PASS"
+        return (; run_id, stage, path=destination, sha256=archive_hash,
+            pack_seconds, drive_copy_seconds=transfer_seconds)
+    finally
+        rm(temporary_root; recursive=true, force=true)
+    end
+end
+
+"""Chuẩn bị phiên TC, tách thư mục làm việc local khỏi đích lưu checkpoint/Drive."""
+function prepare_run(config_path; data_dir, output_root=nothing, work_root=nothing)
     config = read_config(config_path)
     run = config["run"]
     mode = run["mode"]
     root = dirname(dirname(abspath(config_path)))
     configured_output = normpath(joinpath(root, run["output_root"]))
-    output_root = isnothing(output_root) ? configured_output : normpath(output_root)
-    output_root == configured_output || throw(ArgumentError("output_root phải khớp run.output_root trong config"))
+    output_root = isnothing(output_root) ? configured_output : normpath(abspath(output_root))
+    work_root = isnothing(work_root) ? mktempdir(prefix="fashion-tc-work-") : normpath(abspath(work_root))
+    backend = get(get(config, "execution", Dict()), "backend", "cpu")
+    backend == "cuda" && _cuda_backend().check_available!()
     dataset_config = config["dataset"]
     patch_config = config["tc1_patch_extraction"]
     filter_config = config["tc2_patch_filtering"]
@@ -226,7 +477,7 @@ function prepare_run(config_path; data_dir, output_root=nothing)
     patch_config["patch_size"] == [4, 4] && patch_config["stride"] == [4, 4] ||
         throw(ArgumentError("TC notebook hiện hỗ trợ patch 4×4, stride 4"))
     if mode == "smoke"
-        occursin(joinpath("tc", "smoke", "T2_K8_seed42"), output_root) ||
+        occursin(joinpath("tc", "smoke", "T2_K8_seed42"), configured_output) ||
             throw(ArgumentError("Smoke artifacts phải nằm trong thư mục riêng T2_K8_seed42"))
         dataset_config["selection"] == "stratified_deterministic" || error("Smoke yêu cầu lấy mẫu phân tầng")
         config["tc0_preprocessing"]["fit_split"] == "smoke_train_only" || error("Smoke yêu cầu fit Q10 trên train")
@@ -235,22 +486,22 @@ function prepare_run(config_path; data_dir, output_root=nothing)
         codebook_config["number_of_fits"] == 1 && !codebook_config["run_k_grid"] ||
             error("Smoke chỉ cho phép một lần fit")
     else
-        occursin(joinpath("tc", "benchmark"), output_root) ||
+        occursin(joinpath("tc", "benchmark"), configured_output) ||
             throw(ArgumentError("Full output phải nằm trong results/fashion/tc/benchmark"))
         dataset_config["use_original_split"] || error("Full phải giữ nguyên split gốc")
         codebook_config["image_sampling"] == false && codebook_config["descriptor_sampling"] == false ||
             error("Full phải dùng toàn bộ ảnh và descriptor train")
     end
-    if isdir(output_root) && !isempty(readdir(output_root))
-        if mode == "smoke"
-            rm(output_root; recursive=true, force=true)
-        else
-            throw(ArgumentError("Full output đã tồn tại; từ chối ghi đè checkpoint"))
-        end
-    end
+    output_root == work_root && throw(ArgumentError("work_root và output_root phải khác nhau"))
+    isdir(work_root) && !isempty(readdir(work_root)) &&
+        throw(ArgumentError("Thư mục làm việc local phải rỗng: $work_root"))
     mkpath(output_root)
-    return TCState(abspath(config_path), abspath(data_dir), output_root,
-        config, Dict{String,String}(), Dict{Symbol,Any}(:mode => mode), time())
+    mkpath(work_root)
+    return TCState(abspath(config_path), abspath(data_dir), output_root, work_root,
+        config, Dict{String,String}(), Dict{Symbol,Any}(
+            :mode => mode, :backend => backend,
+            :timings => Dict{String,Float64}(),
+        ), time())
 end
 
 function _require_previous(state::TCState, expected::Int)
@@ -288,7 +539,7 @@ function run_tc0!(state::TCState)
     validation_images = Array(@view validation.images[:, :, validation_ids])
     train_labels = train.labels[train_ids]
     validation_labels = validation.labels[validation_ids]
-    _write_csv(joinpath(state.output_root, "selected_image_ids.csv"), ["split", "image_id", "label"],
+    _write_csv(joinpath(state.work_root, "selected_image_ids.csv"), ["split", "image_id", "label"],
         vcat([("train", id, label) for (id, label) in zip(train_ids, train_labels)],
             [("validation", id, label) for (id, label) in zip(validation_ids, validation_labels)]))
     fit_split = state.data[:mode] == "smoke" ? "smoke_train_only" : "train"
@@ -307,7 +558,7 @@ function run_tc0!(state::TCState)
     state.data[:validation_labels] = validation_labels
     state.data[:tau] = tau
     state.data[:tau_meta] = tau_meta
-    open(joinpath(state.output_root, "threshold_fit.toml"), "w") do io
+    open(joinpath(state.work_root, "threshold_fit.toml"), "w") do io
         TOML.print(io, Dict("tau_train" => tau, "train_only" => true,
             "positive_pixel_count" => tau_meta.positive_pixel_count,
             "quantile" => preprocessing["quantile"], "definition" => tau_meta.definition,
@@ -372,7 +623,7 @@ function run_tc2!(state::TCState)
             eachindex(train_patches))
         validation_keep = findall(i -> count(>(tau), validation_patches[i]) / length(validation_patches[i]) > alpha,
             eachindex(validation_patches))
-        _write_csv(joinpath(state.output_root, "patch_filter_status.csv"),
+        _write_csv(joinpath(state.work_root, "patch_filter_status.csv"),
             ["split", "image_id", "patch_id", "patch_row", "patch_col", "foreground_ratio", "keep", "tau", "alpha", "experiment_id"],
             vcat(_patch_status_rows("train", train_patches, train_index, tau, alpha),
                 _patch_status_rows("validation", validation_patches, validation_index, tau, alpha)))
@@ -390,13 +641,13 @@ function run_tc2!(state::TCState)
         "train" => train_duplicate_summary,
         "validation" => validation_duplicate_summary)
 
-    _write_csv(joinpath(state.output_root, "patch_filter_summary.csv"),
+    _write_csv(joinpath(state.work_root, "patch_filter_summary.csv"),
         ["split", "image_id", "retained_count", "discarded_count", "empty_after_filter"],
         vcat([("train", id, kept, patches_per_image - kept, kept == 0)
                 for (id, kept) in zip(train_ids, train_per_image)],
             [("validation", id, kept, patches_per_image - kept, kept == 0)
                 for (id, kept) in zip(validation_ids, validation_per_image)]))
-    _write_csv(joinpath(state.output_root, "patch_duplicate_summary.csv"),
+    _write_csv(joinpath(state.work_root, "patch_duplicate_summary.csv"),
         ["split", "retained_patches", "unique_patches", "duplicate_patches", "duplicate_rate"],
         [("train", train_duplicate_summary.total, train_duplicate_summary.unique,
             train_duplicate_summary.total - train_duplicate_summary.unique,
@@ -485,8 +736,8 @@ function run_tc3!(state::TCState)
         all(isfinite, train_desc) && all(isfinite, validation_desc) &&
         all(x -> 0 <= x <= 1, train_desc) && all(x -> 0 <= x <= 1, validation_desc)
     valid || error("Descriptor invariant failed")
-    train_path = joinpath(state.output_root, "train_descriptors.bin")
-    validation_path = joinpath(state.output_root, "validation_descriptors.bin")
+    train_path = joinpath(state.work_root, "train_descriptors.bin")
+    validation_path = joinpath(state.work_root, "validation_descriptors.bin")
     open(train_path, "w") do io
         serialize(io, (; descriptors=train_desc, index=train_map))
     end
@@ -516,12 +767,36 @@ function run_tc4!(state::TCState)
             for k in config["k_candidates"] for seed in config["random_seeds"]]
     models = Dict{String,Any}()
     fit_summaries = NamedTuple[]
+    fingerprints = Dict{String,String}()
     expected_dim = state.config["tc3_feature_extraction"]["dimension"]
+    backend = _backend(state)
+    batch_size = get(config, "batch_size",
+        get(state.config["tc5_word_assignment"], "batch_size", 65_536))
+    if backend == "cuda"
+        state.data[:gpu_device_info] = _cuda_backend().device_info()
+        upload_started = time()
+        state.data[:cuda_train_data] = _cuda_backend().to_device(state.data[:train_desc])
+        state.data[:timings]["descriptor_upload_seconds"] = time() - upload_started
+    end
+
     for (run_id, k, seed) in runs
+        fingerprint = _fit_fingerprint(state, k, seed)
+        fingerprints[run_id] = fingerprint
         started = time()
-        model = fit_kmeans(state.data[:train_desc]; k, seed,
-            maxiter=config["max_iterations"], tolerance=config["tolerance"])
+        model = _load_fit_checkpoint(state, run_id, k, seed, fingerprint)
+        resumed = !isnothing(model)
+        if !resumed
+            model = fit_kmeans(state.data[:train_desc]; k, seed,
+                maxiter=config["max_iterations"], tolerance=config["tolerance"],
+                backend, batch_size,
+                device_data=backend == "cuda" ? state.data[:cuda_train_data] : nothing)
+        end
         elapsed = time() - started
+        state.data[:timings]["kmeans_initialization_seconds"] =
+            get(state.data[:timings], "kmeans_initialization_seconds", 0.0) +
+            (isfinite(model.initialization_seconds) ? model.initialization_seconds : 0.0)
+        state.data[:timings]["kmeans_fit_seconds"] =
+            get(state.data[:timings], "kmeans_fit_seconds", 0.0) + model.fit_seconds
         size(model.centroids) == (expected_dim, k) && all(isfinite, model.centroids) ||
             error("Kích thước/giá trị codebook không hợp lệ cho $run_id")
         run_dir = _run_output_dir(state, run_id)
@@ -529,42 +804,96 @@ function run_tc4!(state::TCState)
         open(joinpath(run_dir, "codebook.bin"), "w") do io
             serialize(io, model.centroids)
         end
+        if resumed
+            drive_checkpoint = _checkpoint_dir(state, run_id, fingerprint)
+            local_checkpoint = joinpath(run_dir, "fit_checkpoint")
+            mkpath(local_checkpoint)
+            checkpoint_transfer_started = time()
+            for filename in ("codebook.bin", "iteration_history.csv", "checkpoint.toml")
+                cp(joinpath(drive_checkpoint, filename), joinpath(local_checkpoint, filename))
+            end
+            bytes2hex(open(sha256, joinpath(local_checkpoint, "codebook.bin"))) ==
+                bytes2hex(open(sha256, joinpath(drive_checkpoint, "codebook.bin"))) ||
+                error("Codebook tải từ checkpoint không khớp SHA-256")
+            bytes2hex(open(sha256, joinpath(local_checkpoint, "iteration_history.csv"))) ==
+                bytes2hex(open(sha256, joinpath(drive_checkpoint, "iteration_history.csv"))) ||
+                error("Iteration history tải từ checkpoint không khớp SHA-256")
+            checkpoint_seconds = time() - checkpoint_transfer_started
+        else
+            checkpoint_seconds = _save_fit_checkpoint!(
+                state, run_id, k, seed, fingerprint, model, run_dir)
+        end
+        state.data[:timings]["checkpoint_drive_seconds"] =
+            get(state.data[:timings], "checkpoint_drive_seconds", 0.0) + checkpoint_seconds
         models[run_id] = (; centroids=model.centroids, objective=model.objective,
-            iterations=model.iterations, converged=model.converged, library=model.library,
+            iterations=model.iterations, converged=model.converged,
+            stop_reason=model.stop_reason, history=model.history, backend,
+            initialization_seconds=model.initialization_seconds,
+            fit_seconds=model.fit_seconds, batch_size, library=model.library,
             library_version=model.library_version, initialization=model.initialization,
-            maxiter=model.maxiter, tolerance=model.tolerance)
+            maxiter=model.maxiter, tolerance=model.tolerance, resumed)
         push!(fit_summaries, (; run_id, k, seed, shape=size(model.centroids),
-            iterations=model.iterations, converged=model.converged, objective=model.objective,
-            library=model.library, library_version=model.library_version, elapsed_seconds=elapsed))
+            iterations=model.iterations, converged=model.converged,
+            stop_reason=model.stop_reason, objective=model.objective,
+            initialization_seconds=model.initialization_seconds,
+            fit_seconds=model.fit_seconds, elapsed_seconds=elapsed,
+            descriptor_upload_seconds=get(state.data[:timings], "descriptor_upload_seconds", 0.0),
+            checkpoint_drive_seconds=checkpoint_seconds, resumed,
+            backend, batch_size, library=model.library,
+            library_version=model.library_version))
     end
     state.data[:run_ids] = first.(runs)
     state.data[:models] = models
     state.data[:fit_summaries] = fit_summaries
+    state.data[:fit_fingerprints] = fingerprints
+    state.data[:checkpoint_summaries] = fit_summaries
     state.checks["tc4_codebook_shape"] = "PASS"
     return _finish_stage!(state, 4, "Fit K-means codebook", fit_summaries)
 end
 
 function _run_output_dir(state::TCState, run_id)
-    return state.data[:mode] == "smoke" ? state.output_root : joinpath(state.output_root, "runs", run_id)
+    return state.data[:mode] == "smoke" ? state.work_root : joinpath(state.work_root, "runs", run_id)
 end
 
 """TC5: gán train/validation theo từng codebook, dùng cùng cách cho smoke và full."""
 function run_tc5!(state::TCState)
     _require_previous(state, 5)
     config = state.config["tc5_word_assignment"]
-    chunk_size = state.data[:mode] == "smoke" ? config["chunk_size"] : config["batch_size"]
+    backend = _backend(state)
+    batch_size = get(config, "batch_size", get(config, "chunk_size", 65_536))
+    chunk_size = get(config, "chunk_size", batch_size)
     mapping = Dict("train" => state.data[:train_map], "validation" => state.data[:validation_map])
     summaries = NamedTuple[]
+    if backend == "cuda"
+        upload_started = time()
+        state.data[:cuda_validation_data] = _cuda_backend().to_device(state.data[:validation_desc])
+        state.data[:timings]["validation_descriptor_upload_seconds"] = time() - upload_started
+    end
+
     for run_id in state.data[:run_ids]
         model = state.data[:models][run_id]
-        train_words = assign_words(state.data[:train_desc], model.centroids; chunk_size)
-        validation_words = assign_words(state.data[:validation_desc], model.centroids; chunk_size)
+        device_centroids = backend == "cuda" ?
+            _cuda_backend().to_device_centroids(model.centroids) : nothing
+        assignment_started = time()
+        train_words = assign_words(state.data[:train_desc], model.centroids;
+            backend, chunk_size, batch_size,
+            device_data=backend == "cuda" ? state.data[:cuda_train_data] : nothing,
+            device_centroids)
+        validation_words = assign_words(state.data[:validation_desc], model.centroids;
+            backend, chunk_size, batch_size,
+            device_data=backend == "cuda" ? state.data[:cuda_validation_data] : nothing,
+            device_centroids)
+        backend == "cuda" && _cuda_backend().synchronize()
+        assignment_seconds = time() - assignment_started
         k = size(model.centroids, 2)
         all(in(1:k), train_words) && all(in(1:k), validation_words) ||
             error("Word ID nằm ngoài 1:$k cho $run_id")
         if state.data[:mode] == "smoke"
             direct_words = assign_words(state.data[:train_desc], model.centroids;
-                chunk_size=size(state.data[:train_desc], 2))
+                backend, chunk_size=size(state.data[:train_desc], 2),
+                batch_size=size(state.data[:train_desc], 2),
+                device_data=backend == "cuda" ? state.data[:cuda_train_data] : nothing,
+                device_centroids)
             train_words == direct_words || error("Chunked assignment không khớp direct assignment")
             state.data[:train_words] = train_words
             state.data[:validation_words] = validation_words
@@ -579,8 +908,18 @@ function run_tc5!(state::TCState)
         open(joinpath(run_dir, "assignments.bin"), "w") do io
             serialize(io, (; train_words, valid_words=validation_words))
         end
+        archive = _archive_run!(state, run_id, "tc5")
+        state.data[:timings]["assignment_seconds"] =
+            get(state.data[:timings], "assignment_seconds", 0.0) + assignment_seconds
+        state.data[:timings]["archive_pack_seconds"] =
+            get(state.data[:timings], "archive_pack_seconds", 0.0) + archive.pack_seconds
+        state.data[:timings]["drive_archive_copy_seconds"] =
+            get(state.data[:timings], "drive_archive_copy_seconds", 0.0) + archive.drive_copy_seconds
         push!(summaries, (; run_id, train_assignments=length(train_words),
-            validation_assignments=length(validation_words), chunk_size))
+            validation_assignments=length(validation_words), backend, batch_size,
+            assignment_seconds, archive_path=archive.path, archive_sha256=archive.sha256,
+            archive_pack_seconds=archive.pack_seconds,
+            archive_drive_copy_seconds=archive.drive_copy_seconds))
     end
     state.data[:assignment_summaries] = summaries
     state.checks["tc5_chunked_assignment"] = "PASS"
@@ -632,7 +971,7 @@ function run_tc7!(state::TCState; notebook_fresh_kernel::Bool=true)
     _require_previous(state, 7)
     state.data[:mode] == "full" && return _finish_full_run!(state; notebook_fresh_kernel)
     config = state.config
-    output_root = state.output_root
+    output_root = state.work_root
     train_tx, validation_tx = state.data[:train_tx], state.data[:validation_tx]
     run_id = only(state.data[:run_ids])
     model = state.data[:models][run_id]
@@ -664,9 +1003,6 @@ function run_tc7!(state::TCState; notebook_fresh_kernel::Bool=true)
     state.checks["tc7_transaction_reload_equal"] =
         read_transactions(joinpath(output_root, "train_transactions.txt")) == train_tx &&
         read_transactions(joinpath(output_root, "validation_transactions.txt")) == validation_tx ? "PASS" : "FAIL"
-    pipeline_status = all(==("PASS"), values(state.checks)) ? "PASS" : "FAIL"
-    notebook_status = notebook_fresh_kernel ? "PASS" : "NOT_RUN"
-    overall_status = pipeline_status == "PASS" && notebook_fresh_kernel ? "PASS" : "INCOMPLETE"
     tau = state.data[:tau]
     run = config["run"]
     open(joinpath(output_root, "effective_config.toml"), "w") do io
@@ -687,13 +1023,32 @@ function run_tc7!(state::TCState; notebook_fresh_kernel::Bool=true)
             "kmeans_iterations" => kmeans.iterations, "kmeans_objective" => kmeans.objective,
             "kmeans_converged" => kmeans.converged,
             "kmeans_wall_seconds" => state.data[:fit_summaries][1].elapsed_seconds,
+            "kmeans_backend" => kmeans.backend, "kmeans_stop_reason" => kmeans.stop_reason,
+            "kmeans_batch_size" => kmeans.batch_size,
+            "kmeans_initialization_seconds" => kmeans.initialization_seconds,
+            "kmeans_fit_seconds" => kmeans.fit_seconds,
             "kmeans_library" => kmeans.library, "kmeans_library_version" => kmeans.library_version,
             "kmeans_initialization" => kmeans.initialization, "kmeans_maxiter" => kmeans.maxiter,
-            "kmeans_tolerance" => kmeans.tolerance, "peak_rss_bytes" => Sys.maxrss(),
+            "kmeans_tolerance" => kmeans.tolerance,
+            "cuda_package_version" => kmeans.backend == "cuda" ?
+                string(Base.pkgversion(_cuda_backend().CUDA)) : "not_used",
+            "gpu_device_name" => get(state.data, :gpu_device_info,
+                (; name="not_used")).name,
+            "gpu_vram_bytes" => get(state.data, :gpu_device_info,
+                (; total_memory_bytes=0)).total_memory_bytes,
+            "timings" => state.data[:timings], "peak_rss_bytes" => Sys.maxrss(),
             "source_archive_sha256" => state.data[:archive_checksums],
             "descriptor_cache_sha256" => state.data[:descriptor_checksums],
             "eclat_frequent_itemsets_minsup_2" => length(frequent)))
     end
+    archive = _archive_run!(state, run_id, "tc7")
+    state.data[:timings]["archive_pack_seconds"] =
+        get(state.data[:timings], "archive_pack_seconds", 0.0) + archive.pack_seconds
+    state.data[:timings]["drive_archive_copy_seconds"] =
+        get(state.data[:timings], "drive_archive_copy_seconds", 0.0) + archive.drive_copy_seconds
+    pipeline_status = all(==("PASS"), values(state.checks)) ? "PASS" : "FAIL"
+    notebook_status = notebook_fresh_kernel ? "PASS" : "NOT_RUN"
+    overall_status = pipeline_status == "PASS" && notebook_fresh_kernel ? "PASS" : "INCOMPLETE"
     report = Dict("run_id" => run["run_id"], "mode" => "smoke", "status" => overall_status,
         "pipeline_status" => pipeline_status, "notebook_fresh_kernel" => notebook_status,
         "config_path" => state.config_path, "effective_config_path" => joinpath(output_root, "effective_config.toml"),
@@ -704,15 +1059,29 @@ function run_tc7!(state::TCState; notebook_fresh_kernel::Bool=true)
         "train_retained_descriptors" => size(state.data[:train_desc], 2),
         "validation_retained_descriptors" => size(state.data[:validation_desc], 2),
         "tau_train" => tau, "kmeans_fit_count" => 1, "kmeans_k" => config["tc4_codebook"]["k"],
+        "kmeans_initialization_seconds" => kmeans.initialization_seconds,
+        "kmeans_fit_seconds" => kmeans.fit_seconds,
+        "assignment_seconds" => only(state.data[:assignment_summaries]).assignment_seconds,
+        "descriptor_upload_seconds" => get(state.data[:timings], "descriptor_upload_seconds", 0.0),
+        "checkpoint_drive_seconds" => state.data[:fit_summaries][1].checkpoint_drive_seconds,
+        "checkpoint_resumed" => state.data[:fit_summaries][1].resumed,
         "train_transactions" => length(train_tx), "validation_transactions" => length(validation_tx),
-        "transaction_count" => length(all_transactions), "checks" => state.checks)
+        "transaction_count" => length(all_transactions), "checks" => state.checks,
+        "archive_path" => archive.path, "archive_sha256" => archive.sha256,
+        "archive_pack_seconds" => archive.pack_seconds,
+        "archive_drive_copy_seconds" => archive.drive_copy_seconds)
     run_id_json = _json_escape(run["run_id"])
     config_path_json = _json_escape(state.config_path)
     effective_config_path_json = _json_escape(report["effective_config_path"])
-    open(joinpath(output_root, "smoke_test_report.json"), "w") do io
-        print(io, "{\n  \"run_id\": \"$run_id_json\",\n  \"mode\": \"smoke\",\n  \"status\": \"$overall_status\",\n  \"pipeline_status\": \"$pipeline_status\",\n  \"notebook_fresh_kernel\": \"$notebook_status\",\n  \"config_path\": \"$config_path_json\",\n  \"effective_config_path\": \"$effective_config_path_json\",\n  \"elapsed_seconds\": $(report["elapsed_seconds"]),\n  \"tau_train\": $tau,\n  \"train_images\": $(report["train_images"]),\n  \"validation_images\": $(report["validation_images"]),\n  \"train_patches_before_filter\": $(report["train_patches_before_filter"]),\n  \"validation_patches_before_filter\": $(report["validation_patches_before_filter"]),\n  \"train_retained_descriptors\": $(report["train_retained_descriptors"]),\n  \"validation_retained_descriptors\": $(report["validation_retained_descriptors"]),\n  \"kmeans_fit_count\": 1,\n  \"kmeans_k\": $(report["kmeans_k"]),\n  \"train_transactions\": $(report["train_transactions"]),\n  \"validation_transactions\": $(report["validation_transactions"]),\n  \"checks\": {")
+    report_path = joinpath(output_root, "smoke_test_report.json")
+    open(report_path, "w") do io
+        print(io, "{\n  \"run_id\": \"$run_id_json\",\n  \"mode\": \"smoke\",\n  \"status\": \"$overall_status\",\n  \"pipeline_status\": \"$pipeline_status\",\n  \"notebook_fresh_kernel\": \"$notebook_status\",\n  \"config_path\": \"$config_path_json\",\n  \"effective_config_path\": \"$effective_config_path_json\",\n  \"elapsed_seconds\": $(report["elapsed_seconds"]),\n  \"tau_train\": $tau,\n  \"train_images\": $(report["train_images"]),\n  \"validation_images\": $(report["validation_images"]),\n  \"train_patches_before_filter\": $(report["train_patches_before_filter"]),\n  \"validation_patches_before_filter\": $(report["validation_patches_before_filter"]),\n  \"train_retained_descriptors\": $(report["train_retained_descriptors"]),\n  \"validation_retained_descriptors\": $(report["validation_retained_descriptors"]),\n  \"kmeans_fit_count\": 1,\n  \"kmeans_k\": $(report["kmeans_k"]),\n  \"kmeans_initialization_seconds\": $(_json_number(report["kmeans_initialization_seconds"])),\n  \"kmeans_fit_seconds\": $(report["kmeans_fit_seconds"]),\n  \"assignment_seconds\": $(report["assignment_seconds"]),\n  \"descriptor_upload_seconds\": $(report["descriptor_upload_seconds"]),\n  \"checkpoint_drive_seconds\": $(report["checkpoint_drive_seconds"]),\n  \"checkpoint_resumed\": $(report["checkpoint_resumed"]),\n  \"train_transactions\": $(report["train_transactions"]),\n  \"validation_transactions\": $(report["validation_transactions"]),\n  \"archive_path\": \"$(_json_escape(archive.path))\",\n  \"archive_sha256\": \"$(archive.sha256)\",\n  \"archive_pack_seconds\": $(archive.pack_seconds),\n  \"archive_drive_copy_seconds\": $(archive.drive_copy_seconds),\n  \"checks\": {")
         print(io, join(["\n    \"$key\": \"$(state.checks[key])\"" for key in sort!(collect(keys(state.checks)))], ","), "\n  }\n}\n")
     end
+    drive_report = joinpath(state.output_root, basename(report_path))
+    cp(report_path, drive_report; force=true)
+    bytes2hex(open(sha256, report_path)) == bytes2hex(open(sha256, drive_report)) ||
+        error("Smoke report trên Drive không khớp SHA-256")
     pipeline_status == "PASS" || error("TC smoke pipeline failed; xem smoke_test_report.json")
     return _finish_stage!(state, 7, "Export, reload và Eclat", report)
 end
@@ -736,24 +1105,49 @@ function _finish_full_run!(state::TCState; notebook_fresh_kernel)
             error("Train assignments không khớp descriptor ở $(fit.run_id)")
         length(assignments.valid_words) == size(state.data[:validation_desc], 2) ||
             error("Validation assignments không khớp descriptor ở $(fit.run_id)")
+        assignment = only(filter(row -> row.run_id == fit.run_id,
+            state.data[:assignment_summaries]))
+        archive = _archive_run!(state, fit.run_id, "tc7")
+        state.data[:timings]["archive_pack_seconds"] =
+            get(state.data[:timings], "archive_pack_seconds", 0.0) + archive.pack_seconds
+        state.data[:timings]["drive_archive_copy_seconds"] =
+            get(state.data[:timings], "drive_archive_copy_seconds", 0.0) + archive.drive_copy_seconds
         push!(summaries, merge(fit, (;
             train_descriptors=size(state.data[:train_desc], 2),
             validation_descriptors=size(state.data[:validation_desc], 2),
-            train_transactions=train_tx_count, validation_transactions=validation_tx_count)))
+            train_transactions=train_tx_count, validation_transactions=validation_tx_count,
+            assignment_seconds=assignment.assignment_seconds,
+            archive_path=archive.path, archive_sha256=archive.sha256,
+            archive_pack_seconds=archive.pack_seconds,
+            archive_drive_copy_seconds=archive.drive_copy_seconds)))
     end
     status = notebook_fresh_kernel && length(summaries) ==
         length(config["tc4_codebook"]["k_candidates"]) * length(config["tc4_codebook"]["random_seeds"]) ? "PASS" : "INCOMPLETE"
     state.checks["tc7_full_exports"] = status
     _write_csv(joinpath(state.output_root, "benchmark_summary.csv"),
-        ["run_id", "k", "seed", "train_descriptors", "validation_descriptors",
+        ["run_id", "k", "seed", "backend", "train_descriptors", "validation_descriptors",
             "train_transactions", "validation_transactions", "iterations", "converged",
-            "objective", "fit_seconds", "clustering_version"],
-        [(r.run_id, r.k, r.seed, r.train_descriptors, r.validation_descriptors,
+            "stop_reason", "objective", "initialization_seconds", "fit_seconds",
+            "assignment_seconds", "checkpoint_drive_seconds", "archive_pack_seconds",
+            "archive_drive_copy_seconds",
+            "resumed", "library_version", "archive_path", "archive_sha256"],
+        [(r.run_id, r.k, r.seed, r.backend, r.train_descriptors, r.validation_descriptors,
             r.train_transactions, r.validation_transactions, r.iterations, r.converged,
-            r.objective, r.elapsed_seconds, r.library_version) for r in summaries])
+            r.stop_reason, r.objective, r.initialization_seconds, r.fit_seconds,
+            r.assignment_seconds, r.checkpoint_drive_seconds, r.archive_pack_seconds,
+            r.archive_drive_copy_seconds,
+            r.resumed, r.library_version, r.archive_path, r.archive_sha256)
+            for r in summaries])
     open(joinpath(state.output_root, "run_metadata.toml"), "w") do io
         TOML.print(io, Dict("mode" => "full", "run_id" => config["run"]["run_id"],
             "julia_version" => string(VERSION), "train_images" => length(state.data[:train_ids]),
+            "backend" => _backend(state), "work_root" => state.work_root,
+            "cuda_package_version" => _backend(state) == "cuda" ?
+                string(Base.pkgversion(_cuda_backend().CUDA)) : "not_used",
+            "gpu_device_name" => get(state.data, :gpu_device_info,
+                (; name="not_used")).name,
+            "gpu_vram_bytes" => get(state.data, :gpu_device_info,
+                (; total_memory_bytes=0)).total_memory_bytes,
             "validation_images" => length(state.data[:validation_ids]), "tau_train" => state.data[:tau],
             "threshold_fit_split" => "train", "train_descriptors" => size(state.data[:train_desc], 2),
             "validation_descriptors" => size(state.data[:validation_desc], 2),
@@ -761,7 +1155,8 @@ function _finish_full_run!(state::TCState; notebook_fresh_kernel)
             "train_unique_patches" => state.data[:patch_duplicate_summary]["train"].unique,
             "validation_patch_duplicate_rate" => state.data[:patch_duplicate_summary]["validation"].duplicate_rate,
             "validation_unique_patches" => state.data[:patch_duplicate_summary]["validation"].unique,
-            "run_count" => length(summaries), "source_archive_sha256" => state.data[:archive_checksums]))
+            "run_count" => length(summaries), "timings" => state.data[:timings],
+            "source_archive_sha256" => state.data[:archive_checksums]))
     end
     report = (; mode="full", status, notebook_fresh_kernel, run_count=length(summaries),
         train_transactions=expected_train, validation_transactions=expected_validation,
@@ -777,8 +1172,9 @@ function _finish_full_run!(state::TCState; notebook_fresh_kernel)
 end
 
 """Chạy tuần tự cùng các cell TC0–TC7 với config smoke hoặc full."""
-function _run_pipeline(config_path; data_dir, output_root=nothing, notebook_fresh_kernel=false)
-    state = prepare_run(config_path; data_dir, output_root)
+function _run_pipeline(config_path; data_dir, output_root=nothing, work_root=nothing,
+    notebook_fresh_kernel=false)
+    state = prepare_run(config_path; data_dir, output_root, work_root)
     run_tc0!(state)
     run_tc1!(state)
     run_tc2!(state)
@@ -791,17 +1187,19 @@ function _run_pipeline(config_path; data_dir, output_root=nothing, notebook_fres
 end
 
 """CLI tương thích cho smoke; logic dùng chung với các cell TC và full run."""
-function run_smoke(config_path; data_dir, output_root=nothing, notebook_fresh_kernel::Bool=false)
+function run_smoke(config_path; data_dir, output_root=nothing, work_root=nothing,
+    notebook_fresh_kernel::Bool=false)
     read_config(config_path)["run"]["mode"] == "smoke" ||
         throw(ArgumentError("run_smoke yêu cầu mode=smoke"))
-    return _run_pipeline(config_path; data_dir, output_root, notebook_fresh_kernel)
+    return _run_pipeline(config_path; data_dir, output_root, work_root, notebook_fresh_kernel)
 end
 
 """CLI tương thích cho full; logic dùng chung với các cell TC và smoke run."""
-function run_full(config_path; data_dir, output_root=nothing, notebook_fresh_kernel::Bool=false)
+function run_full(config_path; data_dir, output_root=nothing, work_root=nothing,
+    notebook_fresh_kernel::Bool=false)
     read_config(config_path)["run"]["mode"] == "full" ||
         throw(ArgumentError("run_full yêu cầu mode=full"))
-    return _run_pipeline(config_path; data_dir, output_root, notebook_fresh_kernel)
+    return _run_pipeline(config_path; data_dir, output_root, work_root, notebook_fresh_kernel)
 end
 
 end # module FashionTC

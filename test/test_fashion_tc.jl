@@ -6,9 +6,29 @@ const TC = Main.EclatFIM.FashionTC
     repo_root = dirname(@__DIR__)
     smoke_config = TC.read_config(joinpath(repo_root,"configs","tc_smoke.toml"))
     full_config = TC.read_config(joinpath(repo_root,"configs","tc_full.toml"))
+    smoke_cuda_config = TC.read_config(joinpath(repo_root,"configs","tc_smoke_cuda.toml"))
+    full_cuda_config = TC.read_config(joinpath(repo_root,"configs","tc_full_cuda.toml"))
     @test smoke_config["run"]["mode"] == "smoke"
     @test full_config["run"]["mode"] == "full"
     @test occursin("tc", full_config["run"]["output_root"])
+    @test smoke_config["execution"]["backend"] == "cpu"
+    @test full_config["execution"]["backend"] == "cpu"
+    @test smoke_cuda_config["execution"]["backend"] == "cuda"
+    @test full_cuda_config["execution"]["backend"] == "cuda"
+    @test smoke_cuda_config["tc4_codebook"]["batch_size"] == 65_536
+    @test full_cuda_config["tc5_word_assignment"]["batch_size"] == 65_536
+
+    mktempdir() do root
+        drive_output = joinpath(root, "drive-output")
+        local_work = joinpath(root, "local-work")
+        state = TC.prepare_run(joinpath(repo_root, "configs", "tc_smoke.toml");
+            data_dir=joinpath(root, "not-yet-read"),
+            output_root=drive_output,
+            work_root=local_work)
+        @test state.output_root == drive_output
+        @test state.work_root == local_work
+        @test isempty(readdir(local_work))
+    end
 
     labels = repeat(collect(0:9), inner=3)
     @test TC.balanced_smoke_indices(labels, 2, 42) == TC.balanced_smoke_indices(labels, 2, 42)
@@ -55,4 +75,28 @@ const TC = Main.EclatFIM.FashionTC
     @test model_a.centroids == model_b.centroids
     @test model_a.library == "Clustering.jl"
     @test model_a.initialization == ":kmpp"
+
+    model_with_fixed_seed_points = TC.fit_kmeans(
+        Float32[0 0.1 0.9 1; 0 0.1 0.9 1];
+        k=2,
+        initial_indices=[1, 4],
+        maxiter=20,
+    )
+    @test model_with_fixed_seed_points.initialization == "provided descriptor indices"
+
+    if !TC.gpu_available()
+        @test_throws ArgumentError TC.fit_kmeans(
+            ones(Float32, 16, 8);
+            k=2,
+            backend="cuda",
+        )
+        mktempdir() do root
+            @test_throws ArgumentError TC.prepare_run(
+                joinpath(repo_root, "configs", "tc_smoke_cuda.toml");
+                data_dir=joinpath(root, "not-yet-read"),
+                output_root=joinpath(root, "drive-output"),
+                work_root=joinpath(root, "local-work"))
+            @test !isdir(joinpath(root, "not-yet-read"))
+        end
+    end
 end
