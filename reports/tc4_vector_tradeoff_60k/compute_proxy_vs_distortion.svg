@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="610" viewBox="0 0 920 610">
+<rect width="100%" height="100%" fill="white"/>
+<text x="90" y="25" font-size="18" font-family="sans-serif" font-weight="bold">Proxy chi phí và méo vector</text>
+<line x1="90" y1="495" x2="850" y2="495" stroke="#334155"/>
+<line x1="90" y1="45" x2="90" y2="495" stroke="#334155"/>
+<text x="470.0" y="585" text-anchor="middle" font-size="14" font-family="sans-serif">Compute proxy (lower is better)</text>
+<text transform="translate(22 270.0) rotate(-90)" text-anchor="middle" font-size="14" font-family="sans-serif">Normalized distortion</text>
+<polyline points="90.0,281.04471420345817 233.19917301235057,328.38275441274743 341.07202138788034,342.48568581587114 370.42226254389635,384.83893480246337 507.62721056974914,433.7174864305714 524.1691784716902,467.9367743038553 648.3908555899123,484.2299774578462 752.3424236804783,492.21717190907964 809.386722275502,494.3407288527863 850.0,495.0" fill="none" stroke="#111827" stroke-width="2" stroke-dasharray="6,4"/>
+<circle cx="850.0" cy="495.0" r="5" fill="#2563eb"/>
+<text x="857.0" y="490.0" font-size="10" font-family="sans-serif">B0</text>
+<circle cx="623.3707573607714" cy="451.0560428394491" r="5" fill="#dc2626"/>
+<text x="630.3707573607714" y="446.0560428394491" font-size="10" font-family="sans-serif">P12</text>
+<circle cx="396.74151472154284" cy="345.17864434178443" r="5" fill="#059669"/>
+<text x="403.74151472154284" y="340.17864434178443" font-size="10" font-family="sans-serif">P08</text>
+<circle cx="170.11227208231423" cy="45.0" r="5" fill="#7c3aed"/>
+<text x="177.11227208231423" y="40.0" font-size="10" font-family="sans-serif">P04</text>
+<circle cx="809.386722275502" cy="494.3407288527863" r="5" fill="#d97706"/>
+<text x="816.386722275502" y="489.3407288527863" font-size="10" font-family="sans-serif">Q05</text>
+<circle cx="752.3424236804783" cy="492.21717190907964" r="5" fill="#2563eb"/>
+<text x="759.3424236804783" y="487.21717190907964" font-size="10" font-family="sans-serif">Q10</text>
+<circle cx="648.3908555899123" cy="484.2299774578462" r="5" fill="#dc2626"/>
+<text x="655.3908555899123" y="479.2299774578462" font-size="10" font-family="sans-serif">Q20</text>
+<circle cx="524.1691784716902" cy="467.9367743038553" r="5" fill="#059669"/>
+<text x="531.1691784716902" y="462.9367743038553" font-size="10" font-family="sans-serif">Q32</text>
+<circle cx="590.4402221798581" cy="448.2750951831472" r="5" fill="#7c3aed"/>
+<text x="597.4402221798581" y="443.2750951831472" font-size="10" font-family="sans-serif">PQ12_A10</text>
+<circle cx="507.62721056974914" cy="433.7174864305714" r="5" fill="#d97706"/>
+<text x="514.6272105697492" y="428.7174864305714" font-size="10" font-family="sans-serif">PQ12_A25</text>
+<circle cx="370.42226254389635" cy="384.83893480246337" r="5" fill="#2563eb"/>
+<text x="377.42226254389635" y="379.83893480246337" font-size="10" font-family="sans-serif">PQ12_A50</text>
+<circle cx="341.07202138788034" cy="342.48568581587114" r="5" fill="#dc2626"/>
+<text x="348.07202138788034" y="337.48568581587114" font-size="10" font-family="sans-serif">PQ08_A10</text>
+<circle cx="233.19917301235057" cy="328.38275441274743" r="5" fill="#059669"/>
+<text x="240.19917301235057" y="323.38275441274743" font-size="10" font-family="sans-serif">PQ08_A25</text>
+<circle cx="90.0" cy="281.04471420345817" r="5" fill="#7c3aed"/>
+<text x="97.0" y="276.04471420345817" font-size="10" font-family="sans-serif">PQ08_A50</text>
+</svg>

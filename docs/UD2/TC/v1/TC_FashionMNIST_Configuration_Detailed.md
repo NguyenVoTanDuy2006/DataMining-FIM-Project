@@ -217,7 +217,7 @@ raw_descriptor = Float32.(vec(patch)) ./ 255f0  # length = 16
 
 ### TC3.2. Ma trận và cache
 
-- Với `Clustering.jl`, có thể dùng ma trận `X_train ∈ Float32^(16 × N_train_descriptors)` theo quy ước mỗi cột là một descriptor (phải kiểm tra API phiên bản sử dụng).
+- Backend CPU/CUDA dùng cùng quy ước `X_train ∈ Float32^(16 × N_train_descriptors)`: mỗi cột là một descriptor.
 - Không cần giữ 3,43 triệu ma trận patch Julia dạng từng object trong RAM; trích xuất/ghi vào ma trận dense hoặc cache nhị phân theo index.
 - Cache train/validation riêng, gắn với checksum ảnh nguồn, ngưỡng thực tế, layout, preprocessing code version.
 - Tránh lặp lại phần trích xuất descriptors cho mỗi K; **cache một lần rồi tái sử dụng**.
@@ -253,26 +253,34 @@ Huấn luyện **một codebook chung cho tất cả ảnh trong từng run**, s
 | `random_seeds` | `[42, 123, 2026]` |
 | `initialization` | K-means++ |
 | `max_iterations` | `300` (trần, dừng nếu hội tụ trước) |
-| `tolerance` | `1e-4` (cần khớp semantics của library) |
+| `tolerance` | `1e-4`, ngưỡng tuyệt đối của độ đổi objective giữa hai vòng Lloyd; hội tụ khi `abs(Δobjective) < tolerance` và objective không tăng quá tolerance |
 | `distance` | Squared Euclidean |
 | `dtype` | Float32 cho descriptor; tích lũy centroid/score có thể dùng Float64 nếu implementation hỗ trợ |
 | `runs` | 5 K × 3 seeds = **15 runs** cho T2 ở vòng benchmark |
 | `run_order` | Tuần tự từng run; không chạy 15 runs song song |
 | `checkpoint` | Lưu kết quả sau từng run; không bắt buộc resume giữa iteration |
 
-**Giới hạn cần kiểm tra bằng đo đạc:** Thư viện Julia đang dùng, tên/tham số init, tolerance, kiểu dữ liệu thực tế, cách xử lý cụm rỗng, mức cấp phát RAM; không khẳng định mọi thư viện có cùng API.
+**Quy ước hiện thực:** Backend CPU dùng Clustering.jl; backend CUDA dùng extension CUDA.jl. Cả hai dùng K-means++ và full-batch Lloyd. CUDA xử lý descriptor theo batch để giới hạn VRAM nhưng chỉ cập nhật tâm sau khi quét hết train. Lịch sử CUDA lưu objective, delta có dấu, centroid shift và cảnh báo objective tăng; max iteration không được ghi là hội tụ.
 
 ### TC4.3. Full-batch và chunking
 
 - **Full-batch Lloyd**: ở mỗi iteration, toàn bộ `N_train` descriptors phải được dùng để cập nhật centroids.
-- **Chunked full-batch** (nếu cần tối ưu RAM): đọc nhiều chunk (khởi đầu thử `16_384` descriptors/chunk), gán cụm, cộng dồn tổng/tần suất, rồi **chỉ cập nhật centroids sau khi duyệt hết toàn bộ dữ liệu**. Đây vẫn là Full-batch, ngoại trừ sai số số thực/chi tiết implementation.
+- **Chunked full-batch** (nếu cần tối ưu bộ nhớ): đọc nhiều batch (GPU mặc định `65_536` descriptors/batch), gán cụm, cộng dồn tổng/tần suất, rồi **chỉ cập nhật centroids sau khi duyệt hết toàn bộ dữ liệu**. Đây vẫn là Full-batch, ngoại trừ sai số số thực/chi tiết implementation.
 - **Mini-batch K-means**: cập nhật centroids thường xuyên từ batch nhỏ, là thuật toán gần đúng khác; **không dùng làm baseline nếu chưa quyết định đổi phương pháp**.
-- Nếu dùng `Clustering.jl` và RAM đáp ứng, ưu tiên chạy K-means qua thư viện, đo peak RAM/thời gian. `chunk_size` trong TC5 không tự động điều khiển việc fit TC4.
+- Với CPU, dùng Clustering.jl và đo RAM/thời gian. Với CUDA, tái sử dụng buffer khoảng cách giữa các batch/vòng lặp; `batch_size` không làm thành mini-batch K-means. `chunk_size` trong TC5 không tự động điều khiển việc fit TC4.
+
+### TC4.3.1. Đo thời gian CUDA
+
+- Làm nóng GPU bằng một fit nhỏ trước khi bắt đầu benchmark để loại thời gian biên dịch kernel khỏi phép đo chính.
+- Đồng bộ bằng `CUDA.synchronize()` trước và sau đoạn cần đo; nếu không, phép đo có thể chỉ ghi thời gian gửi công việc bất đồng bộ.
+- Báo riêng thời gian upload descriptor, khởi tạo K-means++, fit, assignment, tạo TAR và chép checkpoint/TAR lên Drive. Không gộp tốc độ Drive vào tốc độ K-means.
+- So CPU/GPU trên cùng tập con, cùng K, cùng seed points khởi tạo và cùng số vòng lặp; chỉ so objective/assignment trong sai số số học phù hợp.
+- Không kết luận tăng tốc T4 trước khi có số đo trên T4.
 
 ### TC4.4. Lịch benchmark
 
-1. Chạy **sanity run K=64, seed=42** trên toàn bộ T2 training descriptors; đo train wall time, iterations, peak RAM, objective.
-2. Nếu tài nguyên đáp ứng, thực hiện 15 runs (K × seed), từng run một; ghi errors/OOM nếu có.
+1. Trên T4, chạy `configs/tc_smoke_cuda.toml` bằng cùng notebook TC0–TC7 để kiểm tra driver, VRAM và pipeline.
+2. Khi smoke đạt, chọn `configs/tc_full_cuda.toml` để chạy 15 runs (K × seed), từng run một; ghi errors/OOM nếu có.
 3. Với mỗi run, tính validation metrics bằng **toàn bộ validation descriptors** (không fit lại).
 4. Tạo validation transactions của run để có transaction-level metrics; chạy pilot Eclat có kiểm soát cho các K triển vọng.
 5. Lập bảng tổng hợp mean ± std theo K, chọn 2–3 K triển vọng, so sánh visual centroids/pattern interpretability rồi chọn K cho pipeline chính.
@@ -514,8 +522,8 @@ Nếu implementation lưu ma trận khoảng cách `K × N_train` bằng Float32
 | 256 | 1.881,6 MB (~1,75 GiB) | 7,5264 tỷ |
 
 - Kích thước ma trận là **ví dụ theo implementation cụ thể**, không phải mọi thư viện K-means đều cấp phát ma trận này.
-- Nếu `chunk_size=16_384`, ma trận khoảng cách Float32 cho K=256 trong **một chunk** khoảng **16 MiB**; vẫn phải duyệt đủ dữ liệu mỗi vòng.
-- Chi phí một vòng Lloyd xấp xỉ `O(N × K × D)`; nếu 30 vòng thực tế thì nhân 30. Không thể xác định thời gian chạy cụ thể nếu không benchmark trên CPU/thư viện thực tế.
+- Với batch CUDA `65_536`, buffer khoảng cách Float32 cho K=256 tối đa khoảng **64 MiB**; vẫn phải duyệt đủ dữ liệu mỗi vòng.
+- Chi phí một vòng Lloyd xấp xỉ `O(N × K × D)`; nếu 30 vòng thực tế thì nhân 30. Không thể xác định thời gian chạy cụ thể nếu không benchmark trên thiết bị thực tế.
 
 ### 9.3. Mức tài nguyên khuyến nghị
 
@@ -523,11 +531,11 @@ Nếu implementation lưu ma trận khoảng cách `K × N_train` bằng Float32
 |---|---|
 | RAM | **16 GB** để bắt đầu; **32 GB** dễ xử lý các cấp phát trung gian với K lớn hơn |
 | CPU | 4–8 cores hoặc hơn; đo scaling threads thay vì giả định tuyến tính |
-| GPU | Không bắt buộc; baseline K-means CPU |
+| GPU | T4 Colab cho lưới full; CPU giữ làm backend đối chiếu và fallback |
 | Disk | Dự phòng khoảng 2–5 GB cho cache, codebooks, assignments, logs, các runs; tăng nếu lưu nhiều bản chi tiết |
 | Scheduling | Chạy tuần tự từng K/seed; cache train/validation descriptors, lưu metrics sau mỗi run |
 
-**Chốt tài nguyên thực nghiệm:** Chạy trước `K=64, seed=42` trên toàn bộ train descriptors để đo `peak_RAM`, `wall_time`, số iterations, hiệu năng I/O; nếu thiếu RAM mới cân nhắc chunked Full-batch Lloyd.
+**Chốt tài nguyên thực nghiệm:** Trên T4 chạy smoke CUDA trước để xác nhận GPU và luồng TC. Khi cần benchmark full, đổi sang config full trong cùng notebook; không cần config pilot riêng.
 
 ---
 
@@ -665,7 +673,7 @@ verify_eclat_support_denominator = true
 - [ ] TC1 có đúng 49 patch/ảnh, ánh xạ ID và tọa độ chính xác.
 - [ ] TC2 có T1/T2/T3 và số lượng giữ/loại từng split.
 - [ ] TC3 tạo Float32/255, 16 chiều, không mất ID.
-- [ ] TC4 thử K=64 seed=42 trước để đo tài nguyên.
+- [ ] Chạy smoke CUDA trên T4 trong notebook TC0–TC7; xác nhận counts, word IDs, transactions và checkpoint.
 - [ ] TC4 benchmark K×seeds, đánh giá stability đúng cách và lưu đầy đủ logs.
 - [ ] TC5 gán đúng một word/retained descriptor; batch không đổi output.
 - [ ] TC6 tạo 1 transaction/ảnh, item unique và sort, không dùng label/spatial.
