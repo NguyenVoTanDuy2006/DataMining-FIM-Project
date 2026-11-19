@@ -1,0 +1,8 @@
+dataset,backend,minsup,n_julia,n_spmf,exact_match
+chess,set,0.95,77,77,true
+chess,set,0.925,267,267,true
+chess,set,0.9,622,622,true
+chess,set,0.875,1386,1386,true
+chess,set,0.85,2669,2669,true
+chess,set,0.825,4777,4777,true
+chess,set,0.8,8227,8227,true

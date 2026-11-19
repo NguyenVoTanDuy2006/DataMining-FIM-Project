@@ -1,0 +1,8 @@
+dataset,backend,minsup,n_itemsets,median_seconds
+retail,set,0.1,9,0.1602873
+retail,set,0.08,13,0.1300073
+retail,set,0.06,15,0.1622901
+retail,set,0.04,18,0.1325194
+retail,set,0.02,55,0.1653829
+retail,set,0.01,159,0.2469541
+retail,set,0.005,580,0.6522409

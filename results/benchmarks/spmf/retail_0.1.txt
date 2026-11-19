@@ -1,0 +1,11 @@
+@FILETYPE="Frequent itemsets"
+@SOURCE="SPMF SOFTWARE https://philippe-fournier-viger.com/spmf/"
+33 #SUP: 15167
+39 #SUP: 15596
+40 #SUP: 50675
+42 #SUP: 14945
+49 #SUP: 42135
+42 49 #SUP: 9018
+42 40 #SUP: 11414
+39 40 #SUP: 10345
+49 40 #SUP: 29142

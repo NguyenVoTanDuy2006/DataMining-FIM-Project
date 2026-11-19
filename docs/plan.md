@@ -158,10 +158,14 @@ mine(transactions, minsup::Real; backend=:bitvector)
 
 ### Definition of Done
 
-- [ ] Dataset preprocess xong, mapping kiểm chứng được.
-- [ ] Có top 10 rules theo lift và ví dụ giải thích thực tế.
-- [ ] Đủ 4 benchmarks, mỗi dataset có nhiều minsup và dữ liệu gốc để tái lập.
-- [ ] Có biểu đồ runtime, memory, itemset count, scalability và thảo luận về dense/sparse.
+- [x] Dataset preprocess xong, mapping kiểm chứng được.
+- [x] Có top 10 rules theo lift và ví dụ giải thích thực tế.
+- [x] Đủ 4 benchmarks, mỗi dataset có nhiều minsup và dữ liệu gốc để tái lập.
+- [x] Có biểu đồ runtime, memory, itemset count, scalability và thảo luận về dense/sparse.
+
+Chứng cứ bàn giao: [checklist TV2](TV2_checklist.md),
+[báo cáo Groceries](report_groceries.md), [báo cáo benchmark](report_benchmark.md).
+Colab, bản lưu trữ dữ liệu và PDF chung vẫn cần hoàn tất trước khi nộp.
 
 ---
 

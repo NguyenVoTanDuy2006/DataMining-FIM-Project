@@ -42,7 +42,7 @@
 
 ## Tuần 4 — 23–28/11: demo, kiểm tra và bàn giao
 
-- [ ] **23/11 — Notebook chung:** bổ sung phần Fashion-MNIST vào `notebooks/demo.ipynb`: tải dữ liệu công khai, thiết lập Julia/seed, tạo codebook/giao dịch, gọi Eclat và hiển thị pattern/hình. Phối hợp Trung/Khang ghép luồng toy data, Groceries và benchmark; không dùng đường dẫn cá nhân.
+- [ ] **23/11 — Notebook chung:** bổ sung phần Fashion-MNIST vào `notebooks/demo.ipynb`: tải dữ liệu công khai, thiết lập Julia/seed, tạo codebook/giao dịch, gọi Eclat và hiển thị pattern/hình. Phối hợp Trung/Khang ghép luồng Groceries và bốn benchmark; không dùng đường dẫn cá nhân.
 - [ ] **24/11 — Colab sạch:** chạy toàn bộ notebook từ runtime mới, ghi thời gian chạy và sửa lỗi. Cập nhật README với cách tải dữ liệu, phiên bản Julia/package, lệnh chạy, seed và link Colab công khai. Chốt mục Fashion-MNIST cho PDF IEEE; kiểm tra hình/bảng có caption, được dẫn trong văn bản.
 - [ ] **25/11 — Review chéo và QA:** hoàn tất góp ý phần Groceries của Khang; nhận phản hồi của Trung cho phần visual mining. Kiểm tra script tạo lại hình/bảng và không commit dữ liệu thô lớn.
 - [ ] **26/11 — Bàn giao:** nhờ Trung hoặc Khang chạy phần Fashion-MNIST từ môi trường sạch; tự chạy lại notebook chung; kiểm tra link công khai. Gửi PR cuối gồm mã, test, hình, số liệu, mục báo cáo và README cho người tích hợp.

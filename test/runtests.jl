@@ -79,3 +79,9 @@ end
     @test_throws ArgumentError read_spmf_itemsets(IOBuffer("1 #SUP: nope\n"))
     @test_throws ArgumentError read_spmf_itemsets(IOBuffer("1 #SUP: 0\n"))
 end
+
+# Giữ test thuật toán ở trên và bổ sung test phần ứng dụng của TV2.
+include("test_groceries.jl")
+include("test_association_rules.jl")
+include("test_eclat_optimized.jl")
+include("test_benchmark.jl")

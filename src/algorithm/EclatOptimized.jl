@@ -1,20 +1,38 @@
+"""Count transaction support once per item, preserving duplicate transactions."""
+function count_item_supports(transactions::Vector{Vector{Int}})::Dict{Int, Int}
+    supports = Dict{Int, Int}()
+    last_seen_tid = Dict{Int, Int}()
+    for (tid, transaction) in enumerate(transactions), item in transaction
+        item > 0 || throw(ArgumentError("Item IDs must be positive"))
+        # transaction chỉ đóng góp 1 lần support của items
+        if get(last_seen_tid, item, 0) != tid
+            supports[item] = get(supports, item, 0) + 1
+            last_seen_tid[item] = tid
+        end
+    end
+    return supports
+end
+
 function build_vertical_bitvector(
-    transactions::Vector{Vector{Int}}
+    transactions::Vector{Vector{Int}},
+    min_count::Int = 1,
 )::Dict{Int, BitVector}
+    min_count > 0 || throw(ArgumentError("min_count must be positive"))
     n = length(transactions)
+    supports = count_item_supports(transactions)
     vertical = Dict{Int, BitVector}()
+    for (item, support) in supports
+        if support >= min_count
+            vertical[item] = falses(n)
+        end
+    end
 
     for (tid, transaction) in enumerate(transactions)
         for item in transaction
-            item > 0 || throw(
-                ArgumentError("Item IDs must be positive")
-            )
-
-            if !haskey(vertical, item)
-                vertical[item] = falses(n)
+            tids = get(vertical, item, nothing)
+            if tids !== nothing
+                tids[tid] = true
             end
-
-            vertical[item][tid] = true
         end
     end
 
@@ -85,14 +103,11 @@ function mine_optimized(
 
     results = Dict{Tuple{Vararg{Int}}, Int}()
 
-    for transaction in transactions, item in transaction
-        item > 0 || throw(ArgumentError("item IDs must be positive"))
-    end
-
     isempty(transactions) && return results
 
     min_count = ceil(Int, minsup * length(transactions))
-    vertical = build_vertical_bitvector(transactions)
+    # Validate/count every item first; allocate dense vectors only after pruning.
+    vertical = build_vertical_bitvector(transactions, min_count)
     candidates = get_frequent_items_bitvector(vertical, min_count)
 
     eclat_dfs_bitvector!(results, Int[], candidates, min_count)

@@ -1,0 +1,8 @@
+dataset,backend,minsup,n_itemsets,median_seconds
+mushroom,set,0.95,7,0.0131425
+mushroom,set,0.9,9,0.0125318
+mushroom,set,0.8,23,0.0151347
+mushroom,set,0.7,31,0.0131202
+mushroom,set,0.6,51,0.0208
+mushroom,set,0.5,153,0.0555123
+mushroom,set,0.4,565,0.1964119
