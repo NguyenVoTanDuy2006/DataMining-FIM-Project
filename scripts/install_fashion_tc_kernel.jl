@@ -3,7 +3,7 @@ using Pkg
 const ROOT = dirname(@__DIR__)
 const NOTEBOOK_ENV = joinpath(ROOT, "environments", "fashion_notebooks")
 Pkg.activate(NOTEBOOK_ENV)
-# IJulia chỉ phục vụ kernel; TC kích hoạt môi trường CPU/CUDA trong notebook.
+# IJulia chỉ phục vụ kernel; TC dùng môi trường project gốc và chạy trên CPU.
 cd(NOTEBOOK_ENV) do
     Pkg.develop(path="../..")
 end

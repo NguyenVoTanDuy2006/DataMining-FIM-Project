@@ -2,12 +2,12 @@
 
 **Phiên bản:** 1.0 — 15/11/2026  
 **Tài liệu gốc:** `TC_FashionMNIST_Configuration_Detailed.md` (TC0–TC7).  
-**Trạng thái:** Smoke CPU `T2_K8_seed42` đã chạy bằng notebook fresh-kernel và PASS; bộ test TC CPU và kiểm tra extension CUDA đã chạy trong môi trường local. Source hiện có backend CUDA, nhưng **chưa chạy kernel trên GPU thật/T4**; không có kết quả benchmark GPU. Chưa chạy production/15 fits.
+**Trạng thái:** Smoke CPU `T2_K8_seed42` đã chạy bằng notebook fresh-kernel và PASS; bộ test TC CPU đã chạy trong môi trường local. Chưa chạy production/15 fits.
 **Mục tiêu:** Hoàn thiện **notebook TC0–TC7, mỗi TC là một cell code riêng**, giữ trạng thái giữa các bước trong cùng phiên kernel và lưu artifacts vào thư mục smoke; kiểm tra chạy từ đầu đến cuối bằng **01 cấu hình smoke nhỏ**. **Không dùng kết quả smoke để chọn K hay kết luận chất lượng mô hình.**
 
 > **Nguyên tắc tiết kiệm thời gian/tài nguyên và lượt sửa bằng AI:** Trong giai đoạn phát triển, chỉ cần 01 smoke run `T2_K8_seed42` cho luồng chính. Không thực thi 15 K-means runs, không chạy toàn bộ 70k ảnh, không sinh mọi T1/T2/T3, không tạo centroid gallery toàn bộ và không quét nhiều minsup. Chỉ mở khóa full benchmark sau khi smoke end-to-end PASS.
 
-**Bằng chứng triển khai hiện tại:** `src/applications/FashionTC.jl`, `ext/FashionTCGPUCUDAExt.jl`, `environments/fashion_gpu/`, bốn config CPU/CUDA, `notebook/UD2/03_fashion_mnist_transaction_construction_cpu.ipynb` và `notebook/UD2/03_fashion_mnist_transaction_construction_gpu.ipynb`. CPU smoke trước đó dùng Clustering.jl 0.15.8, có `status=PASS`; source CUDA đã nạp/precompile được trong GPU environment nhưng GPU kernels chưa được thực thi vì máy này không có GPU. Mục E (full data/benchmark) chưa chạy.
+**Bằng chứng triển khai hiện tại:** `src/applications/FashionTC.jl`, các config CPU và `notebook/UD2/03_fashion_mnist_transaction_construction_cpu.ipynb`. CPU smoke dùng Clustering.jl 0.15.8, có `status=PASS`. Mục E (full data/benchmark) chưa chạy.
 
 ---
 
@@ -25,7 +25,7 @@
 | TC3 | Raw pixel, `Float32/255`, 16 chiều | Giống smoke |
 | TC4 | **K=8, seed=42, 1 fit**, full-batch Lloyd, K-means++, maxiter=20 | K∈{16,32,64,128,256}, seeds {42,123,2026}, maxiter=300; **15 fits** |
 | TC4 stability | **BỎ QUA** (1 seed không đủ đo stability) | Mean±std, ARI giữa seeds ở cùng K, occupancy/transaction statistics |
-| TC5 | Hard assignment; CPU `chunk_size=128` để kiểm tra nhiều chunk, CUDA `batch_size=65_536` | CPU `chunk_size=16_384`, CUDA `batch_size=65_536` |
+| TC5 | Hard assignment; `chunk_size=128` để kiểm tra nhiều chunk | `chunk_size=16_384` |
 | TC6 | Binary BoVW, unique + sort, không spatial | Giống smoke |
 | TC7 | Xuất **100 train + 20 validation = 120 transactions logic** | Xuất **60k + 10k = 70k transactions logic** |
 | Eclat integration | **1 pilot nhỏ** trên 120 transactions, không quét minsup | Pilot 2–3 K triển vọng, sau đó Eclat chính thức |
@@ -217,7 +217,7 @@ stop_on_first_failure = true
 ### C5. TC4 — K-means Codebook (smoke chỉ 1 fit)
 
 - [x] Chạy duy nhất `T2_K8_seed42`, **K=8, seed=42, maxiter=20**, full-batch; toàn bộ retained smoke-train descriptors được fit.
-- [x] CPU giữ Clustering.jl `0.15.8`, API `kmeans(...; init=:kmpp)`; CUDA dùng extension riêng, ghi thư viện/backend/version vào metadata.
+- [x] Dùng Clustering.jl `0.15.8`, API `kmeans(...; init=:kmpp)`; ghi thư viện và version vào metadata.
 - [x] Fit chỉ nhận train descriptors; validation chỉ được gán sau khi codebook hoàn tất.
 - [x] Centroids có shape **16×8** và hữu hạn.
 - [x] Lưu iterations, objective, convergence, wall time và peak RSS trong `run_metadata.toml`.
@@ -225,19 +225,6 @@ stop_on_first_failure = true
 - [x] `fit_kmeans` từ chối đầu vào có ít hơn K descriptors.
 
 **Gate C5:** 01 codebook hợp lệ được tạo và reload thành công, không chạy thừa 14 fits.
-
-### C5.1. Backend CUDA — trạng thái triển khai
-
-- [x] CUDA là extension tùy chọn; project CPU vẫn nạp được khi không cài CUDA hoặc không có NVIDIA GPU.
-- [x] Backend CUDA báo lỗi trước khi đọc dataset nếu `CUDA.functional()` là false.
-- [x] TC4 giữ full-batch Lloyd: xử lý hết các batch rồi mới cập nhật tâm; tái dùng buffer khoảng cách.
-- [x] Checkpoint codebook/history lưu dạng đọc được từ CPU, fingerprint phân biệt backend và cấu hình, checksum được kiểm trước khi nạp.
-- [x] Lưu objective/delta từng vòng; `tolerance` là độ đổi objective tuyệt đối như Clustering.jl; max-iteration được ghi chưa hội tụ.
-- [x] Có config smoke/full cho CPU và CUDA; cả bốn chọn cùng một notebook/pipeline TC0–TC7.
-- [ ] Chạy smoke CUDA trên T4; đối chiếu assignment, tie-break, cụm rỗng, batch không chia hết và objective với CPU.
-- [ ] Sau khi smoke CUDA đạt, chạy `configs/tc_full_cuda.toml` (15 fits) khi cần; ghi Julia/CUDA/GPU version và thời gian đo thực.
-
-GPU runtime dự kiến khai báo trong `environments/fashion_gpu/`; project chính giữ Julia tối thiểu 1.9 và backend CPU. Runtime CUDA đã thử nạp trên Julia 1.13.3/CUDA.jl 5.11.3 nhưng không có thiết bị, vì vậy đây chỉ là xác minh môi trường/package, không phải xác minh GPU.
 
 ### C6. TC5 — Visual Word Assignment
 
@@ -329,7 +316,7 @@ GPU runtime dự kiến khai báo trong `environments/fashion_gpu/`; project ch�
 - [ ] Chuyển sang config production **một cách tường minh**; kiểm tra `mode=full` và output paths riêng.
 - [ ] TC0 tính lại Q10+ từ **60.000 train**; lưu ngưỡng này, không dùng ngưỡng smoke hoặc EDA1=29 để fit.
 - [ ] Chạy TC1–TC3 **60.000 train + 10.000 validation**, cache toàn bộ retained descriptors; ghi nhận reduction thực tế.
-- [ ] Trên T4, chạy `configs/tc_smoke_cuda.toml` qua notebook TC0–TC7; chỉ khi smoke đạt mới chọn `configs/tc_full_cuda.toml` cho full run.
+- [ ] Chạy `configs/tc_smoke.toml` qua notebook TC0–TC7; chỉ khi smoke đạt mới chạy `configs/tc_full.toml`.
 
 ### E2. Main K benchmark
 

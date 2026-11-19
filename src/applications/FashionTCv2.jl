@@ -362,7 +362,9 @@ function run_tc4!(state::TCv2State)
     end
     size(state.descriptor_matrix, 2) >= maximum(k_values) || error("Not enough retained descriptors for max K")
     pairs = [(k, seed) for k in k_values for seed in seeds]
-    for (k, seed) in pairs
+    println("[TC4] START method=$method | fits=$(length(pairs)) | K=$(join(k_values, ',')) | seeds=$(join(seeds, ',')) | descriptors=$(size(state.descriptor_matrix, 2)) | backend=Clustering.jl CPU")
+    flush(stdout)
+    for (fit_index, (k, seed)) in enumerate(pairs)
         run_id = _run_name(method, k, seed)
         run_dir = _run_directory(state, run_id)
         mkpath(run_dir)
@@ -374,6 +376,10 @@ function run_tc4!(state::TCv2State)
         codebook_path = joinpath(run_dir, "codebook.bin")
         model = nothing
         metrics = nothing
+        maxiter = config["max_iterations"]
+        tolerance = config["tolerance"]
+        println("[TC4 $fit_index/$(length(pairs))] START $run_id | descriptors=$(size(state.descriptor_matrix, 2)) | maxiter=$maxiter | tol=$tolerance")
+        flush(stdout)
         if isfile(cp) && isfile(codebook_path)
             saved = TOML.parsefile(cp)
             if saved["fingerprint"] == fingerprint && saved["codebook_sha256"] == _sha256(codebook_path)
@@ -413,6 +419,16 @@ function run_tc4!(state::TCv2State)
         state.run_ids = vcat(state.run_ids, run_id)
         state.run_dirs[run_id] = run_dir
         state.checks["tc4_$(run_id)"] = metrics["status"]
+        fit_status = metrics["status"]
+        iterations = metrics["iterations"]
+        converged = metrics["converged"]
+        distortion = round(metrics["distortion_mean_squared"]; sigdigits=6)
+        occupancy = metrics["occupancy_used"]
+        top_share = round(metrics["top_cluster_share"]; digits=4)
+        entropy = round(metrics["normalized_entropy"]; digits=4)
+        fit_seconds = round(metrics["fit_seconds"]; digits=2)
+        println("[TC4 $fit_index/$(length(pairs))] $fit_status $run_id | iterations=$iterations | converged=$converged | distortion=$distortion | occupancy=$occupancy/$k | top_share=$top_share | entropy=$entropy | fit=$(fit_seconds)s | checkpoint=$cp")
+        flush(stdout)
     end
 
     # ARI uses one fixed descriptor sample for every seed and never participates

@@ -2,7 +2,7 @@
 
 julia_version = "1.13.3"
 manifest_format = "2.1"
-project_hash = "41e587f97e6d6e7e8419642099eadee67a7f4ee3"
+project_hash = "822eab4e566dc2c3489aad3c611e53bceffa2e87"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "2d9c9a55f9c93e8887ad391fbae72f8ef55e1177"
@@ -93,12 +93,6 @@ deps = ["Clustering", "CodecZlib", "Downloads", "LinearAlgebra", "Random", "SHA"
 path = "."
 uuid = "f035e606-8504-4775-8232-c73e28f25aa6"
 version = "0.1.0"
-
-    [deps.EclatFIM.extensions]
-    FashionTCGPUCUDAExt = "CUDA"
-
-    [deps.EclatFIM.weakdeps]
-    CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"

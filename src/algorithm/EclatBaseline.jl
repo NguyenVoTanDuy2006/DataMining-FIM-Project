@@ -2,12 +2,20 @@
 
 `min_count` is an absolute support count. Empty transactions count in the
 database denominator, while duplicate items within a transaction are ignored.
+`max_length`, `deadline`, and `max_itemsets` provide additive limits for
+bounded exploratory runs. A limit raises an exception; partial output is never
+returned as a complete result.
 """
-function mine(transactions::AbstractVector{<:AbstractVector{<:Integer}}, min_count::Integer; backend::Symbol=:set)
+function mine(transactions::AbstractVector{<:AbstractVector{<:Integer}}, min_count::Integer;
+    backend::Symbol=:set, max_length::Integer=typemax(Int), deadline::Union{Nothing,Real}=nothing,
+    max_itemsets::Integer=typemax(Int))
     backend == :set || throw(ArgumentError("Baseline backend supports only :set"))
     min_count > 0 || throw(ArgumentError("min_count must be positive"))
+    max_length > 0 || throw(ArgumentError("max_length must be positive"))
+    max_itemsets > 0 || throw(ArgumentError("max_itemsets must be positive"))
     vertical = Dict{Int,Set{Int}}()
     for (tid, transaction) in enumerate(transactions)
+        !isnothing(deadline) && time() > deadline && throw(InterruptException())
         for item in unique(transaction)
             item > 0 || throw(ArgumentError("Item IDs must be positive"))
             push!(get!(vertical, Int(item), Set{Int}()), tid)
@@ -17,12 +25,16 @@ function mine(transactions::AbstractVector{<:AbstractVector{<:Integer}}, min_cou
     result = Dict{Tuple{Vararg{Int}},Int}()
     function visit(prefix::Tuple, candidates::Vector{Tuple{Int,Set{Int}}})
         for i in eachindex(candidates)
+            !isnothing(deadline) && time() > deadline && throw(InterruptException())
             item, tids = candidates[i]
             length(tids) >= min_count || continue
             itemset = (prefix..., item)
             result[itemset] = length(tids)
+            length(result) > max_itemsets && throw(OverflowError("max_itemsets exceeded"))
+            length(itemset) >= max_length && continue
             suffix = Tuple{Int,Set{Int}}[]
             for j in (i + 1):length(candidates)
+                !isnothing(deadline) && time() > deadline && throw(InterruptException())
                 next_item, next_tids = candidates[j]
                 common = intersect(tids, next_tids)
                 length(common) >= min_count && push!(suffix, (next_item, common))

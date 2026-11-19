@@ -30,10 +30,9 @@ julia --project=environments/fashion_notebooks -e 'using IJulia; IJulia.notebook
 ```
 
 Choose the Julia Fashion-MNIST TC kernel in Jupyter. Each notebook activates
-its runtime environment from a fresh kernel. TC uses the repository root for
-CPU or `environments/fashion_gpu/` for CUDA; smoke/full share the same runtime
-for their backend. `environments/fashion_notebooks/` holds IJulia and the PNG
-export tools needed by notebook 01, keeping them out of TC's dependencies.
+its runtime environment from a fresh kernel. TC uses the repository root and
+runs on CPU. `environments/fashion_notebooks/` holds IJulia and the PNG export
+tools needed by notebook 01, keeping them out of TC's dependencies.
 
 ## Fashion-MNIST: dataset validation and EDA
 
@@ -47,8 +46,7 @@ Notebook 02 reports class counts and black-pixel fractions, selects one
 training image per class with seed 42, displays the sample grid, and saves the
 CSV, SVG, index list, summary, and metadata to `results/fashion/`.
 
-Latest verification: Julia 1.13.3; **43/43 tests pass**; both notebooks execute
-from fresh Julia kernels; 6,000 train and 1,000 test images per class. See
-`results/fashion/` for the validation report and EDA outputs.
+Run the commands above to verify the current checkout. See `results/fashion/`
+for the validation report and EDA outputs.
 
 Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.
