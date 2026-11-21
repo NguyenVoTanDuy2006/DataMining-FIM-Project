@@ -13,6 +13,7 @@ import json
 import math
 import pathlib
 import random
+import re
 import struct
 import tomllib
 import zlib
@@ -24,6 +25,56 @@ FASHION_CLASSES = ("T-shirt/top", "Trouser", "Pullover", "Dress", "Coat",
                    "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot")
 ANNOTATION_FIELDS = ["pattern_id", "decodable", "witness_valid", "review_status", "visual_coherence",
                      "interpretation", "limitations", "reviewer", "reviewed_at", "evidence_paths"]
+
+
+def parse_stable_image_id(value: str) -> tuple[str, int]:
+    matched = re.fullmatch(r"(train):(0|[1-9][0-9]*)|(test):(0|[1-9][0-9]*)", value)
+    if not matched:
+        raise ValueError(f"Invalid Fashion-MNIST image ID: {value}")
+    split = matched.group(1) or matched.group(3)
+    index = int(matched.group(2) or matched.group(4))
+    if index >= (60_000 if split == "train" else 10_000):
+        raise ValueError(f"Fashion-MNIST image ID is out of range: {value}")
+    return split, index
+
+
+def parse_selected_itemset_row(row: dict) -> dict:
+    try:
+        order = int(row["selection_order"])
+        backend = row["backend"]
+        minsup_percent = int(row["minsup_percent"])
+        raw_items = json.loads(row["items"])
+        support_count = int(row["support_count"])
+        pattern_id = row["pattern_id"].strip()
+    except (KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
+        raise ValueError(f"Invalid selected-itemset CSV row: {error}") from error
+    if order < 1 or backend != "set" or minsup_percent not in {80, 60, 40, 20, 10, 5}:
+        raise ValueError("Selection must use a positive order, Set backend, and one release threshold")
+    if not isinstance(raw_items, list) or not raw_items or any(type(item) is not int or item not in range(1, 33) for item in raw_items):
+        raise ValueError("Selected items must be a non-empty array of visual word IDs 1:32")
+    if raw_items != sorted(set(raw_items)):
+        raise ValueError("Selected items must be sorted and unique")
+    if not int(round(minsup_percent / 100 * 70_000)) <= support_count <= 70_000 or not pattern_id:
+        raise ValueError("Selected itemset support or pattern_id is invalid")
+    return {**row, "selection_order": order, "backend": backend,
+            "minsup_percent": minsup_percent, "items_tuple": tuple(raw_items),
+            "items_set": set(raw_items), "support_count": support_count,
+            "length": len(raw_items), "pattern_id": pattern_id,
+            "observed_at_minsup": f"{minsup_percent}%"}
+
+
+def validate_retrieval_count(expected_support: int, image_ids) -> None:
+    if len(image_ids) != expected_support:
+        raise ValueError(f"Retrieved image count {len(image_ids)} differs from support {expected_support}")
+
+
+def validate_class_count_reconciliation(class_counts: dict, expected_support: int) -> None:
+    if sum(class_counts.values()) != expected_support:
+        raise ValueError("Class support counts do not sum to retrieved support")
+
+
+def initial_review_status() -> str:
+    return "PENDING_REVIEW"
 
 
 def csv_rows(path: pathlib.Path):
@@ -48,28 +99,34 @@ def write_csv_atomic(path: pathlib.Path, fields: list[str], rows) -> None:
 
 
 def load_selected(output_dir: pathlib.Path) -> list[dict]:
-    path = output_dir / "analysis" / "representative_patterns.csv"
+    path = output_dir / "mining" / "selected_itemsets.csv"
     if not path.is_file():
-        raise FileNotFoundError("Run the mining analysis first; representative_patterns.csv is missing")
+        raise FileNotFoundError("Select Set itemsets in Notebook 03 first; mining/selected_itemsets.csv is missing")
     patterns = []
     for row in csv_rows(path):
-        items = tuple(int(item) for item in row["items"].split(";") if item)
-        patterns.append({**row, "observed_at_minsup": row.get("reference_minsup", "NA"),
-                         "items_tuple": items, "items_set": set(items),
-                         "support_count": int(row["support_count"]), "length": len(items),
-                         "selection_order": int(row["selection_order"])})
+        patterns.append(parse_selected_itemset_row(row))
     if not patterns:
-        raise RuntimeError("No representative itemsets were selected from final-committed outputs")
+        raise RuntimeError("No Set itemsets were selected for interpretation")
+    if len(patterns) not in {3, 4}:
+        raise ValueError("Automatic representative selection must contain exactly 3 or 4 itemsets")
+    if len({row["pattern_id"] for row in patterns}) != len(patterns):
+        raise ValueError("Selected itemset CSV contains duplicate pattern IDs")
+    if sorted(row["selection_order"] for row in patterns) != list(range(1, len(patterns) + 1)):
+        raise ValueError("Selected itemset orders must be contiguous starting from 1")
     return patterns
 
 
-def load_metadata(source_dir: pathlib.Path) -> tuple[dict[int, dict], dict[int, dict], dict[int, int], bool]:
+def _parse_image_key(value: str):
+    return parse_stable_image_id(value) and value if ":" in value else int(value)
+
+
+def load_metadata(source_dir: pathlib.Path) -> tuple[dict, dict, dict[int, int], bool]:
     metadata_path = source_dir / "image_metadata.csv"
     mapping_path = source_dir / "tid_image_mapping.csv"
     metadata = {}
     labels_complete = True
     for row in csv_rows(metadata_path):
-        image_id = int(row["image_id"])
+        image_id = _parse_image_key(row["image_id"])
         if image_id in metadata:
             raise ValueError(f"Duplicate image_id in image_metadata.csv: {image_id}")
         raw_label = row.get("class_label", "").strip()
@@ -80,15 +137,32 @@ def load_metadata(source_dir: pathlib.Path) -> tuple[dict[int, dict], dict[int, 
         if label is not None and not 0 <= label < len(FASHION_CLASSES):
             label = None
         labels_complete = labels_complete and label is not None
-        metadata[image_id] = {"image_id": image_id, "original_split": row["original_split"],
-                              "original_index": int(row["original_index"]), "class_label": label}
+        release_schema = "source_index" in row and "split" in row
+        split = row["split"] if release_schema else row["original_split"]
+        source_index = int(row["source_index"]) if release_schema else int(row["original_index"]) - 1
+        if isinstance(image_id, str):
+            parsed_split, parsed_index = parse_stable_image_id(image_id)
+            if (parsed_split, parsed_index) != (split, source_index):
+                raise ValueError(f"Stable image ID does not match metadata split/index: {image_id}")
+        if source_index < 0:
+            raise ValueError(f"Invalid source index for image {image_id}")
+        metadata[image_id] = {"image_id": image_id, "original_split": split,
+                              "original_index": source_index + 1, "class_label": label}
     tid_mapping = {}
     for row in csv_rows(mapping_path):
         tid = int(row["tid"])
         if tid in tid_mapping:
             raise ValueError(f"Duplicate TID in tid_image_mapping.csv: {tid}")
-        tid_mapping[tid] = {"tid": tid, "image_id": int(row["image_id"]),
-                            "original_split": row["original_split"], "original_index": int(row["original_index"])}
+        image_id = _parse_image_key(row["image_id"])
+        release_schema = "source_index" in row and "split" in row
+        split = row["split"] if release_schema else row["original_split"]
+        source_index = int(row["source_index"]) if release_schema else int(row["original_index"]) - 1
+        if isinstance(image_id, str):
+            parsed_split, parsed_index = parse_stable_image_id(image_id)
+            if (parsed_split, parsed_index) != (split, source_index):
+                raise ValueError(f"Stable image ID does not match TID mapping split/index: {image_id}")
+        tid_mapping[tid] = {"tid": tid, "image_id": image_id,
+                            "original_split": split, "original_index": source_index + 1}
     class_totals = {label: 0 for label in range(len(FASHION_CLASSES))}
     if len(metadata) != 70_000 or len(tid_mapping) != 70_000:
         raise ValueError(f"Expected 70,000 metadata/mapping rows; got {len(metadata)}/{len(tid_mapping)}")
@@ -179,7 +253,28 @@ def verify_raw_assets(source_dir: pathlib.Path, raw_dir: pathlib.Path) -> dict:
             "missing_image_archives": missing_image_archives}
 
 
-def attach_verified_labels(metadata: dict[int, dict], assets: dict) -> tuple[dict[int, int], bool, str]:
+def find_repo_root(start: pathlib.Path) -> pathlib.Path:
+    current = start.resolve()
+    while current != current.parent:
+        if (current / "Project.toml").is_file() and (current / "src" / "EclatFIM.jl").is_file():
+            return current
+        current = current.parent
+    raise FileNotFoundError(f"Could not find repository root from {start}")
+
+
+def verified_artifact_path(repo_root: pathlib.Path, manifest: dict, artifact_name: str) -> pathlib.Path:
+    try:
+        artifact = manifest["artifacts"][artifact_name]
+        path = repo_root / artifact["path"]
+        expected_hash = artifact["sha256"]
+    except (KeyError, TypeError) as error:
+        raise ValueError(f"TC7 manifest is missing artifact {artifact_name}") from error
+    if not path.is_file() or supervisor.sha256_file(path) != expected_hash:
+        raise ValueError(f"TC7 artifact failed its path/hash check: {artifact_name}")
+    return path
+
+
+def attach_verified_labels(metadata: dict, assets: dict) -> tuple[dict[int, int], bool, str]:
     raw_labels = assets["labels"]
     if raw_labels is not None:
         for image in metadata.values():
@@ -255,7 +350,7 @@ def collect_visual_asset_blockers(centroids_available: bool, assets: dict, patch
     return blockers
 
 
-def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], metadata: dict[int, dict],
+def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], metadata: dict,
                              tid_mapping: dict[int, dict]) -> dict:
     supporters = {row["pattern_id"]: [] for row in patterns}
     labels_available = all(row["class_label"] is not None for row in metadata.values())
@@ -269,7 +364,12 @@ def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], met
     with open(input_path, encoding="utf-8") as stream:
         for line_number, line in enumerate(stream, 1):
             transaction = json.loads(line)
-            tid, image_id = int(transaction["tid"]), int(transaction["image_id"])
+            tid = int(transaction["tid"])
+            image_id = transaction["image_id"]
+            if isinstance(image_id, str):
+                parse_stable_image_id(image_id)
+            else:
+                image_id = int(image_id)
             mapping = tid_mapping.get(tid)
             if mapping is None or mapping["image_id"] != image_id:
                 raise ValueError(f"JSONL row to TID/image mapping mismatch on row {line_number}")
@@ -287,7 +387,7 @@ def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], met
                     support_counts[pattern_id] += 1
                 else:
                     overlap = len(query & items)
-                    candidate = (overlap, -image_id, image_id)
+                    candidate = (overlap, str(image_id), image_id)
                     if contrasts[pattern_id] is None or candidate > contrasts[pattern_id]:
                         contrasts[pattern_id] = candidate
                         contrast_items[pattern_id] = tuple(sorted(query & items))
@@ -295,11 +395,9 @@ def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], met
         raise ValueError(f"Expected 70,000 transaction lines during retrieval scan, read {rows}")
     for pattern in patterns:
         pattern_id = pattern["pattern_id"]
-        if support_counts[pattern_id] != pattern["support_count"]:
-            raise ValueError(f"Retrieved count differs from Eclat support for {pattern_id}: "
-                             f"{support_counts[pattern_id]} != {pattern['support_count']}")
-        if class_counts is not None and sum(class_counts[pattern_id].values()) != support_counts[pattern_id]:
-            raise ValueError(f"Class support counts do not sum to retrieved support for {pattern_id}")
+        validate_retrieval_count(pattern["support_count"], supporters[pattern_id])
+        if class_counts is not None:
+            validate_class_count_reconciliation(class_counts[pattern_id], support_counts[pattern_id])
     return {"supporters": supporters, "class_counts": class_counts,
             "labels_available": labels_available,
             "support_counts": support_counts,
@@ -307,7 +405,7 @@ def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], met
             "contrast_items": contrast_items}
 
 
-def sample_supporters(patterns: list[dict], evidence: dict, metadata: dict[int, dict], seed: int = 42,
+def sample_supporters(patterns: list[dict], evidence: dict, metadata: dict, seed: int = 42,
                       maximum: int = 6) -> tuple[dict, dict]:
     samples = {}
     contrast_ids = {}
@@ -352,7 +450,7 @@ def selected_patch_witnesses(path: pathlib.Path, patterns: list[dict], sample_id
                     for words in patterns_for_image.values() for word in words}
     with open(path, newline="", encoding="utf-8") as stream:
         for row in csv.DictReader(stream):
-            image_id, word = int(row["image_id"]), int(row["word_id"])
+            image_id, word = _parse_image_key(row["image_id"]), int(row["word_id"])
             if image_id not in image_pattern_words or word not in wanted_words:
                 continue
             for pattern_id, words in image_pattern_words[image_id].items():
@@ -395,7 +493,7 @@ def idx_patch_from_assignment(pixels: bytes, meta: dict, row: dict) -> tuple[byt
     return patch_pixels(pixels, meta, row["patch_row"], row["patch_col"])
 
 
-def find_nearest_exemplars(assignments_path: pathlib.Path, patterns: list[dict], metadata: dict[int, dict],
+def find_nearest_exemplars(assignments_path: pathlib.Path, patterns: list[dict], metadata: dict,
                            images: dict, centroids: dict[int, tuple[float, ...]], maximum: int = 3) -> dict:
     needed_words = sorted({word for pattern in patterns for word in pattern["items_tuple"]})
     best = {word: [] for word in needed_words}
@@ -404,7 +502,7 @@ def find_nearest_exemplars(assignments_path: pathlib.Path, patterns: list[dict],
             word = int(row["word_id"])
             if word not in best:
                 continue
-            image_id = int(row["image_id"])
+            image_id = _parse_image_key(row["image_id"])
             meta = metadata.get(image_id)
             if meta is None:
                 raise ValueError(f"Patch assignment references unknown image {image_id}")
@@ -441,7 +539,7 @@ def add_svg_image(parts: list[str], href: str, x: float, y: float, width: float,
         parts.append(f'<text x="{x+width/2:.1f}" y="{y+height+16:.1f}" text-anchor="middle" font-family="sans-serif" font-size="11">{html.escape(label)}</text>')
 
 
-def create_pattern_card(path: pathlib.Path, pattern: dict, metadata: dict[int, dict], images: dict,
+def create_pattern_card(path: pathlib.Path, pattern: dict, metadata: dict, images: dict,
                         centroids: dict[int, tuple[float, ...]], exemplars: dict,
                         sample_ids: list[int], contrast_id: int | None, witnesses: dict,
                         class_counts: dict | None) -> dict:
@@ -587,25 +685,47 @@ def preserve_annotations(path: pathlib.Path, patterns: list[dict], annotation_de
 
 
 def run_interpretation(output_dir: pathlib.Path, raw_dir: pathlib.Path) -> dict:
-    config = supervisor.load_config(output_dir)
-    root = pathlib.Path(config["repo_root"])
-    source_dir = root / pathlib.Path(config["input_source_path"]).parent
-    input_path = root / config["input_source_path"]
+    root = find_repo_root(output_dir)
+    tc7_path = output_dir / "transactions" / "tc7_manifest.toml"
+    mining_manifest_path = output_dir / "mining" / "mining_manifest.toml"
+    if not tc7_path.is_file() or not mining_manifest_path.is_file():
+        raise FileNotFoundError("Interpretation requires both the TC7 and mining manifests")
+    with open(tc7_path, "rb") as stream:
+        tc7 = tomllib.load(stream)
+    with open(mining_manifest_path, "rb") as stream:
+        mining_manifest = tomllib.load(stream)
+    if tc7.get("status") != "PASS" or tc7.get("configuration", {}).get("transaction_variant") != "S0":
+        raise ValueError("TC7 manifest is not a passing B0/K32/seed123/S0 release")
+    input_path = verified_artifact_path(root, tc7, "transactions")
+    source_codebook = verified_artifact_path(root, tc7, "codebook")
+    source_dir = source_codebook.parent
     source_digest = supervisor.sha256_file(input_path)
-    if source_digest != config["input_sha256"]:
-        raise ValueError("Locked transaction JSONL changed before interpretation")
+    if source_digest != tc7.get("transaction_sha256") or source_digest != mining_manifest.get("transaction_sha256"):
+        raise ValueError("TC7 and mining manifests do not identify the same transaction JSONL")
+    if mining_manifest.get("tc7_manifest_sha256") != supervisor.sha256_file(tc7_path):
+        raise ValueError("Mining manifest does not identify the current TC7 manifest")
+    config = {"configuration": "B0_K32_seed123_S0", "input_sha256": source_digest,
+              "repo_root": str(root), "input_source_path": input_path.relative_to(root).as_posix()}
     patterns = load_selected(output_dir)
+    selected_path = output_dir / "mining" / "selected_itemsets.csv"
+    selected_hash = supervisor.sha256_file(selected_path)
+    if mining_manifest.get("selected_itemsets_sha256") != selected_hash:
+        raise ValueError("Mining manifest does not identify the current selected-itemset CSV")
+    metadata_path = verified_artifact_path(root, tc7, "image_metadata")
+    mapping_path = verified_artifact_path(root, tc7, "tid_image_mapping")
+    patch_assignments = verified_artifact_path(root, tc7, "patch_assignments")
+    for required_path in (metadata_path, mapping_path, patch_assignments):
+        if required_path.parent != source_dir:
+            raise ValueError("TC7 release artifacts must share one transactions directory")
     metadata, tid_mapping, _, _ = load_metadata(source_dir)
-    codebook_path = output_dir / "interpretation" / "codebook_centroids.csv"
-    source_codebook = source_dir / "codebook.bin"
-    centroids = load_centroids(codebook_path) if source_codebook.is_file() else None
-    if centroids is None:
-        codebook_path.unlink(missing_ok=True)
+    centroids_path = verified_artifact_path(root, tc7, "centroids")
+    centroids = load_centroids(centroids_path)
     assets = verify_raw_assets(source_dir, raw_dir)
     class_totals, labels_available, label_provenance = attach_verified_labels(metadata, assets)
+    if labels_available:
+        validate_class_count_reconciliation(class_totals, 70_000)
     evidence = collect_pattern_evidence(input_path, patterns, metadata, tid_mapping)
     sample_ids, contrast_ids, contrast_items = sample_supporters(patterns, evidence, metadata, seed=42, maximum=6)
-    patch_assignments = source_dir / "patch_assignments.csv"
     visual_asset_blockers = collect_visual_asset_blockers(centroids is not None, assets, patch_assignments)
     visual_assets_ready = not visual_asset_blockers
     images = assets["pixels"]
@@ -780,14 +900,22 @@ def run_interpretation(output_dir: pathlib.Path, raw_dir: pathlib.Path) -> dict:
 
     annotations_path = interpretation_dir / "pattern_annotations.csv"
     preserve_annotations(annotations_path, patterns, annotations)
-    manifest = {"configuration": config["configuration"], "input_sha256": config["input_sha256"],
-        "representative_catalog_sha256": supervisor.sha256_file(output_dir / "analysis" / "master_patterns.jsonl"),
-        "selection_sha256": supervisor.sha256_file(output_dir / "analysis" / "representative_patterns.csv"),
-        "codebook_path": "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K32_seed123/codebook.bin",
-        "codebook_sha256": supervisor.sha256_file(source_codebook) if source_codebook.is_file() else "NA",
-        "image_metadata_sha256": supervisor.sha256_file(source_dir / "image_metadata.csv"),
-        "tid_image_mapping_sha256": supervisor.sha256_file(source_dir / "tid_image_mapping.csv"),
-        "patch_assignments_sha256": supervisor.sha256_file(patch_assignments) if patch_assignments.is_file() else "NA",
+    evidence_paths = [interpretation_dir / "supporting_images.csv", interpretation_dir / "contrast_images.csv",
+                      interpretation_dir / "image_retrieval.csv", interpretation_dir / "retrieval_summary.toml",
+                      interpretation_dir / "pattern_annotations.csv", interpretation_dir / "visual_interpretation.md"]
+    evidence_artifacts = {path.name: {"path": path.relative_to(root).as_posix(),
+                                      "sha256": supervisor.sha256_file(path)}
+                          for path in evidence_paths if path.is_file()}
+    manifest = {"schema_version": 1, "configuration": config["configuration"],
+        "transaction_sha256": config["input_sha256"],
+        "tc7_manifest_sha256": supervisor.sha256_file(tc7_path),
+        "mining_manifest_sha256": supervisor.sha256_file(mining_manifest_path),
+        "selected_itemsets_sha256": selected_hash,
+        "codebook_path": tc7["artifacts"]["codebook"]["path"],
+        "codebook_sha256": supervisor.sha256_file(source_codebook),
+        "image_metadata_sha256": supervisor.sha256_file(metadata_path),
+        "tid_image_mapping_sha256": supervisor.sha256_file(mapping_path),
+        "patch_assignments_sha256": supervisor.sha256_file(patch_assignments),
         "codebook_centroid_layout": "16xK_descriptors_as_columns; 4x4 reshape column-major" if centroids is not None else "NA",
         "input_mapping_join": "PASS", "label_join": "PASS" if labels_available else "BLOCKED_MISSING_LABELS",
         "label_provenance": label_provenance,
@@ -798,8 +926,12 @@ def run_interpretation(output_dir: pathlib.Path, raw_dir: pathlib.Path) -> dict:
         "raw_asset_sha256": ";".join(f"{key}:{value}" for key, value in assets["assets"].items()),
         "representative_count": len(patterns),
         "witness_validation": "PASS" if visual_assets_ready else "BLOCKED_MISSING_ASSET",
+        "retrieval_audit_status": "PASS" if retrieval_summary["retrieval_matches_support"] else "FAIL",
         "retrieval_count_matches_support": retrieval_summary["retrieval_matches_support"],
-        "sampling_seed": 42, "review_status": "PENDING_REVIEW",
+        "evidence_artifact_names": sorted(evidence_artifacts),
+        "evidence_artifact_paths": [evidence_artifacts[name]["path"] for name in sorted(evidence_artifacts)],
+        "evidence_artifact_sha256": [evidence_artifacts[name]["sha256"] for name in sorted(evidence_artifacts)],
+        "sampling_seed": 42, "review_status": initial_review_status(),
         "visual_coherence": "NA", "updated_at": supervisor.utc_now()}
     supervisor.atomic_toml(interpretation_dir / "interpretation_manifest.toml", manifest)
     visual_report = ["# Visual interpretation and retrieval", "",
