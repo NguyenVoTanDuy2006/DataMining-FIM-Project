@@ -1,6 +1,11 @@
 # Local environments and generated files
 .venv/
 .julia/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
 *.ji
 .ipynb_checkpoints/
 .DS_Store
@@ -25,4 +30,18 @@ results/fashion/eda1/[0-9]*
 .specify/
 .codex/
 .jupyter-agent-bridge/
-results/
+
+# Generated results are ignored except the selected Fashion-MNIST TC4 reports.
+results/*
+!results/.gitkeep
+!results/fashion/
+results/fashion/*
+!results/fashion/.gitkeep
+!results/fashion/tc/
+results/fashion/tc/*
+!results/fashion/tc/tc4_vector_tradeoff_60k/
+!results/fashion/tc/tc4_weighted_kmeans_k16/
+!results/fashion/tc/tc4_weighted_kmeans_k32/
+!results/fashion/tc/tc4_weighted_kmeans_k64/
+!results/fashion/tc/tc4_weighted_kmeans_k128/
+!results/fashion/tc/tc4_weighted_kmeans_k256/

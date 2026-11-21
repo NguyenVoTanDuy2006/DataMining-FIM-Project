@@ -186,9 +186,9 @@ screen_max_compute_proxy = 0.75
 max_candidates_for_actual_kmeans = 3
 
 [output]
-results_csv = "reports/tc4_vector_tradeoff_60k.csv"
-summary_md = "reports/tc4_vector_tradeoff_60k_summary.md"
-figures_dir = "reports/tc4_vector_figures"
+results_csv = "results/fashion/tc/tc4_vector_tradeoff_60k/tc4_vector_tradeoff_60k.csv"
+summary_md = "results/fashion/tc/tc4_vector_tradeoff_60k/tc4_vector_tradeoff_60k_summary.md"
+figures_dir = "results/fashion/tc/tc4_vector_tradeoff_60k"
 ```
 
 ## 7. Bảng kết quả bắt buộc
