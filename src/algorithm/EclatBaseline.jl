@@ -1,15 +1,20 @@
-"""Mine frequent itemsets with a Set-based vertical Eclat DFS.
+"""Mine frequent itemsets with the selected vertical Eclat backend.
 
 `min_count` is an absolute support count. Empty transactions count in the
 database denominator, while duplicate items within a transaction are ignored.
-`max_length`, `deadline`, and `max_itemsets` provide additive limits for
-bounded exploratory runs. A limit raises an exception; partial output is never
-returned as a complete result.
+The default `:set` backend preserves the baseline behavior; `:bitvector` uses
+dense TID lists. `max_length`, `deadline`, and `max_itemsets` provide additive
+limits for bounded exploratory runs. A limit raises an exception; partial
+output is never returned as a complete result.
 """
 function mine(transactions::AbstractVector{<:AbstractVector{<:Integer}}, min_count::Integer;
     backend::Symbol=:set, max_length::Integer=typemax(Int), deadline::Union{Nothing,Real}=nothing,
     max_itemsets::Integer=typemax(Int))
-    backend == :set || throw(ArgumentError("Baseline backend supports only :set"))
+    if backend == :bitvector
+        return mine_bitvector(transactions, min_count;
+            max_length, deadline, max_itemsets)
+    end
+    backend == :set || throw(ArgumentError("Unsupported backend: $backend"))
     min_count > 0 || throw(ArgumentError("min_count must be positive"))
     max_length > 0 || throw(ArgumentError("max_length must be positive"))
     max_itemsets > 0 || throw(ArgumentError("max_itemsets must be positive"))
