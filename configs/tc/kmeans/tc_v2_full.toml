@@ -1,7 +1,7 @@
 [run]
 mode = "full"
 run_id = "FashionMNIST_T2_S0_70k"
-output_root = "results/fashion/tc/v2_full_s0"
+output_root = "results/fashion/tc/tc6_configs/S0"
 overwrite_production_artifacts = false
 fail_fast = true
 

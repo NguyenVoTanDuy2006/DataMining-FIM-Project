@@ -72,7 +72,7 @@ checkpoint_after_each_run = true
 method = "hard_assignment"
 distance = "squared_euclidean"
 word_id_base = 1
-batch_size = 16384
+chunk_size = 16384
 same_codebook_train_validation = true
 
 [tc6_transaction_encoding]

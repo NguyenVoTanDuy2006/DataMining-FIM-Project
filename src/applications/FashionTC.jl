@@ -8,13 +8,10 @@ using Statistics
 using Tar
 using TOML
 
-const DEFAULT_GPU_BATCH_SIZE = 65_536
-
 export read_config, balanced_smoke_indices, fit_q10_positive, extract_patches,
     make_descriptors, fit_kmeans, assign_words, encode_transactions, run_smoke,
     prepare_run, run_tc0!, run_tc1!, run_tc2!, run_tc3!, run_tc4!, run_tc5!,
-    run_tc6!, run_tc7!, run_full, run_tc, gpu_available, gpu_device_info,
-    gpu_warmup!
+    run_tc6!, run_tc7!, run_full, run_tc
 
 mutable struct TCState
     config_path::String
@@ -27,26 +24,6 @@ mutable struct TCState
     started_at::Float64
 end
 
-function _cuda_backend()
-    extension = Base.get_extension(parentmodule(@__MODULE__), :FashionTCGPUCUDAExt)
-    isnothing(extension) && throw(ArgumentError(
-        "CUDA backend chưa được nạp. Chạy using CUDA trong project trước khi chọn backend=\"cuda\"."
-    ))
-    return extension
-end
-
-"""Báo CUDA có extension và thiết bị hoạt động trong phiên hiện tại hay không."""
-function gpu_available()
-    extension = Base.get_extension(parentmodule(@__MODULE__), :FashionTCGPUCUDAExt)
-    return !isnothing(extension) && extension.available()
-end
-
-"""Trả thông tin thiết bị hiện hành; yêu cầu extension CUDA đã được nạp."""
-gpu_device_info() = _cuda_backend().device_info()
-
-"""Làm nóng GPU bằng dữ liệu nhỏ trước khi đo thời gian TC4/TC5."""
-gpu_warmup!(; kwargs...) = _cuda_backend().warmup!(; kwargs...)
-
 """Đọc TOML, chấp nhận smoke/full và kiểm tra output path tách biệt."""
 function read_config(path::AbstractString)
     config = TOML.parsefile(path)
@@ -56,7 +33,7 @@ function read_config(path::AbstractString)
     output_root = get(run_config, "output_root", "")
     isempty(output_root) && throw(ArgumentError("Thiếu run.output_root"))
     backend = get(get(config, "execution", Dict()), "backend", "cpu")
-    backend in ("cpu", "cuda") || throw(ArgumentError("execution.backend phải là cpu hoặc cuda"))
+    backend == "cpu" || throw(ArgumentError("execution.backend hiện chỉ hỗ trợ cpu"))
     if mode == "smoke"
         occursin(joinpath("tc", "smoke"), output_root) ||
             throw(ArgumentError("Smoke output phải nằm trong thư mục riêng tc/smoke"))
@@ -145,17 +122,11 @@ function _patch_status_rows(split, patches, index, tau, alpha)
         tau, alpha, "T2") for (patch, row) in zip(patches, index)]
 end
 
-"""Fit full-batch K-means bằng backend CPU hoặc CUDA; K-means++ dùng seed đã chỉ định."""
+"""Fit full-batch CPU K-means; K-means++ dùng seed đã chỉ định."""
 function fit_kmeans(X; k=8, seed=42, maxiter=20, tolerance=1e-4,
-    backend="cpu", batch_size=DEFAULT_GPU_BATCH_SIZE, device_data=nothing,
     initial_indices=nothing)
     _, n = size(X)
     n >= k || throw(ArgumentError("Cần tối thiểu K descriptors train; nhận $n, K=$k"))
-    backend in ("cpu", "cuda") || throw(ArgumentError("backend phải là cpu hoặc cuda"))
-    if backend == "cuda"
-        return _cuda_backend().fit_kmeans(X; k, seed, maxiter, tolerance,
-            batch_size, device_data, initial_indices)
-    end
     fit_started = time()
     initialization = isnothing(initial_indices) ? :kmpp : initial_indices
     result = Clustering.kmeans(X, k; init=initialization, maxiter, tol=tolerance,
@@ -165,24 +136,17 @@ function fit_kmeans(X; k=8, seed=42, maxiter=20, tolerance=1e-4,
         converged=result.converged,
         stop_reason=result.converged ? "library_tolerance" : "max_iterations",
         history=NamedTuple[], initialization_seconds=NaN,
-        fit_seconds=time() - fit_started, backend="cpu", batch_size,
+        fit_seconds=time() - fit_started, backend="cpu",
         library="Clustering.jl",
         library_version=string(Base.pkgversion(Clustering)),
         initialization=isnothing(initial_indices) ? ":kmpp" : "provided descriptor indices",
         maxiter, tolerance)
 end
 
-"""Gán nearest centroid theo chunk; tie-break chọn word ID nhỏ nhất."""
-function assign_words(X, centroids; backend="cpu", chunk_size=128,
-    batch_size=DEFAULT_GPU_BATCH_SIZE, device_data=nothing,
-    device_centroids=nothing)
+"""Gán nearest centroid theo chunk CPU; tie-break chọn word ID nhỏ nhất."""
+function assign_words(X, centroids; chunk_size=128)
     d, n = size(X)
     size(centroids, 1) == d || throw(ArgumentError("Số chiều centroid không khớp"))
-    backend in ("cpu", "cuda") || throw(ArgumentError("backend phải là cpu hoặc cuda"))
-    if backend == "cuda"
-        return _cuda_backend().assign_words(X, centroids; batch_size,
-            device_data, device_centroids)
-    end
     words = Vector{Int}(undef, n)
     for lo in 1:chunk_size:n
         for j in lo:min(lo + chunk_size - 1, n)
@@ -270,9 +234,7 @@ function _fit_fingerprint(state::TCState, k, seed)
     values = Dict(
         "backend" => _backend(state),
         "julia_version" => string(VERSION),
-        "backend_library_version" => _backend(state) == "cuda" ?
-            string(Base.pkgversion(_cuda_backend().CUDA)) :
-            string(Base.pkgversion(Clustering)),
+        "backend_library_version" => string(Base.pkgversion(Clustering)),
         "data_archive_sha256" => state.data[:archive_checksums],
         "train_descriptor_sha256" => state.data[:descriptor_checksums]["train"],
         "validation_descriptor_sha256" => state.data[:descriptor_checksums]["validation"],
@@ -280,8 +242,6 @@ function _fit_fingerprint(state::TCState, k, seed)
         "seed" => seed,
         "max_iterations" => config["tc4_codebook"]["max_iterations"],
         "tolerance" => config["tc4_codebook"]["tolerance"],
-        "batch_size" => get(config["tc4_codebook"], "batch_size",
-            get(config["tc5_word_assignment"], "batch_size", 65_536)),
         "initialization" => "K-means++",
         "algorithm" => "Lloyd full-batch squared Euclidean",
         "patch_config" => config["tc1_patch_extraction"],
@@ -352,7 +312,7 @@ function _load_fit_checkpoint(state::TCState, run_id, k, seed, fingerprint)
         fit_seconds=Float64(get(metadata, "fit_seconds", NaN)),
         library=String(metadata["library"]), library_version=String(metadata["library_version"]),
         initialization=String(metadata["initialization"]), maxiter=Int(metadata["max_iterations"]),
-        tolerance=Float64(metadata["tolerance"]), batch_size=Int(metadata["batch_size"]),
+        tolerance=Float64(metadata["tolerance"]),
         backend=String(metadata["backend"]), resumed=true)
 end
 
@@ -373,18 +333,11 @@ function _save_fit_checkpoint!(state::TCState, run_id, k, seed, fingerprint, mod
         "k" => k,
         "seed" => seed,
         "julia_version" => string(VERSION),
-        "cuda_package_version" => _backend(state) == "cuda" ?
-            string(Base.pkgversion(_cuda_backend().CUDA)) : "not_used",
-        "gpu_device_name" => get(state.data, :gpu_device_info,
-            (; name="not_used")).name,
-        "gpu_vram_bytes" => get(state.data, :gpu_device_info,
-            (; total_memory_bytes=0)).total_memory_bytes,
         "library" => model.library,
         "library_version" => model.library_version,
         "initialization" => model.initialization,
         "max_iterations" => model.maxiter,
         "tolerance" => model.tolerance,
-        "batch_size" => model.batch_size,
         "iterations" => model.iterations,
         "converged" => model.converged,
         "stop_reason" => model.stop_reason,
@@ -468,7 +421,7 @@ function prepare_run(config_path; data_dir, output_root=nothing, work_root=nothi
     output_root = isnothing(output_root) ? configured_output : normpath(abspath(output_root))
     work_root = isnothing(work_root) ? mktempdir(prefix="fashion-tc-work-") : normpath(abspath(work_root))
     backend = get(get(config, "execution", Dict()), "backend", "cpu")
-    backend == "cuda" && _cuda_backend().check_available!()
+    backend == "cpu" || throw(ArgumentError("execution.backend hiện chỉ hỗ trợ cpu"))
     dataset_config = config["dataset"]
     patch_config = config["tc1_patch_extraction"]
     filter_config = config["tc2_patch_filtering"]
@@ -770,14 +723,6 @@ function run_tc4!(state::TCState)
     fingerprints = Dict{String,String}()
     expected_dim = state.config["tc3_feature_extraction"]["dimension"]
     backend = _backend(state)
-    batch_size = get(config, "batch_size",
-        get(state.config["tc5_word_assignment"], "batch_size", 65_536))
-    if backend == "cuda"
-        state.data[:gpu_device_info] = _cuda_backend().device_info()
-        upload_started = time()
-        state.data[:cuda_train_data] = _cuda_backend().to_device(state.data[:train_desc])
-        state.data[:timings]["descriptor_upload_seconds"] = time() - upload_started
-    end
 
     for (run_id, k, seed) in runs
         fingerprint = _fit_fingerprint(state, k, seed)
@@ -787,9 +732,7 @@ function run_tc4!(state::TCState)
         resumed = !isnothing(model)
         if !resumed
             model = fit_kmeans(state.data[:train_desc]; k, seed,
-                maxiter=config["max_iterations"], tolerance=config["tolerance"],
-                backend, batch_size,
-                device_data=backend == "cuda" ? state.data[:cuda_train_data] : nothing)
+                maxiter=config["max_iterations"], tolerance=config["tolerance"])
         end
         elapsed = time() - started
         state.data[:timings]["kmeans_initialization_seconds"] =
@@ -827,9 +770,9 @@ function run_tc4!(state::TCState)
             get(state.data[:timings], "checkpoint_drive_seconds", 0.0) + checkpoint_seconds
         models[run_id] = (; centroids=model.centroids, objective=model.objective,
             iterations=model.iterations, converged=model.converged,
-            stop_reason=model.stop_reason, history=model.history, backend,
+            stop_reason=model.stop_reason, history=model.history, backend=model.backend,
             initialization_seconds=model.initialization_seconds,
-            fit_seconds=model.fit_seconds, batch_size, library=model.library,
+            fit_seconds=model.fit_seconds, library=model.library,
             library_version=model.library_version, initialization=model.initialization,
             maxiter=model.maxiter, tolerance=model.tolerance, resumed)
         push!(fit_summaries, (; run_id, k, seed, shape=size(model.centroids),
@@ -837,9 +780,8 @@ function run_tc4!(state::TCState)
             stop_reason=model.stop_reason, objective=model.objective,
             initialization_seconds=model.initialization_seconds,
             fit_seconds=model.fit_seconds, elapsed_seconds=elapsed,
-            descriptor_upload_seconds=get(state.data[:timings], "descriptor_upload_seconds", 0.0),
             checkpoint_drive_seconds=checkpoint_seconds, resumed,
-            backend, batch_size, library=model.library,
+            backend=model.backend, library=model.library,
             library_version=model.library_version))
     end
     state.data[:run_ids] = first.(runs)
@@ -860,40 +802,24 @@ function run_tc5!(state::TCState)
     _require_previous(state, 5)
     config = state.config["tc5_word_assignment"]
     backend = _backend(state)
-    batch_size = get(config, "batch_size", get(config, "chunk_size", 65_536))
-    chunk_size = get(config, "chunk_size", batch_size)
+    chunk_size = get(config, "chunk_size", 128)
     mapping = Dict("train" => state.data[:train_map], "validation" => state.data[:validation_map])
     summaries = NamedTuple[]
-    if backend == "cuda"
-        upload_started = time()
-        state.data[:cuda_validation_data] = _cuda_backend().to_device(state.data[:validation_desc])
-        state.data[:timings]["validation_descriptor_upload_seconds"] = time() - upload_started
-    end
 
     for run_id in state.data[:run_ids]
         model = state.data[:models][run_id]
-        device_centroids = backend == "cuda" ?
-            _cuda_backend().to_device_centroids(model.centroids) : nothing
         assignment_started = time()
         train_words = assign_words(state.data[:train_desc], model.centroids;
-            backend, chunk_size, batch_size,
-            device_data=backend == "cuda" ? state.data[:cuda_train_data] : nothing,
-            device_centroids)
+            chunk_size)
         validation_words = assign_words(state.data[:validation_desc], model.centroids;
-            backend, chunk_size, batch_size,
-            device_data=backend == "cuda" ? state.data[:cuda_validation_data] : nothing,
-            device_centroids)
-        backend == "cuda" && _cuda_backend().synchronize()
+            chunk_size)
         assignment_seconds = time() - assignment_started
         k = size(model.centroids, 2)
         all(in(1:k), train_words) && all(in(1:k), validation_words) ||
             error("Word ID nằm ngoài 1:$k cho $run_id")
         if state.data[:mode] == "smoke"
             direct_words = assign_words(state.data[:train_desc], model.centroids;
-                backend, chunk_size=size(state.data[:train_desc], 2),
-                batch_size=size(state.data[:train_desc], 2),
-                device_data=backend == "cuda" ? state.data[:cuda_train_data] : nothing,
-                device_centroids)
+                chunk_size=size(state.data[:train_desc], 2))
             train_words == direct_words || error("Chunked assignment không khớp direct assignment")
             state.data[:train_words] = train_words
             state.data[:validation_words] = validation_words
@@ -916,7 +842,7 @@ function run_tc5!(state::TCState)
         state.data[:timings]["drive_archive_copy_seconds"] =
             get(state.data[:timings], "drive_archive_copy_seconds", 0.0) + archive.drive_copy_seconds
         push!(summaries, (; run_id, train_assignments=length(train_words),
-            validation_assignments=length(validation_words), backend, batch_size,
+            validation_assignments=length(validation_words), backend,
             assignment_seconds, archive_path=archive.path, archive_sha256=archive.sha256,
             archive_pack_seconds=archive.pack_seconds,
             archive_drive_copy_seconds=archive.drive_copy_seconds))
@@ -1024,18 +950,11 @@ function run_tc7!(state::TCState; notebook_fresh_kernel::Bool=true)
             "kmeans_converged" => kmeans.converged,
             "kmeans_wall_seconds" => state.data[:fit_summaries][1].elapsed_seconds,
             "kmeans_backend" => kmeans.backend, "kmeans_stop_reason" => kmeans.stop_reason,
-            "kmeans_batch_size" => kmeans.batch_size,
             "kmeans_initialization_seconds" => kmeans.initialization_seconds,
             "kmeans_fit_seconds" => kmeans.fit_seconds,
             "kmeans_library" => kmeans.library, "kmeans_library_version" => kmeans.library_version,
             "kmeans_initialization" => kmeans.initialization, "kmeans_maxiter" => kmeans.maxiter,
             "kmeans_tolerance" => kmeans.tolerance,
-            "cuda_package_version" => kmeans.backend == "cuda" ?
-                string(Base.pkgversion(_cuda_backend().CUDA)) : "not_used",
-            "gpu_device_name" => get(state.data, :gpu_device_info,
-                (; name="not_used")).name,
-            "gpu_vram_bytes" => get(state.data, :gpu_device_info,
-                (; total_memory_bytes=0)).total_memory_bytes,
             "timings" => state.data[:timings], "peak_rss_bytes" => Sys.maxrss(),
             "source_archive_sha256" => state.data[:archive_checksums],
             "descriptor_cache_sha256" => state.data[:descriptor_checksums],
@@ -1062,7 +981,6 @@ function run_tc7!(state::TCState; notebook_fresh_kernel::Bool=true)
         "kmeans_initialization_seconds" => kmeans.initialization_seconds,
         "kmeans_fit_seconds" => kmeans.fit_seconds,
         "assignment_seconds" => only(state.data[:assignment_summaries]).assignment_seconds,
-        "descriptor_upload_seconds" => get(state.data[:timings], "descriptor_upload_seconds", 0.0),
         "checkpoint_drive_seconds" => state.data[:fit_summaries][1].checkpoint_drive_seconds,
         "checkpoint_resumed" => state.data[:fit_summaries][1].resumed,
         "train_transactions" => length(train_tx), "validation_transactions" => length(validation_tx),
@@ -1075,7 +993,7 @@ function run_tc7!(state::TCState; notebook_fresh_kernel::Bool=true)
     effective_config_path_json = _json_escape(report["effective_config_path"])
     report_path = joinpath(output_root, "smoke_test_report.json")
     open(report_path, "w") do io
-        print(io, "{\n  \"run_id\": \"$run_id_json\",\n  \"mode\": \"smoke\",\n  \"status\": \"$overall_status\",\n  \"pipeline_status\": \"$pipeline_status\",\n  \"notebook_fresh_kernel\": \"$notebook_status\",\n  \"config_path\": \"$config_path_json\",\n  \"effective_config_path\": \"$effective_config_path_json\",\n  \"elapsed_seconds\": $(report["elapsed_seconds"]),\n  \"tau_train\": $tau,\n  \"train_images\": $(report["train_images"]),\n  \"validation_images\": $(report["validation_images"]),\n  \"train_patches_before_filter\": $(report["train_patches_before_filter"]),\n  \"validation_patches_before_filter\": $(report["validation_patches_before_filter"]),\n  \"train_retained_descriptors\": $(report["train_retained_descriptors"]),\n  \"validation_retained_descriptors\": $(report["validation_retained_descriptors"]),\n  \"kmeans_fit_count\": 1,\n  \"kmeans_k\": $(report["kmeans_k"]),\n  \"kmeans_initialization_seconds\": $(_json_number(report["kmeans_initialization_seconds"])),\n  \"kmeans_fit_seconds\": $(report["kmeans_fit_seconds"]),\n  \"assignment_seconds\": $(report["assignment_seconds"]),\n  \"descriptor_upload_seconds\": $(report["descriptor_upload_seconds"]),\n  \"checkpoint_drive_seconds\": $(report["checkpoint_drive_seconds"]),\n  \"checkpoint_resumed\": $(report["checkpoint_resumed"]),\n  \"train_transactions\": $(report["train_transactions"]),\n  \"validation_transactions\": $(report["validation_transactions"]),\n  \"archive_path\": \"$(_json_escape(archive.path))\",\n  \"archive_sha256\": \"$(archive.sha256)\",\n  \"archive_pack_seconds\": $(archive.pack_seconds),\n  \"archive_drive_copy_seconds\": $(archive.drive_copy_seconds),\n  \"checks\": {")
+        print(io, "{\n  \"run_id\": \"$run_id_json\",\n  \"mode\": \"smoke\",\n  \"status\": \"$overall_status\",\n  \"pipeline_status\": \"$pipeline_status\",\n  \"notebook_fresh_kernel\": \"$notebook_status\",\n  \"config_path\": \"$config_path_json\",\n  \"effective_config_path\": \"$effective_config_path_json\",\n  \"elapsed_seconds\": $(report["elapsed_seconds"]),\n  \"tau_train\": $tau,\n  \"train_images\": $(report["train_images"]),\n  \"validation_images\": $(report["validation_images"]),\n  \"train_patches_before_filter\": $(report["train_patches_before_filter"]),\n  \"validation_patches_before_filter\": $(report["validation_patches_before_filter"]),\n  \"train_retained_descriptors\": $(report["train_retained_descriptors"]),\n  \"validation_retained_descriptors\": $(report["validation_retained_descriptors"]),\n  \"kmeans_fit_count\": 1,\n  \"kmeans_k\": $(report["kmeans_k"]),\n  \"kmeans_initialization_seconds\": $(_json_number(report["kmeans_initialization_seconds"])),\n  \"kmeans_fit_seconds\": $(report["kmeans_fit_seconds"]),\n  \"assignment_seconds\": $(report["assignment_seconds"]),\n  \"checkpoint_drive_seconds\": $(report["checkpoint_drive_seconds"]),\n  \"checkpoint_resumed\": $(report["checkpoint_resumed"]),\n  \"train_transactions\": $(report["train_transactions"]),\n  \"validation_transactions\": $(report["validation_transactions"]),\n  \"archive_path\": \"$(_json_escape(archive.path))\",\n  \"archive_sha256\": \"$(archive.sha256)\",\n  \"archive_pack_seconds\": $(archive.pack_seconds),\n  \"archive_drive_copy_seconds\": $(archive.drive_copy_seconds),\n  \"checks\": {")
         print(io, join(["\n    \"$key\": \"$(state.checks[key])\"" for key in sort!(collect(keys(state.checks)))], ","), "\n  }\n}\n")
     end
     drive_report = joinpath(state.output_root, basename(report_path))
@@ -1142,12 +1060,6 @@ function _finish_full_run!(state::TCState; notebook_fresh_kernel)
         TOML.print(io, Dict("mode" => "full", "run_id" => config["run"]["run_id"],
             "julia_version" => string(VERSION), "train_images" => length(state.data[:train_ids]),
             "backend" => _backend(state), "work_root" => state.work_root,
-            "cuda_package_version" => _backend(state) == "cuda" ?
-                string(Base.pkgversion(_cuda_backend().CUDA)) : "not_used",
-            "gpu_device_name" => get(state.data, :gpu_device_info,
-                (; name="not_used")).name,
-            "gpu_vram_bytes" => get(state.data, :gpu_device_info,
-                (; total_memory_bytes=0)).total_memory_bytes,
             "validation_images" => length(state.data[:validation_ids]), "tau_train" => state.data[:tau],
             "threshold_fit_split" => "train", "train_descriptors" => size(state.data[:train_desc], 2),
             "validation_descriptors" => size(state.data[:validation_desc], 2),
