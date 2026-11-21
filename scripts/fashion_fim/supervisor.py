@@ -13,6 +13,7 @@ import os
 import pathlib
 import platform
 import random
+import re
 import shutil
 import signal
 import subprocess
@@ -22,13 +23,15 @@ import tomllib
 
 MIN_COUNTS = (56_000, 42_000, 28_000, 14_000, 7_000, 3_500)
 FRACTIONS = {56_000: 0.80, 42_000: 0.60, 28_000: 0.40, 14_000: 0.20, 7_000: 0.10, 3_500: 0.05}
+HISTORICAL_INPUT_SHA256 = "b078e485064bfdacea4b5faa5f027efe7123af32a2db2c27acf415d6b1dd7d70"
+VALID_BACKENDS = ("set", "bitvector")
 RUN_STATUSES = {
     "NOT_RUN", "COMPLETED_FULL", "COMPLETED_ZERO", "TIMEOUT", "MEMORY_LIMIT",
     "OUTPUT_LIMIT", "ITEMSET_CAPPED", "LENGTH_CAPPED", "COMPLETION_UNVERIFIED",
     "INVALID_OUTPUT", "FAILED", "UNKNOWN_INTERRUPTED", "BLOCKED",
 }
 RUN_COLUMNS = (
-    "run_id", "configuration", "minsup_fraction", "minsup_count", "status", "reason_code",
+    "run_id", "configuration", "backend", "minsup_fraction", "minsup_count", "status", "reason_code",
     "total_frequent_itemsets", "max_itemset_length", "observed_partial_itemsets", "runtime_seconds",
     "peak_rss_mb", "output_size_bytes", "engine_revision", "input_sha256", "used_optional_limits",
     "worker_log_path", "notes",
@@ -103,7 +106,17 @@ def sha256_file(path: pathlib.Path) -> str:
     return digest.hexdigest()
 
 
-def input_preflight(path: pathlib.Path, expected_sha256: str | None = None) -> dict:
+def validate_backend(backend: str) -> str:
+    if backend not in VALID_BACKENDS:
+        raise ValueError(f"backend must be one of {', '.join(VALID_BACKENDS)}")
+    return backend
+
+
+def worker_backend_arguments(backend: str) -> list[str]:
+    return ["--backend", validate_backend(backend)]
+
+
+def input_preflight(path: pathlib.Path, expected_sha256: str | None = None, expected_n: int = 70_000) -> dict:
     digest = sha256_file(path)
     if expected_sha256 and digest != expected_sha256:
         raise ValueError("Input SHA256 changed since the notebook preflight")
@@ -121,8 +134,18 @@ def input_preflight(path: pathlib.Path, expected_sha256: str | None = None) -> d
             if set(row) != {"tid", "image_id", "items"}:
                 raise ValueError(f"Unexpected JSONL schema on line {line_number}")
             tid, image_id, items = row["tid"], row["image_id"], row["items"]
-            if type(tid) is not int or type(image_id) is not int or not isinstance(items, list):
+            if type(tid) is not int or not isinstance(items, list):
                 raise ValueError(f"Invalid JSONL value types on line {line_number}")
+            if isinstance(image_id, str):
+                matched = re.fullmatch(r"(train):(0|[1-9][0-9]*)|(test):(0|[1-9][0-9]*)", image_id)
+                if not matched:
+                    raise ValueError(f"Invalid stable image_id on line {line_number}")
+                split = matched.group(1) or matched.group(3)
+                index = int(matched.group(2) or matched.group(4))
+                if index >= (60_000 if split == "train" else 10_000):
+                    raise ValueError(f"Stable image_id is out of range on line {line_number}")
+            elif type(image_id) is not int or image_id <= 0:
+                raise ValueError(f"Invalid image_id on line {line_number}")
             if any(type(item) is not int or item not in singleton for item in items):
                 raise ValueError(f"Invalid visual-word ID on line {line_number}")
             if items != sorted(set(items)):
@@ -138,10 +161,12 @@ def input_preflight(path: pathlib.Path, expected_sha256: str | None = None) -> d
             for item in items:
                 singleton[item] += 1
             pair_6_26 += 6 in items and 26 in items
-    if rows != 70_000 or empty_count != 0 or len(tid_seen) != rows or len(image_seen) != rows:
+    if rows != expected_n or len(tid_seen) != rows or len(image_seen) != rows:
         raise ValueError(f"Locked input sanity mismatch: rows={rows}, empty={empty_count}")
-    if max(singleton.values()) != 48_922 or singleton[6] != 43_263 or singleton[26] != 48_922 or pair_6_26 != 32_266:
-        raise ValueError("Input singleton/pair guardrails do not match the v1.3 source checks")
+    legacy_guardrails = digest == HISTORICAL_INPUT_SHA256
+    if legacy_guardrails and (empty_count != 0 or max(singleton.values()) != 48_922 or
+            singleton[6] != 43_263 or singleton[26] != 48_922 or pair_6_26 != 32_266):
+        raise ValueError("Historical input singleton/pair guardrails do not match the locked source checks")
     return {
         "input_sha256": digest,
         "record_count": rows,
@@ -157,6 +182,8 @@ def input_preflight(path: pathlib.Path, expected_sha256: str | None = None) -> d
         "support_6": singleton[6],
         "support_26": singleton[26],
         "support_6_26": pair_6_26,
+        "legacy_guardrails_applies": legacy_guardrails,
+        "legacy_guardrail_status": "PASS" if legacy_guardrails else "NOT_APPLICABLE",
     }
 
 
@@ -183,9 +210,10 @@ def canonical_manifest(output_dir: pathlib.Path) -> tuple[pathlib.Path, dict]:
     return path, read_toml(path)
 
 
-def run_id_for(min_count: int, input_hash: str, engine_hash: str, budget_revision: str, attempt: int = 1) -> str:
+def run_id_for(min_count: int, input_hash: str, engine_hash: str, budget_revision: str,
+               attempt: int = 1, backend: str = "set") -> str:
     percent = int(round(FRACTIONS[min_count] * 100))
-    return f"minsup_{percent:02d}_{input_hash[:8]}_{engine_hash[:8]}_{budget_revision}_a{attempt:02d}"
+    return f"{backend}_minsup_{percent:02d}_{input_hash[:8]}_{engine_hash[:8]}_{budget_revision}_a{attempt:02d}"
 
 
 def new_sidecar(run_id: str, min_count: int, config: dict, log_path: str) -> dict:
@@ -193,6 +221,7 @@ def new_sidecar(run_id: str, min_count: int, config: dict, log_path: str) -> dic
         "schema_version": 1,
         "run_id": run_id,
         "configuration": config["configuration"],
+        "backend": config.get("backend", "set"),
         "minsup_fraction": FRACTIONS[min_count],
         "minsup_count": min_count,
         "status": "NOT_RUN",
@@ -231,20 +260,29 @@ def new_sidecar(run_id: str, min_count: int, config: dict, log_path: str) -> dic
 
 
 def initialize(args) -> None:
+    validate_backend(args.backend)
     root = pathlib.Path(args.repo_root).resolve()
     output_dir = pathlib.Path(args.output_dir).resolve()
     input_path = pathlib.Path(args.input_path).resolve()
-    source_path = root / "src" / "algorithm" / "EclatBaseline.jl"
-    if not input_path.is_file() or not source_path.is_file():
-        raise FileNotFoundError("Locked input or Eclat source file is missing")
+    source_paths = (root / "src" / "algorithm" / "EclatBaseline.jl",
+                    root / "src" / "algorithm" / "EclatOptimized.jl")
+    worker_path = root / "scripts" / "fashion_fim" / "run_mining_worker.jl"
+    if not input_path.is_file() or not all(path.is_file() for path in source_paths) or not worker_path.is_file():
+        raise FileNotFoundError("Locked input, worker, or Eclat source file is missing")
     engine_revision = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
-    engine_source_sha256 = sha256_file(source_path)
+    source_digest = hashlib.sha256()
+    for source_path in source_paths:
+        source_digest.update(source_path.name.encode("utf-8") + b"\0")
+        source_digest.update(source_path.read_bytes())
+    engine_source_sha256 = source_digest.hexdigest()
+    worker_source_sha256 = sha256_file(worker_path)
     preflight = input_preflight(input_path)
     disk = shutil.disk_usage(output_dir.parent if output_dir.parent.exists() else root)
     runtime_env = read_toml(pathlib.Path(args.runtime_env))
     expected_config = {
         "schema_version": 1,
         "configuration": "B0_K32_seed123_S0",
+        "backend": args.backend,
         "dataset": "Fashion-MNIST",
         "construction": "T2",
         "codebook_backend": "raw_full_batch_kmeans",
@@ -256,9 +294,12 @@ def initialize(args) -> None:
         "input_sha256": preflight["input_sha256"],
         "transaction_count": preflight["record_count"],
         "empty_count": preflight["empty_count"],
-        "engine_api": "EclatFIM.mine(transactions, min_count)",
+        "legacy_guardrails_applies": preflight["legacy_guardrails_applies"],
+        "legacy_guardrail_status": preflight["legacy_guardrail_status"],
+        "engine_api": "EclatFIM.mine(transactions, min_count; backend)",
         "engine_revision": engine_revision,
         "engine_source_sha256": engine_source_sha256,
+        "worker_source_sha256": worker_source_sha256,
         "julia_executable": str(pathlib.Path(runtime_env["julia_executable"]).resolve()),
         "julia_version": runtime_env["julia_version"],
         "julia_threads": int(runtime_env["julia_threads"]),
@@ -295,7 +336,8 @@ def initialize(args) -> None:
         old = read_toml(existing)
         identity = ("input_sha256", "engine_revision", "engine_source_sha256", "budget_revision",
                     "wall_time_seconds_per_run", "memory_limit_mb_per_worker", "output_limit_bytes")
-        if any(old.get(key) != expected_config.get(key) for key in identity):
+        if any(old.get(key) != expected_config.get(key) for key in identity) or (
+                "backend" in old and old["backend"] != args.backend):
             raise RuntimeError("Existing run identity differs; use a new budget revision/attempt namespace")
     else:
         atomic_toml(existing, expected_config)
@@ -318,6 +360,7 @@ def initialize(args) -> None:
         manifest = {
             "schema_version": 1,
             "configuration": expected_config["configuration"],
+            "backend": args.backend,
             "input_sha256": preflight["input_sha256"],
             "engine_revision": engine_revision,
             "engine_source_sha256": engine_source_sha256,
@@ -336,7 +379,8 @@ def initialize(args) -> None:
         pct = int(FRACTIONS[min_count] * 100)
         threshold_key = f"{pct:02d}"
         current = canonical.get(threshold_key)
-        run_id = current or run_id_for(min_count, preflight["input_sha256"], engine_source_sha256, args.budget_revision)
+        run_id = current or run_id_for(min_count, preflight["input_sha256"], engine_source_sha256,
+            args.budget_revision, backend=args.backend)
         path = sidecar_path(output_dir, run_id)
         if not path.exists():
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -357,6 +401,7 @@ def row_from_status(status: dict, min_count: int) -> dict:
     return {
         "run_id": status.get("run_id", ""),
         "configuration": status.get("configuration", "B0_K32_seed123_S0"),
+        "backend": status.get("backend", "set"),
         "minsup_fraction": status.get("minsup_fraction", FRACTIONS[min_count]),
         "minsup_count": min_count,
         "status": status.get("status", "NOT_RUN"),
@@ -465,6 +510,8 @@ def independent_support_sample(path: pathlib.Path, itemsets: list[tuple[int, ...
 
 
 def audit_guardrails(path: pathlib.Path, min_count: int, config: dict, record_count: int) -> None:
+    if not config.get("legacy_guardrails_applies", False):
+        return
     if min_count == 56_000:
         if record_count != 0 or path.stat().st_size != 0:
             raise ValueError("80% guardrail failed: expected exact completed-zero output")
@@ -563,6 +610,8 @@ def validate_staging(output_dir: pathlib.Path, config: dict, min_count: int, sta
         raise ValueError("Worker did not report a full result")
     if worker_result.get("input_sha256") != config["input_sha256"]:
         raise ValueError("Worker input SHA256 differs from run identity")
+    if worker_result.get("backend", "set") != config.get("backend", "set"):
+        raise ValueError("Worker backend differs from run identity")
     if worker_result.get("min_count") != min_count:
         raise ValueError("Worker min_count differs from run identity")
     info = validate_itemsets(staging, min_count)
@@ -692,7 +741,7 @@ def launch_worker(root: pathlib.Path, output_dir: pathlib.Path, config: dict, ru
         f"--setenv=JULIA_LOAD_PATH={config['julia_load_path']}", "--setenv=JULIA_NUM_THREADS=1",
         "--", julia, f"--project={root}", "--startup-file=no", "--history-file=no", "-t", "1",
         str(worker_script), str(source), str(staging), str(result_path), str(min_count),
-        str(config["output_limit_bytes"]),
+        str(config["output_limit_bytes"]), *worker_backend_arguments(config.get("backend", "set")),
     ]
     proc = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if proc.returncode != 0:
@@ -930,6 +979,8 @@ def run_supervisor(output_dir: pathlib.Path) -> None:
     manifest_path, manifest = canonical_manifest(output_dir)
     source = root / config["input_source_path"]
     preflight = input_preflight(source, config["input_sha256"])
+    config["legacy_guardrails_applies"] = preflight["legacy_guardrails_applies"]
+    config["legacy_guardrail_status"] = preflight["legacy_guardrail_status"]
     config["source_guardrails"] = {"support_6": preflight["support_6"], "support_26": preflight["support_26"],
                                    "support_6_26": preflight["support_6_26"], "max_singleton_support": preflight["max_singleton_support"]}
     if not manifest.get("canonical_runs"):
@@ -1026,7 +1077,7 @@ def launch_supervisor(output_dir: pathlib.Path) -> None:
     config = load_config(output_dir)
     root = pathlib.Path(config["repo_root"])
     suffix = config["input_sha256"][:8]
-    unit = f"fim-supervisor-{config['budget_revision']}-{suffix}.service"
+    unit = f"fim-supervisor-{config.get('backend', 'set')}-{config['budget_revision']}-{suffix}.service"
     if active_unit(unit):
         print(json.dumps({"launched": False, "reason": "SUPERVISOR_ALREADY_ACTIVE", "unit": unit}))
         return
@@ -1048,7 +1099,7 @@ def launch_supervisor(output_dir: pathlib.Path) -> None:
 def status_command(output_dir: pathlib.Path) -> None:
     config = load_config(output_dir)
     suffix = config["input_sha256"][:8]
-    unit = f"fim-supervisor-{config['budget_revision']}-{suffix}.service"
+    unit = f"fim-supervisor-{config.get('backend', 'set')}-{config['budget_revision']}-{suffix}.service"
     print(json.dumps({"supervisor_unit": unit, "supervisor": systemctl_show(unit),
                       "runs": six_statuses(output_dir)}, ensure_ascii=False, indent=2))
 
@@ -1068,6 +1119,7 @@ def main() -> None:
     parser.add_argument("--memory-limit-mb-per-worker", type=int, default=3072)
     parser.add_argument("--output-limit-bytes", type=int, default=8 * 1024**3)
     parser.add_argument("--budget-revision", default="b1")
+    parser.add_argument("--backend", choices=("set", "bitvector"), default="set")
     args = parser.parse_args()
     output_dir = pathlib.Path(args.output_dir).resolve()
     if args.init:

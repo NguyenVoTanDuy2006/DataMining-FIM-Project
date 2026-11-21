@@ -62,20 +62,37 @@ function write_patterns(staging_path, patterns, min_count, output_limit_bytes, t
         output_size_bytes=written_bytes)
 end
 
+function parse_worker_arguments(args)
+    filtered = copy(args)
+    backend = :set
+    backend_index = findfirst(==("--backend"), filtered)
+    if !isnothing(backend_index)
+        backend_index < length(filtered) || error("--backend requires set or bitvector")
+        backend_value = filtered[backend_index + 1]
+        backend_value in ("set", "bitvector") || error("Unsupported backend: $backend_value")
+        backend = Symbol(backend_value)
+        deleteat!(filtered, backend_index:backend_index + 1)
+    end
+    length(filtered) in (5, 6) || error("Usage: run_mining_worker.jl INPUT STAGING RESULT MIN_COUNT OUTPUT_LIMIT_BYTES [EXPECTED_N] [--backend set|bitvector]")
+    input_path, staging_path, result_path = filtered[1:3]
+    min_count = parse(Int, filtered[4])
+    output_limit_bytes = parse(Int, filtered[5])
+    expected_n = length(filtered) == 6 ? parse(Int, filtered[6]) : 70_000
+    return (; input_path, staging_path, result_path, min_count, output_limit_bytes, expected_n, backend)
+end
+
 function main(args)
-    length(args) in (5, 6) || error("Usage: run_mining_worker.jl INPUT STAGING RESULT MIN_COUNT OUTPUT_LIMIT_BYTES [EXPECTED_N]")
-    input_path, staging_path, result_path = args[1:3]
-    min_count = parse(Int, args[4])
-    output_limit_bytes = parse(Int, args[5])
-    expected_n = length(args) == 6 ? parse(Int, args[6]) : 70_000
+    parsed = parse_worker_arguments(args)
+    input_path, staging_path, result_path = parsed.input_path, parsed.staging_path, parsed.result_path
+    min_count, output_limit_bytes, expected_n, backend =
+        parsed.min_count, parsed.output_limit_bytes, parsed.expected_n, parsed.backend
     mkpath(dirname(staging_path))
     started = time()
 
     try
         loaded = load_transactions(input_path; expected_n, expected_items=1:32,
-            require_nonempty=(expected_n == 70_000), unique_mapping=true)
-        expected_n == 70_000 && loaded.empty_count != 0 && error("Unexpected empty transactions in production source")
-        patterns = EclatFIM.mine(loaded.transactions, min_count)
+            require_nonempty=false, unique_mapping=true)
+        patterns = EclatFIM.mine(loaded.transactions, min_count; backend)
         patterns isa Dict{Tuple{Vararg{Int}},Int} || error("Unexpected Eclat return type: $(typeof(patterns))")
         metrics = write_patterns(staging_path, patterns, min_count, output_limit_bytes, length(loaded.transactions))
         write_result(result_path, Dict{String,Any}(
@@ -86,6 +103,7 @@ function main(args)
             "worker_runtime_seconds" => time() - started,
             "peak_rss_mb" => process_peak_rss_mb(),
             "input_sha256" => loaded.input_sha256,
+            "backend" => string(backend),
             "transaction_count" => length(loaded.transactions),
             "min_count" => min_count,
             "error_type" => "",
@@ -96,6 +114,7 @@ function main(args)
         if error_value isa OutputLimitExceeded
             write_result(result_path, Dict{String,Any}(
                 "worker_status" => "OUTPUT_LIMIT",
+                "backend" => string(backend),
                 "record_count" => error_value.records,
                 "observed_partial_itemsets" => error_value.records,
                 "output_size_bytes" => error_value.written_bytes,
@@ -109,6 +128,7 @@ function main(args)
         end
         write_result(result_path, Dict{String,Any}(
             "worker_status" => "FAILED",
+            "backend" => string(backend),
             "worker_runtime_seconds" => time() - started,
             "peak_rss_mb" => process_peak_rss_mb(),
             "min_count" => min_count,

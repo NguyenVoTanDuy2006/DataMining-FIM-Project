@@ -4,12 +4,215 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import datetime as dt
 import json
 import pathlib
 import random
 
 import supervisor
+
+
+def compare_itemset_maps(set_patterns: dict[tuple[int, ...], int],
+                         bitvector_patterns: dict[tuple[int, ...], int],
+                         *, set_complete: bool, bitvector_complete: bool) -> dict:
+    if not set_complete or not bitvector_complete:
+        return {"status": "NOT_COMPARABLE", "missing_count": 0, "extra_count": 0,
+                "support_mismatch_count": 0, "missing_examples": [], "extra_examples": [],
+                "support_mismatch_examples": []}
+    set_keys, bitvector_keys = set(set_patterns), set(bitvector_patterns)
+    missing = sorted(set_keys - bitvector_keys, key=lambda key: (len(key), key))
+    extra = sorted(bitvector_keys - set_keys, key=lambda key: (len(key), key))
+    mismatches = sorted((key, set_patterns[key], bitvector_patterns[key])
+                        for key in set_keys & bitvector_keys
+                        if set_patterns[key] != bitvector_patterns[key])
+    return {"status": "PASS" if not missing and not extra and not mismatches else "FAIL",
+            "missing_count": len(missing), "extra_count": len(extra),
+            "support_mismatch_count": len(mismatches),
+            "missing_examples": [list(key) for key in missing[:10]],
+            "extra_examples": [list(key) for key in extra[:10]],
+            "support_mismatch_examples": [
+                {"items": list(key), "set_support": left, "bitvector_support": right}
+                for key, left, right in mismatches[:10]]}
+
+
+def vertical_item_masks(path: pathlib.Path, expected_n: int = 70_000) -> tuple[list[int], int]:
+    masks = [0] * 33
+    rows = 0
+    with open(path, encoding="utf-8") as stream:
+        for line_number, line in enumerate(stream, 1):
+            row = json.loads(line)
+            if set(row) != {"tid", "image_id", "items"} or type(row["tid"]) is not int:
+                raise ValueError(f"Invalid transaction row for direct support audit at line {line_number}")
+            items = row["items"]
+            if not isinstance(items, list) or items != sorted(set(items)):
+                raise ValueError(f"Invalid transaction items for direct support audit at line {line_number}")
+            rows += 1
+            bit = 1 << (rows - 1)
+            for item in items:
+                if type(item) is not int or item not in range(1, 33):
+                    raise ValueError(f"Invalid item ID for direct support audit at line {line_number}")
+                masks[item] |= bit
+    if rows != expected_n:
+        raise ValueError(f"Expected {expected_n} transactions for support audit, got {rows}")
+    return masks, rows
+
+
+def direct_support_count(items: tuple[int, ...], masks: list[int]) -> int:
+    if not items or tuple(sorted(set(items))) != items:
+        raise ValueError(f"Itemset is not canonical: {items}")
+    combined = masks[items[0]]
+    for item in items[1:]:
+        combined &= masks[item]
+    return combined.bit_count()
+
+
+def direct_support_audit(patterns: dict[tuple[int, ...], int], masks: list[int]) -> dict:
+    mismatches = []
+    for items, observed in patterns.items():
+        direct = direct_support_count(items, masks)
+        if direct != observed:
+            mismatches.append({"items": list(items), "reported_support": observed,
+                               "direct_support": direct})
+    return {"status": "PASS" if not mismatches else "FAIL",
+            "itemset_count": len(patterns), "mismatch_count": len(mismatches),
+            "mismatch_examples": mismatches[:10]}
+
+
+def _completed_backend_run(output_dir: pathlib.Path, min_count: int) -> dict:
+    config = supervisor.load_config(output_dir)
+    _manifest_path, manifest = supervisor.canonical_manifest(output_dir)
+    pct = int(supervisor.FRACTIONS[min_count] * 100)
+    run_id = manifest.get("canonical_runs", {}).get(f"{pct:02d}")
+    if not run_id:
+        return {"complete": False, "status": "NOT_RUN", "patterns": {}, "config": config,
+                "sidecar": {}, "output_path": None}
+    status_path = supervisor.sidecar_path(output_dir, run_id)
+    if not status_path.is_file():
+        return {"complete": False, "status": "NOT_RUN", "patterns": {}, "config": config,
+                "sidecar": {}, "output_path": None}
+    sidecar = supervisor.read_toml(status_path)
+    status = sidecar.get("status", "UNKNOWN")
+    complete = status in {"COMPLETED_FULL", "COMPLETED_ZERO"} and sidecar.get("final_committed") is True
+    if not complete:
+        return {"complete": False, "status": status, "patterns": {}, "config": config,
+                "sidecar": sidecar, "output_path": None}
+    output_path = pathlib.Path(config["repo_root"]) / sidecar["output_path"]
+    if not output_path.is_file() or supervisor.sha256_file(output_path) != sidecar.get("output_sha256"):
+        return {"complete": False, "status": "INVALID_OUTPUT", "patterns": {}, "config": config,
+                "sidecar": sidecar, "output_path": output_path}
+    patterns = {tuple(key[1]): support for key, support in supervisor.read_itemsets(output_path, min_count)}
+    if len(patterns) != sidecar.get("total_frequent_itemsets"):
+        return {"complete": False, "status": "INVALID_OUTPUT", "patterns": {}, "config": config,
+                "sidecar": sidecar, "output_path": output_path}
+    return {"complete": True, "status": status, "patterns": patterns, "config": config,
+            "sidecar": sidecar, "output_path": output_path}
+
+
+def audit_release(release_root: pathlib.Path, set_output_dir: pathlib.Path,
+                  bitvector_output_dir: pathlib.Path, input_path: pathlib.Path) -> dict:
+    input_path = input_path.resolve()
+    input_hash = supervisor.sha256_file(input_path)
+    set_config = supervisor.load_config(set_output_dir)
+    bitvector_config = supervisor.load_config(bitvector_output_dir)
+    if set_config.get("backend", "set") != "set" or bitvector_config.get("backend") != "bitvector":
+        raise ValueError("Release backend directories have incorrect backend identity")
+    for config in (set_config, bitvector_config):
+        if config["input_sha256"] != input_hash:
+            raise ValueError("Backend config does not identify the current TC7 transaction hash")
+    masks, transaction_count = vertical_item_masks(input_path)
+    comparison_rows = []
+    threshold_audits = []
+    all_passed = True
+    for min_count in supervisor.MIN_COUNTS:
+        set_run = _completed_backend_run(set_output_dir, min_count)
+        bitvector_run = _completed_backend_run(bitvector_output_dir, min_count)
+        parity = compare_itemset_maps(set_run["patterns"], bitvector_run["patterns"],
+            set_complete=set_run["complete"], bitvector_complete=bitvector_run["complete"])
+        set_direct = direct_support_audit(set_run["patterns"], masks) if set_run["complete"] else {
+            "status": "NOT_RUN", "itemset_count": 0, "mismatch_count": 0, "mismatch_examples": []}
+        bitvector_direct = direct_support_audit(bitvector_run["patterns"], masks) if bitvector_run["complete"] else {
+            "status": "NOT_RUN", "itemset_count": 0, "mismatch_count": 0, "mismatch_examples": []}
+        percentage = int(supervisor.FRACTIONS[min_count] * 100)
+        threshold_audits.append({"min_count": min_count, "minsup_percent": percentage,
+            "set_status": set_run["status"], "bitvector_status": bitvector_run["status"],
+            "parity": parity, "set_direct_support": set_direct, "bitvector_direct_support": bitvector_direct})
+        for backend, run, direct in (("set", set_run, set_direct), ("bitvector", bitvector_run, bitvector_direct)):
+            sidecar = run["sidecar"]
+            comparison_rows.append({
+                "backend": backend, "minsup_percent": percentage, "min_count": min_count,
+                "status": run["status"],
+                "itemset_count": len(run["patterns"]) if run["complete"] else "NA",
+                "runtime_seconds": sidecar.get("runtime_seconds", "NA"),
+                "peak_rss_mib": sidecar.get("peak_rss_mb", "NA"),
+                "input_sha256": input_hash,
+                "source_sha256": run["config"].get("engine_source_sha256", ""),
+                "direct_support_status": direct["status"], "parity_status": parity["status"],
+            })
+        all_passed &= parity["status"] == "PASS" and set_direct["status"] == "PASS" and bitvector_direct["status"] == "PASS"
+
+    historical_status = "NOT_APPLICABLE"
+    if input_hash == supervisor.HISTORICAL_INPUT_SHA256:
+        counts = []
+        for output_dir in (set_output_dir, bitvector_output_dir):
+            run = _completed_backend_run(output_dir, 3_500)
+            counts.append(len(run["patterns"]) if run["complete"] else None)
+        historical_status = "PASS" if counts == [7_228, 7_228] else "FAIL"
+        all_passed &= historical_status == "PASS"
+
+    result = {"schema_version": 1, "audit_type": "exact_set_bitvector_release_parity",
+        "status": "PASS" if all_passed else "FAIL", "input_sha256": input_hash,
+        "transaction_count": transaction_count,
+        "historical_7228_reference": historical_status,
+        "direct_support_method": "Vertical transaction bit masks; support is the population count of item-mask intersections",
+        "thresholds": threshold_audits, "comparison_rows": comparison_rows}
+    mining_dir = release_root / "mining"
+    mining_dir.mkdir(parents=True, exist_ok=True)
+    (mining_dir / "parity_audit.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    fields = ["backend", "minsup_percent", "min_count", "status", "itemset_count", "runtime_seconds",
+              "peak_rss_mib", "input_sha256", "source_sha256", "direct_support_status", "parity_status"]
+    with open(mining_dir / "comparison.csv", "w", newline="", encoding="utf-8") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(comparison_rows)
+    root = pathlib.Path(set_config["repo_root"])
+    tc7_manifest_path = release_root / "transactions" / "tc7_manifest.toml"
+    supervisor.atomic_toml(mining_dir / "mining_manifest.toml", {
+        "schema_version": 1,
+        "run_id": release_root.name,
+        "configuration": "B0_K32_seed123_S0",
+        "repo_root": str(root),
+        "tc7_manifest_path": supervisor.relative_to(root, tc7_manifest_path),
+        "tc7_manifest_sha256": supervisor.sha256_file(tc7_manifest_path) if tc7_manifest_path.is_file() else "",
+        "transaction_path": supervisor.relative_to(root, input_path),
+        "transaction_sha256": input_hash,
+        "transaction_count": transaction_count,
+        "backends": ["set", "bitvector"],
+        "min_count_thresholds": list(supervisor.MIN_COUNTS),
+        "source_sha256_by_backend": {
+            "set": set_config.get("engine_source_sha256", ""),
+            "bitvector": bitvector_config.get("engine_source_sha256", ""),
+        },
+        "worker_source_sha256_by_backend": {
+            "set": set_config.get("worker_source_sha256", ""),
+            "bitvector": bitvector_config.get("worker_source_sha256", ""),
+        },
+        "resource_limits": {
+            "julia_threads": int(set_config.get("julia_threads", 1)),
+            "memory_limit_mb_per_worker": int(set_config.get("memory_limit_mb_per_worker", 3072)),
+            "wall_time_seconds_per_run": int(set_config.get("wall_time_seconds_per_run", 3600)),
+            "output_limit_bytes": int(set_config.get("output_limit_bytes", 8 * 1024**3)),
+            "memory_swap_max_bytes": 0,
+            "execution_order": "set then bitvector; six thresholds ascending support",
+        },
+        "parity_audit_path": supervisor.relative_to(root, mining_dir / "parity_audit.json"),
+        "comparison_csv_path": supervisor.relative_to(root, mining_dir / "comparison.csv"),
+        "selected_itemsets_path": "",
+        "selected_itemsets_sha256": "",
+        "selected_itemset_count": 0,
+        "status": result["status"],
+    })
+    return result
 
 
 def deterministic_sample(path: pathlib.Path, min_count: int, target: int = 20) -> list[tuple[int, ...]]:
@@ -246,8 +449,29 @@ def reconcile_sidecars(output_dir: pathlib.Path, result: dict, audit_path: pathl
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-dir", required=True)
+    parser.add_argument("--output-dir")
+    parser.add_argument("--release-root")
+    parser.add_argument("--set-output-dir")
+    parser.add_argument("--bitvector-output-dir")
+    parser.add_argument("--input-path")
     args = parser.parse_args()
+    if args.release_root:
+        required = (args.set_output_dir, args.bitvector_output_dir, args.input_path)
+        if not all(required):
+            parser.error("--release-root requires --set-output-dir, --bitvector-output-dir, and --input-path")
+        result = audit_release(pathlib.Path(args.release_root).resolve(),
+            pathlib.Path(args.set_output_dir).resolve(), pathlib.Path(args.bitvector_output_dir).resolve(),
+            pathlib.Path(args.input_path).resolve())
+        print(json.dumps({"status": result["status"], "transaction_count": result["transaction_count"],
+                          "thresholds": len(result["thresholds"]),
+                          "historical_7228_reference": result["historical_7228_reference"],
+                          "artifact": str(pathlib.Path(args.release_root).resolve() / "mining" / "parity_audit.json")},
+                         ensure_ascii=False, indent=2))
+        if result["status"] != "PASS":
+            raise SystemExit(1)
+        return
+    if not args.output_dir:
+        parser.error("provide --output-dir for the legacy audit or --release-root for exact backend comparison")
     output_dir = pathlib.Path(args.output_dir).resolve()
     result = audit(output_dir)
     audit_path = output_dir / "analysis" / "independent_output_audit.json"

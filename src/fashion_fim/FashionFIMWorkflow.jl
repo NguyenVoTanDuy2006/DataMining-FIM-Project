@@ -1,6 +1,7 @@
 module FashionFIMWorkflow
 
 using SHA
+using EclatFIM: parse_image_id
 
 export FIMInput, load_transactions
 
@@ -8,7 +9,7 @@ export FIMInput, load_transactions
 struct FIMInput
     transactions::Vector{Vector{Int}}
     tid::Vector{Int}
-    image_id::Vector{Int}
+    image_id::Vector{Union{Int,String}}
     input_sha256::String
     singleton_support::Dict{Int,Int}
     empty_count::Int
@@ -34,6 +35,20 @@ function _items_field(line::AbstractString)
     return items
 end
 
+function _image_id_field(line::AbstractString)
+    matches = collect(eachmatch(r"\"image_id\"\s*:\s*(?:\"([^\"\\]*)\"|(-?[0-9]+))", line))
+    length(matches) == 1 || throw(ArgumentError("Expected exactly one string or integer image_id field"))
+    matched = only(matches)
+    if !isnothing(matched.captures[1])
+        image_id = String(matched.captures[1])
+        parse_image_id(image_id)
+        return image_id
+    end
+    image_id = parse(Int, matched.captures[2])
+    image_id > 0 || throw(ArgumentError("Legacy numeric image_id must be positive"))
+    return image_id
+end
+
 """
     load_transactions(path; expected_n=nothing, expected_items=1:32,
                       require_nonempty=false, unique_mapping=false)
@@ -46,7 +61,7 @@ function load_transactions(path::AbstractString; expected_n::Union{Nothing,Int}=
     expected_items=1:32, require_nonempty::Bool=false, unique_mapping::Bool=false)
     transactions = Vector{Vector{Int}}()
     tids = Int[]
-    image_ids = Int[]
+    image_ids = Union{Int,String}[]
     singleton = Dict(item => 0 for item in expected_items)
     empty_count = 0
     pair_6_26 = 0
@@ -55,7 +70,7 @@ function load_transactions(path::AbstractString; expected_n::Union{Nothing,Int}=
         for (line_number, line) in enumerate(eachline(io))
             isempty(strip(line)) && throw(ArgumentError("Blank JSONL line at row $line_number"))
             tid = _integer_field(line, "tid")
-            image_id = _integer_field(line, "image_id")
+            image_id = _image_id_field(line)
             items = _items_field(line)
             all(item -> item in expected_items, items) ||
                 throw(ArgumentError("Item outside configured range at row $line_number"))
