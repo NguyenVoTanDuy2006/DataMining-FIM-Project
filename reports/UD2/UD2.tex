@@ -1,0 +1,227 @@
+\section{Khai thác mẫu trực quan phổ biến trên Fashion-MNIST}
+
+\subsection{Bài toán và tập dữ liệu}
+
+Khai thác tập mục phổ biến giúp tìm những nhóm mục thường xuất hiện cùng nhau trong các giao dịch. Để áp dụng cách làm này cho ảnh, trước hết cần chuyển các giá trị pixel thành những mục rời rạc. Trong thí nghiệm này, mỗi mục là một từ thị giác (\textit{visual word}) đại diện cho một dạng vùng ảnh nhỏ. Mỗi ảnh được biểu diễn bằng tập các từ thị giác có mặt trong ảnh, rồi được xem như một giao dịch để khai thác bằng Eclat.
+
+Tập dữ liệu \href{https://github.com/zalandoresearch/fashion-mnist}{Fashion-MNIST}~\cite{Xiao2017} gồm 70.000 ảnh xám kích thước $28 \times 28$ pixel, chia đều cho 10 lớp sản phẩm thời trang. Bảng~\ref{tab:fashionmnist_distribution} trình bày số ảnh của từng lớp theo hai tập gốc. Thí nghiệm dùng cả hai tập để khảo sát những tổ hợp từ thị giác thường xuất hiện cùng nhau, xem các tổ hợp đó thể hiện đặc điểm gì trên ảnh và minh họa cách dùng chúng để truy hồi ảnh.
+
+\begin{table}[!t]
+    \centering
+    \caption{Số ảnh theo lớp trong Fashion-MNIST}
+    \label{tab:fashionmnist_distribution}
+    \footnotesize
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{@{}c l r r r@{}}
+        \hline
+        \textbf{Mã} & \textbf{Lớp} & \textbf{Huấn luyện} &
+        \textbf{Kiểm thử} & \textbf{Tổng} \\
+        \hline
+        0 & Áo thun / áo kiểu & 6.000 & 1.000 & 7.000 \\
+        1 & Quần dài          & 6.000 & 1.000 & 7.000 \\
+        2 & Áo chui đầu       & 6.000 & 1.000 & 7.000 \\
+        3 & Váy liền          & 6.000 & 1.000 & 7.000 \\
+        4 & Áo khoác          & 6.000 & 1.000 & 7.000 \\
+        5 & Dép quai          & 6.000 & 1.000 & 7.000 \\
+        6 & Áo sơ mi          & 6.000 & 1.000 & 7.000 \\
+        7 & Giày thể thao     & 6.000 & 1.000 & 7.000 \\
+        8 & Túi               & 6.000 & 1.000 & 7.000 \\
+        9 & Bốt cổ ngắn       & 6.000 & 1.000 & 7.000 \\
+        \hline
+          & \textbf{Tổng} & \textbf{60.000} & \textbf{10.000} & \textbf{70.000} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Xây dựng cơ sở dữ liệu giao dịch từ ảnh}
+
+Nhóm dùng phương pháp túi từ thị giác (\textit{Bag of Visual Words}, BoVW)~\cite{Sivic03} để tạo giao dịch từ ảnh. Mỗi ảnh được chia thành 49 vùng không chồng lấn, mỗi vùng có kích thước $4 \times 4$ pixel. Để giảm ảnh hưởng của nền, nhóm chỉ giữ các vùng có ít nhất một pixel với cường độ lớn hơn 29. Ngưỡng này được chọn trong bước phân tích khám phá dữ liệu. Sau khi chuẩn hóa cường độ sáng về khoảng $[0,1]$, nhóm xếp 16 giá trị pixel của mỗi vùng thành một vectơ đặc trưng.
+
+Nhóm chạy K-means~\cite{Hartigan1979} trên toàn bộ vectơ của các vùng được giữ lại để tạo một từ điển gồm 32 từ thị giác. Mỗi tâm cụm đại diện cho một từ. Sau khi xây dựng từ điển, nhóm gán mỗi vùng ảnh vào tâm cụm gần nhất theo bình phương khoảng cách Euclid. Bảng~\ref{tab:kmeans_configuration} tóm tắt cấu hình sử dụng.
+
+\begin{table}[!t]
+    \centering
+    \caption{Cấu hình K-means để xây dựng từ điển thị giác}
+    \label{tab:kmeans_configuration}
+    \footnotesize
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{@{}p{0.39\columnwidth} p{0.56\columnwidth}@{}}
+        \hline
+        \textbf{Tham số} & \textbf{Giá trị} \\
+        \hline
+        Phương pháp & K-means trên toàn bộ dữ liệu (B0) \\
+        Dữ liệu phân cụm & Các vùng được giữ lại từ 70.000 ảnh \\
+        Vectơ đặc trưng & 16 giá trị pixel xám đã chuẩn hóa \\
+        Số cụm ($K$) & 32 \\
+        Giá trị khởi tạo bộ sinh số ngẫu nhiên & 123 \\
+        Độ đo khoảng cách & Bình phương khoảng cách Euclid \\
+        Quy tắc gán từ thị giác & Chọn tâm cụm gần nhất \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Ở bước cuối, nhóm mã hóa mỗi ảnh theo biểu diễn BoVW nhị phân (S0). Giao dịch chỉ ghi sự hiện diện của từ thị giác. Nếu một từ xuất hiện ở nhiều vùng, mã của từ đó chỉ được ghi một lần. Các mã được sắp xếp tăng dần, còn tọa độ vùng ảnh được lưu riêng để phục vụ diễn giải. Cơ sở dữ liệu thu được gồm 70.000 giao dịch và 32 mục khả dĩ. Tất cả giao dịch đều có ít nhất một mục.
+
+\subsection{Thiết kế thực nghiệm khai thác}
+
+Eclat lưu dữ liệu theo chiều dọc. Với mỗi mục, thuật toán lưu tập mã giao dịch chứa mục đó (TID-set). Số phần tử trong giao của các TID-set là số giao dịch chứa đầy đủ các mục trong mẫu. Nhóm so sánh hai cách biểu diễn TID-set là Set và BitVector trên cùng bộ giao dịch S0.
+
+Nhóm chạy cả hai cách biểu diễn ở sáu mức hỗ trợ tối thiểu (\textit{minsup}), từ 80\% xuống 5\%. Mỗi tỷ lệ tương ứng với một số giao dịch tối thiểu trên tổng số 70.000 giao dịch, như trình bày trong Bảng~\ref{tab:fim_minsup}.
+
+\begin{table}[!t]
+    \centering
+    \caption{Các ngưỡng hỗ trợ tối thiểu dùng trong thực nghiệm}
+    \label{tab:fim_minsup}
+    \begin{tabular}{c r}
+        \hline
+        \textbf{Ngưỡng (\%)} & \textbf{Số giao dịch tối thiểu} \\
+        \hline
+        80 & 56.000 \\
+        60 & 42.000 \\
+        40 & 28.000 \\
+        20 & 14.000 \\
+        10 &  7.000 \\
+         5 &  3.500 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Ở mỗi ngưỡng, nhóm đối chiếu từng tập mục và số giao dịch hỗ trợ giữa hai cách biểu diễn. Nhóm cũng tổng hợp số lượng và độ dài của các tập mục, thời gian thực thi và mức sử dụng bộ nhớ để xem kết quả thay đổi ra sao khi giảm ngưỡng.
+
+\subsection{Kết quả khai thác tập mục phổ biến}
+\label{subsec:fashion_fim_results}
+
+Set và BitVector cho kết quả trùng khớp ở cả sáu ngưỡng, từ danh sách tập mục đến số giao dịch hỗ trợ của từng tập mục. Vì vậy, Bảng~\ref{tab:eclat_backend_comparison} trình bày số tập mục và độ dài lớn nhất chung cho cả hai. Tỷ số được tính bằng thời gian của Set chia cho thời gian của BitVector. Tỷ số lớn hơn 1 cho biết BitVector chạy nhanh hơn trong lượt đo.
+
+\begin{table}[!t]
+    \centering
+    \caption{Kết quả khai thác và thời gian thực thi của Set và BitVector}
+    \label{tab:eclat_backend_comparison}
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{c r c r r c}
+        \hline
+        \textbf{Ngưỡng} &
+        \textbf{Số tập mục} &
+        \shortstack{\textbf{Độ dài}\\\textbf{lớn nhất}} &
+        \textbf{Set (s)} &
+        \textbf{BitVector (s)} &
+        \textbf{Tỷ số} \\
+        \hline
+        80\% &     0 & 0 &  6,13 & 8,18 & $0{,}75\times$ \\
+        60\% &     2 & 1 &  6,10 & 7,15 & $0{,}85\times$ \\
+        40\% &    15 & 2 &  6,08 & 6,08 & $1{,}00\times$ \\
+        20\% &   174 & 3 &  6,12 & 6,10 & $1{,}00\times$ \\
+        10\% & 1.275 & 5 &  9,14 & 8,14 & $1{,}12\times$ \\
+         5\% & 7.228 & 6 & 13,17 & 8,20 & $1{,}61\times$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Số tập mục tăng nhanh khi hạ ngưỡng hỗ trợ (Hình~\ref{fig:eclat_itemset_counts}). Ở ngưỡng 80\%, không có tập mục nào đạt yêu cầu. Ở ngưỡng 60\%, chỉ có hai tập đơn mục là $\{6\}$ và $\{26\}$. Khi ngưỡng giảm từ 40\% xuống 5\%, số tập mục tăng từ 15 lên 7.228. Các tập mục đã đạt ngưỡng cao vẫn được giữ ở ngưỡng thấp hơn, cùng với những tập mục có độ hỗ trợ thấp hơn.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/eclat/fig1_itemset_counts.pdf}
+    \caption{Số tập mục phổ biến theo ngưỡng hỗ trợ tối thiểu.}
+    \label{fig:eclat_itemset_counts}
+\end{figure}
+
+Khi hạ ngưỡng, các tổ hợp dài hơn cũng xuất hiện trong kết quả. Độ dài lớn nhất tăng từ một mục ở ngưỡng 60\% lên sáu mục ở ngưỡng 5\%. Trong 7.228 tập mục ở ngưỡng 5\%, có 2.481 tập ba mục và 3.178 tập bốn mục, chiếm tổng cộng 78,29\% (Hình~\ref{fig:eclat_length_distribution}).
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/eclat/fig4_length_distribution.pdf}
+    \caption{Phân bố độ dài tập mục theo ngưỡng hỗ trợ tối thiểu.}
+    \label{fig:eclat_length_distribution}
+\end{figure}
+
+Hình~\ref{fig:eclat_runtime} cho thấy Set chạy nhanh hơn ở ngưỡng 80\% và 60\%, còn thời gian của hai cách biểu diễn gần bằng nhau ở ngưỡng 40\% và 20\%. Ở hai ngưỡng thấp nhất, BitVector chạy nhanh hơn. Riêng ở ngưỡng 5\%, thời gian giảm từ 13,17 giây với Set xuống 8,20 giây với BitVector. Tỷ số thời gian đạt 1,61 lần, tương ứng với mức giảm khoảng 37,8\%.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/eclat/fig2_runtime_comparison.pdf}
+    \caption{Thời gian thực thi của Set và BitVector theo ngưỡng hỗ trợ tối thiểu.}
+    \label{fig:eclat_runtime}
+\end{figure}
+
+Ở ngưỡng 5\%, bộ nhớ vật lý cực đại (peak RSS) của BitVector là 443,43 MiB, thấp hơn mức 540,73 MiB của Set khoảng 97,30 MiB (18,0\%). Ở ngưỡng 80\%, BitVector dùng nhiều hơn Set khoảng 9,37 MiB (Hình~\ref{fig:eclat_memory}).
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/eclat/fig3_memory_comparison.pdf}
+    \caption{Bộ nhớ vật lý cực đại của Set và BitVector. Số liệu được đo bằng MiB, ghi là MB trên trục hình.}
+    \label{fig:eclat_memory}
+\end{figure}
+
+Mỗi cách biểu diễn chỉ được chạy một lần ở mỗi ngưỡng. Thời gian đo bao gồm toàn bộ lượt chạy, trong đó có bước chuẩn bị đầu vào và ghi kết quả. Lượt đo ở ngưỡng 5\% cho thấy BitVector dùng ít thời gian và bộ nhớ hơn Set. Cần đo lặp lại để đánh giá độ ổn định của chênh lệch này.
+
+\subsection{Phân tích và diễn giải mẫu trực quan}
+\label{subsec:visual_pattern_interpretation}
+
+Bốn mẫu trong Bảng~\ref{tab:visual_pattern_examples} được chọn tự động từ kết quả Set đã gộp qua sáu ngưỡng và loại trùng. Quy tắc chọn ưu tiên các mẫu có độ dài và mức hỗ trợ khác nhau, đồng thời dùng độ tương đồng Jaccard trên các mã từ thị giác để hạn chế mẫu quá giống nhau.
+
+Để xem một mẫu thể hiện gì trên ảnh, nhóm đối chiếu tâm cụm $4 \times 4$ của từng từ thị giác với các vùng ảnh thật được gán vào tâm đó. Trên ảnh gốc, khung màu đánh dấu các vùng minh họa cho từng từ. Mỗi ảnh hỗ trợ chứa đầy đủ các từ trong mẫu. Ảnh đối chứng giúp minh họa trường hợp thiếu ít nhất một từ.
+
+Để so sánh mức độ phổ biến giữa các lớp, nhóm dùng hệ số $E(X,c)=P(X\mid c)/P(X)$. Trong đó, $P(X\mid c)$ là tỷ lệ ảnh thuộc lớp $c$ chứa tập mục $X$, còn $P(X)$ là tỷ lệ trên toàn bộ dữ liệu. Hệ số $E$ lớn hơn 1 cho biết mẫu xuất hiện thường xuyên hơn trong lớp đó so với mức chung. Bảng~\ref{tab:visual_pattern_examples} ghi lớp có hệ số $E$ cao nhất đối với từng mẫu. Độ chính xác phân loại cần được đánh giá bằng một thí nghiệm riêng.
+
+\begin{table}[!t]
+    \centering
+    \caption{Độ hỗ trợ và lớp nổi bật của bốn mẫu đại diện}
+    \label{tab:visual_pattern_examples}
+    \footnotesize
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{l r l r}
+        \hline
+        \textbf{Tập mục} & \textbf{Độ hỗ trợ} &
+        \textbf{Lớp nổi bật} & \textbf{Hệ số $E$} \\
+        \hline
+        $\{26\}$      & 69,89\% & Dép quai    & $1{,}27\times$ \\
+        $\{6\}$       & 61,80\% & Bốt cổ ngắn & $1{,}31\times$ \\
+        $\{1,24\}$    &  9,76\% & Dép quai    & $2{,}27\times$ \\
+        $\{4,12,24\}$ &  6,91\% & Bốt cổ ngắn & $2{,}67\times$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Hai tập đơn mục $\{26\}$ và $\{6\}$ lần lượt có mặt trong 48.922 và 43.263 ảnh, tương ứng 69,89\% và 61,80\% toàn bộ tập dữ liệu. Qua tâm cụm và các vùng ảnh minh họa, cả hai từ thị giác có vẻ phản ánh những thay đổi cường độ sáng cục bộ có thể gặp ở nhiều nhóm sản phẩm. Tần suất của chúng thay đổi theo lớp. Chẳng hạn, trong lớp quần dài, tỷ lệ ảnh chứa $\{26\}$ là 30,23\% và tỷ lệ chứa $\{6\}$ là 9,97\%, đều thấp hơn mức chung.
+
+Tập hai mục $\{1,24\}$ xuất hiện trong 6.829 ảnh (9,76\%) và có mặt ở cả 10 lớp. Trong lớp dép quai, tỷ lệ này đạt 22,19\%, gấp 2,27 lần mức chung. Ảnh đối chứng thuộc lớp áo sơ mi chỉ chứa từ thị giác 1, nên không được tính vào độ hỗ trợ của tập $\{1,24\}$.
+
+Ở mẫu $\{4,12,24\}$, các tâm cụm gợi ý những dạng chuyển tiếp sáng tối khác nhau, gần mép trên, mép phải và mép dưới của vùng ảnh (Hình~\ref{fig:visual_pattern_4_12_24}). Mẫu có mặt trong 4.838 ảnh (6,91\%). Riêng lớp bốt cổ ngắn có 1.291 trong 7.000 ảnh chứa mẫu (18,44\%), gấp 2,67 lần tỷ lệ chung. Chênh lệch này cho thấy mẫu xuất hiện nhiều hơn ở lớp bốt cổ ngắn, đồng thời vẫn có thể gặp ở các lớp khác.
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=0.98\textwidth]{figures/pattern_4_12_24.png}
+    \caption{Tâm cụm, vùng ảnh thật, ảnh hỗ trợ và ảnh đối chứng của mẫu $\{4,12,24\}$. Khung màu đánh dấu vị trí các vùng được gán từ thị giác trong từng ảnh.}
+    \label{fig:visual_pattern_4_12_24}
+\end{figure*}
+
+Những nhận xét về hình thái trên đây dựa vào các vùng ảnh minh họa và còn chờ đánh giá thủ công về mức độ nhất quán giữa các ảnh. Vì S0 chỉ ghi sự hiện diện ở cấp ảnh, vị trí quan sát được trong hình thuộc về từng ảnh minh họa. Cần một biểu diễn có lưu tọa độ để kiểm tra xem các từ trong mẫu có thường xuất hiện theo cùng một bố cục hay không.
+
+\subsection{Ứng dụng và thảo luận}
+\label{subsec:fashion_fim_applications}
+
+\textit{Truy hồi ảnh theo tập mục.} Với truy vấn $X$, nhóm lấy tất cả ảnh $I_i$ có giao dịch $T_i$ chứa đầy đủ các từ thị giác trong $X$.
+\begin{equation}
+    \mathcal{R}(X)=\{I_i\mid X\subseteq T_i\}.
+    \label{eq:fashion_pattern_retrieval}
+\end{equation}
+Truy vấn $X=\{1,24\}$ trả về 6.829 ảnh, tương ứng 9,76\% tập dữ liệu và khớp với độ hỗ trợ đo được khi khai thác. Hình~\ref{fig:fashion_pattern_retrieval} minh họa một số ảnh đáp ứng truy vấn cùng một ảnh đối chứng. Các ảnh trả về có thể thuộc nhiều lớp và khác nhau về hình dạng tổng thể vì chúng được truy hồi theo sự hiện diện của cùng một tổ hợp đặc trưng cục bộ.
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=0.96\textwidth]{figures/pattern_retrieval_1_24.png}
+    \caption{Ví dụ truy hồi ảnh theo mẫu $\{1,24\}$. Các ảnh hỗ trợ chứa cả hai từ thị giác, còn ảnh đối chứng thiếu ít nhất một từ.}
+    \label{fig:fashion_pattern_retrieval}
+\end{figure*}
+
+\textit{Dùng tập mục làm đặc trưng.} Với $m$ tập mục $P_1,\ldots,P_m$, mỗi ảnh $I_i$ có thể được biểu diễn bằng $m$ đặc trưng nhị phân. Đặc trưng thứ $j$ bằng 1 khi ảnh chứa đủ các mục trong $P_j$ và bằng 0 trong các trường hợp còn lại.
+\begin{equation}
+    \phi_j(I_i)=\mathbf{1}\!\left[P_j\subseteq T_i\right],
+    \quad j=1,\ldots,m.
+    \label{eq:fashion_pattern_activation}
+\end{equation}
+Vectơ $[\phi_1(I_i),\ldots,\phi_m(I_i)]$ có thể dùng riêng hoặc ghép với 32 đặc trưng BoVW nhị phân để đưa vào mô hình phân loại. Các đặc trưng tập mục được suy ra từ BoVW. Chúng biểu diễn trực tiếp sự đồng xuất hiện của nhiều từ thị giác, nhờ đó mô hình tuyến tính có thể dùng cả tổ hợp như một biến đầu vào. Hiệu quả dự đoán của cách biểu diễn này cần được kiểm chứng bằng thực nghiệm.
+
+\textit{Giới hạn và hướng phát triển.} S0 bỏ qua vị trí, số lần xuất hiện và quan hệ không gian giữa các vùng ảnh. Thí nghiệm truy hồi hiện tại xác nhận số ảnh trả về khớp với độ hỗ trợ của truy vấn. Đánh giá truy hồi theo ngữ nghĩa cần thêm nhãn về mức độ liên quan giữa ảnh và truy vấn. Với bài toán phân loại, có thể so sánh ba cấu hình đầu vào gồm BoVW, đặc trưng tập mục và tổ hợp của cả hai. Để đo khả năng khái quát hóa, cần học từ điển và chọn tập mục trên tập huấn luyện, rồi đánh giá trên tập kiểm thử tách biệt. Một hướng khác là bổ sung thông tin không gian để kiểm tra những mẫu có bố cục lặp lại giữa các ảnh.
