@@ -78,3 +78,49 @@ end
         @test readdir(dir) == ["archive.gz"]
     end
 end
+
+@testset "Stable Fashion-MNIST image IDs" begin
+    @test EclatFIM.format_image_id(:train, 0) == "train:0"
+    @test EclatFIM.format_image_id(:test, 0) == "test:0"
+    @test EclatFIM.format_image_id(:train, 59_999) == "train:59999"
+    @test EclatFIM.format_image_id(:test, 9_999) == "test:9999"
+    @test EclatFIM.parse_image_id("train:0") == (:train, 0)
+    @test EclatFIM.parse_image_id("test:9999") == (:test, 9_999)
+    @test_throws ArgumentError EclatFIM.format_image_id(:train, -1)
+    @test_throws ArgumentError EclatFIM.format_image_id(:validation, 0)
+    @test_throws ArgumentError EclatFIM.parse_image_id("validation:0")
+    @test_throws ArgumentError EclatFIM.parse_image_id("train:-1")
+    @test_throws ArgumentError EclatFIM.parse_image_id("train:60000")
+    @test_throws ArgumentError EclatFIM.parse_image_id("test:10000")
+end
+
+@testset "Fashion-MNIST dataset manifest round trip" begin
+    archive_paths = Dict(file.name => "data/raw/fashion-mnist/$(file.name)"
+        for file in EclatFIM.FASHION_FILES)
+    archive_hashes = Dict(file.name => file.sha256 for file in EclatFIM.FASHION_FILES)
+    manifest = EclatFIM.build_dataset_manifest(archive_paths, archive_hashes;
+        run_id="fashion_release_fixture",
+        train_count=60_000,
+        test_count=10_000,
+    )
+    @test manifest["schema_version"] == 1
+    @test manifest["run_id"] == "fashion_release_fixture"
+    @test manifest["archive_sha256"] == archive_hashes
+    @test manifest["train_count"] == 60_000
+    @test manifest["test_count"] == 10_000
+    @test manifest["image_shape"] == [28, 28]
+    @test manifest["class_count"] == 10
+    @test manifest["image_id_scheme"] == "split:zero_based_index"
+
+    mktempdir() do dir
+        path = joinpath(dir, "dataset_manifest.toml")
+        EclatFIM.write_dataset_manifest(path, manifest)
+        loaded = EclatFIM.read_dataset_manifest(path)
+        @test loaded == manifest
+        @test EclatFIM.validate_dataset_manifest(loaded) == true
+    end
+
+    bad = copy(manifest)
+    bad["train_count"] = 59_999
+    @test_throws ArgumentError EclatFIM.validate_dataset_manifest(bad)
+end

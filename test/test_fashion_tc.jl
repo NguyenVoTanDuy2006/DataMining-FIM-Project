@@ -1,4 +1,5 @@
 using Test
+using TOML
 
 const TC = Main.EclatFIM.FashionTC
 
@@ -11,6 +12,21 @@ const TC = Main.EclatFIM.FashionTC
     @test occursin("tc", full_config["run"]["output_root"])
     @test smoke_config["execution"]["backend"] == "cpu"
     @test full_config["execution"]["backend"] == "cpu"
+
+    release_path = joinpath(repo_root, "configs", "tc", "kmeans", "tc_v2_release.toml")
+    @test isfile(release_path)
+    if isfile(release_path)
+        release_config = TOML.parsefile(release_path)
+        @test release_config["run"]["mode"] == "release"
+        @test release_config["dataset"]["expected_images"] == 70_000
+        @test release_config["dataset"]["use_all_images"] == true
+        @test release_config["tc4_codebook"]["training_method"] == "raw_full_batch_kmeans"
+        @test release_config["tc4_codebook"]["k_candidates"] == [32]
+        @test release_config["tc4_codebook"]["random_seeds"] == [123]
+        @test release_config["tc6_transaction_encoding"]["variant"] == "S0"
+        @test full_config["tc4_codebook"]["k_candidates"] == [16, 32, 64, 128, 256]
+        @test full_config["tc4_codebook"]["random_seeds"] == [42, 123, 2026]
+    end
 
     mktempdir() do root
         drive_output = joinpath(root, "drive-output")

@@ -5,7 +5,8 @@ using SHA
 using Serialization
 using Statistics
 using TOML
-using ..EclatFIM: load_fashion_mnist, FASHION_FILES
+using ..EclatFIM: load_fashion_mnist, FASHION_FILES, format_image_id, parse_image_id,
+    read_dataset_manifest
 using ..FashionTC
 
 const TC = FashionTC
@@ -54,14 +55,15 @@ function _validate_training_method(method)
     return method
 end
 
-function prepare_run(config_path::AbstractString; repo_root=pwd(), data_dir=nothing)
+function prepare_run(config_path::AbstractString; repo_root=pwd(), data_dir=nothing,
+    dataset_manifest_path=nothing)
     repo_root = normpath(abspath(repo_root))
     config_path = normpath(abspath(config_path))
     config = TOML.parsefile(config_path)
     run = config["run"]
     dataset = config["dataset"]
     mode = run["mode"]
-    mode in ("smoke", "full") || error("run.mode must be smoke or full")
+    mode in ("smoke", "full", "release") || error("run.mode must be smoke, full, or release")
     config["execution"]["backend"] == "cpu" ||
         error("CPU notebook rejects non-CPU execution.backend")
     config["tc2_patch_filtering"]["foreground_threshold"] == 29 ||
@@ -69,7 +71,7 @@ function prepare_run(config_path::AbstractString; repo_root=pwd(), data_dir=noth
     config["tc2_patch_filtering"]["threshold_comparison"] == "strict_greater" ||
         error("TC v2 requires the strict pixel > 29 comparison")
     _validate_training_method(config["tc4_codebook"]["training_method"])
-    if mode == "full"
+    if mode in ("full", "release")
         get(dataset, "expected_images", 0) == 70_000 || error("Full mode must expect 70,000 images")
         get(dataset, "use_all_images", false) || error("Full mode must use all images")
     else
@@ -78,6 +80,26 @@ function prepare_run(config_path::AbstractString; repo_root=pwd(), data_dir=noth
 
     data_dir = isnothing(data_dir) ? _repo_path(repo_root, dataset["data_dir"]) : abspath(data_dir)
     output_root = _repo_path(repo_root, run["output_root"])
+    if mode == "release"
+        isnothing(dataset_manifest_path) && error("Release mode requires dataset_manifest_path from Notebook 01")
+        manifest_path = normpath(abspath(dataset_manifest_path))
+        manifest = read_dataset_manifest(manifest_path; verify_archives=true, repo_root)
+        manifest["dataset"] == "Fashion-MNIST" || error("Release manifest is for a different dataset")
+        manifest["train_count"] == 60_000 && manifest["test_count"] == 10_000 ||
+            error("Release manifest split counts differ from Fashion-MNIST")
+        run["run_id"] = manifest["run_id"]
+        run["dataset_manifest_path"] = relpath(manifest_path, repo_root)
+        output_root = _repo_path(repo_root, manifest["run_root"])
+        expected_root = normpath(joinpath(_repo_path(repo_root, run["output_root"]), manifest["run_id"]))
+        output_root == expected_root || error("Dataset manifest run_root does not match this release profile")
+        codebook = config["tc4_codebook"]
+        codebook["training_method"] == "raw_full_batch_kmeans" ||
+            error("Release profile requires B0 raw full-batch K-means")
+        codebook["k_candidates"] == [32] && codebook["random_seeds"] == [123] ||
+            error("Release profile is fixed to K=32 and seed=123")
+        config["tc6_transaction_encoding"]["variant"] == "S0" ||
+            error("Release profile requires S0")
+    end
     isdir(data_dir) || error("Fashion-MNIST archive directory not found: $data_dir")
     mkpath(output_root)
 
@@ -320,6 +342,7 @@ function _run_name(method, k, seed)
 end
 
 function _run_directory(state, run_id)
+    state.config["run"]["mode"] == "release" && return joinpath(state.output_root, "transactions")
     return joinpath(state.output_root, run_id)
 end
 
@@ -359,6 +382,8 @@ function run_tc4!(state::TCv2State)
     if state.config["run"]["mode"] == "full"
         k_values == [16,32,64,128,256] || error("Full mode K candidates differ from spec")
         seeds == [42,123,2026] || error("Full mode seeds differ from spec")
+    elseif state.config["run"]["mode"] == "release"
+        k_values == [32] && seeds == [123] || error("Release mode must fit only B0/K=32/seed=123")
     end
     size(state.descriptor_matrix, 2) >= maximum(k_values) || error("Not enough retained descriptors for max K")
     pairs = [(k, seed) for k in k_values for seed in seeds]
@@ -389,11 +414,23 @@ function run_tc4!(state::TCv2State)
                 error("Existing output does not match this run; refusing to overwrite: $run_dir")
             end
         elseif isdir(run_dir) && !isempty(readdir(run_dir))
-            error("Incomplete or unrecognized output exists; refusing to overwrite: $run_dir")
-        else
+            existing_files = readdir(run_dir)
+            retryable_failure = existing_files == ["checkpoint.toml"] && isfile(cp) &&
+                !isfile(codebook_path) && begin
+                    saved = TOML.parsefile(cp)
+                    get(saved, "status", "") == "FAILED" &&
+                        get(saved, "fingerprint", "") == fingerprint
+                end
+            if retryable_failure
+                rm(cp; force=true)
+            else
+                error("Incomplete or unrecognized output exists; refusing to overwrite: $run_dir")
+            end
+        end
+        if isnothing(metrics)
             try
                 fitted = TC.fit_kmeans(state.descriptor_matrix; k, seed,
-                    maxiter=config["max_iterations"], tolerance=config["tolerance"], backend="cpu")
+                    maxiter=config["max_iterations"], tolerance=config["tolerance"])
                 all(isfinite, fitted.centroids) || error("Non-finite centroids")
                 all(x -> 0f0 <= x <= 1f0, fitted.centroids) || error("Centroid outside raw [0,1] space")
                 metrics = _cluster_metrics(fitted, k, size(state.descriptor_matrix, 2))
@@ -460,11 +497,18 @@ function run_tc4!(state::TCv2State)
         descriptors=size(state.descriptor_matrix, 2), status_counts=Dict(s=>count(==(s), values(state.checks)) for s in ("FITTED", "NON_CONVERGED", "DEGENERATE_WARNING")))
 end
 
-function _write_assignments_csv(path, words, index)
+function _release_image_id_map(state)
+    state.config["run"]["mode"] == "release" || return nothing
+    return Dict(state.image_ids[i] => format_image_id(Symbol(state.original_splits[i]),
+        state.original_indices[i] - 1) for i in eachindex(state.image_ids))
+end
+
+function _write_assignments_csv(path, words, index; image_id_map=nothing)
     open(path, "w") do io
         println(io, "image_id,patch_id,patch_row,patch_col,word_id")
         for (word, row) in zip(words, index)
-            println(io, row.image_id, ',', row.patch_id, ',', row.patch_row, ',', row.patch_col, ',', word)
+            image_id = isnothing(image_id_map) ? row.image_id : image_id_map[row.image_id]
+            println(io, image_id, ',', row.patch_id, ',', row.patch_row, ',', row.patch_col, ',', word)
         end
     end
 end
@@ -484,7 +528,8 @@ function run_tc5!(state::TCv2State)
         valid = length(words) == length(state.descriptor_index) && all(w -> 1 <= w <= k, words)
         valid || error("TC5 assignment contract failed for $run_id")
         if !already_completed
-            _write_assignments_csv(joinpath(run_dir, "patch_assignments.csv"), words, state.descriptor_index)
+            _write_assignments_csv(joinpath(run_dir, "patch_assignments.csv"), words,
+                state.descriptor_index; image_id_map=_release_image_id_map(state))
             open(joinpath(run_dir, "assignments.bin"), "w") do io
                 serialize(io, words)
             end
@@ -498,25 +543,34 @@ end
 function _write_transaction_jsonl(path, transactions, image_ids)
     open(path, "w") do io
         for (tid, (items, image_id)) in enumerate(zip(transactions, image_ids))
-            println(io, "{\"tid\":$tid,\"image_id\":$image_id,\"items\":[", join(items, ','), "]}")
+            image_value = image_id isa AbstractString ? "\"$image_id\"" : string(image_id)
+            println(io, "{\"tid\":$tid,\"image_id\":$image_value,\"items\":[", join(items, ','), "]}")
         end
     end
 end
 
 function _write_run_mappings(state, path)
+    image_id_map = _release_image_id_map(state)
     open(path, "w") do io
-        println(io, "tid,image_id,original_split,original_index")
+        release = state.config["run"]["mode"] == "release"
+        println(io, release ? "tid,image_id,split,source_index" : "tid,image_id,original_split,original_index")
         for tid in eachindex(state.image_ids)
-            println(io, tid, ',', state.image_ids[tid], ',', state.original_splits[tid], ',', state.original_indices[tid])
+            image_id = isnothing(image_id_map) ? state.image_ids[tid] : image_id_map[state.image_ids[tid]]
+            source_index = release ? state.original_indices[tid] - 1 : state.original_indices[tid]
+            println(io, tid, ',', image_id, ',', state.original_splits[tid], ',', source_index)
         end
     end
 end
 
 function _write_image_metadata(state, path)
+    image_id_map = _release_image_id_map(state)
     open(path, "w") do io
-        println(io, "image_id,original_split,original_index,class_label")
+        release = state.config["run"]["mode"] == "release"
+        println(io, release ? "image_id,split,source_index,class_label" : "image_id,original_split,original_index,class_label")
         for i in eachindex(state.image_ids)
-            println(io, state.image_ids[i], ',', state.original_splits[i], ',', state.original_indices[i], ',', state.labels[i])
+            image_id = isnothing(image_id_map) ? state.image_ids[i] : image_id_map[state.image_ids[i]]
+            source_index = release ? state.original_indices[i] - 1 : state.original_indices[i]
+            println(io, image_id, ',', state.original_splits[i], ',', source_index, ',', state.labels[i])
         end
     end
 end
@@ -544,7 +598,10 @@ function run_tc6!(state::TCv2State)
             all(tx -> all(item -> 1 <= item <= k, tx), transactions)
         valid || error("TC6 transaction contract failed for $run_id")
         if !already_completed
-            _write_transaction_jsonl(transaction_path, transactions, state.image_ids)
+            image_id_map = _release_image_id_map(state)
+            output_ids = isnothing(image_id_map) ? state.image_ids :
+                [image_id_map[id] for id in state.image_ids]
+            _write_transaction_jsonl(transaction_path, transactions, output_ids)
             _write_run_mappings(state, joinpath(run_dir, "tid_image_mapping.csv"))
             _write_image_metadata(state, joinpath(run_dir, "image_metadata.csv"))
         end
@@ -555,10 +612,75 @@ function run_tc6!(state::TCv2State)
 end
 
 function _parse_transaction_line(line)
-    m = match(r"^\{\"tid\":(\d+),\"image_id\":(\d+),\"items\":\[([0-9,]*)\]\}$", line)
+    m = match(r"^\{\"tid\":(\d+),\"image_id\":(?:\"([^\"\\]+)\"|(\d+)),\"items\":\[([0-9,]*)\]\}$", line)
     isnothing(m) && error("Invalid transaction JSONL record: $line")
-    items = isempty(m.captures[3]) ? Int[] : parse.(Int, split(m.captures[3], ','))
-    return (tid=parse(Int,m.captures[1]), image_id=parse(Int,m.captures[2]), items)
+    image_id = isnothing(m.captures[2]) ? parse(Int, m.captures[3]) : String(m.captures[2])
+    image_id isa String && parse_image_id(image_id)
+    items = isempty(m.captures[4]) ? Int[] : parse.(Int, split(m.captures[4], ','))
+    return (tid=parse(Int,m.captures[1]), image_id, items)
+end
+
+function _expected_output_image_ids(state)
+    image_id_map = _release_image_id_map(state)
+    return isnothing(image_id_map) ? state.image_ids :
+        [image_id_map[id] for id in state.image_ids]
+end
+
+function _write_centroids_csv(path, centroids)
+    open(path, "w") do io
+        println(io, "word_id,pixel_index,centroid_value")
+        for word_id in axes(centroids, 2), pixel_index in axes(centroids, 1)
+            println(io, word_id, ',', pixel_index, ',', centroids[pixel_index, word_id])
+        end
+    end
+    return path
+end
+
+function _write_tc7_manifest!(state, run_id, run_dir, book, records, integrity)
+    state.config["run"]["mode"] == "release" || return nothing
+    artifacts = Dict{String,Any}()
+    for (name, filename) in (
+        "transactions" => "transactions.jsonl",
+        "codebook" => "codebook.bin",
+        "centroids" => "centroids.csv",
+        "patch_assignments" => "patch_assignments.csv",
+        "tid_image_mapping" => "tid_image_mapping.csv",
+        "image_metadata" => "image_metadata.csv",
+        "config" => "config_snapshot.toml",
+        "integrity_report" => "integrity_report.toml",
+    )
+        path = joinpath(run_dir, filename)
+        artifacts[name] = Dict("path" => relpath(path, state.repo_root), "sha256" => _sha256(path))
+    end
+    dataset_manifest_path = joinpath(state.repo_root, state.config["run"]["dataset_manifest_path"])
+    manifest = Dict{String,Any}(
+        "schema_version" => 1,
+        "run_id" => state.config["run"]["run_id"],
+        "tc_run_id" => run_id,
+        "status" => integrity["status"],
+        "dataset_manifest_path" => relpath(dataset_manifest_path, state.repo_root),
+        "dataset_manifest_sha256" => _sha256(dataset_manifest_path),
+        "dataset" => "Fashion-MNIST",
+        "image_count" => length(state.image_ids),
+        "transaction_count" => length(records),
+        "empty_transaction_count" => count(record -> isempty(record.items), records),
+        "support_denominator" => length(records),
+        "transaction_sha256" => artifacts["transactions"]["sha256"],
+        "configuration" => Dict("codebook" => "B0", "K" => book.k, "seed" => book.seed,
+            "transaction_variant" => "S0", "patch_size" => [4, 4], "foreground_threshold" => 29,
+            "descriptor" => "raw_pixels_16d", "image_id_scheme" => "split:zero_based_index"),
+        "archive_sha256" => state.archive_hashes,
+        "artifacts" => artifacts,
+        "created_at_unix" => time(),
+    )
+    path = joinpath(state.output_root, "transactions", "tc7_manifest.toml")
+    mkpath(dirname(path))
+    open(path * ".tmp", "w") do io
+        TOML.print(io, manifest)
+        flush(io)
+    end
+    mv(path * ".tmp", path; force=true)
+    return path
 end
 
 function run_tc7!(state::TCv2State)
@@ -581,16 +703,20 @@ function run_tc7!(state::TCv2State)
         assignment_ok = length(words) == expected_words && all(w -> 1 <= w <= book.k, words)
         records = [_parse_transaction_line(line) for line in eachline(joinpath(run_dir, "transactions.jsonl"))]
         n = length(state.image_ids)
+        output_image_ids = _expected_output_image_ids(state)
         transaction_ok = length(records) == n && [r.tid for r in records] == collect(1:n) &&
-            [r.image_id for r in records] == state.image_ids &&
+            [r.image_id for r in records] == output_image_ids &&
             all(r -> issorted(r.items) && length(r.items) == length(unique(r.items)) &&
                 length(r.items) <= min(book.k,49) && all(i -> 1 <= i <= book.k, r.items), records)
         mapping_ok = countlines(joinpath(run_dir, "tid_image_mapping.csv")) == n + 1
         if mapping_ok
             open(joinpath(run_dir, "tid_image_mapping.csv"), "r") do io
-                mapping_ok = readline(io) == "tid,image_id,original_split,original_index"
+                release = state.config["run"]["mode"] == "release"
+                mapping_ok = readline(io) == (release ? "tid,image_id,split,source_index" :
+                    "tid,image_id,original_split,original_index")
                 for (tid, line) in enumerate(eachline(io))
-                    expected_line = "$tid,$(state.image_ids[tid]),$(state.original_splits[tid]),$(state.original_indices[tid])"
+                    source_index = release ? state.original_indices[tid] - 1 : state.original_indices[tid]
+                    expected_line = "$tid,$(output_image_ids[tid]),$(state.original_splits[tid]),$source_index"
                     mapping_ok &= line == expected_line
                 end
             end
@@ -601,6 +727,8 @@ function run_tc7!(state::TCv2State)
             empty_count + count(r -> !isempty(r.items), records) == n
         config_snapshot = Dict("run_id"=>run_id, "tc4_method"=>book.method,
             "k"=>book.k, "seed"=>book.seed, "threshold"=>29,
+            "mode"=>state.config["run"]["mode"],
+            "dataset_manifest_path"=>get(state.config["run"], "dataset_manifest_path", ""),
             "data_archive_sha256"=>state.archive_hashes,
             "tc1_patch_extraction"=>state.config["tc1_patch_extraction"],
             "tc2_patch_filtering"=>state.config["tc2_patch_filtering"],
@@ -612,6 +740,8 @@ function run_tc7!(state::TCv2State)
             end
         end
         assignment_csv_path = joinpath(run_dir, "patch_assignments.csv")
+        release = state.config["run"]["mode"] == "release"
+        image_id_map = _release_image_id_map(state)
         assignment_csv_lines = countlines(assignment_csv_path)
         assignment_csv_ok = assignment_csv_lines == expected_words + 1
         if assignment_csv_ok
@@ -619,7 +749,8 @@ function run_tc7!(state::TCv2State)
                 assignment_csv_ok = readline(io) == "image_id,patch_id,patch_row,patch_col,word_id"
                 for (i, line) in enumerate(eachline(io))
                     row = state.descriptor_index[i]
-                    expected_line = "$(row.image_id),$(row.patch_id),$(row.patch_row),$(row.patch_col),$(words[i])"
+                    image_id = isnothing(image_id_map) ? row.image_id : image_id_map[row.image_id]
+                    expected_line = "$(image_id),$(row.patch_id),$(row.patch_row),$(row.patch_col),$(words[i])"
                     assignment_csv_ok &= line == expected_line
                 end
             end
@@ -644,6 +775,10 @@ function run_tc7!(state::TCv2State)
             end
         end
         integrity["status"] == "PASS" || error("TC7 read-back validation failed for $run_id")
+        if release
+            centroids_path = joinpath(run_dir, "centroids.csv")
+            _write_centroids_csv(centroids_path, book.centroids)
+        end
         if !already_completed
             checkpoint["fit_status"] = get(checkpoint, "status", "UNKNOWN")
             checkpoint["status"] = "COMPLETED"
@@ -652,8 +787,9 @@ function run_tc7!(state::TCv2State)
                 TOML.print(io, checkpoint)
             end
         end
+        manifest_path = _write_tc7_manifest!(state, run_id, run_dir, book, records, integrity)
         push!(results, (; run_id, status="COMPLETED", fit_status=get(checkpoint, "fit_status", get(checkpoint, "status", "UNKNOWN")), transactions=record_count,
-            empty=empty_count, support_denominator=record_count))
+            empty=empty_count, support_denominator=record_count, manifest_path))
     end
     summary_path = joinpath(state.output_root, "tc_v2_run_summary.toml")
     open(summary_path, "w") do io
