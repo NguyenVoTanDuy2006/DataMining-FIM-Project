@@ -20,3 +20,10 @@ results/*
 results/**/tmp/
 
 /docs/lab2_context.txt
+/.build/
+/docs/report_tv2.aux
+/docs/report_tv2.fdb_latexmk
+/docs/report_tv2.fls
+/docs/report_tv2.log
+/docs/report_tv2.out
+/docs/report_tv2.synctex.gz
