@@ -17,16 +17,16 @@ Tập dữ liệu \href{https://github.com/zalandoresearch/fashion-mnist}{Fashio
         \textbf{Mã} & \textbf{Lớp} & \textbf{Huấn luyện} &
         \textbf{Kiểm thử} & \textbf{Tổng} \\
         \hline
-        0 & Áo thun / áo kiểu & 6.000 & 1.000 & 7.000 \\
-        1 & Quần dài          & 6.000 & 1.000 & 7.000 \\
-        2 & Áo chui đầu       & 6.000 & 1.000 & 7.000 \\
-        3 & Váy liền          & 6.000 & 1.000 & 7.000 \\
-        4 & Áo khoác          & 6.000 & 1.000 & 7.000 \\
-        5 & Dép quai          & 6.000 & 1.000 & 7.000 \\
-        6 & Áo sơ mi          & 6.000 & 1.000 & 7.000 \\
-        7 & Giày thể thao     & 6.000 & 1.000 & 7.000 \\
-        8 & Túi               & 6.000 & 1.000 & 7.000 \\
-        9 & Bốt cổ ngắn       & 6.000 & 1.000 & 7.000 \\
+        0 & T-shirt/top  & 6.000 & 1.000 & 7.000 \\
+        1 & Trouser      & 6.000 & 1.000 & 7.000 \\
+        2 & Pullover     & 6.000 & 1.000 & 7.000 \\
+        3 & Dress        & 6.000 & 1.000 & 7.000 \\
+        4 & Coat         & 6.000 & 1.000 & 7.000 \\
+        5 & Sandal       & 6.000 & 1.000 & 7.000 \\
+        6 & Shirt        & 6.000 & 1.000 & 7.000 \\
+        7 & Sneaker      & 6.000 & 1.000 & 7.000 \\
+        8 & Bag          & 6.000 & 1.000 & 7.000 \\
+        9 & Ankle boot   & 6.000 & 1.000 & 7.000 \\
         \hline
           & \textbf{Tổng} & \textbf{60.000} & \textbf{10.000} & \textbf{70.000} \\
         \hline
@@ -176,19 +176,19 @@ Bốn mẫu trong Bảng~\ref{tab:visual_pattern_examples} được chọn tự 
         \textbf{Tập mục} & \textbf{Độ hỗ trợ} &
         \textbf{Lớp nổi bật} & \textbf{Hệ số $E$} \\
         \hline
-        $\{26\}$      & 69,89\% & Dép quai    & $1{,}27\times$ \\
-        $\{6\}$       & 61,80\% & Bốt cổ ngắn & $1{,}31\times$ \\
-        $\{1,24\}$    &  9,76\% & Dép quai    & $2{,}27\times$ \\
-        $\{4,12,24\}$ &  6,91\% & Bốt cổ ngắn & $2{,}67\times$ \\
+        $\{26\}$      & 69,89\% & Sandal     & $1{,}27\times$ \\
+        $\{6\}$       & 61,80\% & Ankle boot & $1{,}31\times$ \\
+        $\{1,24\}$    &  9,76\% & Sandal     & $2{,}27\times$ \\
+        $\{4,12,24\}$ &  6,91\% & Ankle boot & $2{,}67\times$ \\
         \hline
     \end{tabular}
 \end{table}
 
-Hai tập đơn mục $\{26\}$ và $\{6\}$ lần lượt có mặt trong 48.922 và 43.263 ảnh, tương ứng 69,89\% và 61,80\% toàn bộ tập dữ liệu. Qua tâm cụm và các vùng ảnh minh họa, cả hai từ thị giác có vẻ phản ánh những thay đổi cường độ sáng cục bộ có thể gặp ở nhiều nhóm sản phẩm. Tần suất của chúng thay đổi theo lớp. Chẳng hạn, trong lớp quần dài, tỷ lệ ảnh chứa $\{26\}$ là 30,23\% và tỷ lệ chứa $\{6\}$ là 9,97\%, đều thấp hơn mức chung.
+Hai tập đơn mục $\{26\}$ và $\{6\}$ lần lượt có mặt trong 48.922 và 43.263 ảnh, tương ứng 69,89\% và 61,80\% toàn bộ tập dữ liệu. Qua tâm cụm và các vùng ảnh minh họa, cả hai từ thị giác có vẻ phản ánh những thay đổi cường độ sáng cục bộ có thể gặp ở nhiều nhóm sản phẩm. Tần suất của chúng thay đổi theo lớp. Chẳng hạn, trong lớp Trouser, tỷ lệ ảnh chứa $\{26\}$ là 30,23\% và tỷ lệ chứa $\{6\}$ là 9,97\%, đều thấp hơn mức chung.
 
-Tập hai mục $\{1,24\}$ xuất hiện trong 6.829 ảnh (9,76\%) và có mặt ở cả 10 lớp. Trong lớp dép quai, tỷ lệ này đạt 22,19\%, gấp 2,27 lần mức chung. Ảnh đối chứng thuộc lớp áo sơ mi chỉ chứa từ thị giác 1, nên không được tính vào độ hỗ trợ của tập $\{1,24\}$.
+Tập hai mục $\{1,24\}$ xuất hiện trong 6.829 ảnh (9,76\%) và có mặt ở cả 10 lớp. Trong lớp Sandal, tỷ lệ này đạt 22,19\%, gấp 2,27 lần mức chung. Ảnh đối chứng thuộc lớp Shirt chỉ chứa từ thị giác 1, nên không được tính vào độ hỗ trợ của tập $\{1,24\}$.
 
-Ở mẫu $\{4,12,24\}$, các tâm cụm gợi ý những dạng chuyển tiếp sáng tối khác nhau, gần mép trên, mép phải và mép dưới của vùng ảnh (Hình~\ref{fig:visual_pattern_4_12_24}). Mẫu có mặt trong 4.838 ảnh (6,91\%). Riêng lớp bốt cổ ngắn có 1.291 trong 7.000 ảnh chứa mẫu (18,44\%), gấp 2,67 lần tỷ lệ chung. Chênh lệch này cho thấy mẫu xuất hiện nhiều hơn ở lớp bốt cổ ngắn, đồng thời vẫn có thể gặp ở các lớp khác.
+Ở mẫu $\{4,12,24\}$, các tâm cụm gợi ý những dạng chuyển tiếp sáng tối khác nhau, gần mép trên, mép phải và mép dưới của vùng ảnh (Hình~\ref{fig:visual_pattern_4_12_24}). Mẫu có mặt trong 4.838 ảnh (6,91\%). Riêng lớp Ankle boot có 1.291 trong 7.000 ảnh chứa mẫu (18,44\%), gấp 2,67 lần tỷ lệ chung. Chênh lệch này cho thấy mẫu xuất hiện nhiều hơn ở lớp Ankle boot, đồng thời vẫn có thể gặp ở các lớp khác.
 
 \begin{figure*}[!t]
     \centering
