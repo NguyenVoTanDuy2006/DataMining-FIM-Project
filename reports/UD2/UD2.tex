@@ -73,8 +73,6 @@ Nhóm dùng K-means~\cite{Hartigan1979} để phân cụm toàn bộ các vectơ
 
 \subsection{Thiết kế thực nghiệm khai thác}
 
-Eclat tổ chức dữ liệu theo chiều dọc. Với mỗi mục, thuật toán lưu tập mã của các giao dịch chứa mục đó (TID-set). Để tính số giao dịch hỗ trợ một tập mục, thuật toán lấy giao của các TID-set rồi đếm số phần tử còn lại. Nhóm so sánh hai cách lưu TID-set, Set và BitVector, trên cùng bộ giao dịch S0.
-
 Thực nghiệm dùng sáu ngưỡng hỗ trợ tối thiểu (\textit{minsup}), từ 80\% đến 5\%. Bảng~\ref{tab:fim_minsup} quy đổi mỗi ngưỡng thành số giao dịch cần có trên tổng số 70.000 giao dịch.
 
 \begin{table}[!t]
@@ -100,7 +98,7 @@ Thực nghiệm dùng sáu ngưỡng hỗ trợ tối thiểu (\textit{minsup}),
 \subsection{Kết quả khai thác tập mục phổ biến}
 \label{subsec:fashion_fim_results}
 
-Ở cả sáu ngưỡng, Set và BitVector tìm được cùng các tập mục với cùng số giao dịch hỗ trợ. Bảng~\ref{tab:eclat_backend_comparison} ghi chung số tập mục và độ dài lớn nhất, còn thời gian chạy được ghi riêng cho từng cách biểu diễn. Tỷ số thời gian được tính bằng thời gian của Set chia cho thời gian của BitVector. Giá trị lớn hơn 1 cho biết BitVector chạy nhanh hơn trong lượt đo đó.
+ Bảng~\ref{tab:eclat_backend_comparison} ghi chung số tập mục và độ dài lớn nhất, còn thời gian chạy được ghi riêng cho từng cách biểu diễn. Tỷ số thời gian được tính bằng thời gian của Set chia cho thời gian của BitVector. Giá trị lớn hơn 1 cho biết BitVector chạy nhanh hơn trong lượt đo đó.
 
 \begin{table}[!t]
     \centering
@@ -168,7 +166,7 @@ Nhóm đo một lượt cho mỗi cách biểu diễn ở mỗi ngưỡng. Thờ
 \subsection{Phân tích và diễn giải mẫu trực quan}
 \label{subsec:visual_pattern_interpretation}
 
-Bảng~\ref{tab:visual_pattern_examples} trình bày bốn mẫu được chọn tự động sau khi gộp và loại trùng kết quả Set ở sáu ngưỡng. Nhóm ưu tiên các mẫu khác nhau về độ dài và độ hỗ trợ, đồng thời dùng độ tương đồng Jaccard để hạn chế việc chọn các tập có nhiều mã giống nhau.
+Bảng~\ref{tab:visual_pattern_examples} trình bày bốn mẫu được chọn sau khi gộp và loại trùng kết quả Set ở sáu ngưỡng. Nhóm ưu tiên các mẫu khác nhau về độ dài và độ hỗ trợ, đồng thời dùng độ tương đồng Jaccard để hạn chế việc chọn các tập có nhiều mã giống nhau.
 
 Để diễn giải mẫu, nhóm đặt mỗi tâm cụm dưới dạng lưới $4 \times 4$ cạnh những vùng ảnh thật được gán vào tâm đó. Trên ảnh gốc, các khung màu đánh dấu vị trí của những vùng này. Ảnh hỗ trợ chứa đầy đủ các từ thị giác trong mẫu, còn ảnh đối chứng thiếu ít nhất một từ.
 
