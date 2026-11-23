@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="610" viewBox="0 0 920 610">
+<rect width="100%" height="100%" fill="white"/>
+<text x="105" y="28" font-family="sans-serif" font-size="18" font-weight="bold">Thời gian fit và Centroid MSE so với B0</text>
+<line x1="105" y1="505" x2="845" y2="505" stroke="#334155"/>
+<line x1="105" y1="55" x2="105" y2="505" stroke="#334155"/>
+<text x="475.0" y="586" text-anchor="middle" font-family="sans-serif" font-size="14">Median fit time (s), càng thấp càng nhanh</text>
+<text transform="translate(22 280.0) rotate(-90)" text-anchor="middle" font-family="sans-serif" font-size="14">Centroid MSE Raw 16D, càng thấp càng gần B0</text>
+<circle cx="105.0" cy="219.62788662485366" r="6" fill="#7c3aed"/>
+<text x="113.0" y="212.62788662485366" font-family="sans-serif" font-size="12">PQ08_A50</text>
+<circle cx="391.80122555681265" cy="322.84283008439803" r="6" fill="#7c3aed"/>
+<text x="399.80122555681265" y="315.84283008439803" font-family="sans-serif" font-size="12">Q32</text>
+<circle cx="236.09890937137487" cy="275.78250189469304" r="6" fill="#7c3aed"/>
+<text x="244.09890937137487" y="268.78250189469304" font-family="sans-serif" font-size="12">PQ08_A25</text>
+<circle cx="452.4812059584573" cy="321.6959785236267" r="6" fill="#7c3aed"/>
+<text x="460.4812059584573" y="314.6959785236267" font-family="sans-serif" font-size="12">Q20</text>
+<circle cx="349.3184431706717" cy="314.04460390823044" r="6" fill="#7c3aed"/>
+<text x="357.3184431706717" y="307.04460390823044" font-family="sans-serif" font-size="12">PQ12_A50</text>
+<circle cx="511.43698545400997" cy="300.472291684207" r="6" fill="#7c3aed"/>
+<text x="519.43698545401" y="293.472291684207" font-family="sans-serif" font-size="12">P08</text>
+<circle cx="349.3133135356753" cy="336.5560948998311" r="6" fill="#7c3aed"/>
+<text x="357.3133135356753" y="329.5560948998311" font-family="sans-serif" font-size="12">PQ12_A25</text>
+<circle cx="669.1313858167715" cy="303.511049515512" r="6" fill="#7c3aed"/>
+<text x="677.1313858167715" y="296.511049515512" font-family="sans-serif" font-size="12">Q10</text>
+<circle cx="467.8652464894663" cy="265.4534599437887" r="6" fill="#7c3aed"/>
+<text x="475.8652464894663" y="258.4534599437887" font-family="sans-serif" font-size="12">PQ08_A10</text>
+<circle cx="706.5010465655107" cy="345.153038269533" r="6" fill="#7c3aed"/>
+<text x="714.5010465655107" y="338.153038269533" font-family="sans-serif" font-size="12">Q05</text>
+<circle cx="703.33013853473" cy="55.0" r="6" fill="#7c3aed"/>
+<text x="711.33013853473" y="48.0" font-family="sans-serif" font-size="12">P04</text>
+<circle cx="716.6901639914427" cy="330.0683605323403" r="6" fill="#7c3aed"/>
+<text x="724.6901639914427" y="323.0683605323403" font-family="sans-serif" font-size="12">P12</text>
+<circle cx="845.0" cy="505.0" r="6" fill="#7c3aed"/>
+<text x="853.0" y="498.0" font-family="sans-serif" font-size="12">B0</text>
+<circle cx="647.6264352010983" cy="351.6784945437481" r="6" fill="#7c3aed"/>
+<text x="655.6264352010983" y="344.6784945437481" font-family="sans-serif" font-size="12">PQ12_A10</text>
+</svg>

@@ -1,0 +1,13 @@
+[project]
+name = "fashion-mnist-tc-notebooks"
+version = "0.1.0"
+description = "Jupyter execution tools for Fashion-MNIST transaction construction"
+requires-python = ">=3.10"
+dependencies = [
+    "jupyter>=1.1.1",
+    "nbclient>=0.10.2",
+    "nbformat>=5.10.4",
+]
+
+[tool.uv]
+package = false

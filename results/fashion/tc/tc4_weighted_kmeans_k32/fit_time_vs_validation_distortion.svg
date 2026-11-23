@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="610" viewBox="0 0 920 610">
+<rect width="100%" height="100%" fill="white"/>
+<text x="110" y="28" font-family="sans-serif" font-size="18" font-weight="bold">Thời gian fit và Raw-space Validation Distortion</text>
+<line x1="110" y1="505" x2="840" y2="505" stroke="#334155"/>
+<line x1="110" y1="55" x2="110" y2="505" stroke="#334155"/>
+<text x="475.0" y="586" text-anchor="middle" font-family="sans-serif" font-size="14">Median fit time (s), thấp hơn là nhanh hơn</text>
+<text transform="translate(24 280.0) rotate(-90)" text-anchor="middle" font-family="sans-serif" font-size="14">Validation distortion Raw 16D, thấp hơn là tốt hơn</text>
+<circle cx="335.66374654341007" cy="117.24808934729225" r="6" fill="#059669"/>
+<text x="343.66374654341007" y="110.24808934729225" font-family="sans-serif" font-size="12">Q10</text>
+<circle cx="354.1475989818116" cy="117.21382241290647" r="6" fill="#059669"/>
+<text x="362.1475989818116" y="110.21382241290647" font-family="sans-serif" font-size="12">Q20</text>
+<circle cx="329.51488070569025" cy="55.0" r="6" fill="#059669"/>
+<text x="337.51488070569025" y="48.0" font-family="sans-serif" font-size="12">P04</text>
+<circle cx="405.6794195747235" cy="119.56393041025049" r="6" fill="#059669"/>
+<text x="413.6794195747235" y="112.56393041025049" font-family="sans-serif" font-size="12">Q05</text>
+<circle cx="443.7932832431327" cy="116.26235293519358" r="6" fill="#059669"/>
+<text x="451.7932832431327" y="109.26235293519358" font-family="sans-serif" font-size="12">Q32</text>
+<circle cx="110.0" cy="108.02516844129852" r="6" fill="#059669"/>
+<text x="118.0" y="101.02516844129852" font-family="sans-serif" font-size="12">PQ08_A50</text>
+<circle cx="179.18942692027252" cy="112.62418286859648" r="6" fill="#059669"/>
+<text x="187.18942692027252" y="105.62418286859648" font-family="sans-serif" font-size="12">PQ08_A25</text>
+<circle cx="576.0503716771086" cy="118.33969059122103" r="6" fill="#059669"/>
+<text x="584.0503716771086" y="111.33969059122103" font-family="sans-serif" font-size="12">P12</text>
+<circle cx="737.3397108583978" cy="118.55198760927149" r="6" fill="#059669"/>
+<text x="745.3397108583978" y="111.55198760927149" font-family="sans-serif" font-size="12">B0</text>
+<circle cx="277.5912691214357" cy="113.12056784533507" r="6" fill="#059669"/>
+<text x="285.5912691214357" y="106.12056784533507" font-family="sans-serif" font-size="12">PQ12_A50</text>
+<circle cx="236.69411864775458" cy="111.77987736622129" r="6" fill="#059669"/>
+<text x="244.69411864775458" y="104.77987736622129" font-family="sans-serif" font-size="12">PQ08_A10</text>
+<circle cx="840.0" cy="115.6943709081853" r="6" fill="#059669"/>
+<text x="848.0" y="108.6943709081853" font-family="sans-serif" font-size="12">P08</text>
+<circle cx="356.20772243495645" cy="118.14357105208926" r="6" fill="#059669"/>
+<text x="364.20772243495645" y="111.14357105208926" font-family="sans-serif" font-size="12">PQ12_A25</text>
+<circle cx="793.5033135186465" cy="120.27175017849642" r="6" fill="#059669"/>
+<text x="801.5033135186465" y="113.27175017849642" font-family="sans-serif" font-size="12">PQ12_A10</text>
+</svg>

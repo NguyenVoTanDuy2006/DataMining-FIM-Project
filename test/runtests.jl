@@ -85,3 +85,10 @@ include("test_groceries.jl")
 include("test_association_rules.jl")
 include("test_eclat_optimized.jl")
 include("test_benchmark.jl")
+
+# Fashion-MNIST application workflows
+include("test_fashion_mnist.jl")
+include("test_fashion_tc.jl")
+include("test_fashion_fim_workflow.jl")
+include("test_fashion_tc_spatial.jl")
+include("test_eda2.jl")

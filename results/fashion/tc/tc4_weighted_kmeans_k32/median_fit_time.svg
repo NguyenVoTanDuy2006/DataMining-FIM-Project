@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="740" viewBox="0 0 900 740">
+<rect width="100%" height="100%" fill="white"/>
+<text x="180" y="30" font-family="sans-serif" font-size="18" font-weight="bold">Weighted K-means K=16 — median fit runtime</text>
+<text x="170" y="78" text-anchor="end" font-family="sans-serif" font-size="13">PQ08_A50</text>
+<rect x="180" y="58" width="60.073896675291415" height="25" fill="#2563eb" rx="3"/>
+<text x="247.07389667529142" y="76" font-family="sans-serif" font-size="12">1.465 s</text>
+<text x="170" y="124" text-anchor="end" font-family="sans-serif" font-size="13">PQ08_A25</text>
+<rect x="180" y="104" width="114.091513765621" height="25" fill="#2563eb" rx="3"/>
+<text x="301.091513765621" y="122" font-family="sans-serif" font-size="12">2.782 s</text>
+<text x="170" y="170" text-anchor="end" font-family="sans-serif" font-size="13">PQ08_A10</text>
+<rect x="180" y="150" width="158.98661633977505" height="25" fill="#2563eb" rx="3"/>
+<text x="345.9866163397751" y="168" font-family="sans-serif" font-size="12">3.877 s</text>
+<text x="170" y="216" text-anchor="end" font-family="sans-serif" font-size="13">PQ12_A50</text>
+<rect x="180" y="196" width="190.91586785559608" height="25" fill="#2563eb" rx="3"/>
+<text x="377.91586785559605" y="214" font-family="sans-serif" font-size="12">4.656 s</text>
+<text x="170" y="262" text-anchor="end" font-family="sans-serif" font-size="13">P04</text>
+<rect x="180" y="242" width="231.45370569225346" height="25" fill="#2563eb" rx="3"/>
+<text x="418.4537056922535" y="260" font-family="sans-serif" font-size="12">5.644 s</text>
+<text x="170" y="308" text-anchor="end" font-family="sans-serif" font-size="13">Q10</text>
+<rect x="180" y="288" width="236.25425246863435" height="25" fill="#2563eb" rx="3"/>
+<text x="423.2542524686344" y="306" font-family="sans-serif" font-size="12">5.761 s</text>
+<text x="170" y="354" text-anchor="end" font-family="sans-serif" font-size="13">Q20</text>
+<rect x="180" y="334" width="250.68497848869887" height="25" fill="#2563eb" rx="3"/>
+<text x="437.6849784886989" y="352" font-family="sans-serif" font-size="12">6.113 s</text>
+<text x="170" y="400" text-anchor="end" font-family="sans-serif" font-size="13">PQ12_A25</text>
+<rect x="180" y="380" width="252.29335949146423" height="25" fill="#2563eb" rx="3"/>
+<text x="439.29335949146423" y="398" font-family="sans-serif" font-size="12">6.152 s</text>
+<text x="170" y="446" text-anchor="end" font-family="sans-serif" font-size="13">Q05</text>
+<rect x="180" y="426" width="290.91693699246093" height="25" fill="#2563eb" rx="3"/>
+<text x="477.91693699246093" y="444" font-family="sans-serif" font-size="12">7.094 s</text>
+<text x="170" y="492" text-anchor="end" font-family="sans-serif" font-size="13">Q32</text>
+<rect x="180" y="472" width="320.673218914633" height="25" fill="#2563eb" rx="3"/>
+<text x="507.673218914633" y="490" font-family="sans-serif" font-size="12">7.82 s</text>
+<text x="170" y="538" text-anchor="end" font-family="sans-serif" font-size="13">P12</text>
+<rect x="180" y="518" width="423.92906418620464" height="25" fill="#2563eb" rx="3"/>
+<text x="610.9290641862046" y="536" font-family="sans-serif" font-size="12">10.338 s</text>
+<text x="170" y="584" text-anchor="end" font-family="sans-serif" font-size="13">B0</text>
+<rect x="180" y="564" width="549.8509882785463" height="25" fill="#2563eb" rx="3"/>
+<text x="736.8509882785463" y="582" font-family="sans-serif" font-size="12">13.409 s</text>
+<text x="170" y="630" text-anchor="end" font-family="sans-serif" font-size="13">PQ12_A10</text>
+<rect x="180" y="610" width="593.6990748714678" height="25" fill="#2563eb" rx="3"/>
+<text x="780.6990748714678" y="628" font-family="sans-serif" font-size="12">14.478 s</text>
+<text x="170" y="676" text-anchor="end" font-family="sans-serif" font-size="13">P08</text>
+<rect x="180" y="656" width="630.0" height="25" fill="#2563eb" rx="3"/>
+<text x="817.0" y="674" font-family="sans-serif" font-size="12">15.363 s</text>
+</svg>

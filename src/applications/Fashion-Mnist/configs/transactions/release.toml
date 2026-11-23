@@ -1,0 +1,92 @@
+[run]
+mode = "release"
+run_id = "created_by_notebook_01"
+output_root = "results/fashion/release"
+overwrite_production_artifacts = false
+fail_fast = true
+
+[dataset]
+name = "Fashion-MNIST"
+data_dir = "data/raw/fashion-mnist"
+expected_images = 70000
+use_all_images = true
+preserve_original_split_as_metadata = true
+preserve_class_labels_as_metadata = true
+
+[tc1_patch_extraction]
+patch_size = [4, 4]
+stride = [4, 4]
+overlap = false
+padding = "none"
+patch_order = "row_major"
+patch_id_base = 1
+preserve_coordinates = true
+
+[tc2_patch_filtering]
+experiment_id = "release"
+enabled = true
+method = "foreground_ratio"
+threshold_source = "fixed_release_threshold"
+foreground_threshold = 29
+alpha = 0.0
+threshold_comparison = "strict_greater"
+keep_comparison = "strict_greater"
+modify_grayscale_pixels = false
+
+[tc3_feature_extraction]
+descriptor = "raw_pixels"
+normalization = "divide_by_255"
+dtype = "Float32"
+dimension = 16
+flatten_order = "column_major"
+include_labels = false
+include_coordinates_in_descriptor = false
+
+[tc4_codebook]
+training_method = "raw_full_batch_kmeans"
+fit_scope = "all_retained_descriptors_70k"
+image_sampling = false
+descriptor_sampling = false
+k_candidates = [32]
+random_seeds = [123]
+initialization = "kmeans++"
+max_iterations = 300
+tolerance = 0.0001
+distance = "squared_euclidean"
+sequential_runs = true
+checkpoint_after_each_run = true
+selection_stage = "fixed_release_b0_k32_seed123"
+stability_seed = 123
+stability_sample_size = 10000
+
+[tc5_word_assignment]
+method = "hard_assignment"
+input_descriptor_space = "raw_16d"
+codebook_space = "raw_16d"
+distance = "squared_euclidean"
+word_id_base = 1
+batch_size = 16384
+preserve_coordinates = true
+
+[tc6_transaction_encoding]
+method = "binary_bovw"
+variant = "S0"
+spatial = false
+deduplicate = true
+sort_items = true
+include_labels = false
+preserve_empty = true
+one_image_one_transaction = true
+
+[tc7_export_validation]
+expected_full_transactions = 70000
+save_codebook = true
+save_patch_assignments = true
+save_tid_image_mapping = true
+save_config = true
+save_tc4_metrics = true
+save_integrity_report = true
+verify_eclat_support_denominator = true
+
+[execution]
+backend = "cpu"

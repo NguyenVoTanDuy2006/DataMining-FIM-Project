@@ -1,0 +1,51 @@
+[run]
+mode = "spatial_extension"
+run_id = "FashionMNIST_T2_spatial_70k"
+source_root = "results/fashion/tc/tc6_configs/S0"
+output_root = "results/fashion/tc/tc6_configs"
+overwrite_production_artifacts = false
+fail_fast = true
+
+[source]
+training_method = "raw_full_batch_kmeans"
+method_alias = "B0"
+k_candidates = [16, 32, 64, 128, 256]
+random_seeds = [42, 123, 2026]
+expected_codebooks = 15
+expected_images = 70000
+expected_patch_grid = [7, 7]
+patch_order = "row_major"
+require_completed_integrity = true
+reuse_s0_without_rewrite = true
+
+[tc6_spatial_extension]
+variants_to_generate = ["S1", "S3", "S6-B"]
+reference_variant = "S0"
+one_image_one_transaction = true
+preserve_empty = true
+deduplicate = true
+sort_items = true
+include_labels = false
+transactions_format = "jsonl"
+
+[tc6_spatial_extension.s1]
+region_layout = "grid_2x2"
+row_break_after = 3
+col_break_after = 3
+
+[tc6_spatial_extension.s3]
+stripe_layout = "horizontal_1x3"
+rows_per_stripe = [2, 3, 2]
+
+[tc6_spatial_extension.s6b]
+relation_types = ["ABOVE", "LEFT_OF"]
+distance = "manhattan_patch_grid"
+min_distance = 1
+max_distance = 2
+pair_semantics = "exists_distinct_retained_patch_pair"
+allow_same_word_on_distinct_patches = true
+emit_both_relations_for_diagonal_pairs = true
+include_global_words = false
+
+[execution]
+profile = "full"

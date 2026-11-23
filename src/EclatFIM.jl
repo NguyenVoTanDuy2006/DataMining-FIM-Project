@@ -1,29 +1,14 @@
 module EclatFIM
 
-export mine, read_spmf_transactions, write_spmf_itemsets,
-       read_spmf_itemsets, compare_itemsets
+export mine, mine_count, read_spmf_transactions, write_spmf_itemsets,
+    read_spmf_itemsets, compare_itemsets, FashionMNIST
 
 include("utils/SPMFIO.jl")
 include("algorithm/EclatBaseline.jl")
 include("algorithm/EclatOptimized.jl")
+include("algorithm/EclatCompatibility.jl")
 include("applications/Groceries.jl")
 include("applications/AssociationRules.jl")
-include("applications/FashionMNIST.jl")
-include("applications/VisualCodebook.jl")
-include("applications/VisualMining.jl")
+include("applications/Fashion-Mnist/FashionMNIST.jl")
 
-function mine(
-    transactions::Vector{Vector{Int}},
-    minsup::Real;
-    backend::Symbol = :set
-)::Dict{Tuple{Vararg{Int}}, Int}
-    if backend == :set
-        return mine_baseline(transactions, minsup)
-    elseif backend == :bitvector
-        return mine_optimized(transactions, minsup)
-    end
-
-    throw(ArgumentError("Unsupported backend: $backend"))
-end
-
-end
+end # module EclatFIM

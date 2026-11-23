@@ -1,0 +1,100 @@
+[run]
+mode = "full"
+run_id = "FashionMNIST_T2_benchmark"
+output_root = "results/fashion/tc/benchmark"
+overwrite_production_artifacts = false
+fail_fast = true
+
+[dataset]
+name = "Fashion-MNIST"
+image_shape = [28, 28]
+train_images = 60000
+validation_images = 10000
+validation_source = "original_test"
+use_original_split = true
+preserve_class_labels_as_metadata = true
+
+[tc0_preprocessing]
+threshold_method = "q10_positive"
+fit_split = "train"
+quantile = 0.10
+positive_pixel_only = true
+threshold_comparison = "strict_greater"
+eda_q10_reference = 29
+save_fitted_threshold = true
+
+[tc1_patch_extraction]
+patch_size = [4, 4]
+stride = [4, 4]
+overlap = false
+padding = "none"
+patch_order = "row_major"
+patch_id_base = 1
+preserve_coordinates = true
+
+[tc2_patch_filtering]
+experiment_id = "T2"
+enabled = true
+method = "foreground_ratio"
+threshold_source = "tc0_q10_train"
+alpha = 0.0
+keep_comparison = "strict_greater"
+modify_grayscale_pixels = false
+benchmark_variants = ["T1_no_filter", "T2_q10_train", "T3_tau10"]
+
+[tc3_feature_extraction]
+strategy = "dense_patches"
+descriptor = "raw_pixels"
+normalization = "divide_by_255"
+dtype = "Float32"
+dimension = 16
+flatten_order = "column_major"
+include_labels = false
+include_coordinates_in_descriptor = false
+
+[tc4_codebook]
+algorithm = "Clustering.jl_full_batch_kmeans"
+training_split = "train"
+validation_split = "validation"
+image_sampling = false
+descriptor_sampling = false
+fit_data = "all_retained_train_descriptors"
+k_candidates = [16, 32, 64, 128, 256]
+random_seeds = [42, 123, 2026]
+initialization = "kmeans++"
+max_iterations = 300
+tolerance = 0.0001
+distance = "squared_euclidean"
+sequential_runs = true
+checkpoint_after_each_run = true
+
+[tc5_word_assignment]
+method = "hard_assignment"
+distance = "squared_euclidean"
+word_id_base = 1
+chunk_size = 16384
+same_codebook_train_validation = true
+
+[tc6_transaction_encoding]
+method = "binary_bovw"
+spatial = false
+deduplicate = true
+sort_items = true
+include_labels = false
+preserve_empty = true
+one_image_one_transaction = true
+
+[tc7_export_validation]
+expected_train_transactions = 60000
+expected_validation_transactions = 10000
+expected_full_transactions = 70000
+save_codebook = true
+save_patch_assignments = true
+save_tid_image_mapping = true
+save_config = true
+save_benchmark_results = true
+save_validation_report = true
+verify_eclat_support_denominator = true
+
+[execution]
+backend = "cpu"

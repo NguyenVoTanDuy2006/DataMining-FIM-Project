@@ -1,9 +1,15 @@
 # Local environments and generated files
 .venv/
 .julia/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
 *.ji
 .ipynb_checkpoints/
 .DS_Store
+.learn/
 
 # Downloaded or generated datasets; keep directory markers
 data/raw/**
@@ -13,10 +19,30 @@ data/processed/**
 data/benchmark/**
 !data/benchmark/.gitkeep
 
-# Generated results; retain selected benchmark and Groceries artifacts
+# Ignore generated outputs except selected benchmark, Groceries, and Fashion reports
 results/*
+!results/.gitkeep
 !results/benchmarks/
 !results/groceries/
+!results/fashion/
+results/fashion/*
+!results/fashion/.gitkeep
+!results/fashion/tc/
+results/fashion/tc/*
+!results/fashion/tc/tc4_vector_tradeoff_60k/
+!results/fashion/tc/tc4_weighted_kmeans_k16/
+!results/fashion/tc/tc4_weighted_kmeans_k32/
+!results/fashion/tc/tc4_weighted_kmeans_k64/
+!results/fashion/tc/tc4_weighted_kmeans_k128/
+!results/fashion/tc/tc4_weighted_kmeans_k256/
 results/**/tmp/
+results/fashion/eda1/[0-9]*
 
+# Local agent configuration
+.agents/
+.specify/
+.codex/
+.jupyter-agent-bridge/
+
+# Local-only note
 /docs/lab2_context.txt
