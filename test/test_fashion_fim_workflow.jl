@@ -1,5 +1,4 @@
-include(joinpath(@__DIR__, "..", "src", "fashion_fim", "FashionFIMWorkflow.jl"))
-using .FashionFIMWorkflow
+using EclatFIM.FashionFIMWorkflow: load_transactions
 
 @testset "Release Fashion-FIM transaction input" begin
     mktempdir() do dir

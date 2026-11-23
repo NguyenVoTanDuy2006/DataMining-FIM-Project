@@ -271,8 +271,8 @@ Huấn luyện **một codebook chung cho tất cả ảnh trong từng run**, s
 
 ### TC4.4. Lịch benchmark
 
-1. Chạy `configs/tc_smoke.toml` bằng notebook TC0–TC7 để kiểm tra pipeline.
-2. Khi smoke đạt, chọn `configs/tc_full.toml` để chạy 15 runs (K × seed), từng run một.
+1. Chạy `src/applications/Fashion-Mnist/configs/transactions/split_smoke.toml` bằng notebook TC0–TC7 để kiểm tra pipeline.
+2. Khi smoke đạt, chọn `src/applications/Fashion-Mnist/configs/transactions/split_full.toml` để chạy 15 runs (K × seed), từng run một.
 3. Với mỗi run, tính validation metrics bằng **toàn bộ validation descriptors** (không fit lại).
 4. Tạo validation transactions của run để có transaction-level metrics; chạy pilot Eclat có kiểm soát cho các K triển vọng.
 5. Lập bảng tổng hợp mean ± std theo K, chọn 2–3 K triển vọng, so sánh visual centroids/pattern interpretability rồi chọn K cho pipeline chính.

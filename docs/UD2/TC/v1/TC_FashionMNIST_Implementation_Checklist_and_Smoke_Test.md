@@ -151,7 +151,7 @@ save_executed_notebook_logs = true
 stop_on_first_failure = true
 ```
 
-Đây là cấu hình smoke thực tế được notebook đọc và đã chạy PASS. `configs/tc_full.toml` đi qua cùng `prepare_run` và các hàm TC0–TC7; config quyết định mode, quy mô dữ liệu, K/seed và output. Notebook mặc định smoke; chọn full bằng `FASHION_TC_CONFIG=configs/tc_full.toml`. Smoke đã chạy fresh-kernel; full mới được xác nhận ở bước đọc/chuẩn bị config, chưa chạy các bước trên 70.000 ảnh.
+Đây là cấu hình smoke thực tế được notebook đọc và đã chạy PASS. `src/applications/Fashion-Mnist/configs/transactions/split_full.toml` đi qua cùng `prepare_run` và các hàm TC0–TC7; config quyết định mode, quy mô dữ liệu, K/seed và output. Notebook mặc định smoke; chọn full bằng `FASHION_TC_CONFIG=src/applications/Fashion-Mnist/configs/transactions/split_full.toml`. Smoke đã chạy fresh-kernel; full mới được xác nhận ở bước đọc/chuẩn bị config, chưa chạy các bước trên 70.000 ảnh.
 
 **Điểm giới hạn an toàn:** Một notebook khi chạy với config smoke **không được âm thầm dùng cấu hình full mặc định** nếu thiếu một trường bắt buộc; phải fail fast. Chỉ cho phép production khi người chạy chủ động chọn config full và xác nhận chế độ full.
 
@@ -162,7 +162,7 @@ stop_on_first_failure = true
 ### C0. Hạ tầng notebook / orchestration — làm trước
 
 - [x] Xác định danh sách notebook TC thực tế và thứ tự dependency: một notebook điều phối TC0–TC7.
-- [x] Notebook đọc config được chọn qua `FASHION_TC_CONFIG` (mặc định `configs/tc_smoke.toml`); smoke/full cùng đi qua các cell TC0–TC7.
+- [x] Notebook đọc config được chọn qua `FASHION_TC_CONFIG` (mặc định `src/applications/Fashion-Mnist/configs/transactions/split_smoke.toml`); smoke/full cùng đi qua các cell TC0–TC7.
 - [x] Logic pipeline nằm trong `src/applications/FashionTC.jl`; notebook gọi module và hiển thị report.
 - [x] Đường dẫn dataset/config/output được resolve tương đối từ project root.
 - [x] Các cell dùng chung `run_state` trong kernel tuần tự; cache và kết quả cần lưu được ghi vào output theo config.
@@ -316,7 +316,7 @@ stop_on_first_failure = true
 - [ ] Chuyển sang config production **một cách tường minh**; kiểm tra `mode=full` và output paths riêng.
 - [ ] TC0 tính lại Q10+ từ **60.000 train**; lưu ngưỡng này, không dùng ngưỡng smoke hoặc EDA1=29 để fit.
 - [ ] Chạy TC1–TC3 **60.000 train + 10.000 validation**, cache toàn bộ retained descriptors; ghi nhận reduction thực tế.
-- [ ] Chạy `configs/tc_smoke.toml` qua notebook TC0–TC7; chỉ khi smoke đạt mới chạy `configs/tc_full.toml`.
+- [ ] Chạy `src/applications/Fashion-Mnist/configs/transactions/split_smoke.toml` qua notebook TC0–TC7; chỉ khi smoke đạt mới chạy `src/applications/Fashion-Mnist/configs/transactions/split_full.toml`.
 
 ### E2. Main K benchmark
 

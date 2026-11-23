@@ -7,8 +7,42 @@ Julia project for Eclat frequent itemset mining, benchmark experiments, and the 
 ## Current state
 
 The Fashion-MNIST release workflow is organized as four ordered notebooks under
-`notebook/UD2/release/`. The TC4 vector benchmark, spatial extension, and EDA2
-remain in `notebook/UD2/experiments/`.
+`notebook/UD2/release/`. The TC4 vector benchmark, spatial extension, and
+[exploratory data analysis of Fashion-MNIST transactions (EDA2)](notebook/UD2/experiments/EDA2_FashionMNIST_Transaction_Evaluation.ipynb)
+are in `notebook/UD2/experiments/`. EDA2 compares codebook quality, transaction
+density and diversity, and pilot Eclat results across codebook sizes, seeds, and
+S0/S1/S3 encodings.
+
+Julia callers can load the application with `using EclatFIM: FashionMNIST`.
+The [FashionMNIST module](src/applications/Fashion-Mnist/FashionMNIST.jl) groups
+dataset loading, transaction construction, Spatial, EDA2, and mining. Existing
+notebooks and scripts can still use their `EclatFIM` entry points.
+
+The [FashionTC module](src/applications/Fashion-Mnist/FashionTC.jl) runs both
+transaction construction profiles. The split profile fits on train and exports
+separate train and validation text files. The combined profile takes smoke, full,
+or release configuration and exports S0 JSONL with image and patch mappings.
+Both use the same K-means, word assignment, and binary BoVW implementations.
+
+Under `src/applications/Fashion-Mnist/`, `dataset/` handles verified archive
+and IDX loading, and `spatial/` handles location-aware transaction encodings.
+`transaction_eda/` contains input checks, transaction and codebook analysis,
+pilot mining, and pattern review.
+`mining/` prepares transaction inputs for the Julia worker. Both use readers
+from `transaction_io/`, which also handles the TC and spatial artifacts.
+Mining scripts live in `mining/scripts/`, and the kernel installer and release
+notebook validator live in `notebook_tools/`.
+
+The application keeps its TOML profiles under [configs/](src/applications/Fashion-Mnist/configs/).
+`transactions/` groups split, combined, and release profiles. `spatial/` holds
+the smoke and full profiles. `transaction_eda.toml` configures the exploratory
+analysis of S0, S1, and S3 transactions.
+
+To run the split transaction smoke profile from the command line:
+
+```sh
+julia --project=. src/applications/Fashion-Mnist/transaction_construction/scripts/run_tc.jl split_smoke
+```
 
 ## Julia setup
 
@@ -25,15 +59,14 @@ and open the Julia notebooks from the repository root:
 ```sh
 julia --project=. -e 'using Pkg; Pkg.instantiate()'
 julia --project=. test/runtests.jl
-julia --project=environments/fashion_notebooks -e 'using Pkg; Pkg.instantiate()'
-julia scripts/install_fashion_tc_kernel.jl
+julia src/applications/Fashion-Mnist/notebook_tools/install_fashion_tc_kernel.jl
 python -m pip install -e .
 ```
 
-Choose the Julia Fashion-MNIST TC kernel in Jupyter. Each notebook activates
-its runtime environment from a fresh kernel. TC uses the repository root and
-runs on CPU. `environments/fashion_notebooks/` holds IJulia and the PNG export
-tools needed by notebook 01, keeping them out of TC's dependencies.
+Choose the Julia Fashion-MNIST TC kernel in Jupyter. The kernel, notebooks,
+and Julia workers all use the repository root project. That project also
+includes IJulia and the PNG libraries used by notebook 01. If you previously
+installed the kernel, run the installer again to update its project path.
 
 ## Fashion-MNIST release
 

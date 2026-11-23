@@ -4,16 +4,17 @@ using TOML
 const TC = Main.EclatFIM.FashionTC
 
 @testset "Fashion-MNIST TC helpers" begin
-    repo_root = dirname(@__DIR__)
-    smoke_config = TC.read_config(joinpath(repo_root,"configs","tc_smoke.toml"))
-    full_config = TC.read_config(joinpath(repo_root,"configs","tc_full.toml"))
+    profiles = joinpath(EclatFIM.FASHION_MNIST_ROOT, "configs", "transactions")
+    smoke_path = joinpath(profiles, "split_smoke.toml")
+    smoke_config = TC.read_config(smoke_path)
+    full_config = TC.read_config(joinpath(profiles, "split_full.toml"))
     @test smoke_config["run"]["mode"] == "smoke"
     @test full_config["run"]["mode"] == "full"
     @test occursin("tc", full_config["run"]["output_root"])
     @test smoke_config["execution"]["backend"] == "cpu"
     @test full_config["execution"]["backend"] == "cpu"
 
-    release_path = joinpath(repo_root, "configs", "tc", "kmeans", "tc_v2_release.toml")
+    release_path = joinpath(profiles, "release.toml")
     @test isfile(release_path)
     if isfile(release_path)
         release_config = TOML.parsefile(release_path)
@@ -31,7 +32,7 @@ const TC = Main.EclatFIM.FashionTC
     mktempdir() do root
         drive_output = joinpath(root, "drive-output")
         local_work = joinpath(root, "local-work")
-        state = TC.prepare_run(joinpath(repo_root, "configs", "tc_smoke.toml");
+        state = TC.prepare_run(smoke_path;
             data_dir=joinpath(root, "not-yet-read"),
             output_root=drive_output,
             work_root=local_work)

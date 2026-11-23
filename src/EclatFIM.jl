@@ -1,6 +1,6 @@
 module EclatFIM
 
-export mine
+export mine, FashionMNIST
 
 # Source files are included in dependency order. Implementations will define
 # their public API here as the project plan is completed.
@@ -9,12 +9,6 @@ include("algorithm/EclatBaseline.jl")
 include("algorithm/EclatOptimized.jl")
 include("applications/Groceries.jl")
 include("applications/AssociationRules.jl")
-include("applications/FashionMNIST.jl")
-include("applications/VisualCodebook.jl")
-include("applications/VisualMining.jl")
-include("applications/FashionTC.jl")
-include("applications/FashionTCv2.jl")
-include("applications/FashionTCSpatial.jl")
-include("eda2/FashionMNISTEDA2.jl")
+include("applications/Fashion-Mnist/FashionMNIST.jl")
 
 end # module EclatFIM

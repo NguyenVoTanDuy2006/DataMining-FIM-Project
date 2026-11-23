@@ -32,7 +32,7 @@
 | ---------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------- |
 | **TV1 — Trung** | **Algorithm & Optimization Lead**  | Đọc paper; Eclat baseline; Eclat optimized; API; CLI; unit tests; xác minh SPMF                               | `EclatBaseline.jl`, `EclatOptimized.jl`, `EclatFIM.jl`, `test/runtests.jl`, tài liệu thuật toán | Cao              |
 | **TV2 — Khang** | **Benchmark & Market Basket Lead** | Chuẩn bị benchmark; runner/đo hiệu năng; tiền xử lý Groceries; association rules; bảng/biểu đồ                | `Benchmark.jl`, `Groceries.jl`, `AssociationRules.jl`, kết quả benchmarks, top-10 rules         | Trung bình–cao   |
-| **TV3 — Duy**   | **Visual Mining & Demo Lead**      | Đọc Fashion-MNIST; patch descriptors; K-means/codebook; transactions; phân tích visual pattern; tích hợp demo | `FashionMNIST.jl`, `VisualCodebook.jl`, `VisualMining.jl`, plots, `demo.ipynb`                  | Cao              |
+| **TV3 — Duy**   | **Visual Mining & Demo Lead**      | Đọc Fashion-MNIST; patch descriptors; K-means/codebook; transactions; phân tích visual pattern; tích hợp demo | `FashionMNIST.jl`, `FashionTC.jl`, plots, `notebook/UD2/release/`                                | Cao              |
 
 ### Quy định phối hợp
 
@@ -231,16 +231,18 @@ eclat-fim/
 │   ├── applications/
 │   │   ├── Groceries.jl
 │   │   ├── AssociationRules.jl
-│   │   ├── FashionMNIST.jl
-│   │   ├── VisualCodebook.jl
-│   │   └── VisualMining.jl
+│   │   └── Fashion-Mnist/
+│   │       ├── FashionTC.jl
+│   │       ├── configs/
+│   │       ├── dataset/
+│   │       ├── spatial/
+│   │       ├── transaction_construction/  # Gồm các lệnh chạy TC và kiểm tra artifact
+│   │       ├── transaction_eda/
+│   │       ├── transaction_io/
+│   │       ├── mining/
+│   │       └── notebook_tools/
 │   └── utils/
 │       └── SPMFIO.jl
-├── scripts/
-│   ├── benchmark.jl
-│   ├── groceries_demo.jl
-│   ├── fashion_demo.jl
-│   └── demo.jl
 ├── test/
 │   └── runtests.jl
 ├── data/
@@ -251,8 +253,9 @@ eclat-fim/
 │   ├── benchmarks/
 │   ├── groceries/
 │   └── fashion/
-├── notebooks/
-│   └── demo.ipynb
+├── notebook/UD2/
+│   ├── release/
+│   └── experiments/
 └── docs/
     └── Report.pdf
 ```

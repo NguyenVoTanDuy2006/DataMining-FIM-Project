@@ -23,7 +23,7 @@ description: "Dependency-ordered implementation tasks for the Fashion-MNIST note
 **Purpose**: Establish the stable image identity used by all four user stories.
 
 - [X] T001 Add tests in `test/test_fashion_mnist.jl` for stable IDs `train:0`, `test:0`, the last valid train/test indices, and rejection of a negative index or unknown split; run them before implementation and confirm they fail.
-- [X] T002 Implement the canonical split-plus-zero-based-index formatter/parser in `src/applications/FashionMNIST.jl`; make the cases in `test/test_fashion_mnist.jl` pass without changing the integer array indices used internally.
+- [X] T002 Implement the canonical split-plus-zero-based-index formatter/parser in `src/applications/Fashion-Mnist/dataset/FashionMNIST.jl`; make the cases in `test/test_fashion_mnist.jl` pass without changing the integer array indices used internally.
 
 **Checkpoint**: Stable image IDs have one definition before any release manifest or downstream artifact is written.
 
@@ -41,7 +41,7 @@ description: "Dependency-ordered implementation tasks for the Fashion-MNIST note
 
 ### Implementation for User Story 1
 
-- [X] T004 [US1] Add dataset-manifest creation and validation in `src/applications/FashionMNIST.jl`; record a unique run ID, official archive paths/hashes, split counts, 28×28 shape, ten classes, stable image-ID scheme, validation status, and `results/fashion/release/<run_id>/` as the shared run root.
+- [X] T004 [US1] Add dataset-manifest creation and validation in `src/applications/Fashion-Mnist/dataset/FashionMNIST.jl`; record a unique run ID, official archive paths/hashes, split counts, 28×28 shape, ten classes, stable image-ID scheme, validation status, and `results/fashion/release/<run_id>/` as the shared run root.
 - [X] T005 [US1] Move and adapt `notebook/UD2/experiments/01_fashion_mnist_dataset.ipynb` to `notebook/UD2/release/01_dataset_validation.ipynb`; use the existing verified downloader/IDX reader, remove Colab Drive/TAR output assumptions, display examples from all ten classes, and write the manifest under the run root. Begin with purpose, conditions, inputs, and outputs, and put an explanatory Markdown cell immediately before every code cell.
 - [ ] T006 [US1] Execute `notebook/UD2/release/01_dataset_validation.ipynb` with a fresh `fashion-mnist-tc` kernel once with archives absent and once with verified archives present; confirm the same validated counts/hashes and a readable dataset manifest in `results/fashion/release/<run_id>/dataset/`.
 
@@ -58,12 +58,12 @@ description: "Dependency-ordered implementation tasks for the Fashion-MNIST note
 ### Tests for User Story 2
 
 - [X] T007 [P] [US2] Add tests in `test/test_fashion_fim_workflow.jl` and include them from `test/runtests.jl` for JSONL rows with string image IDs and empty `items`; verify expected record counts include empty rows and malformed/duplicate IDs are rejected, then confirm the tests fail before implementation.
-- [X] T008 [P] [US2] Add release-profile tests in `test/test_fashion_tc.jl` that require `mode=release`, `K=[32]`, `seed=[123]`, all 70,000 images, B0, and S0, while confirming `configs/tc/kmeans/tc_v2_full.toml` still retains its five K values × three seeds; confirm the tests fail before implementation.
+- [X] T008 [P] [US2] Add release-profile tests in `test/test_fashion_tc.jl` that require `mode=release`, `K=[32]`, `seed=[123]`, all 70,000 images, B0, and S0, while confirming `src/applications/Fashion-Mnist/configs/transactions/combined_full.toml` still retains its five K values × three seeds; confirm the tests fail before implementation.
 
 ### Implementation for User Story 2
 
 - [X] T009 [P] [US2] Update `src/fashion_fim/FashionFIMWorkflow.jl` to read the versioned release transaction schema with canonical string `image_id`, validate `train:<zero-based-index>`/`test:<zero-based-index>`, keep TIDs unique, and allow empty transactions; do not change the public Eclat input type.
-- [X] T010 [P] [US2] Add `configs/tc/kmeans/tc_v2_release.toml` for one full-data B0 codebook with K=32 and seed=123, S0, CPU execution, and a run root supplied from Notebook 01; keep the full experimental config unchanged.
+- [X] T010 [P] [US2] Add `src/applications/Fashion-Mnist/configs/transactions/release.toml` for one full-data B0 codebook with K=32 and seed=123, S0, CPU execution, and a run root supplied from Notebook 01; keep the full experimental config unchanged.
 - [X] T011 [US2] Extend `src/applications/FashionTCv2.jl` with a distinct release mode that consumes and verifies Notebook 01's manifest, runs TC1–TC7 on all 70,000 images, emits stable IDs in all release artifacts, reloads and validates the output, and writes `transactions/tc7_manifest.toml` with schema/run identity and hashes for transactions, codebook, patch assignments, mapping, metadata, and config. Preserve the existing full-mode 15-codebook guard.
 - [X] T012 [US2] Move and adapt `notebook/UD2/experiments/03_fashion_mnist_transaction_construction_cpu.ipynb` to `notebook/UD2/release/02_transaction_construction.ipynb`; load Notebook 01's manifest, display TC1–TC7 outputs, use the release profile, and explain every code cell in the immediately preceding Markdown cell.
 - [X] T013 [US2] Execute `notebook/UD2/release/02_transaction_construction.ipynb` from the Notebook 01 run manifest with a fresh kernel; verify exactly one codebook, 70,000 transaction rows including any empty rows, valid stable-ID mappings, and matching artifact hashes in `results/fashion/release/<run_id>/transactions/tc7_manifest.toml`.
@@ -84,9 +84,9 @@ description: "Dependency-ordered implementation tasks for the Fashion-MNIST note
 
 ### Implementation for User Story 3
 
-- [X] T015 [P] [US3] Update `scripts/fashion_fim/run_mining_worker.jl` to accept `--backend set|bitvector`, pass the selected backend to `EclatFIM.mine`, record backend identity in worker results, and remove the production rejection of empty transactions while preserving their denominator contribution.
-- [X] T016 [P] [US3] Update `scripts/fashion_fim/supervisor.py` to create separate Set and BitVector run namespaces for all six thresholds, pass the worker backend option, record backend/source/input hashes and the shared resource limits, keep the two backend batches sequential, and apply legacy singleton/pair guardrails only when the input hash matches their historical dataset.
-- [X] T017 [US3] Extend `scripts/fashion_fim/audit_outputs.py` to compare every canonical itemset and support count for each completed Set/BitVector threshold pair, independently recompute support from the source transactions, and write `mining/parity_audit.json` plus the 12-row `mining/comparison.csv`; check the 7,228 reference only when the transaction hash matches the historical report input.
+- [X] T015 [P] [US3] Update `src/applications/Fashion-Mnist/mining/scripts/run_mining_worker.jl` to accept `--backend set|bitvector`, pass the selected backend to `EclatFIM.mine`, record backend identity in worker results, and remove the production rejection of empty transactions while preserving their denominator contribution.
+- [X] T016 [P] [US3] Update `src/applications/Fashion-Mnist/mining/scripts/supervisor.py` to create separate Set and BitVector run namespaces for all six thresholds, pass the worker backend option, record backend/source/input hashes and the shared resource limits, keep the two backend batches sequential, and apply legacy singleton/pair guardrails only when the input hash matches their historical dataset.
+- [X] T017 [US3] Extend `src/applications/Fashion-Mnist/mining/scripts/audit_outputs.py` to compare every canonical itemset and support count for each completed Set/BitVector threshold pair, independently recompute support from the source transactions, and write `mining/parity_audit.json` plus the 12-row `mining/comparison.csv`; check the 7,228 reference only when the transaction hash matches the historical report input.
 - [X] T018 [US3] Move and adapt `notebook/UD2/experiments/FIM_Mining_Experiments.ipynb` to `notebook/UD2/release/03_frequent_itemset_mining.ipynb`; load and verify the TC7 manifest, preflight Linux user-systemd and run the smoke check, run both backends at all six thresholds with equal limits, show itemset count/runtime/Peak RSS/status/parity, and automatically persist 3–4 representative Set patterns using the versioned grid and Jaccard rule. Add the required notebook introduction and Markdown explanation before each code cell.
 - [X] T019 [US3] Execute `notebook/UD2/release/03_frequent_itemset_mining.ipynb` against the TC7 transaction hash; confirm all 12 jobs have explicit statuses, every completed pair has exact parity and direct-support audit, the historical 7,228 check is either verified or recorded `NOT_APPLICABLE`, and the selector writes its 3–4-pattern handoff plus provenance manifest.
 
@@ -106,7 +106,7 @@ description: "Dependency-ordered implementation tasks for the Fashion-MNIST note
 
 ### Implementation for User Story 4
 
-- [X] T021 [US4] Update `scripts/fashion_fim/interpretation.py` to read the selected itemsets and parent manifests from the shared run root, validate stable string IDs and hashes, and preserve patch witnesses, support retrieval, class statistics, galleries, review annotations, and report output without hard-coded legacy paths.
+- [X] T021 [US4] Update `src/applications/Fashion-Mnist/mining/scripts/interpretation.py` to read the selected itemsets and parent manifests from the shared run root, validate stable string IDs and hashes, and preserve patch witnesses, support retrieval, class statistics, galleries, review annotations, and report output without hard-coded legacy paths.
 - [X] T022 [US4] Move and adapt `notebook/UD2/experiments/FIM_Visual_Interpretation.ipynb` to `notebook/UD2/release/04_visual_interpretation.ipynb`; load the persisted selection, render centroids/source patches/supporting images and available contrast images, show class distributions, and export the review sheet/report. Add the notebook introduction and an explanatory Markdown cell immediately before every code cell.
 - [X] T023 [US4] Run `notebook/UD2/release/04_visual_interpretation.ipynb` using Notebook 03's automatic 3–4-pattern Set selection; confirm up to six deterministic supporting examples and one contrast image where available, support equals retrieved-image count, and the report remains `PENDING_REVIEW` until comments are entered.
 
@@ -118,7 +118,7 @@ description: "Dependency-ordered implementation tasks for the Fashion-MNIST note
 
 **Purpose**: Make the release discoverable, enforce notebook structure, and validate the complete clean-checkout workflow.
 
-- [X] T024 [P] Add `scripts/validate_release_notebooks.py` to require the four exact release notebook paths, the purpose/conditions/inputs/outputs opening section, and an immediately preceding Markdown cell for every code cell.
+- [X] T024 [P] Add `src/applications/Fashion-Mnist/notebook_tools/validate_release_notebooks.py` to require the four exact release notebook paths, the purpose/conditions/inputs/outputs opening section, and an immediately preceding Markdown cell for every code cell.
 - [X] T025 [P] Update `README.md` with links to the four release notebooks in run order, each handoff artifact, Julia/Python/systemd prerequisites, and instructions for rerunning when archives are missing.
 - [X] T026 Reconcile `notebook/UD2/release/` and `notebook/UD2/experiments/` so release contains the four numbered notebooks and experiments retains the TC4 vector benchmark, spatial extension, and EDA2 notebooks only; verify no README links point to stale primary-notebook paths.
 - [ ] T027 Follow `specs/001-fashion-notebook-release/quickstart.md` from a clean checkout with an empty `results/fashion/release/` run area; run `julia --project=. test/runtests.jl`, the Python release unit tests, notebook structure validation, and all four notebooks with fresh kernels, then confirm each manifest/audit reaches its expected status.

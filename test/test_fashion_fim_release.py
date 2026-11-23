@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts" / "fashion_fim"))
+sys.path.insert(0, str(ROOT / "src" / "applications" / "Fashion-Mnist" / "mining" / "scripts"))
 
 import audit_outputs
 import supervisor
