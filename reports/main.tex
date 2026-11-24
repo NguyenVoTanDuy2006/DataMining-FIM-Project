@@ -1,0 +1,99 @@
+% Build from reports/: TEXINPUTS=../docs: xelatex -jobname=Report main.tex
+\documentclass[conference,a4paper]{IEEEtran}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}[SmallCapsFont=TeX Gyre Termes]
+\setsansfont{Arial}
+\setmonofont{Noto Sans Mono}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb,booktabs,array,graphicx,algorithmic,url}
+\usepackage[hidelinks,unicode]{hyperref}
+\graphicspath{{figures/fashion/}{../docs/report_tv2/figures/}}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\renewcommand{\algorithmicrequire}{\textbf{Đầu vào:}}
+\renewcommand{\algorithmicensure}{\textbf{Đầu ra:}}
+\newcommand{\bv}{\texttt{BitVector}}
+\newcommand{\st}{\texttt{Set}}
+\newcommand{\pending}{\textemdash}
+\makeatletter
+\newenvironment{reportfigure}{\par\medskip\noindent\begin{minipage}{\columnwidth}\def\@captype{figure}\centering}{\end{minipage}\par\medskip}
+\newenvironment{reporttable}{\par\medskip\noindent\begin{minipage}{\columnwidth}\def\@captype{table}\centering}{\end{minipage}\par\medskip}
+\makeatother
+\newcommand{\pendingplot}[2]{\fbox{\begin{minipage}[c][#1][c]{0.94\columnwidth}\centering\small #2\par\medskip\textit{Khung dành cho biểu đồ sau khi chốt số liệu.}\end{minipage}}}
+\begin{document}
+\selectlanguage{vietnamese}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\pagestyle{plain}
+\title{Cài đặt và tối ưu Eclat bằng Julia\\cho phân tích giỏ hàng và khai thác mẫu trực quan}
+\author{\IEEEauthorblockN{Trung \qquad Khang \qquad Duy}
+\IEEEauthorblockA{Đồ án môn Khai phá dữ liệu\\Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM}}
+\maketitle
+\begin{abstract}
+Khai thác tập mục phổ biến tìm các tổ hợp thường cùng xuất hiện trong cơ sở
+dữ liệu giao dịch. Báo cáo trình bày cài đặt Eclat bằng Julia với hai biểu
+diễn tập định danh giao dịch: Set và BitVector. Thuật toán được xây dựng
+theo mô tả của Zaki, sử dụng giao TID-set và duyệt theo chiều sâu; phiên
+bản tối ưu lọc singleton trước khi cấp phát vector bit. Bộ kiểm thử đối
+chiếu từng itemset và support count với SPMF trên năm cơ sở dữ liệu, đồng
+thời dùng phép đếm vét cạn độc lập trên dữ liệu nhỏ. Thực nghiệm được thiết
+kế trên Chess, Mushroom, Retail và T10I4D100K để đánh giá thời gian thực thi
+(runtime), đỉnh bộ nhớ thường trú (Peak RSS),
+khả năng mở rộng và ảnh hưởng của độ dài giao dịch. Hai ứng dụng dùng cùng
+core: Groceries sinh luật kết hợp và xếp top 10 theo lift; Fashion-MNIST
+biểu diễn ảnh bằng túi từ thị giác rồi khai thác các tổ hợp từ thị giác
+(visual words).
+Bản thảo đã có kết quả Groceries và correctness; các số đo hiệu năng cùng
+kết quả lần chạy Fashion-MNIST 70.000 ảnh đang để trống chờ xác nhận.
+\end{abstract}
+\begin{IEEEkeywords}
+Eclat, frequent itemset mining, Julia, BitVector, luật kết hợp, visual words.
+\end{IEEEkeywords}
+\noindent\textit{Quy ước bản thảo.} Dấu \pending{} trong bảng kết quả nghĩa
+là chưa điền số liệu, không phải kết quả bằng 0 hoặc thất bại. Các hình có
+khung ``chờ số liệu'' chỉ chỉ rõ nội dung cần đo. Không dùng số liệu
+benchmark cũ hay kết quả demo 1.000 ảnh để thay cho lần đo đang chờ.
+
+\input{../docs/report_tv1/algorithm}
+\input{sections/benchmarks}
+\input{../docs/report_tv2/groceries}
+\input{sections/fashion_mnist}
+
+\subsection{Tổng kết hai ứng dụng}
+Hai ứng dụng chia sẻ thuật toán nhưng khác quyết định tạo giao dịch.
+Groceries có item mang nghĩa sản phẩm ngay từ dữ liệu gốc; Fashion-MNIST
+phải học codebook trước khi item có thể được định danh. Vì vậy, việc kiểm
+chứng Eclat đúng không tự bảo đảm visual words có ý nghĩa ngữ nghĩa.
+Trong cả hai trường hợp, support mô tả đồng xuất hiện, không chứng minh
+quan hệ nhân quả hoặc hiệu quả dự đoán trên dữ liệu mới.
+
+Core Set/BitVector và đối chiếu SPMF cung cấp nền tảng correctness cho
+những phân tích này. Bước chốt báo cáo là điền các phép đo theo Chương II,
+xác nhận artifacts Fashion cùng run/hash và hoàn tất review mẫu trực
+quan. Hai hướng tối ưu tiếp theo là chọn biểu diễn TID theo mật độ và
+giảm cấp phát khi giao bitset. Mỗi hướng phải giữ nguyên output và được
+đo theo cùng phương pháp trước khi đưa ra kết luận về cải thiện.
+\clearpage
+\input{references}
+\clearpage
+\appendices
+\section{Tái lập và nguồn bằng chứng}
+\label{sec:reproduction}
+Chương I đối chiếu trực tiếp các tệp EclatBaseline, EclatOptimized,
+EclatCompatibility và SPMFIO. Log 569 assertions là lần kiểm thử package
+đã lưu ngày 24/11/2026, không phải số lượt benchmark. Các bảng Groceries
+lấy từ CSV trong \texttt{results/groceries/}. Chương II mới chốt phương
+pháp và cấu hình; các bảng thời gian/RAM vẫn chưa điền. Các hình và số
+liệu Fashion của báo cáo riêng cũ không được tự động nhập vào bản này.
+
+Mã nguồn báo cáo ở \texttt{reports/main.tex}; PDF đọc chung là
+\texttt{docs/Report.pdf}. Chạy hai lượt XeLaTeX để cập nhật dẫn chiếu. Mã
+chạy dữ liệu và thử nghiệm nằm trong \texttt{scripts/}; nguồn dữ liệu lớn
+không được commit. Trước khi khai thác, cần kiểm tra checksum, cấu hình
+và đủ file tham chiếu; thiếu dữ liệu phải báo lỗi thay vì bỏ qua test.
+
+Đối với Fashion, giữ cả bốn manifest cùng thư mục run để tái lập một bước
+hạ nguồn. Các artifact chứa TID, image ID, patch coordinates và hash là
+bằng chứng để nối kết quả itemset với dữ liệu ảnh. Báo cáo diễn giải chỉ
+chuyển khỏi trạng thái chờ review khi có nhận xét của người đánh giá.
+\end{document}

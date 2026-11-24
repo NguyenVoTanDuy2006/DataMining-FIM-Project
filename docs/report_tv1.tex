@@ -1,0 +1,24 @@
+% Compile from docs/: xelatex -jobname=Report_TV1 report_tv1.tex
+\documentclass[conference,a4paper]{IEEEtran}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}[SmallCapsFont=TeX Gyre Termes]
+\setsansfont{Arial}
+\setmonofont{Noto Sans Mono}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb,booktabs,algorithmic}
+\usepackage[hidelinks,unicode]{hyperref}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\renewcommand{\algorithmicrequire}{\textbf{Đầu vào:}}
+\renewcommand{\algorithmicensure}{\textbf{Đầu ra:}}
+\begin{document}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\raggedbottom
+\input{report_tv1/algorithm}
+\begin{thebibliography}{9}
+\bibitem{zaki} M. J. Zaki, ``Scalable Algorithms for Association Mining,'' \emph{IEEE Transactions on Knowledge and Data Engineering}, vol. 12, no. 3, pp. 372--390, 2000, doi: 10.1109/69.846291.
+\bibitem{spmf} P. Fournier-Viger et al., ``The SPMF Open-Source Data Mining Library Version 2,'' in \emph{ECML PKDD 2016}, LNCS 9853, pp. 36--40, 2016, doi: 10.1007/978-3-319-46131-1\_8.
+\bibitem{agrawal} R. Agrawal and R. Srikant, ``Fast Algorithms for Mining Association Rules,'' in \emph{Proceedings of the 20th VLDB Conference}, pp. 487--499, 1994.
+\bibitem{julia} J. Bezanson, A. Edelman, S. Karpinski, and V. B. Shah, ``Julia: A Fresh Approach to Numerical Computing,'' \emph{SIAM Review}, vol. 59, no. 1, pp. 65--98, 2017, doi: 10.1137/141000671.
+\end{thebibliography}
+\end{document}

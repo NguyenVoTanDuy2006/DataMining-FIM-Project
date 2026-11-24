@@ -13,6 +13,13 @@ và SPMF, Peak RAM, scalability Retail và dữ liệu tổng hợp tăng độ 
 Demo đã nối Groceries và benchmark; xem phần Colab bên dưới để biết phạm vi đã
 kiểm tra. Bản lưu trữ dữ liệu và PDF nhóm vẫn cần hoàn tất trước khi nộp.
 
+Bản thảo Chương I — Thuật toán Eclat và tối ưu hóa: [PDF TV1](docs/Report_TV1.pdf),
+[nguồn LaTeX và hướng dẫn ghép](docs/report_tv1/README.md).
+
+Báo cáo nhóm đủ ba chương: [Report.pdf](docs/Report.pdf),
+[nguồn và hướng dẫn biên dịch](reports/README.md). Bản thảo đang để trống
+số đo hiệu năng và kết quả Fashion 70k chờ xác nhận.
+
 ## Julia setup
 
 Install Julia 1.9 or newer, then run:

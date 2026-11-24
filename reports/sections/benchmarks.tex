@@ -1,0 +1,336 @@
+\section{Thực nghiệm và đánh giá}
+\label{sec:benchmark}
+\subsection{Câu hỏi thực nghiệm và phạm vi}
+Thực nghiệm xét ba câu hỏi. Thứ nhất, hai biểu diễn TID-set có xuất đúng
+toàn bộ itemset và support so với SPMF hay không? Thứ hai, thay Set bằng
+BitVector có giảm runtime và Peak RSS trên các loại dữ liệu khác nhau
+hay không? Thứ ba, số giao dịch và độ dài giỏ tác động thế nào đến chi phí
+khai thác? Correctness và hiệu năng được kiểm tra riêng: output đúng
+không tự bảo đảm phương pháp đo công bằng.
+
+Thiết kế gồm bốn nhóm: runtime và output size theo minsup; Peak RSS ở
+minsup giữa dải; scalability theo số giao dịch; và dữ liệu tổng hợp tăng
+độ dài giỏ. Mỗi nhóm giữ những biến còn lại cố định trong phạm vi thiết kế.
+SPMF Eclat~\cite{spmf} là tham chiếu độc lập, không được gọi bên trong
+cài đặt Julia của nhóm.
+
+Các số đo hiệu năng của lần chạy được chọn sẽ điền vào các bảng và khung
+hình bên dưới. Bản thảo chưa kết luận backend nào thắng trên dataset nào.
+Các lập luận về dense/sparse là cơ chế cần kiểm tra, không phải quan sát
+đã có của lần đo đang chờ.
+
+\subsection{Dữ liệu, chuẩn hóa và ngưỡng}
+Bốn tập dữ liệu từ FIMI~\cite{fimi} bao phủ giao dịch dày và thưa
+(Bảng~\ref{tab:data}). Chess/Mushroom có giỏ dài; Retail có nhiều item
+nhưng giỏ ngắn; T10I4D100K là dữ liệu tổng hợp. Số giao dịch lớn không
+đồng nghĩa output lớn: phân bố đồng xuất hiện và ngưỡng support còn
+quyết định số tổ hợp vượt ngưỡng.
+
+\begin{reporttable}
+\caption{Thống kê đầu vào benchmark đã chuẩn hóa; $\bar L$ là độ dài giỏ trung bình.}
+\label{tab:data}
+\small
+\begin{tabular}{lrrr}\toprule
+CSDL & $N$ & $M$ & $\bar L$\\\midrule
+Chess & 3.196 & 75 & 37,0000\\
+Mushroom & 8.124 & 119 & 23,0000\\
+Retail & 88.162 & 16.470 & 10,3058\\
+T10I4D100K & 100.000 & 870 & 10,1023\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+Giữ nguyên giao dịch trùng và thứ tự dòng. Chess/Mushroom giữ ID gốc;
+Retail/T10I4D100K cộng 1 vào mọi ID để không còn ID 0. Phép đổi tên một-một
+này bảo toàn support; Julia và SPMF phải dùng cùng file sau đổi tên.
+Không so output có mapping khác nhau chỉ bằng số lượng itemsets.
+Script chuẩn bị dữ liệu kiểm tra SHA-256 của file gốc trước khi chuẩn hóa.
+
+Với tỷ lệ $s$ và $N$ giao dịch, ngưỡng đếm là
+\begin{equation}
+c_{\min}=\lceil sN\rceil.
+\label{eq:threshold}
+\end{equation}
+Dải ngưỡng trong Bảng~\ref{tab:grids} có bảy điểm mỗi dataset, từ cao
+xuống thấp. Ngưỡng tương đối giữ ý nghĩa tần suất giữa các mức kích thước
+khác nhau, còn ngưỡng đếm thay đổi theo $N$. Nếu thay dải ngưỡng sau pilot,
+cần lưu cấu hình cuối cùng trước khi chạy các lượt chính thức.
+
+\begin{reporttable}
+\caption{Dải minsup, đơn vị phần trăm; điểm thứ tư dùng cho Peak RSS.}
+\label{tab:grids}
+\footnotesize
+\begin{tabular}{lp{0.65\columnwidth}}\toprule
+CSDL & Bảy ngưỡng từ cao xuống thấp\\\midrule
+Chess & 95; 92,5; 90; 87,5; 85; 82,5; 80\\
+Mushroom & 95; 90; 80; 70; 60; 50; 40\\
+Retail & 10; 8; 6; 4; 2; 1; 0,5\\
+T10I4D100K & 3; 2,5; 2; 1,5; 1; 0,75; 0,5\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+\subsection{Môi trường và phương pháp đo}
+Mọi backend chạy trên cùng máy, cùng đầu vào và một luồng Julia. Khi chốt
+số liệu, Bảng~\ref{tab:environment} phải được điền từ metadata của chính
+lần đo đó. Không lấy cấu hình máy Windows của kết quả cũ điền cho Colab
+hoặc máy Linux khác. Ghi riêng phiên bản Julia, Java và hash JAR SPMF;
+tên thuật toán trong log không xác định phiên bản thư viện.
+
+\begin{reporttable}
+\caption{Môi trường của lần đo được chọn; \pending{} là chờ cập nhật.}
+\label{tab:environment}
+\small
+\begin{tabular}{lp{0.43\columnwidth}}\toprule
+Thuộc tính & Giá trị\\\midrule
+Hệ điều hành, kiến trúc & \pending\\
+CPU, số CPU logic, RAM & \pending\\
+Julia, Java, SHA-256 JAR & \pending\\
+Ngày đo, commit nguồn & \pending\\
+Luồng Julia & 1\\
+Số lượt ghi nhận/cấu hình & 5\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+\textit{Runtime toàn tiến trình.} Mỗi mẫu tạo tiến trình mới, gồm khởi
+động runtime, JIT, đọc dữ liệu, dựng TID-set, mining và ghi output.
+Có một lượt chuẩn bị không ghi nhận cho mỗi chương trình; năm lượt đo
+sau vẫn là tiến trình mới và vẫn tính JIT. Đây không phải phép đo miner
+đã warm-up trong cùng tiến trình. Chuẩn hóa input và so sánh correctness
+thực hiện ngoài đồng hồ.
+
+\textit{Thời gian riêng miner.} Scalability và độ dài giao dịch dùng một
+lượt warm-up trên đúng CSDL/cùng minsup trong worker, gọi GC trước đo,
+rồi đo một lời gọi mine. GC phát sinh bên trong miner vẫn tính vào thời
+gian. Phạm vi đo này khảo sát chi phí khai thác; không dùng để so với
+runtime SPMF toàn tiến trình ở thí nghiệm khác.
+
+\textit{Bộ nhớ.} Peak RSS là mức bộ nhớ thường trú cao nhất của worker
+đến hết mining, đo trước khi sắp xếp/ghi output. Worker warm-up trên toy,
+GC, đọc dữ liệu, GC rồi mine. Bộ đếm mức đỉnh không reset, nên đỉnh vẫn
+gồm runtime và warm-up. Trên Windows, đại lượng tương ứng lấy từ peak
+working set~\cite{windowsrss}. Allocation tích lũy hay kích thước object
+Julia không thay thế cho Peak RSS.
+
+Chạy tuần tự và luân phiên thứ tự giữa các lượt để giảm ảnh hưởng ưu tiên
+cố định. Báo cáo trung vị và min--max của năm mẫu, không gọi min--max là
+khoảng tin cậy. Nếu máy có workload khác, phải ghi điều kiện đó; không
+gộp mẫu của hai môi trường thành một median.
+
+\subsection{Correctness và kiểm thử tự động}
+Gọi $R$ là output SPMF, $A$ là output Julia, đều được chuẩn hóa thành
+ánh xạ tuple item tăng dần sang số đếm. Một cấu hình đạt khi
+\begin{equation}
+\operatorname{keys}(A)=\operatorname{keys}(R),\quad
+\forall X\in R:\ A[X]=R[X].
+\end{equation}
+Điều kiện này mạnh hơn bằng số lượng: hai output có thể cùng kích thước
+nhưng thiếu/thừa itemset hoặc sai support. Tỷ lệ khớp dùng mẫu số là số
+itemsets tham chiếu. Nếu tham chiếu rỗng, chỉ xác nhận đạt khi output cũng
+rỗng thay vì chia cho 0.
+
+Bảng~\ref{tab:correct} là correctness đã lưu trên năm CSDL đầy đủ. Đây là
+đối chiếu với đáp án SPMF có sẵn, không phải số đo hiệu năng đang chờ.
+Test không dùng miner của nhóm tạo đáp án cho chính nó.
+
+\begin{reporttable}
+\caption{Correctness đã kiểm chứng: cả hai backend khớp toàn bộ itemset/support.}
+\label{tab:correct}
+\footnotesize
+\begin{tabular}{lrrr}\toprule
+CSDL & Minsup (\%) & Itemsets SPMF & Khớp\\\midrule
+Groceries & 1 & 333 & 100\%\\
+Chess & 87,5 & 1.386 & 100\%\\
+Mushroom & 70 & 31 & 100\%\\
+Retail & 4 & 18 & 100\%\\
+T10I4D100K & 1,5 & 237 & 100\%\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+Ngoài reference SPMF, test dùng phép vét cạn tập con trên dữ liệu nhỏ và
+kiểm tra input không bị sửa tại chỗ. Những ca rỗng, item trùng, giao dịch
+trùng, ngưỡng biên và ID sai giúp tách lỗi parser khỏi lỗi DFS. Log package
+569/569 assertions trong README bao gồm cả ứng dụng; đây không phải số
+dataset hoặc số lượt SPMF. Trước khi cập nhật hiệu năng, cần chạy lại
+correctness trên đúng commit và mapping đầu vào.
+
+\subsection{Runtime và output size theo minsup}
+Với mỗi dataset và mỗi ngưỡng ở Bảng~\ref{tab:grids}, chạy Set, BitVector
+và SPMF năm lần: tổng số mẫu dự kiến là $4\times7\times3\times5=420$.
+Mỗi mẫu phải có runtime, số itemsets và trạng thái đối chiếu đầy đủ.
+Bảng~\ref{tab:runtime-pending} là khung tổng hợp tại ngưỡng thấp nhất;
+CSV vẫn phải lưu cả 28 cấu hình.
+
+\begin{reporttable}
+\caption{Runtime toàn tiến trình tại ngưỡng thấp nhất (s); các ô chờ kết quả.}
+\label{tab:runtime-pending}
+\footnotesize
+\begin{tabular}{lrrrrr}\toprule
+CSDL & $s$ (\%) & Set & BV & SPMF & Itemsets\\\midrule
+Chess & 80 & \pending & \pending & \pending & \pending\\
+Mushroom & 40 & \pending & \pending & \pending & \pending\\
+Retail & 0,5 & \pending & \pending & \pending & \pending\\
+T10I4D100K & 0,5 & \pending & \pending & \pending & \pending\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+\begin{reportfigure}
+\pendingplot{37mm}{Runtime theo minsup cho bốn CSDL\\Ba đường: Set, BitVector, SPMF\\Trung vị năm lượt và vùng min--max}
+\caption{Vị trí đồ thị runtime toàn tiến trình. Minsup đi từ cao xuống thấp; runtime dùng giây. Chưa có đường dữ liệu trong bản thảo.}
+\label{fig:runtime-pending}
+\end{reportfigure}
+
+Hình~\ref{fig:runtime-pending} cần cho thấy ba đường trên cùng hệ trục cho
+mỗi dataset. Nếu dùng thang log, phải ghi rõ. Chi phí khởi động/JIT có thể
+làm runtime không tăng đều ở từng điểm dù output tăng; đường toàn tiến
+trình không tách được tốc độ riêng phần giao TID-set của hai ngôn ngữ.
+
+\begin{reportfigure}
+\pendingplot{33mm}{Số itemsets theo minsup\\Bốn CSDL; đối chiếu ba chương trình\\Đánh dấu các run không hoàn tất}
+\caption{Vị trí đồ thị output size; chỉ điền số lượng của run hoàn tất và đã đối chiếu support.}
+\label{fig:counts-pending}
+\end{reportfigure}
+
+Với input cố định, hạ minsup không thể làm mất itemset đã phổ biến. Đường
+output size trong Hình~\ref{fig:counts-pending} phải không giảm khi đi từ
+ngưỡng cao xuống thấp. Nếu vi phạm, cần kiểm tra input, mapping hoặc run
+chưa hoàn tất trước khi giải thích hiệu năng. Phân tích dense/sparse cần
+xét phân bố support và độ dài itemset, không chỉ số giao dịch.
+
+\subsection{Peak RSS tại minsup trung bình}
+Chọn điểm thứ tư của mỗi dải: Chess 87,5\%, Mushroom 70\%, Retail 4\%,
+T10I4D100K 1,5\%. Mỗi backend đo trong năm worker riêng, tổng cộng
+$4\times2\times5=40$ mẫu. Output sau đo phải khớp reference và backend
+còn lại. Mẫu lỗi giữ trạng thái/log, không điền 0 vào ô RAM để tính median.
+
+\begin{reporttable}
+\caption{Peak RSS trung vị (MiB); $\Delta_M$ chờ tính từ hai median.}
+\label{tab:ram-pending}
+\small
+\begin{tabular}{lrrr}\toprule
+CSDL & Set & BV & $\Delta_M$ (\%)\\\midrule
+Chess & \pending & \pending & \pending\\
+Mushroom & \pending & \pending & \pending\\
+Retail & \pending & \pending & \pending\\
+T10I4D100K & \pending & \pending & \pending\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+\begin{reportfigure}
+\pendingplot{32mm}{Peak RSS tại ngưỡng giữa dải\\Hai cột Set/BitVector cho mỗi CSDL\\Median và min--max, đơn vị MiB}
+\caption{Vị trí đồ thị bộ nhớ; không thay Peak RSS bằng allocation hoặc RAM Java tự báo.}
+\label{fig:ram-pending}
+\end{reportfigure}
+
+Với $\widetilde M$ là median của năm đỉnh tiến trình, mức giảm RAM là
+\begin{equation}
+\Delta_M=100\left(1-\frac{\widetilde M_{BV}}{\widetilde M_{Set}}\right).
+\end{equation}
+Giá trị dương nghĩa là median BitVector thấp hơn. Công thức không biến
+phần chênh thành RAM riêng thuật toán. Không lấy hiệu Peak RSS trước và
+sau mining để suy bộ nhớ miner, vì cả hai đều là high-water mark.
+
+Khi phân tích Bảng~\ref{tab:ram-pending} và Hình~\ref{fig:ram-pending},
+cần xét số singleton còn lại. Cấp $N$ bit cho item hiếm có thể lãng phí;
+lọc sớm giảm số vector nhưng thêm một lượt quét. Muốn tách riêng tác động
+của bitset và lọc singleton cần ablation cùng input và cùng miner.
+
+\subsection{Scalability theo số giao dịch}
+Retail có 88.162 giao dịch và nhiều item. Dùng
+\texttt{MersenneTwister(20261116)} tạo một hoán vị TID, lấy tiền tố
+10\%, 25\%, 50\%, 75\%, 100\%, rồi sắp chỉ số theo thứ tự dòng gốc.
+Các tập con lồng nhau; mức 100\% khớp file chuẩn hóa ban đầu.
+Không nhân bản giao dịch để làm dataset lớn hơn.
+
+Giữ minsup 4\%, tính lại $c_{\min}$ cho từng tập con. Hai backend đo riêng
+mine sau warm-up; mỗi mức lặp năm lần, tổng 50 mẫu.
+Bảng~\ref{tab:scale-pending} ghi cả kích thước và ngưỡng đếm để không
+hiểu nhầm rằng mọi mức dùng cùng min-count.
+
+\begin{reporttable}
+\caption{Scalability Retail: thời gian mine sau warm-up (ms), chờ điền.}
+\label{tab:scale-pending}
+\footnotesize
+\begin{tabular}{rrrrr}\toprule
+Tỷ lệ (\%) & $N$ & $c_{\min}$ & Set & BV\\\midrule
+10 & 8.816 & 353 & \pending & \pending\\
+25 & 22.040 & 882 & \pending & \pending\\
+50 & 44.081 & 1.764 & \pending & \pending\\
+75 & 66.121 & 2.645 & \pending & \pending\\
+100 & 88.162 & 3.527 & \pending & \pending\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+\begin{reportfigure}
+\pendingplot{33mm}{Scalability Retail\\Trục ngang: số giao dịch\\Trục dọc: mine sau warm-up (ms)}
+\caption{Vị trí đồ thị scalability với năm mức dữ liệu lồng nhau.}
+\label{fig:scale-pending}
+\end{reportfigure}
+
+Sau khi có Hình~\ref{fig:scale-pending}, xét tỷ số tăng thời gian so với
+tỷ số tăng $N$ và kiểm tra output size ở mỗi mức. Nếu số itemsets đổi,
+thời gian tăng có thể do TID-set lớn hơn lẫn nhiều nhánh DFS hơn. Khớp
+đường tuyến tính chỉ mô tả miền đã đo, không chứng minh Eclat tuyến tính
+với mọi input và minsup.
+
+\subsection{Ảnh hưởng của độ dài giao dịch}
+Sinh $N=5.000$ giao dịch trên $M=64$ item, dùng seed 20261116. Mỗi TID có
+một hoán vị riêng của $1{:}64$; lấy 4, 8, 12, 16, 20 item đầu để tạo các
+mức độ dài. Vì dùng cùng hoán vị cho một TID, giỏ dài chứa giỏ ngắn tương
+ứng. Giữ minsup 5\%, nên $c_{\min}=250$ ở mọi mức.
+
+Không loại giao dịch trùng. Các giỏ trong một CSDL có cùng độ dài $L$,
+nên độ dài trung bình bằng $L$ và mật độ bằng $L/M$. Thiết kế tách tác
+động của độ dài khỏi $N,M$, nhưng support của nhiều tổ hợp vẫn tăng theo
+$L$; đó chính là cơ chế cần khảo sát.
+
+\begin{reporttable}
+\caption{Dữ liệu tổng hợp và thời gian mine sau warm-up (ms), chờ điền.}
+\label{tab:length-pending}
+\footnotesize
+\begin{tabular}{rrrrr}\toprule
+$L$ & Mật độ (\%) & Itemsets & Set & BV\\\midrule
+4 & 6,25 & \pending & \pending & \pending\\
+8 & 12,50 & \pending & \pending & \pending\\
+12 & 18,75 & \pending & \pending & \pending\\
+16 & 25,00 & \pending & \pending & \pending\\
+20 & 31,25 & \pending & \pending & \pending\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+\begin{reportfigure}
+\pendingplot{33mm}{Độ dài giao dịch và chi phí khai thác\\Năm mức $L=4,8,12,16,20$\\Runtime và output size trên hai hệ trục riêng}
+\caption{Vị trí đồ thị tác động độ dài; giữ $N$, $M$ và minsup cố định.}
+\label{fig:length-pending}
+\end{reportfigure}
+
+Với chọn đều $L$ item từ $M$, xác suất một cặp cụ thể có mặt trong giỏ là
+\begin{equation}
+p_2=\frac{L(L-1)}{M(M-1)}.
+\end{equation}
+Support kỳ vọng $Np_2$ khoảng 163,7 tại $L=12$ và 297,6 tại $L=16$, nằm
+hai phía ngưỡng 250. Đây là tính toán từ thiết kế, chưa phải output quan
+sát. Nó giải thích vì sao có thể có bước tăng mạnh số itemsets khi giỏ
+dài hơn. Khi điền Hình~\ref{fig:length-pending}, cần kiểm tra dữ liệu có
+phù hợp cơ chế này và thời gian bị chi phối bởi giao TID-set hay lưu output.
+
+\subsection{Cách tổng hợp và giới hạn kết luận}
+Mỗi cấu hình giữ đủ năm mẫu và trạng thái, sau đó mới tính median. Tỷ số
+$t_{Set}/t_{BV}>1$ biểu thị BitVector nhanh hơn trong cùng phạm vi đo; các
+thời gian phải dương và cùng đơn vị. Nếu run timeout hoặc OOM, không lấy
+thời gian giới hạn như thời gian hoàn tất và không đưa output một phần
+vào đối chiếu đầy đủ. Số run thành công trên tổng số dự kiến cần được
+trình bày cùng kết quả.
+
+Khi cập nhật, thay đồng thời bảng, hình, môi trường, số lần lặp và nhận
+xét. Correctness đúng không chứng minh thiết kế đo công bằng; đo nhanh
+nhưng output thiếu cũng không phải cải thiện hợp lệ.
+
+Hai hướng tiếp theo là chọn biểu diễn TID theo mật độ và giảm cấp phát
+trong DFS. Hướng thứ nhất dùng cấu trúc thưa cho nhánh ít TID và bitset
+cho nhánh dày, tính cả chi phí chuyển biểu diễn. Hướng thứ hai có thể
+đếm giao trước hoặc dùng lại bộ đệm theo độ sâu; không được ghi đè TID-set
+còn dùng ở nhánh khác. Cả hai là đề xuất chưa được coi là đã triển khai.
+
+Một máy, năm lượt và một seed cho mỗi thiết kế chưa đại diện mọi môi
+trường. Kết luận chỉ áp dụng cho dải minsup, dataset và phương pháp đã
+ghi; không suy từ đường gần tuyến tính rằng thuật toán có cận đa thức
+khi phải xuất mọi tập phổ biến.
