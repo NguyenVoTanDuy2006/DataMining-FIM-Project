@@ -6,6 +6,10 @@ Julia project for a from-scratch Eclat implementation, SPMF comparison, four ben
 
 ## Current state
 
+Phần báo cáo IEEE của TV2: [PDF báo cáo](docs/Report_TV2.pdf),
+[mã LaTeX](docs/report_tv2.tex) và [hướng dẫn biên dịch/ghép vào báo cáo nhóm](docs/report_tv2/README.md).
+Bao gồm Chương II (benchmark) và mục Groceries của Chương III.
+
 Eclat baseline (`:set`), optimized (`:bitvector`) và ứng dụng Groceries đã có cài đặt. Groceries đọc giỏ hàng, tạo mapping, mã hóa giao dịch, khai thác luật, xuất top 10 theo lift và so sánh 12 cấu hình. Các test áp dụng cho hai backend, SPMF I/O và phần ứng dụng của TV2; xem thêm kết quả đối chiếu của TV1 trong [tài liệu thuật toán](docs/TV1_algorithm.md). Demo Colab vẫn cần hoàn tất.
 
 Phần code/thực nghiệm TV2 bao gồm runtime/count theo minsup cho Set, BitVector

@@ -1,0 +1,92 @@
+\section{Ứng dụng thực tế}\label{sec:applications}
+\subsection{Groceries: phân tích giỏ hàng}\label{sec:groceries}
+\subsubsection{Bài toán và chuyển đổi dữ liệu}
+Ứng dụng phân tích giỏ hàng (market basket analysis) dùng các sản phẩm
+thường được mua cùng nhau để sinh luật kết hợp \cite{agrawal}.
+Groceries CSV \cite{groceries} có 9.835 giỏ và 169 tên sản phẩm.
+Mỗi dòng được đọc như một danh sách có độ dài thay đổi: bỏ khoảng trắng
+và item lặp trong giỏ, giữ các giỏ trùng nhau. Vocabulary được sắp theo tên
+rồi gán ID dương; mapping ngược dùng để diễn giải kết quả.
+Các vector ID sau mã hóa được khai thác bằng Eclat của nhóm.
+
+\subsubsection{Sinh luật và lựa chọn ngưỡng}
+Từ mỗi frequent itemset $Z$ có ít nhất hai item, liệt kê các tập con thực
+sự, khác rỗng X làm vế trái; vế phải $Y=Z\setminus X$.
+Với $c(A)$ là số giỏ chứa toàn bộ A và $N=9.835$, các chỉ số là
+\begin{align}
+\operatorname{supp}(X\Rightarrow Y)&=\frac{c(X\cup Y)}{N},\\
+\operatorname{conf}(X\Rightarrow Y)&=\frac{c(X\cup Y)}{c(X)},\\
+\operatorname{lift}(X\Rightarrow Y)&=\frac{\operatorname{conf}(X\Rightarrow Y)}{c(Y)/N}.
+\end{align}
+Support cho biết độ phổ biến của tổ hợp; confidence cho biết tỷ lệ có Y
+trong nhóm giỏ có X; lift so tỷ lệ này với tần suất chung của Y.
+
+Bảng~\ref{tab:params} khảo sát bốn minsup và ba minconf. Minconf được lọc
+sau mining nên không làm đổi số itemsets. Khi minsup tăng từ 0,5\% lên 3\%,
+số itemsets giảm từ 1.001 xuống 63; tại minconf 50\%, số luật giảm từ 120
+xuống 0. Chọn minsup 1\%, minconf 50\% cho cấu hình chính: có 333 itemsets
+và 15 luật, đủ để trình bày top 10 nhưng vẫn dễ diễn giải. Hợp hai vế
+phải xuất hiện trong ít nhất 99 giỏ theo (\ref{eq:threshold}).
+
+\begin{reporttable}
+\caption{Số itemsets và số luật theo minsup, minconf. Ba cột cuối là số luật tại từng minconf.}\label{tab:params}
+\centering\footnotesize
+\begin{tabular}{rrrrr}\toprule
+$s$ (\%) & Itemsets & 30\% & 50\% & 70\% \\\midrule
+0,5 & 1001 & 487 & 120 & 1 \\
+1,0 & 333 & 125 & 15 & 0 \\
+2,0 & 122 & 37 & 1 & 0 \\
+3,0 & 63 & 14 & 0 & 0 \\
+\bottomrule\end{tabular}
+\end{reporttable}
+
+Các luật được xếp giảm dần theo lift, sau đó theo confidence và support
+để phân biệt các trường hợp bằng nhau. Việc chọn ngưỡng dựa trên số luật
+và khả năng diễn giải trong dữ liệu hiện có, chưa tối ưu theo doanh thu.
+
+\subsubsection{Top 10 luật và ý nghĩa kinh doanh}
+Bảng~\ref{tab:rules} giữ nguyên tên sản phẩm của dataset, kèm số đếm và
+ba chỉ số. Các luật 1--4 hướng tới \textit{other vegetables}, còn các luật
+5--10 hướng tới \textit{whole milk}. Đây là hai nhóm sản phẩm có thể thử
+gợi ý theo ngữ cảnh giỏ hàng. Support của các luật chỉ khoảng 1,01--1,45\%,
+nên lift cao không đồng nghĩa bao phủ phần lớn các giỏ.
+
+\begin{table*}[!t]
+\caption{Top 10 luật Groceries tại minsup 1\%, minconf 50\%, xếp theo lift. Số đếm là số giỏ chứa hợp hai vế; support và confidence theo phần trăm.}\label{tab:rules}
+\centering\footnotesize
+\begin{tabular}{rp{.31\textwidth}p{.15\textwidth}rrrr}\toprule
+\# & Vế trái $X$ & Vế phải $Y$ & Số giỏ & Support & Confidence & Lift \\\midrule
+1 & citrus fruit + root vegetables & other vegetables & 102 & 1,037 & 58,62 & 3,030 \\
+2 & root vegetables + tropical fruit & other vegetables & 121 & 1,230 & 58,45 & 3,021 \\
+3 & rolls/buns + root vegetables & other vegetables & 120 & 1,220 & 50,21 & 2,595 \\
+4 & root vegetables + yogurt & other vegetables & 127 & 1,291 & 50,00 & 2,584 \\
+5 & curd + yogurt & whole milk & 99 & 1,007 & 58,24 & 2,279 \\
+6 & butter + other vegetables & whole milk & 113 & 1,149 & 57,36 & 2,245 \\
+7 & root vegetables + tropical fruit & whole milk & 118 & 1,200 & 57,00 & 2,231 \\
+8 & root vegetables + yogurt & whole milk & 143 & 1,454 & 56,30 & 2,203 \\
+9 & domestic eggs + other vegetables & whole milk & 121 & 1,230 & 55,25 & 2,162 \\
+10 & whipped/sour cream + yogurt & whole milk & 107 & 1,088 & 52,45 & 2,053 \\
+\bottomrule\end{tabular}
+\end{table*}
+
+Xét luật số 1: citrus fruit + root vegetables $\Rightarrow$ other vegetables.
+Có 174 giỏ chứa vế trái, trong đó 102 giỏ chứa cả hai vế. Vì vậy support
+là $102/9.835\approx1,037\%$, confidence là $102/174\approx58,62\%$.
+Other vegetables xuất hiện trong 1.903 giỏ, tương đương 19,35\% toàn bộ
+dữ liệu; lift của luật xấp xỉ 3,03. Nghĩa là tỷ lệ có rau khác trong nhóm
+giỏ đã có trái cây có múi và rau củ cao khoảng 3,03 lần tỷ lệ chung.
+
+Có thể thử gợi ý rau khác cho các giỏ thỏa điều kiện ở luật 1--4, hoặc
+sữa nguyên kem cho các giỏ có tổ hợp sữa chua, rau, bơ, trứng ở luật 5--10.
+Khi chọn luật áp dụng, cần xét cả độ phủ: luật 8 dựa trên 143 giỏ, trong
+khi luật 5 có 99 giỏ, sát ngưỡng support. Các luật chồng lặp sản phẩm nên
+không cộng số giỏ của chúng để ước lượng lợi ích tổng.
+
+\subsubsection{Giới hạn áp dụng}
+Luật mô tả đồng xuất hiện trong giỏ hoàn tất, không cho biết thứ tự mua
+hoặc quan hệ nhân quả. Dữ liệu không có mã khách, thời gian, giá và khuyến
+mãi; top 10 cũng được chọn và mô tả trên cùng CSDL. Vì vậy chưa thể kết
+luận gợi ý sản phẩm sẽ làm tăng doanh thu hoặc các luật sẽ ổn định theo thời gian.
+Trước khi vận hành, cần đánh giá trên dữ liệu mới và thí nghiệm A/B để đo
+chuyển đổi hoặc lợi nhuận. Số đếm và support phải được đọc cùng lift để
+tránh đánh giá quá cao các luật ít gặp.
