@@ -2,8 +2,8 @@
 
 Điểm biên dịch chung là `main.tex`; bản đọc đặt tại
 [`../docs/Report.pdf`](../docs/Report.pdf). Đây là bản thảo đủ ba chương,
-chưa phải bản nộp đã khóa số liệu. PDF hiện có 10 trang chính, một trang
-tài liệu tham khảo và một trang phụ lục.
+chưa phải bản nộp đã khóa số liệu. Tài liệu tham khảo và phụ lục nối tiếp
+nội dung chính, không ép mỗi phần sang trang riêng.
 
 ## Nội dung và nguồn
 
@@ -17,8 +17,8 @@ tài liệu tham khảo và một trang phụ lục.
   release, audit, selection, enrichment và giới hạn. Hình pipeline lấy từ
   `figures/fashion/TC_pipeline.pdf`; đây là sơ đồ phương pháp, có nguồn
   chỉnh sửa tại `figures/fashion/source/TC_pipeline.drawio`.
-- `references.tex` là bibliography chung. Tên tác giả trên trang đầu hiện
-  dùng tên đã có trong Project/README; bổ sung họ tên/MSSV khi chốt metadata.
+- `references.tex` là bibliography chung. Tác giả trên trang đầu là
+  Nguyễn Thành Trung, Lê Phúc Khang và Nguyễn Võ Tấn Duy.
 
 Nguồn các phần riêng được dùng trực tiếp để tránh nhân đôi nội dung. Các
 wrapper/PDF TV1 và TV2 là bản xem riêng/lịch sử; không dùng chúng thay
