@@ -175,7 +175,7 @@ kernel, and Linux `systemd --user` with cgroup memory accounting for mining.
 For the first run, Notebook 01 downloads the official dataset if the archives
 are absent; otherwise it checks the local files in `data/raw/fashion-mnist/`.
 Large archives and generated run artifacts are not committed. See
-[`specs/001-fashion-notebook-release/quickstart.md`](specs/001-fashion-notebook-release/quickstart.md)
+[`docs/UD2/quickstart.md`](docs/UD2/quickstart.md)
 for setup and rerun details.
 
 Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.
