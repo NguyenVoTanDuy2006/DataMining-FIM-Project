@@ -6,12 +6,12 @@ Julia project for a from-scratch Eclat implementation, SPMF comparison, four ben
 
 ## Current state
 
-Eclat baseline (`:set`), optimized (`:bitvector`) và ứng dụng Groceries đã có cài đặt. Groceries đọc giỏ hàng, tạo mapping, mã hóa giao dịch, khai thác luật, xuất top 10 theo lift và so sánh 12 cấu hình. Các test áp dụng cho hai backend, SPMF I/O và phần ứng dụng của TV2; xem thêm kết quả đối chiếu của TV1 trong [tài liệu thuật toán](docs/TV1_algorithm.md). Demo Colab vẫn cần hoàn tất.
+Eclat baseline (`:set`), optimized (`:bitvector`) và ứng dụng Groceries đã có cài đặt. Groceries đọc giỏ hàng, tạo mapping, mã hóa giao dịch, khai thác luật, xuất top 10 theo lift và so sánh 12 cấu hình. Các test áp dụng cho hai backend, SPMF I/O và phần ứng dụng của TV2; xem thêm kết quả đối chiếu của TV1 trong [tài liệu thuật toán](docs/TV1_algorithm.md). Demo Python-kernel cho Colab nằm ở [`notebooks/demo.ipynb`](notebooks/demo.ipynb); đã chạy local bằng kernel mới, còn cần chạy xác nhận trên Colab sau khi publish nhánh.
 
 Phần code/thực nghiệm TV2 bao gồm runtime/count theo minsup cho Set, BitVector
 và SPMF, Peak RAM, scalability Retail và dữ liệu tổng hợp tăng độ dài giao dịch.
-Xem [checklist bàn giao](docs/TV2_checklist.md) để phân biệt kết quả đã có với
-Colab, bản lưu trữ dữ liệu và PDF còn cần tích hợp trước khi nộp.
+Demo đã nối Groceries và benchmark; xem phần Colab bên dưới để biết phạm vi đã
+kiểm tra. Bản lưu trữ dữ liệu và PDF nhóm vẫn cần hoàn tất trước khi nộp.
 
 ## Julia setup
 
@@ -22,8 +22,8 @@ julia --project=. -e 'using Pkg; Pkg.instantiate()'
 julia --project=. -e 'using EclatFIM'
 ```
 
-`Manifest.toml` ghi môi trường Julia 1.13.3 của lần kiểm chứng; core và các runner
-hiện không cần package Julia bên ngoài. Chạy các lệnh bên dưới từ thư mục gốc
+`Manifest.toml` ghi môi trường Julia 1.13.3 của lần kiểm chứng. Phần Fashion-MNIST
+dùng các dependency trong `Project.toml`; cần chạy `Pkg.instantiate()` trước. Chạy các lệnh bên dưới từ thư mục gốc
 dự án trong terminal PowerShell, không nhập vào dấu nhắc `julia>`.
 
 Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.
@@ -97,30 +97,30 @@ foreach(prepare_input, DATASETS)
 
 Theo [đề bài](docs/itemset.md), auto test phải bao phủ ít nhất 5 CSDL, khớp SPMF, và output lần chạy cuối phải có trong README. File `test_benchmark.jl` trong cấu trúc gợi ý không có nghĩa là bắt buộc unit test từng hàm đo runtime, Peak RAM hoặc sinh CSV.
 
-Lần chạy gần nhất ngày 2026-11-16 trên Julia 1.13.3 / Windows: **439/439 assertions pass**.
-Set và BitVector đều khớp 100% itemset/support của cả 5 CSDL đầy đủ; không thiếu/thừa
-itemset hoặc sai support.
+Lần chạy gần nhất ngày 2026-11-24 trên Julia 1.13.3 / Linux: **569/569 assertions pass**.
+Set và BitVector khớp toàn bộ itemset/support với SPMF trên năm CSDL đầy đủ.
+Python release tests: **16/16 pass**; kiểm tra cấu trúc bốn notebook release: **PASS**.
 
 <details>
 <summary>Output của julia --project=. test/runtests.jl</summary>
 
 ```text
 Test Summary:                    | Pass  Total  Time
-Eclat correctness and edge cases |   21     21  2.9s
+Eclat correctness and edge cases |   22     22  1.8s
 Test Summary:                 | Pass  Total  Time
-SPMF I/O and exact comparison |   11     11  2.7s
+SPMF I/O and exact comparison |   11     11  1.2s
 Test Summary:              | Pass  Total  Time
-Groceries - xu ly gio hang |   10     10  0.5s
+Groceries - xu ly gio hang |   10     10  0.2s
 Test Summary:            | Pass  Total  Time
 Luat ket hop - cong thuc |   11     11  0.1s
 Test Summary:                 | Pass  Total  Time
-Luat ket hop - tap con hop le |    7      7  0.8s
+Luat ket hop - tap con hop le |    7      7  0.4s
 Test Summary:              | Pass  Total  Time
-Luat ket hop - sinh va loc |   59     59  1.6s
+Luat ket hop - sinh va loc |   59     59  0.8s
 Test Summary:                                 | Pass  Total  Time
 BitVector singleton pruning before allocation |   18     18  0.4s
 Test Summary:                                          | Pass  Total  Time
-Pruned BitVector matches independent exhaustive oracle |  280    280  0.6s
+Pruned BitVector matches independent exhaustive oracle |  280    280  0.5s
 Groceries / set: matched=333/333; missing=0; extra=0; support_mismatches=0
 Groceries / bitvector: matched=333/333; missing=0; extra=0; support_mismatches=0
 Chess / set: matched=1386/1386; missing=0; extra=0; support_mismatches=0
@@ -132,10 +132,70 @@ Retail / bitvector: matched=18/18; missing=0; extra=0; support_mismatches=0
 T10I4D100K / set: matched=237/237; missing=0; extra=0; support_mismatches=0
 T10I4D100K / bitvector: matched=237/237; missing=0; extra=0; support_mismatches=0
 Test Summary:                | Pass  Total  Time
-Correctness SPMF tren 5 CSDL |   22     22  3.7s
+Correctness SPMF tren 5 CSDL |   22     22  2.6s
+Test Summary:           | Pass  Total  Time
+Fashion-MNIST IDX input |   17     17  0.6s
+Test Summary:                    | Pass  Total  Time
+Verified Fashion-MNIST downloads |    7      7  0.1s
+Test Summary:                  | Pass  Total  Time
+Stable Fashion-MNIST image IDs |   12     12  0.0s
+Test Summary:                             | Pass  Total  Time
+Fashion-MNIST dataset manifest round trip |   11     11  0.4s
+Test Summary:                        | Pass  Total  Time
+Fashion transaction input validation |    9      9  0.3s
+Test Summary:            | Pass  Total  Time
+Fashion-MNIST TC helpers |   39     39  3.8s
+Test Summary:                         | Pass  Total  Time
+Release Fashion-FIM transaction input |    9      9  0.4s
+Test Summary:                | Pass  Total  Time
+Fashion TC6 spatial encoding |    1      1  0.2s
+Test Summary:                    | Pass  Total  Time
+EDA2 input and mining invariants |   18     18  0.7s
+Test Summary:                                   | Pass  Total  Time
+Verified input download preserves existing data |    6      6  0.1s
 ```
 
 </details>
+
+## Demo Colab và chuẩn bị dữ liệu tự động
+
+Mở [`notebooks/demo.ipynb`](notebooks/demo.ipynb) bằng Python kernel. Notebook
+cài Julia 1.13.3, chuẩn bị dữ liệu, chạy test, hiển thị top-10 luật Groceries
+và chạy Fashion-MNIST mà không cần `systemd --user` hoặc Julia notebook kernel.
+Nhánh `feature/complete-code` phải được push và repo phải truy cập được từ Colab
+trước khi link sau hoạt động:
+
+[Open in Colab](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/feature/complete-code/notebooks/demo.ipynb)
+
+Mặc định Fashion lấy mẫu cân bằng 1.000 ảnh, K=32/seed=123. Đặt
+`FASHION_PROFILE = "full"` để dựng đúng giao dịch release trên 70.000 ảnh.
+Demo kiểm tra parity cả hai backend tại sáu ngưỡng, audit support trực tiếp,
+xuất bảng lớp và gallery centroid/ảnh. Kết quả nằm trong `results/colab/`;
+selection minh họa không thay thế selection contract của notebook release.
+Giới hạn mỗi lần mine: 120 giây và 100.000 itemsets; vượt giới hạn dừng demo,
+không ghi manifest PASS. Thời gian chỉ đo `mine`, không báo Peak RSS của Fashion.
+
+`RUN_BENCHMARKS = True` chạy lại bốn nhóm benchmark với SPMF, tự chuẩn bị JRE 25
+nếu Java cũ. Mặc định một lần đo để demo; đổi `BENCHMARK_RUNS = 5` để lấy median.
+Các phép đo này ghi riêng trong `results/colab/benchmarks/`.
+Đã kiểm tra đường chạy Linux/Java 25 với một lượt đo: 84 mẫu runtime, 8 mẫu
+Peak RAM, 10 mẫu scalability và 10 mẫu độ dài; toàn bộ khớp SPMF và các script
+kiểm tra/vẽ biểu đồ pass. Đây là kiểm tra luồng chạy, không thay số liệu báo cáo.
+
+Chạy tương đương trong terminal:
+
+```sh
+julia --project=. scripts/prepare_data.jl
+julia --project=. test/runtests.jl
+python -m unittest discover -s test -p 'test_fashion_fim_*.py'
+julia --project=. scripts/fashion_colab_demo.jl
+```
+
+Downloader xác minh SHA-256 và không ghi đè file đã có nhưng sai checksum.
+Notebook đã chạy toàn bộ luồng mặc định với Python kernel mới trên Linux local;
+chưa xác nhận bằng runtime Google Colab. Full-data Fashion demo chưa chạy lại.
+Nếu chạy notebook local, dùng `uv sync --locked` để cài Jupyter và matplotlib
+đã khai báo trong `pyproject.toml`.
 
 ## Fashion-MNIST release
 
