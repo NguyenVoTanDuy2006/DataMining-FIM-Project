@@ -7,7 +7,7 @@
 \usepackage[vietnamese]{babel}
 \usepackage{amsmath,amssymb,booktabs,array,graphicx,algorithmic,url}
 \usepackage[hidelinks,unicode]{hyperref}
-\graphicspath{{figures/fashion/}{../docs/report_tv2/figures/}}
+\graphicspath{{figures/benchmarks/}{figures/fashion/}{../docs/report_tv2/figures/}}
 \renewcommand{\figurename}{Hình}
 \renewcommand{\tablename}{Bảng}
 \renewcommand{\refname}{Tài liệu tham khảo}
@@ -15,12 +15,10 @@
 \renewcommand{\algorithmicensure}{\textbf{Đầu ra:}}
 \newcommand{\bv}{\texttt{BitVector}}
 \newcommand{\st}{\texttt{Set}}
-\newcommand{\pending}{\textemdash}
 \makeatletter
 \newenvironment{reportfigure}{\par\medskip\noindent\begin{minipage}{\columnwidth}\def\@captype{figure}\centering}{\end{minipage}\par\medskip}
 \newenvironment{reporttable}{\par\medskip\noindent\begin{minipage}{\columnwidth}\def\@captype{table}\centering}{\end{minipage}\par\medskip}
 \makeatother
-\newcommand{\pendingplot}[2]{\fbox{\begin{minipage}[c][#1][c]{0.94\columnwidth}\centering\small #2\par\medskip\textit{Khung dành cho biểu đồ sau khi chốt số liệu.}\end{minipage}}}
 \begin{document}
 \selectlanguage{vietnamese}
 \renewcommand{\refname}{Tài liệu tham khảo}
@@ -31,67 +29,111 @@
 \maketitle
 \begin{abstract}
 Khai thác tập mục phổ biến tìm các tổ hợp thường cùng xuất hiện trong cơ sở
-dữ liệu giao dịch. Báo cáo trình bày cài đặt Eclat bằng Julia với hai biểu
-diễn tập định danh giao dịch: Set và BitVector. Thuật toán được xây dựng
+dữ liệu giao dịch. Nghiên cứu này cài đặt Eclat bằng Julia với hai biểu
+diễn tập định danh giao dịch là Set và BitVector. Thuật toán được xây dựng
 theo mô tả của Zaki, sử dụng giao TID-set và duyệt theo chiều sâu; phiên
 bản tối ưu lọc singleton trước khi cấp phát vector bit. Bộ kiểm thử đối
 chiếu từng itemset và support count với SPMF trên năm cơ sở dữ liệu, đồng
 thời dùng phép đếm vét cạn độc lập trên dữ liệu nhỏ. Thực nghiệm được thiết
 kế trên Chess, Mushroom, Retail và T10I4D100K để đánh giá thời gian thực thi
-(runtime), đỉnh bộ nhớ thường trú (Peak RSS),
-khả năng mở rộng và ảnh hưởng của độ dài giao dịch. Hai ứng dụng dùng cùng
-core: Groceries sinh luật kết hợp và xếp top 10 theo lift; Fashion-MNIST
+(runtime), đỉnh bộ nhớ thường trú (Peak RSS), khả năng mở rộng và ảnh
+hưởng của độ dài giao dịch. Hai ứng dụng sử dụng cùng bộ khai thác:
+Groceries sinh luật kết hợp và xếp top 10 theo lift; Fashion-MNIST
 biểu diễn ảnh bằng túi từ thị giác rồi khai thác các tổ hợp từ thị giác
 (visual words).
-Bản thảo đã có kết quả Groceries và correctness; các số đo hiệu năng cùng
-kết quả lần chạy Fashion-MNIST 70.000 ảnh đang để trống chờ xác nhận.
+Thực nghiệm trên Colab CPU gồm 560 mẫu đo cho bốn CSDL và phân tích
+Fashion-MNIST trên đủ 70.000 ảnh. K-means đạt tiêu chí dừng của thư viện
+sau 372 vòng; hai phiên bản Eclat khớp toàn bộ itemset/support ở sáu
+ngưỡng của dữ liệu ảnh. BitVector giảm Peak RSS trên ba bộ dữ liệu,
+trong khi lợi thế thời gian toàn tiến trình phụ thuộc CSDL. Kết quả cho
+thấy việc đánh giá biểu diễn TID-set cần xét đồng thời chi phí khởi
+động, tiền xử lý và khai thác.
 \end{abstract}
 \begin{IEEEkeywords}
 Eclat, frequent itemset mining, Julia, BitVector, luật kết hợp, visual words.
 \end{IEEEkeywords}
-\noindent\textit{Quy ước bản thảo.} Dấu \pending{} trong bảng kết quả nghĩa
-là chưa điền số liệu, không phải kết quả bằng 0 hoặc thất bại. Các hình có
-khung ``chờ số liệu'' chỉ chỉ rõ nội dung cần đo. Không dùng số liệu
-benchmark cũ hay kết quả demo 1.000 ảnh để thay cho lần đo đang chờ.
-
 \input{../docs/report_tv1/algorithm}
 \input{sections/benchmarks}
 \input{../docs/report_tv2/groceries}
 \input{sections/fashion_mnist}
 
 \subsection{Tổng kết hai ứng dụng}
-Hai ứng dụng chia sẻ thuật toán nhưng khác quyết định tạo giao dịch.
-Groceries có item mang nghĩa sản phẩm ngay từ dữ liệu gốc; Fashion-MNIST
-phải học codebook trước khi item có thể được định danh. Vì vậy, việc kiểm
-chứng Eclat đúng không tự bảo đảm visual words có ý nghĩa ngữ nghĩa.
-Trong cả hai trường hợp, support mô tả đồng xuất hiện, không chứng minh
-quan hệ nhân quả hoặc hiệu quả dự đoán trên dữ liệu mới.
+Eclat áp dụng được cho cả giao dịch bán lẻ và giao dịch suy ra từ ảnh.
+Ở Groceries, mỗi item tương ứng một sản phẩm có tên, cho phép diễn giải
+luật trực tiếp theo hành vi mua cùng giỏ. Ở Fashion-MNIST, ý nghĩa của
+item phụ thuộc codebook và các patch ảnh được gán vào từng tâm cụm.
+Tính đúng đắn của phép khai thác được kiểm chứng bằng đối chiếu
+itemset/support; diễn giải ngữ nghĩa còn phụ thuộc cách biểu diễn dữ liệu.
 
-Core Set/BitVector và đối chiếu SPMF cung cấp nền tảng correctness cho
-những phân tích này. Bước chốt báo cáo là điền các phép đo theo Chương II,
-xác nhận artifacts Fashion cùng run/hash và hoàn tất review mẫu trực
-quan. Hai hướng tối ưu tiếp theo là chọn biểu diễn TID theo mật độ và
-giảm cấp phát khi giao bitset. Mỗi hướng phải giữ nguyên output và được
-đo theo cùng phương pháp trước khi đưa ra kết luận về cải thiện.
+Các kết quả hiện mô tả quan hệ đồng xuất hiện trên CSDL quan sát.
+Phân tích Fashion sử dụng các tệp có cùng mã lần chạy và mã băm, song
+chưa có đánh giá ngữ nghĩa độc lập cho các mẫu trực quan. Ứng dụng dự
+đoán hoặc khuyến nghị cần được đánh giá trên dữ liệu mới. Những hướng
+tiếp theo gồm bổ sung ngữ cảnh cho luật giỏ hàng và kết hợp thông tin
+không gian với đặc trưng itemset của ảnh.
 \input{references}
 \appendices
-\section{Tái lập và nguồn bằng chứng}
+\section{Thông tin tái lập thực nghiệm}
 \label{sec:reproduction}
-Chương I đối chiếu trực tiếp các tệp EclatBaseline, EclatOptimized,
-EclatCompatibility và SPMFIO. Log 569 assertions là lần kiểm thử package
-đã lưu ngày 24/11/2026, không phải số lượt benchmark. Các bảng Groceries
-lấy từ CSV trong \texttt{results/groceries/}. Chương II mới chốt phương
-pháp và cấu hình; các bảng thời gian/RAM vẫn chưa điền. Các hình và số
-liệu Fashion của báo cáo riêng cũ không được tự động nhập vào bản này.
+Mã nguồn thuật toán gồm EclatBaseline, EclatOptimized,
+EclatCompatibility và SPMFIO. Lần kiểm thử package ngày 24/11/2026
+ghi nhận 569 assertions đạt. Kết quả Groceries được lưu dưới dạng CSV
+trong \texttt{results/groceries/}; số đo Colab lưu tại
+\texttt{results/groceries/colab\_20261125/}. Chương II dùng đủ 560 mẫu
+của đợt đo tại commit \texttt{54049e1}, lưu trong
+\texttt{results/benchmarks/colab\_20261125/}; script
+\texttt{scripts/plot\_colab\_report.py} kiểm tra CSV và dựng lại hình.
+Kết quả Fashion thuộc lần chạy
+\texttt{fashion\_655719818688} trên Colab CPU, với SHA-256 giao dịch
+\texttt{b5836369\ldots a0fe9c}. Hash đầy đủ được lưu cùng codebook
+trong metadata. Bộ giao dịch khác với lần chạy lịch sử có 7.228
+itemsets ở minsup 5\%, nên số lượng lịch sử không được dùng làm đáp án
+tham chiếu cho codebook hiện tại. Bản dữ liệu chọn lọc ở
+\texttt{results/fashion/colab\_report\_20261125/} gồm summary, 60 lượt đo,
+phân bố độ dài, số ảnh theo lớp và metadata với mã băm giao dịch/codebook.
+Script \texttt{scripts/plot\_fashion\_report.py} kiểm tra tính nhất quán
+và dựng lại biểu đồ từ các CSV này.
 
-Mã nguồn báo cáo ở \texttt{reports/main.tex}; PDF đọc chung là
-\texttt{docs/Report.pdf}. Chạy hai lượt XeLaTeX để cập nhật dẫn chiếu. Mã
-chạy dữ liệu và thử nghiệm nằm trong \texttt{scripts/}; nguồn dữ liệu lớn
-không được commit. Trước khi khai thác, cần kiểm tra checksum, cấu hình
-và đủ file tham chiếu; thiếu dữ liệu phải báo lỗi thay vì bỏ qua test.
+Mã nguồn tài liệu ở \texttt{reports/main.tex}; bản PDF là
+\texttt{docs/Report.pdf}. Tài liệu được biên dịch bằng hai lượt XeLaTeX
+để cập nhật dẫn chiếu. Các chương trình chuẩn bị dữ liệu và thực nghiệm
+nằm trong \texttt{scripts/}; dữ liệu nguồn dung lượng lớn được lưu ngoài
+lịch sử Git. Bước chuẩn bị xác minh checksum, cấu hình và sự hiện diện
+của đáp án tham chiếu; đầu vào thiếu làm dừng kiểm thử.
 
-Đối với Fashion, giữ cả bốn manifest cùng thư mục run để tái lập một bước
-hạ nguồn. Các artifact chứa TID, image ID, patch coordinates và hash là
-bằng chứng để nối kết quả itemset với dữ liệu ảnh. Báo cáo diễn giải chỉ
-chuyển khỏi trạng thái chờ review khi có nhận xét của người đánh giá.
+Quy trình bốn notebook Fashion sử dụng bốn manifest trong cùng thư mục
+lần chạy để liên kết các bước xử lý. Thực nghiệm Colab ở đây sử dụng
+TC1--TC7 và chương trình demo mở rộng; phạm vi xác minh bao gồm dựng
+giao dịch, khai thác và tạo ảnh minh họa. Các tệp TID, image ID, tọa độ
+patch và mã băm liên kết itemset với dữ liệu ảnh. Trạng thái đánh giá
+ngữ nghĩa được quản lý riêng với kiểm định dữ liệu và kết quả khai thác.
+
+\subsection{Quy trình notebook và lựa chọn mẫu bổ sung}
+Bộ bốn notebook liên kết kiểm định dataset, xây dựng giao dịch, khai thác
+và diễn giải bằng manifest. Supervisor dựa trên Linux user-systemd để
+quản lý tài nguyên tiến trình, trạng thái thực thi và Peak RSS. Kết quả
+chỉ được đối chiếu khi cả hai tiến trình đã hoàn tất.
+
+Selector release gộp và loại trùng các itemsets từ những lần khai thác
+Set hoàn tất. Support của một itemset phải nhất quán giữa các ngưỡng;
+ngưỡng nguồn là ngưỡng cao nhất có kết quả quan sát. Ứng viên được chia
+thành chín ô kết hợp độ dài 1, 2, $\geq3$ với support thấp, vừa, cao.
+Các mức support được xác định theo thứ hạng của các giá trị count phân
+biệt để giữ những mẫu cùng count trong cùng nhóm.
+
+Ba ô ưu tiên là (1/cao), (2/vừa), ($\geq3$/thấp), sau đó các vị trí còn
+lại được điền theo thứ tự lưới cố định. Trong mỗi ô, thứ tự lựa chọn dựa
+trên support giảm dần, độ dài và tuple item. Selector chọn tối đa bốn
+mẫu với ngưỡng Jaccard 0,80; nếu chưa đủ, ngưỡng được nới một lần tới
+0,90. Ba mẫu được chấp nhận khi không tìm được mẫu thứ tư hợp lệ; ít
+hơn ba mẫu làm dừng bước lựa chọn. Manifest lưu phiên bản quy tắc, thứ
+tự mẫu, Jaccard, mã băm catalog và output nguồn. Kết quả sửa thủ công
+được phân biệt với output tự động của selector.
+
+Quy trình này hỗ trợ đa dạng hóa mẫu cho đánh giá ngữ nghĩa, không tối
+ưu hiệu năng phân loại. Trạng thái lựa chọn và trạng thái đánh giá bởi
+người được lưu riêng. Bộ notebook còn quy định ảnh đối chứng thiếu ít
+nhất một word và tọa độ witness trên ảnh gốc; khi không có đối chứng,
+trạng thái thiếu được ghi nhận. Những yêu cầu này vượt quá gallery minh
+họa và quy tắc chọn mẫu đã sử dụng trong lần đo Colab.
 \end{document}

@@ -9,7 +9,7 @@ Cho cơ sở dữ liệu giao dịch $D=(t_1,\ldots,t_N)$ trên tập item $I$ c
 \end{equation}
 Với $N>0$ và ngưỡng $s\in(0,1]$, bài toán \emph{frequent itemset mining} (khai thác tập phổ biến) yêu cầu tìm mọi $X\ne\varnothing$ thỏa $c(X)\ge c_{\min}$, trong đó $c_{\min}=\lceil s N\rceil$. Chẳng hạn, $N=5$ và $s=0{,}5$ cho $c_{\min}=3$; dùng phép làm tròn xuống sẽ giữ sai các tập chỉ xuất hiện hai lần.
 
-Nhóm chọn Eclat theo mô tả của Zaki~\cite{zaki}. Thuật toán sử dụng \emph{vertical representation} (biểu diễn dọc) và \emph{depth-first search}, DFS (duyệt theo chiều sâu). So với cách sinh ứng viên theo từng mức của Apriori~\cite{agrawal}, Eclat tính support qua giao các tập định danh giao dịch, thuận tiện để đối chiếu hai cấu trúc dữ liệu \texttt{Set} và \texttt{BitVector} trong Julia~\cite{julia}. SPMF chỉ được dùng làm cài đặt tham chiếu để kiểm chứng~\cite{spmf}.
+Cài đặt sử dụng Eclat theo mô tả của Zaki~\cite{zaki}, với \emph{vertical representation} (biểu diễn dọc) và \emph{depth-first search}, DFS (duyệt theo chiều sâu). Apriori~\cite{agrawal} sinh ứng viên theo từng mức, còn Eclat tính support qua giao các tập định danh giao dịch. Cơ chế này cho phép khảo sát hai cấu trúc dữ liệu \texttt{Set} và \texttt{BitVector} trong Julia~\cite{julia} trên cùng quy trình duyệt. SPMF cung cấp cài đặt tham chiếu độc lập để kiểm chứng~\cite{spmf}.
 
 \subsection{Biểu diễn dọc và nguyên tắc mở rộng}
 Với mỗi $X$, đặt $T(X)=\{j:X\subseteq t_j\}$ là \emph{transaction-ID set}, TID-set (tập định danh giao dịch chứa $X$). Khi đó:
@@ -55,23 +55,23 @@ Các item được sắp theo ID tăng dần. Tại tiền tố $P$, danh sách 
 
 \textit{Đầy đủ và không lặp.} Mỗi tập item có duy nhất một thứ tự tăng dần. Nếu tập đó phổ biến, mọi tiền tố của nó cũng phổ biến theo tính phản đơn điệu, nên đường mở rộng tương ứng không bị cắt bỏ. Quy tắc chỉ ghép với item đứng sau bảo đảm đường này được duyệt đúng một lần. Thuật toán vì vậy xuất toàn bộ tập phổ biến, không sinh hoán vị trùng.
 
-\subsection{Cài đặt baseline bằng Set}
-Tệp \texttt{EclatBaseline.jl} lưu TID-set bằng \texttt{Set\{Int\}}. Một lượt quét loại item lặp trong mỗi giao dịch rồi gắn TID vào từng item. DFS dùng \texttt{intersect} để sinh nhánh con. Cách này dễ kiểm tra và chỉ lưu các TID thực sự xuất hiện, nhưng có chi phí bảng băm và lưu số nguyên.
+\subsection{Phiên bản cơ sở sử dụng Set}
+Phiên bản cơ sở trong \texttt{EclatBaseline.jl} lưu TID-set bằng \texttt{Set\{Int\}}. Một lượt quét loại item lặp trong mỗi giao dịch rồi gắn TID vào từng item. DFS dùng \texttt{intersect} để sinh nhánh con. Biểu diễn này chỉ lưu các TID xuất hiện thực tế; chi phí bộ nhớ bao gồm các số nguyên và cấu trúc bảng băm.
 
 \subsection{Các kỹ thuật tối ưu đã cài đặt}
-\textit{Biểu diễn TID-set bằng BitVector.} Tệp \texttt{EclatOptimized.jl} biểu diễn TID-set bằng vector $N$ bit: bit thứ $j$ bằng 1 khi giao dịch $j$ chứa item. Phép \texttt{.\&} tạo giao, còn \texttt{count} đếm bit bật. Thay vì tra cứu các TID trong bảng băm, phép giao làm việc trên các từ máy chứa nhiều bit liên tiếp; hiệu quả phụ thuộc mật độ TID-set.
+\textit{Biểu diễn TID-set bằng BitVector.} Tệp \texttt{EclatOptimized.jl} biểu diễn TID-set bằng vector $N$ bit: bit thứ $j$ bằng 1 khi giao dịch $j$ chứa item. Phép \texttt{.\&} tạo giao, còn \texttt{count} đếm bit bật. Phép giao xử lý đồng thời nhiều bit trong một từ máy, với hiệu quả phụ thuộc mật độ TID-set và độ dài vector.
 
 \textit{Lọc singleton trước khi cấp phát.} Trước khi cấp vector, chương trình đếm support từng item; biến \texttt{last\_seen\_tid} bảo đảm một giao dịch chỉ đóng góp một lần cho mỗi item. Chỉ các item đạt $c_{\min}$ mới được cấp \texttt{BitVector}; lượt quét thứ hai điền các bit tương ứng. Tất cả ID đều được kiểm tra hợp lệ trong lượt đếm, kể cả item sau đó bị loại.
 
 Nếu có $F_1$ singleton phổ biến, phần vector ban đầu giảm từ $MN$ xuống $F_1N$ bit, chưa tính cấu trúc quản lý. Trên Retail tại $s=4\%$, chỉ 7 trong 16.470 item quan sát được đạt ngưỡng. Lọc trước cấp phát tránh tạo vector cho 16.463 item còn lại. Đổi lại, phương án này cần thêm một lượt đọc giao dịch và hai từ điển đếm/ghi nhận TID gần nhất. Lợi ích cần được xét cùng chi phí tiền xử lý, không chỉ kích thước vector.
 
 
-Tỉa ứng viên dưới ngưỡng dựa trên tính phản đơn điệu đã có trong cả baseline và bản tối ưu; đây là quy tắc của Eclat, không phải cải tiến riêng của BitVector. Hai kỹ thuật bổ sung trên thay đổi cách lưu TID-set và thời điểm cấp phát, vẫn giữ nguyên tập itemset và support cần xuất.
+Cả hai phiên bản sử dụng tính phản đơn điệu để tỉa ứng viên dưới ngưỡng. Khác biệt thực nghiệm nằm ở biểu diễn TID-set và thời điểm cấp phát vector; tập itemset và support đầu ra được giữ nguyên.
 
 \subsection{Phân tích độ phức tạp}
 Gọi $E=\sum_{j=1}^{N}|t_j|$ là tổng số lần xuất hiện item trong dữ liệu đầu vào, $w$ là số bit mỗi từ máy và $F$ là số tập phổ biến. Dựng biểu diễn Set có thời gian kỳ vọng $O(E)$, giả sử thao tác bảng băm có chi phí kỳ vọng hằng số. Phiên bản BitVector cần $O(E+F_1\lceil N/w\rceil)$ cho đếm, cấp vector và điền bit; trạng thái đếm dùng $O(M)$ bộ nhớ. Các cận này chưa gồm sắp xếp ID, có chi phí $O(M\log M)$ ở baseline hoặc $O(F_1\log F_1)$ sau lọc ở phiên bản BitVector.
 
-Một phép giao Set có chi phí kỳ vọng tỷ lệ với kích thước toán hạng nhỏ hơn; giao và đếm BitVector cần $O(\lceil N/w\rceil)$ thao tác trên các từ máy. Vì vậy BitVector phù hợp khi TID-set đủ dày, nhưng có thể quét nhiều bit 0 trên dữ liệu thưa. Không thể kết luận BitVector luôn nhanh hơn chỉ từ biểu diễn dữ liệu.
+Một phép giao Set có chi phí kỳ vọng tỷ lệ với kích thước toán hạng nhỏ hơn; giao và đếm BitVector cần $O(\lceil N/w\rceil)$ thao tác trên các từ máy. BitVector có thể tận dụng xử lý theo từ máy khi TID-set dày, trong khi dữ liệu thưa làm tăng tỷ lệ bit 0 phải quét. Sự đánh đổi này được đánh giá thực nghiệm ở Chương II.
 
 Gọi $\mathcal{J}$ là tập các phép giao thực sự được DFS thực hiện, và $K=\sum_{X\text{ phổ biến}}|X|$ là tổng độ dài khóa kết quả. Ngoài tiền xử lý, thời gian gồm tổng chi phí các phép giao trong $\mathcal{J}$, quản lý ứng viên, sao chép tiền tố và lưu kết quả. Riêng phiên bản BitVector, phần giao/đếm có cận $O(|\mathcal{J}|\lceil N/w\rceil)$. Trường hợp xấu nhất $F=2^M-1$, nên không có cận đa thức theo $N,M$ cho việc liệt kê mọi tập phổ biến.
 
@@ -93,11 +93,11 @@ Bộ kiểm thử bao phủ support biên, dữ liệu rỗng, giao dịch trùn
 
 Đối chiếu SPMF kiểm tra toàn bộ từ điển tập item và support, không chỉ tổng số kết quả. Một cấu hình đạt khi không thiếu tập, không thừa tập và không sai support. Bộ test đọc đáp án SPMF đã lưu, không tự sinh đáp án bằng Eclat của nhóm. Các dòng metadata của đáp án được bỏ qua trước khi chuẩn hóa itemset. Năm CSDL đầy đủ gồm Groceries, Chess, Mushroom, Retail và T10I4D100K đều đã ghi nhận khớp 100\% ở cả hai backend; bảng cấu hình và kết quả được trình bày tại Chương II.
 
-Lệnh kiểm thử là \texttt{julia --project=. test/runtests.jl}. Log ngày 24/11/2026 trong README ghi 569/569 assertions đạt trên Julia 1.13.3/Linux cho toàn bộ package, gồm cả các ứng dụng; không phải 569 phép đối chiếu SPMF. Hai backend khớp 100\% ở cả năm CSDL. Đây là bằng chứng kiểm thử, không thay thế số đo hiệu năng đang chờ ở Chương II. Script \texttt{scripts/prepare\_data.jl} tải và xác minh SHA-256 trước khi chuẩn hóa dữ liệu. Test báo lỗi nếu thiếu input, không tự bỏ qua.
+Lệnh \texttt{julia --project=. test/runtests.jl} thực hiện kiểm thử toàn package, gồm cả các ứng dụng. Lần chạy ngày 24/11/2026 trên Julia 1.13.3/Linux ghi nhận 569/569 assertions đạt; phép đối chiếu trên năm CSDL khớp 100\% cho cả hai phiên bản. Script \texttt{scripts/prepare\_data.jl} tải dữ liệu và xác minh SHA-256 trước khi chuẩn hóa. Kiểm thử dừng khi thiếu đầu vào để duy trì đầy đủ các trường hợp đối chiếu.
 
 \subsection{Đánh giá tối ưu và giới hạn}
-Hiệu quả của hai kỹ thuật được đánh giá theo thiết kế ở Chương II: runtime toàn tiến trình, Peak RSS và thời gian mine sau warm-up phải được phân biệt. Bản thảo chưa điền số liệu hiệu năng được chọn, nên chưa kết luận backend nào nhanh hơn hoặc giảm bao nhiêu bộ nhớ.
+Hiệu quả của hai kỹ thuật được đánh giá ở Chương II theo thời gian toàn tiến trình, Peak RSS và thời gian khai thác sau warm-up. Các kết quả Colab cho thấy mức cải thiện phụ thuộc dữ liệu và phạm vi đo.
 
-So sánh hai phiên bản hoàn chỉnh không tách riêng tác động của bitset và lọc singleton. Muốn quy mức cải thiện cho từng thành phần cần thí nghiệm loại bỏ từng kỹ thuật trong cùng điều kiện. Peak RSS còn gồm runtime Julia, dữ liệu vào và kết quả, không chỉ TID-set.
+So sánh hai phiên bản hoàn chỉnh đánh giá tác động kết hợp của bitset và lọc singleton. Việc định lượng đóng góp từng thành phần đòi hỏi thí nghiệm loại bỏ từng kỹ thuật trong cùng điều kiện. Peak RSS phản ánh tổng bộ nhớ tiến trình, bao gồm môi trường Julia, dữ liệu vào, TID-set và kết quả.
 
-Bản hiện tại vẫn cấp phát kết quả giao mới và giữ toàn bộ itemset trong từ điển. Do đó dữ liệu có nhiều tập phổ biến vẫn có thể làm tăng mạnh thời gian và bộ nhớ. Tái sử dụng bộ đệm theo mức DFS hoặc chọn biểu diễn theo mật độ là các hướng cải tiến cần kiểm chứng tiếp; chưa được triển khai trong phiên bản báo cáo.
+Cài đặt hiện tại cấp phát kết quả giao mới và giữ toàn bộ itemset trong từ điển. Số tập phổ biến lớn vì vậy có thể làm tăng mạnh cả thời gian lẫn bộ nhớ. Tái sử dụng bộ đệm theo mức DFS và chọn biểu diễn theo mật độ là hai hướng mở rộng chưa được triển khai trong phiên bản được đánh giá.

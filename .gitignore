@@ -9,6 +9,7 @@ dist/
 *.ji
 .ipynb_checkpoints/
 .DS_Store
+/docs/Report.html
 .learn/
 
 # Downloaded or generated datasets; keep directory markers
@@ -28,6 +29,7 @@ results/*
 results/fashion/*
 !results/fashion/.gitkeep
 !results/fashion/tc/
+!results/fashion/colab_report_20261125/
 results/fashion/tc/*
 !results/fashion/tc/tc4_vector_tradeoff_60k/
 !results/fashion/tc/tc4_weighted_kmeans_k16/

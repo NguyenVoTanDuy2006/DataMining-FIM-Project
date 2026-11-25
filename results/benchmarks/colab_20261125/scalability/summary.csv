@@ -1,0 +1,11 @@
+dataset,percent,n_total,n_transactions,minsup,min_count,backend,measurement,n_runs,n_itemsets,median_seconds,min_seconds,max_seconds,transactions_per_second,exact_match,spmf_match
+retail,10,88162,8816,0.04,353,set,mine_after_full_subset_warmup,5,18,0.025079912,0.02439225,0.02680736,351516.3849059758,true,true
+retail,10,88162,8816,0.04,353,bitvector,mine_after_full_subset_warmup,5,18,0.006100891,0.005923732,0.006541614,1.4450348317975195e6,true,true
+retail,25,88162,22040,0.04,882,set,mine_after_full_subset_warmup,5,18,0.068915764,0.068280465,0.071233416,319810.7184881531,true,true
+retail,25,88162,22040,0.04,882,bitvector,mine_after_full_subset_warmup,5,18,0.016713793,0.015951726,0.020242071,1.3186713512606025e6,true,true
+retail,50,88162,44081,0.04,1764,set,mine_after_full_subset_warmup,5,18,0.158696803,0.150992064,0.161144159,277768.67061398836,true,true
+retail,50,88162,44081,0.04,1764,bitvector,mine_after_full_subset_warmup,5,18,0.033802531,0.033343743,0.052194617,1.3040739464154327e6,true,true
+retail,75,88162,66121,0.04,2645,set,mine_after_full_subset_warmup,5,18,0.276069879,0.249037081,0.374041399,239508.20074797075,true,true
+retail,75,88162,66121,0.04,2645,bitvector,mine_after_full_subset_warmup,5,18,0.049335939,0.04830171,0.051327018,1.3402197533931602e6,true,true
+retail,100,88162,88162,0.04,3527,set,mine_after_full_subset_warmup,5,18,0.358410989,0.348738839,0.36919532,245980.1811489658,true,true
+retail,100,88162,88162,0.04,3527,bitvector,mine_after_full_subset_warmup,5,18,0.062949085,0.06067152,0.109680281,1.4005286971208556e6,true,true

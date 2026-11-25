@@ -4,14 +4,15 @@
 Ứng dụng phân tích giỏ hàng (market basket analysis) dùng các sản phẩm
 thường được mua cùng nhau để sinh luật kết hợp \cite{agrawal}.
 Groceries CSV \cite{groceries} có 9.835 giỏ và 169 tên sản phẩm.
-Mỗi dòng được đọc như một danh sách có độ dài thay đổi: bỏ khoảng trắng
-và item lặp trong giỏ, giữ các giỏ trùng nhau. Vocabulary được sắp theo tên
-rồi gán ID dương; mapping ngược dùng để diễn giải kết quả.
-Các vector ID sau mã hóa được khai thác bằng Eclat của nhóm.
+Mỗi dòng biểu diễn một danh sách sản phẩm có độ dài thay đổi. Quá trình
+tiền xử lý loại khoảng trắng và sản phẩm lặp trong giỏ, đồng thời giữ
+nguyên các giỏ trùng nhau. Từ điển sản phẩm được sắp theo tên và gán ID
+nguyên dương; ánh xạ ngược liên kết luật với tên sản phẩm. Các vector
+ID sau mã hóa là đầu vào của Eclat.
 
 \subsubsection{Sinh luật và lựa chọn ngưỡng}
-Từ mỗi frequent itemset $Z$ có ít nhất hai item, liệt kê các tập con thực
-sự, khác rỗng X làm vế trái; vế phải $Y=Z\setminus X$.
+Với mỗi tập phổ biến $Z$ có ít nhất hai item, các tập con thực sự khác
+rỗng X được xét làm vế trái; vế phải là $Y=Z\setminus X$.
 Với $c(A)$ là số giỏ chứa toàn bộ A và $N=9.835$, các chỉ số là
 \begin{align}
 \operatorname{supp}(X\Rightarrow Y)&=\frac{c(X\cup Y)}{N},\\
@@ -24,9 +25,10 @@ trong nhóm giỏ có X; lift so tỷ lệ này với tần suất chung của Y
 Bảng~\ref{tab:params} khảo sát bốn minsup và ba minconf. Minconf được lọc
 sau mining nên không làm đổi số itemsets. Khi minsup tăng từ 0,5\% lên 3\%,
 số itemsets giảm từ 1.001 xuống 63; tại minconf 50\%, số luật giảm từ 120
-xuống 0. Chọn minsup 1\%, minconf 50\% cho cấu hình chính: có 333 itemsets
-và 15 luật, đủ để trình bày top 10 nhưng vẫn dễ diễn giải. Hợp hai vế
-phải xuất hiện trong ít nhất 99 giỏ theo (\ref{eq:threshold}).
+xuống 0. Cấu hình chính sử dụng minsup 1\% và minconf 50\%, cho 333
+itemsets và 15 luật. Quy mô này cho phép khảo sát mười luật có lift cao
+nhất trong một tập kết quả giới hạn. Theo (\ref{eq:threshold}), hợp hai
+vế của mỗi luật xuất hiện trong ít nhất 99 giỏ.
 
 \begin{reporttable}
 \caption{Số itemsets và số luật theo minsup, minconf. Ba cột cuối là số luật tại từng minconf.}\label{tab:params}
@@ -40,16 +42,47 @@ $s$ (\%) & Itemsets & 30\% & 50\% & 70\% \\\midrule
 \bottomrule\end{tabular}
 \end{reporttable}
 
-Các luật được xếp giảm dần theo lift, sau đó theo confidence và support
-để phân biệt các trường hợp bằng nhau. Việc chọn ngưỡng dựa trên số luật
-và khả năng diễn giải trong dữ liệu hiện có, chưa tối ưu theo doanh thu.
+Các luật được xếp theo lift giảm dần, với confidence và support là tiêu
+chí phân hạng tiếp theo khi bằng nhau. Ngưỡng được chọn theo số luật và
+khả năng diễn giải trên dữ liệu quan sát; hàm mục tiêu doanh thu chưa
+được sử dụng trong bước lựa chọn này.
+
+\subsubsection{Kiểm chứng và thời gian thực thi trên Colab}
+Thực nghiệm Colab sử dụng đủ 9.835 giỏ. Kiểm tra tái lập xác nhận bảng
+12 cấu hình và top 10 luật trùng từng byte với CSV tham chiếu; toàn bộ
+333 itemset/support tại 1\% khớp SPMF. Môi trường gồm hai vCPU,
+RAM 12,7 GiB, Ubuntu 24.04.5, Julia 1.13.3, một luồng Julia và BLAS.
+Phép đo sử dụng phiên bản Set tại commit \texttt{edf92f9}.
+
+\begin{reporttable}
+\caption{Groceries trên Colab tại minsup 1\%, minconf 50\%; năm lượt sau warm-up, đơn vị ms.}
+\label{tab:groceries-timing}
+\centering\footnotesize
+\begin{tabular}{lrrr}\toprule
+Phạm vi & Median & Min & Max\\\midrule
+Mining & 55,05 & 50,33 & 92,56\\
+Sinh luật & 1,24 & 1,21 & 1,37\\
+Toàn pipeline & 82,62 & 76,67 & 88,63\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+Mỗi minsup có một lượt warm-up cho mining; sinh luật và toàn bộ quy
+trình được warm-up theo từng cặp minsup/minconf. Thời gian toàn quy
+trình bao gồm đọc CSV thô, chuẩn hóa, mã hóa, khai thác và sinh luật
+trong tiến trình đã nạp mã. Chi phí khởi động Julia/JIT nằm ngoài phạm
+vi này, khác với thời gian toàn tiến trình ở Chương II. Ba phép đo được
+thực hiện độc lập nên các median thành phần không có tính cộng. Tổng
+cộng 28 nhóm cấu hình tạo 140 mẫu thời gian, lưu tại
+\texttt{results/groceries/colab\_20261125/}. Peak RSS riêng của ứng
+dụng chưa được đo.
 
 \subsubsection{Top 10 luật và ý nghĩa kinh doanh}
-Bảng~\ref{tab:rules} giữ nguyên tên sản phẩm của dataset, kèm số đếm và
-ba chỉ số. Các luật 1--4 hướng tới \textit{other vegetables}, còn các luật
-5--10 hướng tới \textit{whole milk}. Đây là hai nhóm sản phẩm có thể thử
-gợi ý theo ngữ cảnh giỏ hàng. Support của các luật chỉ khoảng 1,01--1,45\%,
-nên lift cao không đồng nghĩa bao phủ phần lớn các giỏ.
+Bảng~\ref{tab:rules} trình bày mười luật có lift cao nhất, sử dụng tên
+sản phẩm gốc của dataset. Các luật 1--4 có vế phải là
+\textit{other vegetables}, còn các luật 5--10 hướng tới
+\textit{whole milk}. Hai nhóm này cung cấp các trường hợp gợi ý theo
+ngữ cảnh giỏ hàng. Support khoảng 1,01--1,45\% cho thấy phạm vi áp dụng
+chỉ bao phủ một phần nhỏ giao dịch, dù lift của các luật tương đối cao.
 
 \begin{table*}[!t]
 \caption{Top 10 luật Groceries tại minsup 1\%, minconf 50\%, xếp theo lift. Số đếm là số giỏ chứa hợp hai vế; support và confidence theo phần trăm.}\label{tab:rules}
@@ -76,17 +109,18 @@ Other vegetables xuất hiện trong 1.903 giỏ, tương đương 19,35\% toàn
 dữ liệu; lift của luật xấp xỉ 3,03. Nghĩa là tỷ lệ có rau khác trong nhóm
 giỏ đã có trái cây có múi và rau củ cao khoảng 3,03 lần tỷ lệ chung.
 
-Có thể thử gợi ý rau khác cho các giỏ thỏa điều kiện ở luật 1--4, hoặc
-sữa nguyên kem cho các giỏ có tổ hợp sữa chua, rau, bơ, trứng ở luật 5--10.
-Khi chọn luật áp dụng, cần xét cả độ phủ: luật 8 dựa trên 143 giỏ, trong
-khi luật 5 có 99 giỏ, sát ngưỡng support. Các luật chồng lặp sản phẩm nên
-không cộng số giỏ của chúng để ước lượng lợi ích tổng.
+Một cách sử dụng các luật là gợi ý rau khác cho giỏ thỏa vế trái của
+luật 1--4, hoặc sữa nguyên kem cho giỏ chứa những tổ hợp sữa chua, rau,
+bơ, trứng ở luật 5--10. Độ phủ giữa các luật khác nhau: luật 8 dựa trên
+143 giỏ, còn luật 5 có 99 giỏ, sát ngưỡng support. Do các luật chồng lặp
+sản phẩm và giao dịch, tổng count của chúng không biểu thị số giỏ riêng
+biệt hay lợi ích tổng của hệ thống gợi ý.
 
 \subsubsection{Giới hạn áp dụng}
 Luật mô tả đồng xuất hiện trong giỏ hoàn tất, không cho biết thứ tự mua
 hoặc quan hệ nhân quả. Dữ liệu không có mã khách, thời gian, giá và khuyến
 mãi; top 10 cũng được chọn và mô tả trên cùng CSDL. Vì vậy chưa thể kết
 luận gợi ý sản phẩm sẽ làm tăng doanh thu hoặc các luật sẽ ổn định theo thời gian.
-Trước khi vận hành, cần đánh giá trên dữ liệu mới và thí nghiệm A/B để đo
-chuyển đổi hoặc lợi nhuận. Số đếm và support phải được đọc cùng lift để
-tránh đánh giá quá cao các luật ít gặp.
+Đánh giá vận hành đòi hỏi dữ liệu mới và thí nghiệm A/B theo tỷ lệ
+chuyển đổi hoặc lợi nhuận. Trong phân tích hiện tại, count và support
+bổ sung thông tin về độ phủ cho lift, đặc biệt với các luật ít gặp.

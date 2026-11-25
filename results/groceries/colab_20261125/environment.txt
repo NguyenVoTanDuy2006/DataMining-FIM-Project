@@ -1,0 +1,16 @@
+julia=1.13.3
+threads=1
+blas_threads=1
+transactions=9835
+items=169
+parameter_summary_rows=12
+timing_rows=140
+itemsets_0.01=3
+spmf_0.01=match
+os=PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+
+cpu=CPU(s):                                  2
+On-line CPU(s) list:                     0,1
+
+memory=MemTotal:       13286932 kB
