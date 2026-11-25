@@ -1137,8 +1137,8 @@ L 375.676719 8.799375
      </g>
     </g>
     <g id="text_16">
-     <!-- Bộ nhớ RSS cực đại (MB) -->
-     <g transform="translate(12.735 154.325156) rotate(-90) scale(0.09 -0.09)">
+     <!-- Bộ nhớ RSS cực đại (MiB) -->
+     <g transform="translate(12.735 155.575425) rotate(-90) scale(0.09 -0.09)">
       <defs>
        <path id="DejaVuSans-42" d="M 1259 2228 
 L 1259 519 
@@ -1492,8 +1492,9 @@ z
       <use xlink:href="#DejaVuSans-20" transform="translate(967.1875 0)"/>
       <use xlink:href="#DejaVuSans-28" transform="translate(998.974609 0)"/>
       <use xlink:href="#DejaVuSans-4d" transform="translate(1037.988281 0)"/>
-      <use xlink:href="#DejaVuSans-42" transform="translate(1124.267578 0)"/>
-      <use xlink:href="#DejaVuSans-29" transform="translate(1192.871094 0)"/>
+      <use xlink:href="#DejaVuSans-69" transform="translate(1124.267578 0)"/>
+      <use xlink:href="#DejaVuSans-42" transform="translate(1152.050781 0)"/>
+      <use xlink:href="#DejaVuSans-29" transform="translate(1220.654297 0)"/>
      </g>
     </g>
    </g>

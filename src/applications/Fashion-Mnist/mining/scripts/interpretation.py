@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import base64
 import csv
+from collections import Counter
 import gzip
 import hashlib
 import html
@@ -359,6 +360,9 @@ def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], met
     support_counts = {row["pattern_id"]: 0 for row in patterns}
     contrasts = {row["pattern_id"]: None for row in patterns}
     contrast_items = {row["pattern_id"]: () for row in patterns}
+    contrast_by_class = {row["pattern_id"]: {} for row in patterns}
+    class_totals = Counter(image["class_label"] for image in metadata.values()
+                           if image["class_label"] is not None)
     id_to_pattern = {row["pattern_id"]: row for row in patterns}
     rows = 0
     with open(input_path, encoding="utf-8") as stream:
@@ -391,6 +395,11 @@ def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], met
                     if contrasts[pattern_id] is None or candidate > contrasts[pattern_id]:
                         contrasts[pattern_id] = candidate
                         contrast_items[pattern_id] = tuple(sorted(query & items))
+                    label = image["class_label"] if image["class_label"] is not None else 0
+                    current = contrast_by_class[pattern_id].get(label)
+                    if current is None or candidate > current[0]:
+                        contrast_by_class[pattern_id][label] = (
+                            candidate, tuple(sorted(query & items)))
     if rows != 70_000:
         raise ValueError(f"Expected 70,000 transaction lines during retrieval scan, read {rows}")
     for pattern in patterns:
@@ -398,17 +407,34 @@ def collect_pattern_evidence(input_path: pathlib.Path, patterns: list[dict], met
         validate_retrieval_count(pattern["support_count"], supporters[pattern_id])
         if class_counts is not None:
             validate_class_count_reconciliation(class_counts[pattern_id], support_counts[pattern_id])
+    selected_contrasts = {}
+    selected_contrast_items = {}
+    for pattern in patterns:
+        pattern_id = pattern["pattern_id"]
+        best = contrasts[pattern_id]
+        best_items = contrast_items[pattern_id]
+        if class_counts is not None:
+            target_label = max(class_counts[pattern_id], key=lambda label: (
+                class_counts[pattern_id][label] / class_totals[label],
+                class_counts[pattern_id][label], -label))
+            same_class = contrast_by_class[pattern_id].get(target_label)
+            if same_class is not None:
+                best, best_items = same_class
+        selected_contrasts[pattern_id] = best[2] if best else None
+        selected_contrast_items[pattern_id] = best_items
     return {"supporters": supporters, "class_counts": class_counts,
             "labels_available": labels_available,
             "support_counts": support_counts,
-            "contrasts": {key: value[2] if value else None for key, value in contrasts.items()},
-            "contrast_items": contrast_items}
+            "contrasts": selected_contrasts,
+            "contrast_items": selected_contrast_items}
 
 
 def sample_supporters(patterns: list[dict], evidence: dict, metadata: dict, seed: int = 42,
                       maximum: int = 6) -> tuple[dict, dict]:
     samples = {}
     contrast_ids = {}
+    class_totals = Counter(meta["class_label"] for meta in metadata.values()
+                           if meta["class_label"] is not None)
     for pattern in patterns:
         pattern_id = pattern["pattern_id"]
         groups = {}
@@ -418,10 +444,14 @@ def sample_supporters(patterns: list[dict], evidence: dict, metadata: dict, seed
         rng = random.Random(seed + pattern["selection_order"])
         for ids in groups.values():
             rng.shuffle(ids)
+        target_label = max(groups, key=lambda label: (
+            len(groups[label]) / class_totals[label] if class_totals.get(label) else 0,
+            len(groups[label]), -label))
+        label_order = [target_label] + [label for label in sorted(groups) if label != target_label]
         chosen = []
         while len(chosen) < maximum:
             added = False
-            for label in sorted(groups):
+            for label in label_order:
                 if groups[label]:
                     chosen.append(groups[label].pop())
                     added = True
@@ -547,39 +577,43 @@ def create_pattern_card(path: pathlib.Path, pattern: dict, metadata: dict, image
     support_palette = ("#e45756", "#4c78a8", "#59a14f", "#f2a541", "#b279a2", "#ff9da7")
     color_by_word = {word: support_palette[index] for index, word in enumerate(pattern["items_tuple"])}
     contrast_color = "#a678b3"
+    itemset_text = ", ".join(map(str, pattern["items_tuple"]))
+    support_percent = f"{pattern['support_count'] / 70_000:.2%}".replace(".", ",")
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="100" viewBox="0 0 {width} 100">',
         '<rect width="100%" height="100%" fill="#ffffff"/>',
-        f'<text x="28" y="36" font-family="sans-serif" font-size="22" font-weight="700">{html.escape(pattern["pattern_id"])} — {{{", ".join(map(str, pattern["items_tuple"]))}}}</text>',
-        f'<text x="28" y="64" font-family="sans-serif" font-size="14">Support = {pattern["support_count"]:,}/70,000 ({pattern["support_count"]/70_000:.4%}); length={pattern["length"]}; minsup={html.escape(pattern["observed_at_minsup"])}</text>',
-        '<text x="28" y="96" font-family="sans-serif" font-size="12" fill="#43556b">Viền trên ảnh hỗ trợ:</text>']
+        f'<text x="28" y="36" font-family="sans-serif" font-size="22" font-weight="700">Mẫu thị giác {{{html.escape(itemset_text)}}}</text>',
+        f'<text x="28" y="64" font-family="sans-serif" font-size="14">Độ hỗ trợ: {pattern["support_count"]:,}/70.000 ảnh ({support_percent}) · độ dài {pattern["length"]} · minsup {html.escape(pattern["observed_at_minsup"])}</text>',
+        '<text x="28" y="96" font-family="sans-serif" font-size="12" fill="#43556b">Viền màu trên ảnh hỗ trợ:</text>']
     for index, word in enumerate(pattern["items_tuple"]):
         x = 190 + index * 112
         parts.append(f'<line x1="{x}" y1="91" x2="{x+18}" y2="91" stroke="{color_by_word[word]}" stroke-width="4"/>')
-        parts.append(f'<text x="{x+24}" y="96" font-family="sans-serif" font-size="12" fill="#273444">word {word}</text>')
+        parts.append(f'<text x="{x+24}" y="96" font-family="sans-serif" font-size="12" fill="#273444">mã {word}</text>')
     parts.extend([
         f'<line x1="920" y1="91" x2="938" y2="91" stroke="{contrast_color}" stroke-width="4"/>',
-        '<text x="944" y="96" font-family="sans-serif" font-size="12" fill="#273444">patch trên ảnh đối chứng</text>',
-        '<text x="28" y="130" font-family="sans-serif" font-size="13" fill="#43556b">Centroids (mean 4×4 pixel patches, column-major reshape)</text>'])
+        '<text x="944" y="96" font-family="sans-serif" font-size="12" fill="#273444">vùng quan sát trên ảnh đối chứng</text>',
+        '<text x="28" y="130" font-family="sans-serif" font-size="13" fill="#43556b">Tâm cụm (trung bình các patch 4×4 pixel)</text>'])
     thumb_columns = 8
     thumb_rows = math.ceil(len(pattern["items_tuple"]) / thumb_columns)
     centroid_top = 144
     for index, word in enumerate(pattern["items_tuple"]):
         x = 30 + (index % thumb_columns) * 145
         y = centroid_top + (index // thumb_columns) * 88
-        add_svg_image(parts, b64_png(4, 4, centroid_image(centroids[word])), x, y, 64, 64, f"word {word}")
+        add_svg_image(parts, b64_png(4, 4, centroid_image(centroids[word])), x, y, 64, 64, f"mã {word}")
     centroid_bottom = centroid_top + thumb_rows * 88
     exemplar_label_y = centroid_bottom + 18
-    parts.append(f'<text x="28" y="{exemplar_label_y}" font-family="sans-serif" font-size="13" fill="#43556b">Retained real patch exemplars nearest to each centroid</text>')
+    parts.append(f'<text x="28" y="{exemplar_label_y}" font-family="sans-serif" font-size="13" fill="#43556b">Patch thật gần mỗi tâm cụm nhất (mã ảnh và khoảng cách bình phương)</text>')
     exemplar_top = exemplar_label_y + 14
     for index, word in enumerate(pattern["items_tuple"]):
         x = 30 + (index % thumb_columns) * 145
         y = exemplar_top + (index // thumb_columns) * 88
         exemplar = exemplars[word][0]
-        label = f"w{word}, img {exemplar['image_id']}, d²={exemplar['distance']:.4f}"
-        add_svg_image(parts, b64_png(4, 4, exemplar["pixels"]), x, y, 64, 64, label)
+        exemplar_meta = metadata[exemplar["image_id"]]
+        source_id = f"{exemplar_meta['original_split']}:{exemplar_meta['original_index']}"
+        add_svg_image(parts, b64_png(4, 4, exemplar["pixels"]), x, y, 64, 64)
+        parts.append(f'<text x="{x+32}" y="{y+78}" text-anchor="middle" font-family="sans-serif" font-size="10">{html.escape(source_id)} · d²={exemplar["distance"]:.3f}</text>')
     exemplar_bottom = exemplar_top + thumb_rows * 88
     image_header_y = exemplar_bottom + 20
-    parts.append(f'<text x="28" y="{image_header_y}" font-family="sans-serif" font-size="13" fill="#43556b">Supporting images with observed word-assignment patches highlighted</text>')
+    parts.append(f'<text x="28" y="{image_header_y}" font-family="sans-serif" font-size="13" fill="#43556b">Ảnh chứa mẫu; khung màu đánh dấu patch được gán cho từng mã</text>')
     support_top = image_header_y + 14
     image_w, scale = 168, 6
     sample_rows = []
@@ -587,9 +621,9 @@ def create_pattern_card(path: pathlib.Path, pattern: dict, metadata: dict, image
         x = 28 + index * 202
         meta = metadata[image_id]
         label = meta["class_label"]
-        image_label = FASHION_CLASSES[label] if label is not None else "image"
+        image_label = FASHION_CLASSES[label] if label is not None else "ảnh"
         add_svg_image(parts, image_png_data(meta, images), x, support_top, image_w, image_w,
-                      f"{image_label} {image_id}")
+                      f"{image_label} · {image_id}")
         by_word = witnesses[image_id][pattern["pattern_id"]]
         for word, coords in by_word.items():
             for patch_row, patch_col in coords:
@@ -601,25 +635,23 @@ def create_pattern_card(path: pathlib.Path, pattern: dict, metadata: dict, image
         x = 28 + len(sample_ids) * 202
         meta = metadata[contrast_id]
         add_svg_image(parts, image_png_data(meta, images), x, support_top, image_w, image_w,
-                      f"contrast image {contrast_id}")
+                      f"đối chứng · {contrast_id}")
         for word, coords in witnesses[contrast_id][pattern["pattern_id"]].items():
             for patch_row, patch_col in coords:
                 parts.append(f'<rect x="{x+(patch_col-1)*4*scale:.1f}" y="{support_top+(patch_row-1)*4*scale:.1f}" width="{4*scale}" height="{4*scale}" fill="none" stroke="{contrast_color}" stroke-width="2.4"/>')
-        observed_words = sorted(witnesses[contrast_id][pattern["pattern_id"]])
-        contrast_note = (f"does not contain all words; observed subset: {observed_words}"
-                         if observed_words else "contains none of the query words")
-        parts.append(f'<text x="{x+image_w/2}" y="{support_top+image_w+32}" text-anchor="middle" font-family="sans-serif" font-size="10">{html.escape(contrast_note)}</text>')
+        observed_words = set(witnesses[contrast_id][pattern["pattern_id"]])
+        missing_words = sorted(set(pattern["items_tuple"]) - observed_words)
+        contrast_note = "Thiếu mã " + ", ".join(map(str, missing_words))
+        parts.append(f'<text x="{x+image_w/2}" y="{support_top+image_w+32}" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#654276">{html.escape(contrast_note)}</text>')
         label = meta["class_label"]
         sample_rows.append({"image_id": contrast_id, "class_label": label if label is not None else "",
                             "class_name": FASHION_CLASSES[label] if label is not None else "", "witness_valid": True,
                             "kind": "contrast"})
     footer_y = support_top + image_w + 70
-    class_note = (f"Observed class counts among supporters: {sorted(class_counts.items(), key=lambda item: (-item[1], item[0]))}"
-                  if class_counts is not None else "Class labels unavailable; supporter examples are selected by image ID only.")
+    class_note = (f"Số ảnh hỗ trợ theo lớp: {sorted(class_counts.items(), key=lambda item: (-item[1], item[0]))}"
+                  if class_counts is not None else "Không có nhãn lớp; ảnh hỗ trợ được chọn theo mã ảnh.")
     parts.append(f'<text x="28" y="{footer_y}" font-family="sans-serif" font-size="13">{html.escape(class_note)}</text>')
-    parts.append(f'<text x="28" y="{footer_y+34}" font-family="sans-serif" font-size="13" fill="#5c6570">S0 encodes image-level co-occurrence only. Highlighted patch positions are observed assignments, not a fixed spatial relation.</text>')
-    parts.append(f'<text x="28" y="{footer_y+60}" font-family="sans-serif" font-size="13" fill="#5c6570">Machine-generated evidence; human coherence rating and approval are pending.</text>')
-    height = footer_y + 90
+    height = footer_y + 24
     parts[0] = f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">'
     parts[1] = f'<rect width="{width}" height="{height}" fill="#ffffff"/>'
     parts.append('</svg>')
@@ -958,10 +990,14 @@ def run_interpretation(output_dir: pathlib.Path, raw_dir: pathlib.Path) -> dict:
             visual_report.insert(8, f"- Cross-class example: `{cross_class['items']}` occurs in {cross_class['class_coverage']}/10 classes "
                 f"(global support {cross_class['support_count']:,}/70,000). These are descriptive views of selected patterns.")
             if visual_assets_ready:
-                visual_report.insert(9, "- Supporting-image examples use deterministic seed 42 (up to six per pattern); contrast cards state whether the image contains only part of the query or none of its words.")
+                visual_report.insert(9, "- Supporting-image examples use deterministic seed 42: one image from the class with highest within-class support, then a round-robin sample from other classes (up to six). A contrast is chosen from that same class when available, preferring the image that contains the most query words.")
     else:
         visual_report.insert(2, f"- Class analysis is {label_provenance}; image-level mining witnesses and retrieval are still available.")
-    (interpretation_dir / "visual_interpretation.md").write_text("\n".join(visual_report), encoding="utf-8")
+    visual_report_path = interpretation_dir / "visual_interpretation.md"
+    visual_report_path.write_text("\n".join(visual_report), encoding="utf-8")
+    manifest["evidence_artifact_sha256"] = [
+        supervisor.sha256_file(root / path) for path in manifest["evidence_artifact_paths"]]
+    supervisor.atomic_toml(interpretation_dir / "interpretation_manifest.toml", manifest)
     interpretation_complete = visual_assets_ready and labels_available
     summary = {"status": "PASS" if interpretation_complete else "PARTIAL_MISSING_ASSET",
         "representative_count": len(patterns),

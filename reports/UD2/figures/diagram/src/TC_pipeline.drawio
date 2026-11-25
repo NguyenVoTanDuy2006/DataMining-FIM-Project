@@ -196,6 +196,9 @@
                 <mxCell id="TC7-count" connectable="0" parent="TC7" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=Arial;fontSize=16;fontColor=#17232D;fontStyle=1;" value="70.000 giao dịch" vertex="1">
                     <mxGeometry height="27" width="234" x="8" y="289" as="geometry"/>
                 </mxCell>
+                <mxCell id="TC7-deduplicate-note" connectable="0" parent="TC7" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=Arial;fontSize=13;fontColor=#5C6570;fontStyle=0;" value="Mã lặp được gộp; mã được&lt;br&gt;sắp xếp tăng dần." vertex="1">
+                    <mxGeometry height="38" width="230" x="10" y="326" as="geometry"/>
+                </mxCell>
                 <mxCell id="descriptor-junction" parent="1" style="ellipse;fillColor=#17232D;strokeColor=none;" value="" vertex="1">
                     <mxGeometry height="6" width="6" x="780" y="280" as="geometry"/>
                 </mxCell>
