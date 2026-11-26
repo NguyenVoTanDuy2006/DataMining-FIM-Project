@@ -68,6 +68,38 @@ and Julia workers all use the repository root project. That project also
 includes IJulia and the PNG libraries used by notebook 01. If you previously
 installed the kernel, run the installer again to update its project path.
 
+## Fashion-MNIST demo notebooks
+
+Mở từng notebook trên Google Colab, chọn runtime **Julia** và CPU (Hardware accelerator: None). Các ô code chạy trực tiếp trong Julia kernel; notebook tải commit mã nguồn đã ghim và gọi `Pkg.instantiate()` từ môi trường của dự án. Notebook giới hạn BLAS ở một luồng, yêu cầu mục tiêu OpenBLAS Haswell và ghi phiên bản Julia cùng số luồng thực tế của runtime. Notebook 02 đặt trần K-means 400 vòng cho demo, còn `release.toml` vẫn giữ 300. Các CPU và runtime khác nhau vẫn có thể cho kết quả số học khác nhau.
+
+1. **Khám phá dữ liệu ảnh và lựa chọn tiền xử lý** — xem bằng chứng cho vùng 4×4, ngưỡng lọc nền và vectơ đặc trưng 16 chiều.
+
+   [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/feature/fashion-mnist-consolidated/notebook/UD2/demo/01_image_exploration.ipynb)
+
+2. **Dựng giao dịch bằng túi từ thị giác nhị phân** — chạy pipeline FashionTC trên 70.000 ảnh và tải gói giao dịch đã kiểm định.
+
+   [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/feature/fashion-mnist-consolidated/notebook/UD2/demo/02_transaction_construction.ipynb)
+
+3. **Khám phá giao dịch và khai thác mẫu** — tải gói từ notebook 02 lên một phiên mới, xem phân bố giao dịch, đối chiếu hai backend Eclat, xem mốc tham chiếu giữa hai nhánh và truy mẫu về ảnh nguồn.
+
+   [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/feature/fashion-mnist-consolidated/notebook/UD2/demo/03_transaction_exploration_and_mining.ipynb)
+
+Notebook 02 lưu một gói nén tar và gzip có manifest cùng mã SHA-256. Giữ gói này để tải lên notebook 03 trong phiên Colab riêng.
+
+## Fashion-MNIST research notebooks
+
+Các notebook nghiên cứu và release hiện có vẫn dùng kernel Julia trong Jupyter:
+
+1. [Image preprocessing decisions](notebook/UD2/experiments/01_image_preprocessing_decisions.ipynb)
+2. [Transaction construction release](notebook/UD2/release/02_transaction_construction.ipynb), dùng manifest từ [dataset validation](notebook/UD2/release/01_dataset_validation.ipynb)
+3. [Transaction EDA](notebook/UD2/experiments/EDA2_FashionMNIST_Transaction_Evaluation.ipynb)
+
+## Fashion-MNIST experiments
+
+Để chạy lại riêng phép fit K-means trên Colab CPU, chọn Julia runtime rồi mở notebook thí nghiệm. Notebook gọi trực tiếp pipeline FashionTC, dùng giới hạn 400 vòng và ghi mục tiêu OpenBLAS Haswell cùng số thread Julia thực tế; cấu hình phát hành vẫn giữ 300 vòng:
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/feature/fashion-mnist-consolidated/notebook/UD2/experiments/06_tc4_kmeans_colab_reproduction.ipynb)
+
 ## Fashion-MNIST release
 
 Run these notebooks in order from fresh Julia kernels. Notebook 01 creates a
