@@ -24,59 +24,18 @@
 \begin{document}
 \selectlanguage{vietnamese}
 
-\title{Conference Paper Title*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured for https://ieeexplore.ieee.org  and
-should not be used}
-% \thanks{Identify applicable funding agency here. If none, delete this.}
-}
+\title{Khai thác tập mục phổ biến từ ảnh Fashion MNIST}
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{5\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{6\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-}
+\author{\IEEEauthorblockN{Nhóm thực hiện Ứng dụng 2}}
 
 \maketitle
 
 \begin{abstract}
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes,
-or Math in Paper Title or Abstract.
+Báo cáo chuyển 70.000 ảnh Fashion-MNIST thành giao dịch túi từ thị giác nhị phân và khai thác tập mục phổ biến bằng hai backend Eclat. K-means với 32 cụm hội tụ sau 220 vòng; hai backend khớp kết quả ở cả sáu ngưỡng, với 6.185 tập mục tại ngưỡng hỗ trợ 5\%. Trong số này, 4.180 tập có hệ số làm giàu cao nhất theo lớp từ 2 trở lên. Đo một lượt ghi nhận BitVector nhanh hơn Set 2,40 lần ở ngưỡng 5\%, nhưng chưa đủ để kết luận về hiệu năng tổng quát. Do cả ảnh huấn luyện và kiểm thử được dùng để học từ điển và khai thác, kết quả chỉ hỗ trợ phân tích khai phá mẫu, không phải đánh giá phân loại độc lập.
 \end{abstract}
 
 \begin{IEEEkeywords}
-component, formatting, style, styling, insert.
+Fashion-MNIST, túi từ thị giác nhị phân, Eclat, tập mục phổ biến.
 \end{IEEEkeywords}
 
 \input{UD2.tex}

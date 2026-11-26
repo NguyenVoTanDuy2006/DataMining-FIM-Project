@@ -1,0 +1,49 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='920' height='430' viewBox='0 0 920 430'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='460.0' y='23' text-anchor='middle' font-family='sans-serif' font-size='18'>Phân bố hệ số làm giàu lớn nhất theo ngưỡng</text>
+<line x1='76' y1='356.0' x2='890' y2='356.0' stroke='#e1e1e1'/>
+<text x='66' y='360.0' text-anchor='end' font-family='sans-serif' font-size='12'>0.0</text>
+<line x1='76' y1='293.2' x2='890' y2='293.2' stroke='#e1e1e1'/>
+<text x='66' y='297.2' text-anchor='end' font-family='sans-serif' font-size='12'>1.1</text>
+<line x1='76' y1='230.39999999999998' x2='890' y2='230.39999999999998' stroke='#e1e1e1'/>
+<text x='66' y='234.39999999999998' text-anchor='end' font-family='sans-serif' font-size='12'>2.2</text>
+<line x1='76' y1='167.6' x2='890' y2='167.6' stroke='#e1e1e1'/>
+<text x='66' y='171.6' text-anchor='end' font-family='sans-serif' font-size='12'>3.3</text>
+<line x1='76' y1='104.79999999999998' x2='890' y2='104.79999999999998' stroke='#e1e1e1'/>
+<text x='66' y='108.79999999999998' text-anchor='end' font-family='sans-serif' font-size='12'>4.4</text>
+<line x1='76' y1='42.0' x2='890' y2='42.0' stroke='#e1e1e1'/>
+<text x='66' y='46.0' text-anchor='end' font-family='sans-serif' font-size='12'>5.6</text>
+<line x1='76' y1='242.91386593204777' x2='890' y2='242.91386593204777' stroke='#bd4b45' stroke-dasharray='6,5'/>
+<text x='888' y='236.91386593204777' text-anchor='end' font-family='sans-serif' font-size='12' fill='#a3332e'>E = 2</text>
+<line x1='157.4' y1='282.81052342606046' x2='157.4' y2='282.81052342606046' stroke='#243b64' stroke-width='2'/>
+<line x1='145.4' y1='282.81052342606046' x2='169.4' y2='282.81052342606046' stroke='#243b64' stroke-width='2'/>
+<line x1='145.4' y1='282.81052342606046' x2='169.4' y2='282.81052342606046' stroke='#243b64' stroke-width='2'/>
+<rect x='135.4' y='282.81052342606046' width='44' height='1.0' fill='#bfd5ef' stroke='#243b64'/>
+<line x1='135.4' y1='282.81052342606046' x2='179.4' y2='282.81052342606046' stroke='#b03a2e' stroke-width='3'/>
+<text x='157.4' y='380' text-anchor='middle' font-family='sans-serif' font-size='13'>60%</text>
+<line x1='320.20000000000005' y1='282.81052342606046' x2='320.20000000000005' y2='261.6389478732548' stroke='#243b64' stroke-width='2'/>
+<line x1='308.20000000000005' y1='282.81052342606046' x2='332.20000000000005' y2='282.81052342606046' stroke='#243b64' stroke-width='2'/>
+<line x1='308.20000000000005' y1='261.6389478732548' x2='332.20000000000005' y2='261.6389478732548' stroke='#243b64' stroke-width='2'/>
+<rect x='298.20000000000005' y='268.5595821326832' width='44' height='8.978618295943534' fill='#bfd5ef' stroke='#243b64'/>
+<line x1='298.20000000000005' y1='271.7552223023194' x2='342.20000000000005' y2='271.7552223023194' stroke='#b03a2e' stroke-width='3'/>
+<text x='320.20000000000005' y='380' text-anchor='middle' font-family='sans-serif' font-size='13'>40%</text>
+<line x1='483.0' y1='287.96471609441596' x2='483.0' y2='201.2741467748303' stroke='#243b64' stroke-width='2'/>
+<line x1='471.0' y1='287.96471609441596' x2='495.0' y2='287.96471609441596' stroke='#243b64' stroke-width='2'/>
+<line x1='471.0' y1='201.2741467748303' x2='495.0' y2='201.2741467748303' stroke='#243b64' stroke-width='2'/>
+<rect x='461.0' y='246.39630943372788' width='44' height='21.687265089521702' fill='#bfd5ef' stroke='#243b64'/>
+<line x1='461.0' y1='257.90309489779077' x2='505.0' y2='257.90309489779077' stroke='#b03a2e' stroke-width='3'/>
+<text x='483.0' y='380' text-anchor='middle' font-family='sans-serif' font-size='13'>20%</text>
+<line x1='645.8000000000001' y1='287.96471609441596' x2='645.8000000000001' y2='127.1804749750242' stroke='#243b64' stroke-width='2'/>
+<line x1='633.8000000000001' y1='287.96471609441596' x2='657.8000000000001' y2='287.96471609441596' stroke='#243b64' stroke-width='2'/>
+<line x1='633.8000000000001' y1='127.1804749750242' x2='657.8000000000001' y2='127.1804749750242' stroke='#243b64' stroke-width='2'/>
+<rect x='623.8000000000001' y='223.04317264686097' width='44' height='32.37258412148057' fill='#bfd5ef' stroke='#243b64'/>
+<line x1='623.8000000000001' y1='243.04711827807998' x2='667.8000000000001' y2='243.04711827807998' stroke='#b03a2e' stroke-width='3'/>
+<text x='645.8000000000001' y='380' text-anchor='middle' font-family='sans-serif' font-size='13'>10%</text>
+<line x1='808.6' y1='287.96471609441596' x2='808.6' y2='42.0' stroke='#243b64' stroke-width='2'/>
+<line x1='796.6' y1='287.96471609441596' x2='820.6' y2='287.96471609441596' stroke='#243b64' stroke-width='2'/>
+<line x1='796.6' y1='42.0' x2='820.6' y2='42.0' stroke='#243b64' stroke-width='2'/>
+<rect x='786.6' y='203.90536971217006' width='44' height='43.51160496246797' fill='#bfd5ef' stroke='#243b64'/>
+<line x1='786.6' y1='230.19327903977683' x2='830.6' y2='230.19327903977683' stroke='#b03a2e' stroke-width='3'/>
+<text x='808.6' y='380' text-anchor='middle' font-family='sans-serif' font-size='13'>5%</text>
+<text x='483.0' y='418' text-anchor='middle' font-family='sans-serif' font-size='13'>Ngưỡng minsup; râu biểu đồ min–max</text>
+<text x='18' y='199.0' transform='rotate(-90 18 199.0)' text-anchor='middle' font-family='sans-serif' font-size='13'>Emax</text></svg>
