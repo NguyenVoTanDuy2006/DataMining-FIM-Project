@@ -1,0 +1,58 @@
+tc4_method = "raw_full_batch_kmeans"
+julia_version = "1.13.3"
+threshold = 29
+seed = 42
+k = 64
+run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+
+[tc1_patch_extraction]
+patch_id_base = 1
+patch_size = [4, 4]
+stride = [4, 4]
+padding = "none"
+preserve_coordinates = true
+patch_order = "row_major"
+overlap = false
+
+[data_archive_sha256]
+"train-images-idx3-ubyte.gz" = "3aede38d61863908ad78613f6a32ed271626dd12800ba2636569512369268a84"
+"t10k-images-idx3-ubyte.gz" = "346e55b948d973a97e58d2351dde16a484bd415d4595297633bb08f03db6a073"
+"train-labels-idx1-ubyte.gz" = "a04f17134ac03560a47e3764e11b92fc97de4d1bfaf8ba1a3aa29af54cc90845"
+"t10k-labels-idx1-ubyte.gz" = "67da17c76eaffca5446c3361aaab5c3cd6d1c2608764d35dfb1850b086bf8dd5"
+
+[tc3_feature_extraction]
+normalization = "divide_by_255"
+dtype = "Float32"
+dimension = 16
+include_coordinates_in_descriptor = false
+flatten_order = "column_major"
+include_labels = false
+descriptor = "raw_pixels"
+
+[tc4_codebook]
+initialization = "kmeans++"
+stability_sample_size = 10000
+sequential_runs = true
+max_iterations = 300
+distance = "squared_euclidean"
+selection_stage = "after_eda2_pilot_eclat"
+training_method = "raw_full_batch_kmeans"
+tolerance = 0.0001
+image_sampling = false
+stability_seed = 2026
+fit_scope = "all_retained_descriptors_70k"
+k_candidates = [16, 32, 64, 128, 256]
+checkpoint_after_each_run = true
+descriptor_sampling = false
+random_seeds = [42, 123, 2026]
+
+[tc2_patch_filtering]
+method = "foreground_ratio"
+foreground_threshold = 29
+threshold_comparison = "strict_greater"
+modify_grayscale_pixels = false
+experiment_id = "T2"
+enabled = true
+threshold_source = "eda_q10_positive_fixed"
+alpha = 0.0
+keep_comparison = "strict_greater"

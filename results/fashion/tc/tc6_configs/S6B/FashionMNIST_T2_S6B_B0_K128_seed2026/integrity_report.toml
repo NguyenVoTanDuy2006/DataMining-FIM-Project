@@ -1,0 +1,33 @@
+source_transaction_sha256 = "2f0e0945b1c71faccc44e41bbb0829b8ba74cc32f1f42a49a428553da7fcf469"
+not_applicable_checks = ["S0 projection equality"]
+schema_version = 1
+item_mapping_sha256 = "6edcbcb4294237a7ec00395a395874333fc654de4243c50acba4a6bb8f9b87ee"
+nonempty_count = 70000
+source_assignments_sha256 = "61a9fc5dae48d132fad884d9da5a4dfe6e0ceb17ac72fb67333843f5981f8680"
+empty_count = 0
+support_denominator = 70000
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+variant = "S6-B"
+k = 128
+transaction_count = 70000
+transaction_sha256 = "4700359f2aa4144cb5a20eb4bb4ed6f69ca5e2bc58a3dc12cfcbc76e90887c05"
+status = "PASS"
+unique_tid_count = 70000
+applicable_checks = ["S6-B witness geometry for every observed item"]
+source_codebook_sha256 = "4dfe100a68a3d71eef5c93ba4e5cb00942bc4607cb9accb9faea9ffd94b5df67"
+seed = 2026
+source_mapping_sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+image_count = 70000
+
+[checks]
+tid_mapping_matches_source = true
+source_assignment_coordinates_valid = true
+support_denominator_valid = true
+items_sorted_unique_in_range = true
+source_checkpoint_completed = true
+source_s0_projection_valid = true
+transaction_readback_valid = true
+source_integrity_pass = true
+item_mapping_roundtrip_valid = true
+variant_specific_invariant_valid = true
+empty_and_nonempty_counts_sum = true

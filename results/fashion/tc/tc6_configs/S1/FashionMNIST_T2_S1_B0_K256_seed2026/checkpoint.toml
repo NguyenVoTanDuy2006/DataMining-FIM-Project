@@ -1,0 +1,15 @@
+started_at_unix = 1.794994166591244e9
+source_assignments_sha256 = "b04c8b21b7c3f075e95abcdf576dfeab99c292591b8f1ea23583563a5fa657b2"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+transaction_sha256 = "080e0bacfb4f26fb920a2427c69d48f7e87b3c1317250002f19213b606d41448"
+seed = 2026
+schema_version = 1
+elapsed_seconds = 1.381032943725586
+integrity_report_sha256 = "d13272843ccdeda86b3c4a92d3ff2fc94d4ac833e8b2d67163b5ef00513f9ac3"
+variant = "S1"
+k = 256
+transaction_count = 70000
+run_id = "FashionMNIST_T2_S1_B0_K256_seed2026"
+status = "COMPLETED"
+completed_at_unix = 1.794994167972276e9
+source_transaction_sha256 = "502de03bb0eef352029dbc2371c0f083a71a8c5d9ef8095ae120f9b2230d7045"

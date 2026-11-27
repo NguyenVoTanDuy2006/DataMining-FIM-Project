@@ -1,0 +1,30 @@
+source_root = "results/fashion/tc/tc6_configs/S0"
+fit_status = "FITTED"
+source_run_path = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026"
+converged = true
+method = "B0"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+k = 16
+codebook_is_reference_only = true
+training_method = "raw_full_batch_kmeans"
+seed = 2026
+
+[source_files]
+"checkpoint.toml" = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026/checkpoint.toml"
+"tc4_metrics.toml" = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026/tc4_metrics.toml"
+"patch_assignments.csv" = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026/patch_assignments.csv"
+"codebook.bin" = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026/codebook.bin"
+"integrity_report.toml" = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026/integrity_report.toml"
+"transactions.jsonl" = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026/transactions.jsonl"
+"config_snapshot.toml" = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026/config_snapshot.toml"
+"tid_image_mapping.csv" = "results/fashion/tc/tc6_configs/S0/FashionMNIST_T2_S0_B0_K16_seed2026/tid_image_mapping.csv"
+
+[sha256]
+"checkpoint.toml" = "eaccdebb8226b273af0159a7fd63ae61bddeff1bfb64b28fdc180ce8ef1de6fc"
+"tc4_metrics.toml" = "b1d4befbcb9bb1bbb29ff022a7c198fcca815e0c897aee6a808cfe3ca575e944"
+"patch_assignments.csv" = "d2655aa2c1776eff69fc9a19f32001a4dcdc3516f6be2e2043a273dc7be01f7f"
+"codebook.bin" = "ddf18d6e9550648b3e77e2ed173490c12aa19b8945120a1a75f75298e900e3ea"
+"integrity_report.toml" = "98d60caf80b91d476a008e696fc63022c77995889e1b7d152d8c2fd26e55e2ff"
+"transactions.jsonl" = "71a69ee4ac13fbedbb3b8e82d95365d49c5620a2d34828401d461b7f169e39da"
+"config_snapshot.toml" = "ce7cd1c53d5aef9bc373bd510e85080b45fa3adb6dc9189381c60d4d31a25179"
+"tid_image_mapping.csv" = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"

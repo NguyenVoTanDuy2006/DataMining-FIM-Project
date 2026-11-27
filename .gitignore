@@ -39,6 +39,8 @@ results/fashion/*
 !results/fashion/.gitkeep
 !results/fashion/tc/
 results/fashion/tc/*
+!results/fashion/tc/tc6_configs/
+!results/fashion/tc/tc6_configs/**
 !results/fashion/tc/tc4_vector_tradeoff_60k/
 !results/fashion/tc/tc4_weighted_kmeans_k16/
 !results/fashion/tc/tc4_weighted_kmeans_k32/
