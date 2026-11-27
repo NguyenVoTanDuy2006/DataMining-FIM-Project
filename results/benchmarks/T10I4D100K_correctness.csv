@@ -1,8 +1,0 @@
-dataset,backend,minsup,n_julia,n_spmf,exact_match
-T10I4D100K,set,0.03,60,60,true
-T10I4D100K,set,0.025,107,107,true
-T10I4D100K,set,0.02,155,155,true
-T10I4D100K,set,0.015,237,237,true
-T10I4D100K,set,0.01,385,385,true
-T10I4D100K,set,0.0075,561,561,true
-T10I4D100K,set,0.005,1073,1073,true
