@@ -1,8 +1,20 @@
+function common_pilot_scope_status(rows, expected_ids)
+    expected = Set(String(id) for id in expected_ids)
+    isempty(rows) && return "FAILED"
+    observed = Set(String(get(row, "database_id", "")) for row in rows)
+    length(rows) == length(expected) && observed == expected && length(observed) == length(expected) ||
+        return "PARTIAL"
+    successful = Set(String(row["database_id"]) for row in rows
+        if get(row, "status", "") == "COMPLETED_LENGTH_CAPPED" &&
+            lowercase(strip(get(row, "censored", ""))) == "false")
+    return successful == expected ? "COMPLETED" : "PARTIAL"
+end
+
 function run_common_pilot!(ctx::EDA2Context)
     manifest=output_path(ctx,"input_manifest.csv")
     isfile(manifest) || error("Run the structural phase first; input_manifest.csv is missing")
     rows=Vector{Vector{Any}}()
-    outpath=output_path(ctx,"pilot_eclat","pilot_common_45.csv")
+    outpath=output_path(ctx,"pilot_eclat","pilot_common_60.csv")
     support_headers=["frequent_1_support_min","frequent_1_support_p5","frequent_1_support_median","frequent_1_support_p95","frequent_1_support_max",
         "frequent_2_support_min","frequent_2_support_p5","frequent_2_support_median","frequent_2_support_p95","frequent_2_support_max"]
     checkpoint_header=["database_id","K","seed","variant","engine_name","engine_version","source_sha256","config_sha256","engine_source_sha256","adapter_source_sha256","minsup_fraction","minsup_count","max_length","completed_length","frequent_1_count","frequent_2_count",
@@ -13,6 +25,7 @@ function run_common_pilot!(ctx::EDA2Context)
         prior=Dict(r["database_id"]=>r for r in old_rows)
     end
     minsup=Float64(get(get(ctx.config,"pilot",Dict{String,Any}()),"common_minsup_fraction",0.03))
+    expected_runs=ctx.scope == "S0_ONLY" ? EXPECTED_CODEBOOKS : EXPECTED_DATABASES
     max_len=Int(get(get(ctx.config,"pilot",Dict{String,Any}()),"common_max_itemset_length",2))
     timeout=Float64(get(get(ctx.config,"resources",Dict{String,Any}()),"per_database_timeout_seconds",600))
     max_pairs=Int(get(get(ctx.config,"resources",Dict{String,Any}()),"max_pair_candidates",20_000_000))
@@ -69,7 +82,7 @@ function run_common_pilot!(ctx::EDA2Context)
         GC.gc(false)
     end
     open(output_path(ctx,"pilot_eclat","pilot_validation_report.toml"),"w") do io
-        TOML.print(io,Dict("expected_runs"=>length(manifest_rows),"completed_or_censored_rows"=>length(rows),
+        TOML.print(io,Dict("scope"=>ctx.scope,"expected_runs"=>expected_runs,"completed_or_censored_rows"=>length(rows),
             "engine_name"=>"EclatFIM.mine(:set)","engine_version"=>"max-length-v1","max_length"=>max_len,
             "minsup_fraction"=>minsup,"minsup_count"=>ceil(Int,minsup*EXPECTED_IMAGES),
             "timeout_seconds_per_database"=>timeout,"max_pair_candidates"=>max_pairs,
@@ -79,7 +92,8 @@ function run_common_pilot!(ctx::EDA2Context)
             "eclat_baseline_sha256"=>_sha256(joinpath(ctx.repo_root,"src","algorithm","EclatBaseline.jl"))))
     end
     completed=count(r->lowercase(string(r[30]))=="false" && r[29]=="COMPLETED_LENGTH_CAPPED",rows)
-    _record_phase!(ctx,"pilot_c1",length(rows)==EXPECTED_DATABASES ? (completed==EXPECTED_DATABASES ? "COMPLETED" : "COMPLETED_WITH_CENSORING") : "PARTIAL",
-        Dict("rows"=>length(rows),"completed"=>completed,"censored_or_blocked"=>length(rows)-completed))
+    _record_phase!(ctx,"pilot_c1",length(rows)==expected_runs ? (completed==expected_runs ? "COMPLETED" : "COMPLETED_WITH_CENSORING") : "PARTIAL",
+        Dict("scope"=>ctx.scope,"expected_runs"=>expected_runs,"rows"=>length(rows),
+            "completed"=>completed,"censored_or_blocked"=>length(rows)-completed))
     return (rows=length(rows),completed=completed,output=outpath)
 end

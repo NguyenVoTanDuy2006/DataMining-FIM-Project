@@ -1,13 +1,31 @@
+function shortlist_review_complete(rows)
+    length(rows) == EXPECTED_CODEBOOKS || return false
+    identities = try
+        [(parse(Int, row["K"]), parse(Int, row["seed"])) for row in rows]
+    catch
+        return false
+    end
+    Set(identities) == Set((k, seed) for k in EXPECTED_K for seed in EXPECTED_SEEDS) || return false
+    length(unique(identities)) == EXPECTED_CODEBOOKS || return false
+    return all(rows) do row
+        selected = lowercase(strip(get(row, "selected", "")))
+        reason = uppercase(strip(get(row, "decision_reason", "")))
+        metrics = strip(get(row, "metrics_used", ""))
+        selected in ("true", "false") && !isempty(metrics) &&
+            !isempty(reason) && reason ∉ ("REVIEW_REQUIRED", "INVALID_INPUT_BLOCKED")
+    end
+end
+
 function prepare_shortlist!(ctx::EDA2Context)
-    source=output_path(ctx,"pilot_eclat","pilot_common_45.csv")
+    source=output_path(ctx,"pilot_eclat","pilot_common_60.csv")
     isfile(source) || error("Run the common C1 pilot first")
     _,pilot_rows=_read_csv(source)
     length(pilot_rows)==EXPECTED_DATABASES && length(unique([r["database_id"] for r in pilot_rows]))==EXPECTED_DATABASES ||
         error("C1 must contain one explicit status row for each of $EXPECTED_DATABASES databases before C2")
     _,manifest_rows=_read_csv(output_path(ctx,"input_manifest.csv"))
     _,codebook_rows=_read_csv(output_path(ctx,"codebook","codebook_metrics_15.csv"))
-    _,transaction_rows=_read_csv(output_path(ctx,"transactions","transaction_metrics_45.csv"))
-    _,diversity_rows=_read_csv(output_path(ctx,"transactions","transaction_diversity_45.csv"))
+    _,transaction_rows=_read_csv(output_path(ctx,"transactions","transaction_metrics_60.csv"))
+    _,diversity_rows=_read_csv(output_path(ctx,"transactions","transaction_diversity_60.csv"))
     prior_path=output_path(ctx,"pilot_eclat","shortlist_decision.csv")
     prior=Dict{Tuple{Int,Int},Dict{String,String}}()
     if isfile(prior_path)
@@ -57,7 +75,7 @@ function _read_decisions(ctx)
     all(!isempty(r["decision_reason"]) && r["decision_reason"]!="REVIEW_REQUIRED" for r in rows if lowercase(r["selected"])=="true") ||
         error("Every selected (K,seed) needs a written decision_reason")
     manifest_path=output_path(ctx,"input_manifest.csv")
-    c1_path=output_path(ctx,"pilot_eclat","pilot_common_45.csv")
+    c1_path=output_path(ctx,"pilot_eclat","pilot_common_60.csv")
     isfile(manifest_path) && isfile(c1_path) || error("Structural analysis and the common C1 pilot must finish before selecting codebooks")
     _,manifest=_read_csv(manifest_path); _,c1=_read_csv(c1_path)
     manifest_by_id=Dict(r["database_id"]=>r for r in manifest)

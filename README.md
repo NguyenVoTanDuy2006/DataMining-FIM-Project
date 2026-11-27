@@ -11,7 +11,7 @@ The Fashion-MNIST release workflow is organized as four ordered notebooks under
 [exploratory data analysis of Fashion-MNIST transactions (EDA2)](notebook/UD2/experiments/EDA2_FashionMNIST_Transaction_Evaluation.ipynb)
 are in `notebook/UD2/experiments/`. EDA2 compares codebook quality, transaction
 density and diversity, and pilot Eclat results across codebook sizes, seeds, and
-S0/S1/S3 encodings.
+S0/S1/S3/S6-B encodings.
 
 Julia callers can load the application with `using EclatFIM: FashionMNIST`.
 The [FashionMNIST module](src/applications/Fashion-Mnist/FashionMNIST.jl) groups
@@ -88,17 +88,31 @@ Notebook 02 lưu một gói nén tar và gzip có manifest cùng mã SHA-256. Gi
 
 ## Fashion-MNIST research notebooks
 
-Các notebook nghiên cứu và release hiện có vẫn dùng kernel Julia trong Jupyter:
+Các notebook nghiên cứu và release dùng kernel Julia trong Jupyter:
 
 1. [Image preprocessing decisions](notebook/UD2/experiments/01_image_preprocessing_decisions.ipynb)
 2. [Transaction construction release](notebook/UD2/release/02_transaction_construction.ipynb), dùng manifest từ [dataset validation](notebook/UD2/release/01_dataset_validation.ipynb)
 3. [Transaction EDA](notebook/UD2/experiments/EDA2_FashionMNIST_Transaction_Evaluation.ipynb)
 
-## Fashion-MNIST experiments
+## Fashion-MNIST experiments on Colab
 
-Để chạy lại riêng phép fit K-means trên Colab CPU, chọn Julia runtime rồi mở notebook thí nghiệm. Notebook gọi trực tiếp pipeline FashionTC, dùng giới hạn 400 vòng và ghi mục tiêu OpenBLAS Haswell cùng số thread Julia thực tế; cấu hình phát hành vẫn giữ 300 vòng:
+Use one Julia notebook on a Colab CPU runtime for the K-means sweep, transaction encodings, EDA2, and spatial extension:
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/feature/fashion-mnist-consolidated/notebook/UD2/experiments/06_tc4_kmeans_colab_reproduction.ipynb)
+[Open the unified Fashion-MNIST experiment notebook](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/Fashion-Mnist/notebook/UD2/experiments/EDA2_FashionMNIST_Transaction_Evaluation.ipynb)
+
+The notebook starts from the four Fashion-MNIST source files. It runs all 15 combinations of K = 16, 32, 64, 128, 256 and seeds 42, 123, 2026; creates S0, S1, S3, and S6-B from each matching codebook; then analyzes all 60 transaction sets. The region and stripe checks apply only to S1/S3. S6-B has separate neighbor-geometry checks for retained patch pairs, border and corner candidates, wraparound-only pairs that must be excluded, diagonal relations, and empty transactions; it also records how many eligible pairs touch an image border or corner after filtering. The notebook runs in Julia and does not use Python to coordinate the experiment.
+
+Run the cells in order in a Julia CPU runtime. The notebook downloads or verifies the dataset, clones the `Fashion-Mnist` source, and instantiates the checked-in Julia environment. It writes one portable fit checkpoint after each completed fit, an EDA2 stage archive containing all four encodings and their analysis, and a final `fashion-full-experiment-*.tar.gz` archive under `/content`. Download the checkpoint if you may need to resume the K-means sweep; download the stage archive to create the final archive after a Colab reset. Download the final archive through the Files pane before the runtime ends.
+
+The final archive contains the fit records, transaction files, analysis tables and plots, phase summaries, portable manifests, provenance, spatial statuses, and checksums. The notebook creates a run-specific output directory so existing results under `results/fashion/tc/tc6_configs/` and `results/fashion/eda2/v1` or `v2` remain available as historical runs.
+
+The separate checkout `TeamProject-FrequentItemsetMining-eda2` contains earlier benchmark and smoke outputs; the unified notebook does not use it as an input. See [`specs/002-rebuild-fashion-experiments/quickstart.md`](specs/002-rebuild-fashion-experiments/quickstart.md) for resume steps and archive contents.
+
+## Fashion-MNIST K-means reproduction
+
+Để chạy lại riêng phép fit K-means trên Colab CPU, mở notebook thí nghiệm. Notebook gọi trực tiếp pipeline FashionTC, dùng giới hạn 400 vòng và ghi mục tiêu OpenBLAS Haswell cùng số thread Julia thực tế; cấu hình phát hành vẫn giữ 300 vòng:
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/Fashion-Mnist/notebook/UD2/experiments/06_tc4_kmeans_colab_reproduction.ipynb)
 
 ## Fashion-MNIST release
 

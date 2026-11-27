@@ -158,8 +158,24 @@ function _run_output_dir(state::TCState, run_id)
     return state.data[:mode] == "smoke" ? state.work_root : joinpath(state.work_root, "runs", run_id)
 end
 
+function _canonical_repr(value)
+    if value isa AbstractDict
+        entries = sort!(collect(pairs(value)); by=pair -> string(first(pair)))
+        return "dict{" * join((repr(string(key)) * "=" * _canonical_repr(item)
+            for (key, item) in entries), ";") * "}"
+    elseif value isa NamedTuple
+        return "namedtuple{" * join((repr(string(key)) * "=" * _canonical_repr(item)
+            for (key, item) in pairs(value)), ";") * "}"
+    elseif value isa Tuple
+        return "tuple(" * join(_canonical_repr.(collect(value)), ";") * ")"
+    elseif value isa AbstractArray
+        return "array[" * string(size(value)) * "](" * join(_canonical_repr.(vec(value)), ";") * ")"
+    end
+    return string(typeof(value), ":", repr(value))
+end
+
 function _canonical_sha(value)
-    return bytes2hex(sha256(codeunits(repr(value))))
+    return bytes2hex(sha256(codeunits(_canonical_repr(value))))
 end
 
 function _run_name(method, k, seed)

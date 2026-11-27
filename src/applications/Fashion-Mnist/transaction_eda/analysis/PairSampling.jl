@@ -24,6 +24,13 @@ function _make_pair_manifests!(ctx)
         ["tid_a", "tid_b", "seed"], [[a, b, Int(get(params, "pair_sampling_seed", 2026))] for (a, b) in pairs])
 
     labels = ctx.labels
+    if length(labels) != EXPECTED_IMAGES
+        class_manifest_path = output_path(ctx, "transactions", "class_similarity_pair_manifest.csv")
+        _write_csv(class_manifest_path,
+            ["tid_a", "tid_b", "class_a", "class_b", "pair_type", "sampling_stratum", "seed"],
+            Vector{Vector{Any}}())
+        return pairs, Vector{Vector{Any}}(), _sha256(class_manifest_path)
+    end
     class_seed=Int(get(params, "class_pair_sampling_seed", 2026))
     class_rng=MersenneTwister(class_seed)
     class_tids = [findall(==(c), labels) for c in 0:9]

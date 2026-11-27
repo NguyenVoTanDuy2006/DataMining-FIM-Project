@@ -2,7 +2,7 @@ module FashionMNIST
 
 using ..EclatFIM: mine
 
-export FashionTC, FashionTCSpatial, FashionMNISTEDA2, FashionFIMWorkflow
+export FashionTC, FashionTCSpatial, FashionMNISTEDA2, FashionFIMWorkflow, ExperimentBundleIO
 
 const FASHION_MNIST_ROOT = @__DIR__
 
@@ -12,6 +12,7 @@ include("FashionTC.jl")
 include("spatial/FashionTCSpatial.jl")
 include("transaction_eda/FashionMNISTEDA2.jl")
 include("mining/FashionFIMWorkflow.jl")
+include("notebook_tools/ExperimentBundleIO.jl")
 
 end # module FashionMNIST
 

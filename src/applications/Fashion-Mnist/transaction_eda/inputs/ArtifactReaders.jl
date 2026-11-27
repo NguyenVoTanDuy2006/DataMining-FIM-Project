@@ -24,6 +24,9 @@ function _read_tid_mapping(path)
     return tids, images, rows
 end
 
+_transaction_length_capacity(variant, k) =
+    min(_theoretical_size(variant, k), variant == "S6-B" ? 298 : 49)
+
 function _parse_transaction(line, path, line_number)
     row = tryparse_compact_transaction(line; numeric_only=true)
     isnothing(row) && error("Unsupported JSONL record at $path:$line_number")
@@ -63,6 +66,8 @@ function _read_transactions(spec, expected_images; compare_s0=nothing)
     _metadata!(spec)
     _, images, _ = _read_tid_mapping(joinpath(spec.run_dir, "tid_image_mapping.csv"))
     images == expected_images || error("Population/image mapping differs for $(spec.database_id)")
+    _, mapping_rows = _read_csv(joinpath(spec.run_dir, "item_mapping.csv"))
+    mapped_items = Set(parse(Int, row["item_id"]) for row in mapping_rows)
     txs = Vector{Vector{Int}}(undef, EXPECTED_IMAGES)
     path = joinpath(spec.run_dir, "transactions.jsonl")
     open(path, "r") do io
@@ -72,11 +77,14 @@ function _read_transactions(spec, expected_images; compare_s0=nothing)
             tid == i && image == images[i] || error("TID/image mismatch at $path:$i")
             issorted(items) && allunique(items) || error("Items unsorted or duplicate at $path:$i")
             all(x -> 1 <= x <= _theoretical_size(spec.variant, spec.k), items) || error("Item out of range at $path:$i")
-            capacity=min(_theoretical_size(spec.variant,spec.k),49)
+            all(item -> item in mapped_items, items) || error("Transaction item has no item-mapping row at $path:$i")
+            capacity = _transaction_length_capacity(spec.variant, spec.k)
             length(items)<=capacity || error("Transaction length exceeds encoding capacity at $path:$i")
-            if !isnothing(compare_s0)
-                sort!(unique!([(item - 1) % spec.k + 1 for item in items])) == compare_s0[i] || error("$(spec.variant) projection mismatch at TID $i")
-                isempty(items) == isempty(compare_s0[i]) || error("$(spec.variant) empty status mismatch at TID $i")
+            if !isnothing(compare_s0) && spec.variant in ("S1", "S3")
+                sort!(unique!([(item - 1) % spec.k + 1 for item in items])) == compare_s0[i] ||
+                    error("$(spec.variant) projection mismatch at TID $i")
+                isempty(items) == isempty(compare_s0[i]) ||
+                    error("$(spec.variant) empty status mismatch at TID $i")
             end
             txs[i] = items
         end
@@ -87,15 +95,29 @@ end
 
 function _read_labels!(ctx)
     isempty(ctx.specs) && discover_inputs(ctx)
-    spec = first(filter(s -> s.variant == "S0", ctx.specs))
-    _, rows = _read_csv(joinpath(spec.run_dir, "image_metadata.csv"))
-    length(rows) == EXPECTED_IMAGES || error("image_metadata.csv must contain 70,000 records")
-    by_image = Dict(parse(Int, row["image_id"]) => parse(Int, row["class_label"]) for row in rows)
-    _, images, _ = _read_tid_mapping(joinpath(spec.run_dir, "tid_image_mapping.csv"))
-    labels = [get(by_image, image, -1) for image in images]
-    all(x -> 0 <= x <= 9, labels) || error("Image labels are missing or outside 0:9")
-    counts = [count(==(c), labels) for c in 0:9]
-    all(==(7_000), counts) || error("Expected 7,000 labels in each of 10 classes")
-    ctx.labels, ctx.image_ids = labels, images
-    return labels, images
+    sources = sort!([s for s in ctx.specs if s.variant == "S0"]; by=s -> (s.k, s.seed))
+    for spec in sources
+        try
+            _metadata!(spec)
+            _, rows = _read_csv(joinpath(spec.run_dir, "image_metadata.csv"))
+            length(rows) == EXPECTED_IMAGES || error("image_metadata.csv must contain 70,000 records")
+            ids = parse.(Int, getindex.(rows, "image_id"))
+            labels_by_image = parse.(Int, getindex.(rows, "class_label"))
+            length(unique(ids)) == EXPECTED_IMAGES || error("image_metadata.csv has duplicate image IDs")
+            all(label -> 0 <= label <= 9, labels_by_image) || error("Image labels are outside 0:9")
+            mapping_ids = Set(ids)
+            _, images, _ = _read_tid_mapping(joinpath(spec.run_dir, "tid_image_mapping.csv"))
+            Set(images) == mapping_ids || error("S0 labels and TID/image mapping identify different images")
+            by_image = Dict(zip(ids, labels_by_image))
+            labels = [by_image[image] for image in images]
+            all(==(7_000), [count(==(class_id), labels) for class_id in 0:9]) ||
+                error("Expected 7,000 labels in each of 10 classes")
+            ctx.labels, ctx.image_ids = labels, images
+            return labels, images
+        catch
+            continue
+        end
+    end
+    ctx.labels, ctx.image_ids = Int[], Int[]
+    return ctx.labels, ctx.image_ids
 end
