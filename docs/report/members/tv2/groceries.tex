@@ -21,34 +21,49 @@ Gọi $c(A)$ là số giỏ chứa toàn bộ tập $A$ và $N=9.835$ là tổng
 Độ tin cậy (\textit{confidence}) là tỷ lệ giỏ có $Y$ trong số các
 giỏ đã có $X$. Lift so tỷ lệ này với tần suất chung của $Y$.
 
-Nhóm khảo sát bốn ngưỡng hỗ trợ và ba ngưỡng tin cậy tối thiểu
-(\textit{minconf}), như trình bày trong Bảng~\ref{tab:params}.
-Ngưỡng hỗ trợ 1\% và ngưỡng tin cậy 50\% cho 333 tập phổ biến và
-15 luật. Cấu hình này cho phép lấy mười luật để phân tích, với
-điều kiện mỗi luật có cả hai vế xuất hiện trong ít nhất 99 giỏ.
+Nhóm khảo sát bốn ngưỡng hỗ trợ tối thiểu (\textit{minsup}) và ba
+ngưỡng tin cậy tối thiểu (\textit{minconf}), như trình bày trong
+Bảng~\ref{tab:params}.
 
 \begin{reporttable}
 \caption{Số tập phổ biến và số luật theo các ngưỡng hỗ trợ và tin cậy. Ba cột cuối là số luật tại từng minconf.}\label{tab:params}
 \centering\footnotesize
 \begin{tabular}{rrrrr}\toprule
 Hỗ trợ (\%) & Số tập & 30\% & 50\% & 70\% \\\midrule
-0,5 & 1001 & 487 & 120 & 1 \\
+0,5 & 1.001 & 487 & 120 & 1 \\
 1,0 & 333 & 125 & 15 & 0 \\
 2,0 & 122 & 37 & 1 & 0 \\
 3,0 & 63 & 14 & 0 & 0 \\
 \bottomrule\end{tabular}
 \end{reporttable}
 
-Nhóm xếp luật theo lift. Hai luật có cùng lift được phân hạng
-tiếp theo bằng độ tin cậy và độ hỗ trợ.
+Khi tăng minsup từ 0,5\% lên 1\%, số tập
+phổ biến giảm từ 1.001 xuống 333. Tại minconf 50\%, số luật tương ứng
+giảm từ 120 xuống 15; nếu tăng minsup lên 2\% và 3\%, chỉ còn một luật
+và không còn luật nào. Với 9.835 giao dịch, minsup 0,5\% và 1\%
+tương ứng ít nhất 50 và 99 giỏ chứa đồng thời cả hai vế.
+Nhóm chọn minsup 1\% để giữ mức hỗ trợ này và vẫn có đủ luật cho
+bảng mười luật hàng đầu tại minconf 50\%. Nếu giảm minconf xuống 30\%, hai mức minsup 2\%
+và 3\% vẫn cho 37 và 14 luật.
+
+Tại minsup 1\%, tăng minconf từ 30\% lên 50\% thu hẹp tập luật
+từ 125 xuống 15, còn mức 70\% loại toàn bộ luật. Ngưỡng 50\% yêu cầu
+ít nhất một nửa số giỏ chứa vế trái cũng chứa vế phải trên dữ liệu
+quan sát. Cấu hình 1\%/50\% giữ được một tập luật đủ gọn để đối chiếu
+và diễn giải, so với 487 luật ở cấu hình 0,5\%/30\%.
+
+Ngưỡng hỗ trợ 1\% bỏ qua các tổ hợp xuất hiện trong 50--98 giỏ
+mà mức 0,5\% có thể giữ lại. Tăng minconf cũng có thể loại các luật
+có lift cao nhưng độ tin cậy chưa đạt ngưỡng.
+Nhóm xếp luật theo lift; các luật cùng lift
+được phân hạng tiếp theo bằng độ tin cậy và độ hỗ trợ.
 
 \subsubsection{Mười luật nổi bật và ý nghĩa kinh doanh}
 Bảng~\ref{tab:rules} trình bày mười luật có lift cao nhất, sử dụng tên
 sản phẩm gốc trong dữ liệu. Các luật 1--4 có vế phải là
 \textit{other vegetables}, còn các luật 5--10 hướng tới
-\textit{whole milk}. Hai nhóm này cung cấp các trường hợp gợi ý theo
-ngữ cảnh giỏ hàng. Độ hỗ trợ khoảng 1,01--1,45\% cho thấy phạm vi áp dụng
-chỉ bao phủ một phần nhỏ giao dịch, dù lift của các luật tương đối cao.
+\textit{whole milk}. Các tổ hợp gồm cả hai vế có độ hỗ trợ
+khoảng 1,01--1,45\%.
 
 \begin{table*}[!t]
 \caption{Mười luật Groceries có lift cao nhất ở ngưỡng hỗ trợ 1\% và độ tin cậy 50\%. Cột số giỏ đếm giao dịch chứa cả hai vế.}\label{tab:rules}
@@ -68,11 +83,35 @@ chỉ bao phủ một phần nhỏ giao dịch, dù lift của các luật tươ
 \bottomrule\end{tabular}
 \end{table*}
 
-Ở luật số 1, tỷ lệ giỏ có \textit{other vegetables} trong nhóm
-đã có \textit{citrus fruit} và \textit{root vegetables} cao gấp
-khoảng 3,03 lần tỷ lệ chung. Có thể dùng liên hệ này để đề xuất
-sản phẩm theo giỏ hiện tại. Một giỏ có thể thỏa nhiều luật, nên
-cần xét phần giao giữa các nhóm giỏ khi ước tính độ phủ.
+Nhóm luật 1--4 gợi ý khảo sát việc kết hợp các mặt hàng rau củ với
+những giỏ đã có trái cây, bánh mì hoặc \textit{yogurt}. Chẳng hạn, luật số 1
+được hỗ trợ bởi 102 trong 174 giỏ chứa đồng thời \textit{citrus fruit}
+và \textit{root vegetables}, tương ứng độ tin cậy 58,62\%.
+Trong toàn bộ dữ liệu, \textit{other vegetables} xuất hiện ở
+1.903 giỏ, chiếm 19,35\%. Lift 3,030 cho biết tỷ lệ xuất hiện của
+nhóm rau này trong các giỏ có vế trái cao hơn khoảng ba lần tỷ lệ
+chung. Có thể thử nghiệm gợi ý nhóm rau này cho giỏ đã có vế trái.
+Nhãn
+\textit{other vegetables} vẫn là một nhóm rộng, nên dữ liệu chưa
+cho biết loại rau cụ thể nào phù hợp để gợi ý.
+
+Nhóm luật 5--10 đều có vế phải là \textit{whole milk}. Sản phẩm này
+vốn phổ biến, xuất hiện trong 2.513 giỏ, tương ứng 25,55\% dữ liệu.
+Vì vậy, độ tin cậy cần được đọc cùng lift để xét mức đồng xuất hiện
+so với tần suất nền. Ở luật số 5, 99 trong 170 giỏ có
+\textit{curd} và \textit{yogurt} cũng chứa \textit{whole milk}:
+Độ tin cậy đạt 58,24\%, cao gấp 2,279 lần tỷ lệ chung của sữa.
+Các luật về bơ, trứng và sản phẩm sữa có thể cung cấp nhóm ứng viên
+cho gợi ý mua kèm hoặc bố trí trưng bày. Chúng chưa đủ để kết luận
+người mua đang chuẩn bị cùng một món ăn hay có cùng nhu cầu sử dụng.
+
+Trong một ứng dụng gợi ý, có thể kiểm tra các luật mà giỏ hiện tại
+đã chứa vế trái và chưa chứa vế phải, rồi chọn sản phẩm để hiển thị.
+Hai luật cùng vế trái \textit{root vegetables + tropical fruit}
+nhưng khác vế phải ở hàng 2 và 7 cho thấy cần xử lý nhiều gợi ý
+cùng lúc. Lift hỗ trợ xếp hạng liên hệ, còn số giỏ hỗ trợ cho biết
+số lần tổ hợp đã được quan sát; dữ liệu hiện có chưa phản ánh
+tồn kho, giá bán hoặc lợi nhuận để lựa chọn gợi ý theo hiệu quả kinh doanh.
 
 \subsubsection{Kiểm chứng và thời gian thực thi}
 Ở ngưỡng hỗ trợ 1\%, cả 333 tập mục và số hỗ trợ tương ứng đều khớp
@@ -83,8 +122,12 @@ với phiên bản Set. Số đo theo từng công đoạn được lưu cùng k
 \subsubsection{Giới hạn áp dụng}
 Luật mô tả đồng xuất hiện trong giỏ hoàn tất, không cho biết thứ tự mua
 hoặc quan hệ nhân quả. Dữ liệu không có mã khách, thời gian, giá và khuyến
-mãi. Mười luật được chọn và mô tả trên cùng bộ dữ liệu. Vì vậy chưa thể kết
-luận gợi ý sản phẩm sẽ làm tăng doanh thu hoặc các luật sẽ ổn định theo thời gian.
+mãi. Mười luật và các ngưỡng được chọn trên cùng bộ dữ liệu, chưa có đánh giá
+ngoài mẫu để xác định ngưỡng tối ưu hoặc tỷ lệ mua kèm khi triển khai.
+Chưa thể kết luận gợi ý làm tăng doanh thu hoặc luật ổn định theo thời gian.
 Đánh giá vận hành đòi hỏi dữ liệu mới và thí nghiệm A/B theo tỷ lệ
-chuyển đổi hoặc lợi nhuận. Trong phân tích hiện tại, số giỏ và độ hỗ trợ
-bổ sung thông tin về độ phủ cho lift, đặc biệt với các luật ít gặp.
+chuyển đổi hoặc lợi nhuận. Số luật cũng không trực tiếp biểu thị độ phủ
+giao dịch do một giỏ có thể thỏa nhiều luật. Độ hỗ trợ đếm giỏ chứa cả
+$X\cup Y$; để đánh giá tần suất có thể kích hoạt gợi ý, cần đếm riêng
+tỷ lệ giỏ chứa vế trái của ít nhất một luật được chọn, và loại các
+trường hợp vế phải đã có trong giỏ.

@@ -83,7 +83,7 @@ Phép đếm vét cạn được thực hiện trên 40 cơ sở dữ liệu nh�
 hạt giống 20261116, ở ba ngưỡng 20\%, 50\% và 100\%. Lần kiểm thử
 ngày 24/11/2026 trên Julia 1.13.3/Linux ghi nhận 569 mục kiểm tra đạt.
 Cách chuẩn bị dữ liệu, định dạng đầu vào và lệnh chạy được mô tả trong
-\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/complete/README.md}{hướng dẫn của dự án}.
+\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/master/README.md}{hướng dẫn của dự án}.
 
 \section{Cấu hình và số đo bổ sung}
 \label{sec:benchmark-reproduction}
@@ -92,8 +92,9 @@ T10I4D100K tăng mọi mã thêm một để loại mã 0 khỏi miền đầu v
 Bảng~\ref{tab:grids} ghi các dải ngưỡng. Báo cáo tổng hợp 560 lượt đo
 gồm 420 lượt đo thời gian toàn tiến trình, 40 lượt đo đỉnh bộ nhớ,
 50 lượt theo số giao dịch và 50 lượt theo độ dài giao dịch.
-\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/tree/complete/results/benchmarks/colab_20261125}{Hồ sơ benchmark}
-lưu số đo từng lượt, mã phiên bản nguồn, môi trường và quy trình đo.
+\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/master/docs/report_benchmark.md}{Hướng dẫn tái lập benchmark}
+mô tả quy trình đo. Hồ sơ local tại \path{results/colab/benchmark_20261125/}
+lưu số đo từng lượt, mã phiên bản nguồn và môi trường.
 
 \begin{reporttable}
 \caption{Dải minsup, đơn vị phần trăm; điểm thứ tư dùng cho Peak RSS.}
@@ -124,8 +125,9 @@ Bảng~\ref{tab:groceries-timing} ghi số đo theo từng công đoạn.
 Thời gian toàn quy trình bao gồm đọc dữ liệu, chuẩn hóa, mã hóa,
 khai thác và sinh luật trong tiến trình đã nạp mã. Các công đoạn
 được đo độc lập nên trung vị của chúng không cộng thành trung vị
-của toàn quy trình. Tổng cộng 140 mẫu và cấu hình ghi trong
-\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/tree/complete/results/groceries/colab_20261125}{hồ sơ đo Groceries}.
+của toàn quy trình. Tổng cộng 140 mẫu và cấu hình được lưu local tại
+\path{results/colab/groceries_20261125/}.
+Xem \href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/master/docs/report_groceries.md}{hướng dẫn tái lập Groceries}.
 
 \begin{reporttable}
 \caption{Số đo Groceries ở ngưỡng hỗ trợ 1\% và độ tin cậy 50\%. Đơn vị ms, năm lượt sau làm nóng.}
@@ -156,7 +158,7 @@ Số tập & 32 & 482 & 2.468 & 2.681 & 508 & 14 \\\bottomrule
 \end{reporttable}
 
 Ví dụ truy vết trong phần chính được chọn theo độ hỗ trợ. Xem
-\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/dbadabc4af05070c602b3bcd890150fcd496c885/docs/UD2/TC_plan.md}{khảo sát tiền xử lý ảnh}
+\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/master/docs/UD2/TC_plan.md}{khảo sát tiền xử lý ảnh}
 để đối chiếu lựa chọn kích thước vùng và ngưỡng lọc nền.
 
 Trong khảo sát, khi tăng số cụm từ 16 lên 256, độ méo giảm

@@ -26,13 +26,15 @@ Hình~\ref{fig:fashion_tc_pipeline} tóm tắt các bước chuyển ảnh Fashi
 \end{figure*}
 
 Nhóm dùng túi từ thị giác (\textit{bag of visual words}, BoVW)~\cite{Sivic03}
-để biểu diễn mỗi ảnh. Trong khảo sát tiền xử lý, ở mức loại khoảng
-39,3\% số vùng, lưới $4\times4$ làm mất 5,92\% tổng độ lớn gradient,
-so với 14,00\% ở lưới $7\times7$. Nhóm chọn lưới $4\times4$ để giữ
-được nhiều biến thiên mức xám cục bộ hơn trong phép so sánh này.
+để biểu diễn mỗi ảnh bằng các vùng ảnh nhỏ (\textit{patch}).
+Trong khảo sát tiền xử lý, ở mức loại khoảng 39,3\% số vùng,
+vùng kích thước $4\times4$ pixel làm mất 5,92\% tổng độ lớn gradient,
+so với 14,00\% khi dùng vùng $7\times7$ pixel. Nhóm chọn kích thước
+$4\times4$ pixel để giữ được nhiều biến thiên mức xám cục bộ hơn.
 
-Sau khi chia mỗi ảnh thành 49 vùng không chồng lấn, nhóm giữ vùng
-có ít nhất một pixel với mức xám lớn hơn 29. Giá trị 29 là phân vị
+Mỗi ảnh $28\times28$ pixel được chia thành lưới $7\times7$ gồm
+49 vùng không chồng lấn, mỗi vùng có kích thước $4\times4$ pixel.
+Nhóm giữ vùng có ít nhất một pixel với mức xám lớn hơn 29. Giá trị 29 là phân vị
 thứ 10 của các pixel khác 0. Quy tắc này loại 37,50\% số vùng,
 làm mất 4,41\% tổng độ lớn gradient và vẫn giữ được vùng ảnh ở
 cả 70.000 ảnh. Mỗi vùng được biểu diễn bằng vectơ đặc trưng
@@ -88,7 +90,6 @@ Với mỗi ngưỡng, nhóm đối chiếu từng tập mục và số hỗ tr�
 hai phiên bản. Thời gian được đo trong tiến trình Julia riêng.
 Mỗi cấu hình được đo một lần, từ đọc giao dịch đến ghi kết quả,
 không có lượt làm nóng.
-Số đo này dùng để mô tả lượt chạy đã ghi nhận.
 
 \subsubsection{Kết quả K-means và khai thác tập mục phổ biến}
 \label{subsec:fashion_fim_results}
@@ -232,7 +233,7 @@ Với mỗi tập mục $X$, đặt $E_{\max}(X)=\max_c E(X,c)$, tức hệ số
     \end{tabular}
 \end{table}
 
-Hình~\ref{fig:fashion_enrichment_summary} cho thấy phân bố hệ số lớn nhất theo ngưỡng và số mẫu có hệ số từ 2 trở lên ở từng lớp. Một mẫu có thể được đếm ở nhiều lớp. Vì $E_{\max}$ lấy lớp có tỷ lệ tương đối cao nhất, chỉ số này mô tả mức tập trung quan sát được của từng mẫu.
+Hình~\ref{fig:fashion_enrichment_summary} cho thấy phân bố hệ số lớn nhất theo ngưỡng và số mẫu có hệ số từ 2 trở lên ở từng lớp. Trong khi biểu đồ (b) đếm mẫu riêng theo lớp, $E_{\max}$ chỉ lấy lớp có tỷ lệ tương đối cao nhất để mô tả mức tập trung của từng mẫu.
 
 \begin{figure*}[!tbp]
     \centering
@@ -271,7 +272,7 @@ Các tập mục thường gặp hơn ở một lớp là những đặc trưng 
 cho mô hình phân loại. Có thể dùng các mẫu này để giải thích ảnh
 chứa tổ hợp mã nào hoặc để truy vấn những ảnh có chung tổ hợp.
 
-Với $m$ tập mục đã chọn $P_1,\ldots,P_m$, véc-tơ đặc trưng của ảnh $I_i$ là $\boldsymbol{\phi}(I_i)=(\phi_1(I_i),\ldots,\phi_m(I_i))$. Mỗi thành phần cho biết giao dịch $T_i$ có chứa tập mục tương ứng hay không:
+Với $m$ tập mục đã chọn $P_1,\ldots,P_m$, vectơ đặc trưng của ảnh $I_i$ là $\boldsymbol{\phi}(I_i)=(\phi_1(I_i),\ldots,\phi_m(I_i))$. Mỗi thành phần cho biết giao dịch $T_i$ có chứa tập mục tương ứng hay không:
 \begin{equation}
     \phi_j(I_i)=\mathbf{1}\!\left[P_j\subseteq T_i\right],
     \qquad j=1,\ldots,m.
@@ -295,16 +296,3 @@ Sau khi chọn cấu hình, huấn luyện lại trên toàn bộ 60.000 ảnh
 và đánh giá một lần trên 10.000 ảnh kiểm thử giữ riêng. Kết quả
 so với BoVW nhị phân trên tập này sẽ cho biết đặc trưng tập mục
 hoặc thông tin vị trí có cải thiện khả năng dự đoán hay không.
-
-\subsubsection{Kết luận}
-
-Eclat tìm được 6.185 tổ hợp từ thị giác ở ngưỡng hỗ trợ 5\%
-trên các giao dịch BoVW nhị phân. Hai cách cài đặt cho cùng
-kết quả ở cả sáu ngưỡng. Việc truy vết về ảnh gốc giúp giải
-thích các mã trong một tổ hợp. Phân tích theo lớp bổ sung
-thông tin về nhóm ảnh thường chứa tổ hợp đó.
-
-Các tổ hợp này có thể làm đặc trưng dễ diễn giải cho phân loại
-hoặc dùng để truy vấn ảnh. Kết quả hiện tại dừng ở mức mô tả
-đồng xuất hiện và phân bố theo lớp. Khả năng dự đoán cần được
-kiểm chứng bằng quy trình chia dữ liệu và đánh giá độc lập đã đề xuất.

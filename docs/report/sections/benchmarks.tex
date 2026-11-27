@@ -33,6 +33,7 @@ Với mỗi bộ dữ liệu, nhóm chọn bảy mức của ngưỡng hỗ tr�
 Các giá trị cụ thể được liệt kê ở Bảng~\ref{tab:grids} trong phụ lục.
 
 \subsection{Môi trường và phương pháp đo}
+\label{sec:measurement-method}
 Các phép đo chạy trên cùng môi trường Colab CPU (Broadwell, 2 vCPU,
 12,67 GiB RAM). Cài đặt Julia dùng phiên bản 1.13.3 và một luồng.
 Mỗi cấu hình có năm lượt đo. Các hình báo cáo trung vị và khoảng
@@ -105,8 +106,7 @@ SPMF có thời gian toàn tiến trình thấp nhất theo trung vị ở cả
 trên T10I4D100K, còn Set nhanh hơn trên Retail ở cả bảy ngưỡng.
 Retail có trung bình khoảng 10 mục mỗi giao dịch trên tổng số hơn
 16 nghìn mục, nên cách biểu diễn chỉ lưu các định danh xuất hiện
-có thể có lợi. Các lượt đo toàn tiến trình cũng chịu ảnh hưởng
-của khởi động và đọc ghi dữ liệu. Trên Chess ở ngưỡng 80\%, hai
+có thể có lợi. Trên Chess ở ngưỡng 80\%, hai
 phiên bản chỉ chênh khoảng 1,2\% và khoảng thời gian quan sát
 được chồng lấn.
 
@@ -115,6 +115,24 @@ số hỗ trợ thấp hơn có thể được bổ sung. Chess có ít giao d�
 nhất nhưng cho nhiều kết quả nhất ở cuối dải khảo sát. Các bộ
 dữ liệu dùng các dải ngưỡng khác nhau, nên kết quả này mô tả
 xu hướng trong từng dải đã chọn.
+
+\subsubsection{Đối chiếu hiệu năng với SPMF}
+Ở ngưỡng thấp nhất của T10I4D100K, thời gian toàn tiến trình của Set
+và BitVector lần lượt gấp khoảng 6,12 và 3,06 lần SPMF
+(Bảng~\ref{tab:runtime-colab}). Thay biểu diễn Set bằng vector bit
+thu hẹp chênh lệch trong cấu hình này, nhưng SPMF vẫn có lợi thế
+về thời gian hoàn tất. Trên Mushroom và Retail ở cuối dải ngưỡng,
+Set lại gần thời gian của SPMF hơn BitVector. Kết quả vì vậy chưa
+ủng hộ việc dùng một biểu diễn duy nhất cho mọi bộ dữ liệu.
+
+Phép đo toàn tiến trình ở Mục~\ref{sec:measurement-method} phản ánh
+chi phí của một lượt chạy độc lập. Julia phải nạp môi trường và
+biên dịch các lời gọi chưa được thực thi; SPMF cũng chịu chi phí
+khởi động JVM, đọc ghi và thực thi Java. Do chưa đo tách công đoạn
+hoặc đo khai thác sau làm nóng của SPMF, chưa thể quy chênh lệch
+cho riêng ngôn ngữ, phép giao TID-set hay tối ưu nội bộ của SPMF.
+So sánh Peak RSS
+chỉ gồm Set và BitVector, nên chưa cho phép đối chiếu RAM với SPMF.
 
 \subsection{Đỉnh bộ nhớ ở ngưỡng giữa dải}
 Nhóm dùng ngưỡng thứ tư của mỗi bộ dữ liệu. Mỗi lượt đo chạy một
@@ -144,9 +162,8 @@ T10I4D100K & 437,32 & 418,77 & 4,24\\\bottomrule
 BitVector có đỉnh bộ nhớ trung vị thấp hơn trên ba bộ dữ liệu,
 với mức giảm rõ nhất trên Retail (14,87\%). Với Retail, 7 trên
 16.470 mục đạt ngưỡng 4\%, nên việc cấp vector sau khi lọc đặc
-biệt có ích. Trên Mushroom, hai trung vị bằng nhau. Vì đỉnh bộ
-nhớ bao gồm môi trường thực thi và dữ liệu đầu vào, phép đo này
-chỉ cho phép so sánh mức dùng bộ nhớ của cả tiến trình.
+biệt có ích. Trên Mushroom, hai trung vị bằng nhau. Đây là mức dùng
+bộ nhớ của cả tiến trình theo phạm vi ở Mục~\ref{sec:measurement-method}.
 
 \subsection{Khả năng mở rộng theo số giao dịch}
 Nhóm tạo năm tập con lồng nhau từ Retail ở các mức 10\%, 25\%,
@@ -180,6 +197,39 @@ trung vị của Set tăng 14,29 lần, còn BitVector tăng 10,32 lần. Cả n
 có 18 tập mục, nên số kết quả giữ nguyên trong thí nghiệm này. BitVector
 có xu hướng tăng gần tỷ lệ với $N$ trong miền đã đo. Thời gian của Set tăng nhanh hơn.
 Xu hướng này chỉ mô tả các tập con Retail và ngưỡng đã khảo sát.
+
+\subsection{Phân tích đánh đổi giữa thời gian và bộ nhớ}
+Trên Retail tại ngưỡng hỗ trợ 4\%, BitVector có Peak RSS trung vị
+378,34 MiB, giảm 14,87\% so với mức 444,45 MiB của Set.
+Thời gian toàn tiến trình của BitVector là 3,869 giây, cao hơn
+mức 3,624 giây của Set, theo số đo đầy đủ của Hình~\ref{fig:runtime-colab}.
+Trong thí nghiệm mở rộng theo số giao dịch,
+trên toàn bộ 88.162 giao dịch và cùng ngưỡng hỗ trợ, thời gian
+khai thác sau làm nóng lần lượt là 62,95 ms và 358,41 ms.
+
+Sự khác biệt trong cách dựng biểu diễn dọc giúp giải thích xu hướng
+bộ nhớ. Phiên bản Set dựng tập định danh giao dịch cho toàn bộ
+16.470 mục rồi mới lọc các mục không đạt ngưỡng. Phiên bản BitVector
+đếm số hỗ trợ trước và chỉ cấp vector cho 7 mục đạt ngưỡng 4\%.
+Với $N$ giao dịch và $F_1$ mục đạt ngưỡng, các vector ban đầu cần
+$O(F_1N)$ bit, bên cạnh trạng thái đếm $O(M)$ cho $M$ mục phân biệt.
+Lọc trước cấp phát giảm số cấu trúc phải dựng khi có nhiều mục hiếm.
+Do Peak RSS đo toàn tiến trình và hai phiên bản đồng thời thay đổi
+cấu trúc lưu trữ lẫn quy trình cấp phát, chưa thể tách đóng góp
+của từng yếu tố vào mức giảm bộ nhớ.
+
+Phép đo sau làm nóng bao gồm cả dựng biểu diễn dọc và duyệt các nhánh
+Eclat. Trên Retail ở ngưỡng đang xét, kết quả chỉ có 18 tập phổ biến.
+Chênh lệch thời gian vì vậy cần được xem xét cùng chi phí lọc trước
+cấp phát đã nêu ở trên. Các phép giao theo từ máy
+cũng có thể đóng góp vào lợi thế của BitVector, nhưng chưa đủ cơ sở
+quy toàn bộ chênh lệch cho thao tác này khi hai công đoạn chưa được đo riêng.
+
+Hai phiên bản dùng chung mã đọc ghi và trả về cùng kết quả. Tuy vậy,
+chưa có số đo từng công đoạn để giải thích chênh lệch 0,245 giây của
+thời gian toàn tiến trình. Chỉ số này phù hợp với lượt chạy độc lập;
+thời gian sau làm nóng phù hợp với khai thác khi mã đã được biên dịch.
+Lựa chọn phiên bản cần xét cả bối cảnh chạy và giới hạn RAM.
 
 \subsection{Ảnh hưởng của độ dài giao dịch}
 Nhóm tạo 5.000 giao dịch từ 64 mục và tăng độ dài mỗi giao dịch
@@ -216,6 +266,16 @@ các nhánh mở rộng và thực hiện nhiều công việc hơn. Khi độ d
 tiếp lên 20 mục, số kết quả gần như giữ nguyên nhưng thời gian của
 Set vẫn tăng đáng kể. Số tập được trả về vì vậy chỉ giải thích một
 phần chi phí khai thác.
+
+Với $N$ giữ cố định, chi phí quét một vector bit cho mỗi phép giao
+vẫn tỷ lệ với $\lceil N/w\rceil$, trong đó $w$ là số bit mỗi từ máy.
+Ở Set, chi phí giao kỳ vọng tỷ lệ với tập định danh nhỏ hơn; khi
+giỏ dài lên, nhiều mục có mặt trong nhiều giao dịch hơn, làm tăng
+khối lượng định danh cần xử lý. Cơ chế này phù hợp với việc thời gian
+Set tiếp tục tăng khi $L$ từ 16 lên 20 dù số kết quả gần như không đổi.
+Tuy nhiên, thực nghiệm chưa ghi số ứng viên và kích thước từng tập
+định danh, nên chưa xác định riêng phần thời gian tăng do giao tập,
+dựng biểu diễn hay cấp phát tạm.
 
 \subsection{Thảo luận và giới hạn thực nghiệm}
 Cả 560 lượt đo đều hoàn tất và cho kết quả khớp với SPMF. Lợi thế về
