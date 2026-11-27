@@ -6,7 +6,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / 'docs/report_tv2/figures'
+OUT = ROOT / 'docs/report/members/tv2/figures'
 OUT.mkdir(parents=True, exist_ok=True)
 plt.rcParams.update({'font.size': 7, 'axes.titlesize': 7, 'legend.fontsize': 6})
 

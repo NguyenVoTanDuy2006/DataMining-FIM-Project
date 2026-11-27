@@ -11,7 +11,7 @@ Each group contains summary.csv, runs.csv and metadata.md:
 - transaction_length:5syntheticlengths,2backends,50 mineafterwarmup samples.
 
 Run `python scripts/plot_colab_report.py` from repo root to validate all560 samples
-using existing benchmark validators and regenerate reports/figures/benchmarks/*.pdf.
+using existing benchmark validators and regenerate docs/report/figures/benchmarks/*.pdf.
 Numbers in the report tables are rounded from summary.csv; timing CSVs use seconds,
 RAM summary usesMiB and rawRSS usesbytes. Min/max are observed ranges, not CI.
 Do not mix freshprocess time with hot mining time, allocations with RSS, or old

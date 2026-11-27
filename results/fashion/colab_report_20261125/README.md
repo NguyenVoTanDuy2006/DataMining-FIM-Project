@@ -22,9 +22,9 @@ Full hashes and environment are in `runtime_observations.toml`.
 The full local package is `results/colab/fashion_full_20261125/` from repo root.
 It contains raw datasets, codebook, transactions, assignments, manifests, galleries,
 the extended runner and log. It is intentionally excluded from Git. Selected report
-figures are in `reports/figures/fashion/`; `colab_pattern_3.png` is the original
+figures are in `docs/report/figures/fashion/`; `colab_pattern_3.png` is the original
 run's P3 gallery. No historical run images/counts were substituted.
 
 Run `python scripts/plot_fashion_report.py` from repo root to validate the selected
-tables and regenerate `reports/figures/fashion/colab_mining.pdf`.
+tables and regenerate `docs/report/figures/fashion/colab_mining.pdf`.
 Timing scope differs from the fresh-process benchmark in Chapter II.

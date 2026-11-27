@@ -1,0 +1,166 @@
+% Build from docs/: xelatex -jobname=Report Report.tex
+\documentclass[conference,a4paper]{IEEEtran}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}[SmallCapsFont=TeX Gyre Termes]
+\setsansfont{Arial}
+\setmonofont{Times New Roman}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb,booktabs,array,graphicx,algorithmic,url,stfloats,balance}
+\usepackage[hidelinks,unicode]{hyperref}
+\graphicspath{{figures/benchmarks/}{figures/fashion/}{members/tv2/figures/}{members/tv3/}{members/tv3/figures/}}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\renewcommand{\algorithmicrequire}{\textbf{Đầu vào:}}
+\renewcommand{\algorithmicensure}{\textbf{Đầu ra:}}
+\newcommand{\bv}{\texttt{BitVector}}
+\newcommand{\st}{\texttt{Set}}
+\makeatletter
+\newenvironment{reportfigure}{\par\medskip\noindent\begin{minipage}{\columnwidth}\def\@captype{figure}\centering}{\end{minipage}\par\medskip}
+\newenvironment{reporttable}{\par\medskip\noindent\begin{minipage}{\columnwidth}\def\@captype{table}\centering}{\end{minipage}\par\medskip}
+\makeatother
+\begin{document}
+\selectlanguage{vietnamese}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\pagestyle{plain}
+\title{Cài đặt và tối ưu Eclat bằng Julia\\cho phân tích giỏ hàng và khai thác mẫu trực quan}
+\author{\IEEEauthorblockN{Nguyễn Thành Trung \qquad Lê Phúc Khang \qquad Nguyễn Võ Tấn Duy}
+\IEEEauthorblockA{Đồ án môn Khai thác dữ liệu và ứng dụng\\Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM}}
+\maketitle
+\begin{abstract}
+Nhóm cài đặt thuật toán Eclat bằng Julia với hai cách biểu diễn tập
+định danh giao dịch là Set và BitVector. Hai phiên bản trả về cùng
+các tập phổ biến và số giao dịch hỗ trợ như SPMF trên năm bộ dữ liệu
+đối chiếu. Phép đo trên bốn bộ dữ liệu cho thấy BitVector có đỉnh bộ
+nhớ trung vị thấp hơn trên ba bộ, còn lợi thế về thời gian toàn tiến
+trình thay đổi theo dữ liệu. Nhóm dùng cùng bộ khai thác để sinh luật
+kết hợp từ giỏ hàng Groceries và tìm tổ hợp từ thị giác thường gặp
+trong ảnh Fashion-MNIST. Hai ứng dụng minh họa cách lựa chọn biểu diễn
+giao dịch và diễn giải các mẫu dựa trên dữ liệu quan sát.
+\end{abstract}
+\begin{IEEEkeywords}
+Eclat, frequent itemset mining, Julia, BitVector, luật kết hợp, visual words.
+\end{IEEEkeywords}
+\section*{Mở đầu}
+Cùng một nhóm sản phẩm có thể xuất hiện trong nhiều giỏ hàng,
+và cùng một nhóm đặc trưng thị giác có thể xuất hiện trong nhiều
+ảnh. Khi mỗi giỏ hoặc mỗi ảnh được biểu diễn dưới dạng giao dịch,
+cả hai bài toán đều có thể dùng Eclat để tìm tổ hợp thường gặp.
+Chương~I mô tả cách cài đặt và tối ưu thuật toán. Chương~II
+đối chiếu kết quả với SPMF và khảo sát hiệu năng. Chương~III
+trình bày cách tạo giao dịch và diễn giải các mẫu trong hai ứng dụng.
+
+\input{members/tv1/algorithm}
+\input{sections/benchmarks}
+\input{members/tv2/groceries}
+\input{sections/fashion_mnist}
+
+\subsection{Tổng kết hai ứng dụng}
+Hai ứng dụng dùng cùng thuật toán nhưng khác nhau ở ý nghĩa của
+mỗi mục. Trong Groceries, mã mục ánh xạ trực tiếp đến tên sản phẩm,
+nên có thể đọc luật theo thành phần của giỏ hàng. Trong Fashion-MNIST,
+mỗi mục là mã của một nhóm vùng ảnh tương tự nhau. Việc xem lại các
+vùng gốc giúp giải thích mã thị giác đang đại diện cho đặc trưng nào.
+Kết quả ở cả hai ứng dụng mô tả các tổ hợp thường xuất hiện cùng
+nhau trong dữ liệu quan sát. Giá trị của chúng đối với gợi ý sản phẩm
+và phân loại ảnh cần được kiểm chứng trên dữ liệu mới.
+
+\input{references}
+\appendices
+\section{Bổ sung về cài đặt và kiểm thử}
+\label{sec:reproduction}
+Gọi $E=\sum_{j=1}^{N}|t_j|$ là tổng số lần xuất hiện của các mục,
+$F_1$ là số tập một mục đạt ngưỡng và $w$ là số bit mỗi từ máy.
+Dựng tập định danh ban đầu tốn thời gian kỳ vọng $O(E)$ với Set
+và $O(E+F_1\lceil N/w\rceil)$ với BitVector. Chi phí sắp các mã
+mục lần lượt là $O(M\log M)$ và $O(F_1\log F_1)$. Bộ nhớ của
+các vector ban đầu là $O(F_1N)$ bit, cộng thêm trạng thái đếm
+$O(M)$ và các cấu trúc phục vụ quá trình duyệt. Nếu $F$ là số tập
+phổ biến và $K$ là tổng độ dài các tập đó, phần lưu kết quả
+cần $O(F+K)$ ô lưu trữ.
+
+Phép đếm vét cạn được thực hiện trên 40 cơ sở dữ liệu nhỏ sinh với
+hạt giống 20261116, ở ba ngưỡng 20\%, 50\% và 100\%. Lần kiểm thử
+ngày 24/11/2026 trên Julia 1.13.3/Linux ghi nhận 569 mục kiểm tra đạt.
+Cách chuẩn bị dữ liệu, định dạng đầu vào và lệnh chạy được mô tả trong
+\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/complete/README.md}{hướng dẫn của dự án}.
+
+\section{Cấu hình và số đo bổ sung}
+\label{sec:benchmark-reproduction}
+Trong bước chuẩn hóa, Chess và Mushroom giữ mã mục gốc. Retail và
+T10I4D100K tăng mọi mã thêm một để loại mã 0 khỏi miền đầu vào.
+Bảng~\ref{tab:grids} ghi các dải ngưỡng. Báo cáo tổng hợp 560 lượt đo
+gồm 420 lượt đo thời gian toàn tiến trình, 40 lượt đo đỉnh bộ nhớ,
+50 lượt theo số giao dịch và 50 lượt theo độ dài giao dịch.
+\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/tree/complete/results/benchmarks/colab_20261125}{Hồ sơ benchmark}
+lưu số đo từng lượt, mã phiên bản nguồn, môi trường và quy trình đo.
+
+\begin{reporttable}
+\caption{Dải minsup, đơn vị phần trăm; điểm thứ tư dùng cho Peak RSS.}
+\label{tab:grids}
+\footnotesize
+\begin{tabular}{lp{0.65\columnwidth}}\toprule
+CSDL & Bảy ngưỡng từ cao xuống thấp\\\midrule
+Chess & 95; 92,5; 90; 87,5; 85; 82,5; 80\\
+Mushroom & 95; 90; 80; 70; 60; 50; 40\\
+Retail & 10; 8; 6; 4; 2; 1; 0,5\\
+T10I4D100K & 3; 2,5; 2; 1,5; 1; 0,75; 0,5\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+Các tập con Retail được lấy từ cùng một hoán vị giao dịch, sinh
+với hạt giống 20261116. Khi tạo dữ liệu tổng hợp, nhóm hoán vị danh
+sách $M=64$ mục riêng cho từng giao dịch rồi lấy $L$ mục đầu.
+Với cách chọn đều này, xác suất $p_2$ để một cặp cụ thể có mặt là
+\begin{equation}
+ p_2=\frac{L(L-1)}{M(M-1)}.
+\end{equation}
+Trong $N=5.000$ giao dịch, số hỗ trợ kỳ vọng $Np_2$ lần lượt
+khoảng 164 và 298 khi $L=12$ và $L=16$. Hai giá trị nằm hai
+phía ngưỡng 250, phù hợp với bước tăng số kết quả quan sát được.
+
+\subsection{Số đo Groceries theo công đoạn}
+Bảng~\ref{tab:groceries-timing} ghi số đo theo từng công đoạn.
+Thời gian toàn quy trình bao gồm đọc dữ liệu, chuẩn hóa, mã hóa,
+khai thác và sinh luật trong tiến trình đã nạp mã. Các công đoạn
+được đo độc lập nên trung vị của chúng không cộng thành trung vị
+của toàn quy trình. Tổng cộng 140 mẫu và cấu hình ghi trong
+\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/tree/complete/results/groceries/colab_20261125}{hồ sơ đo Groceries}.
+
+\begin{reporttable}
+\caption{Số đo Groceries ở ngưỡng hỗ trợ 1\% và độ tin cậy 50\%. Đơn vị ms, năm lượt sau làm nóng.}
+\label{tab:groceries-timing}
+\centering\footnotesize
+\begin{tabular}{lrrr}\toprule
+Phạm vi & Trung vị & Nhỏ nhất & Lớn nhất\\\midrule
+Khai thác & 55,05 & 50,33 & 92,56\\
+Sinh luật & 1,24 & 1,21 & 1,37\\
+Toàn quy trình & 82,62 & 76,67 & 88,63\\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+\section{Số liệu bổ sung cho Fashion-MNIST}
+\label{sec:fashion-reproduction}
+Bảng~\ref{tab:fashion-lengths} trình bày phân bố độ dài ở ngưỡng
+hỗ trợ 5\%. Bộ giao dịch có tổng cộng 856.373 lượt xuất hiện mã
+và độ dài trung vị là 12 mã.
+
+\begin{reporttable}
+\caption{Số tập phổ biến theo độ dài ở ngưỡng hỗ trợ 5\%.}
+\label{tab:fashion-lengths}
+\small
+\begin{tabular}{lrrrrrr}\toprule
+Số mã & 1 & 2 & 3 & 4 & 5 & 6 \\\midrule
+Số tập & 32 & 482 & 2.468 & 2.681 & 508 & 14 \\\bottomrule
+\end{tabular}
+\end{reporttable}
+
+Ví dụ truy vết trong phần chính được chọn theo độ hỗ trợ. Xem
+\href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/dbadabc4af05070c602b3bcd890150fcd496c885/docs/UD2/TC_plan.md}{khảo sát tiền xử lý ảnh}
+để đối chiếu lựa chọn kích thước vùng và ngưỡng lọc nền.
+
+Trong khảo sát, khi tăng số cụm từ 16 lên 256, độ méo giảm
+từ 0,441 xuống 0,177 và độ dài giao dịch trung bình tăng từ
+9,00 lên 20,29 mã. Ở $K=32$, hai chỉ số lần lượt là 0,347 và
+12,27 mã. Nhóm dùng $K=32$ để giữ từ điển gọn cho bước khai thác.
+\end{document}

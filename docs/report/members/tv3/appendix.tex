@@ -1,0 +1,192 @@
+\clearpage
+\appendices
+
+\section{Khảo sát cấu hình và đặc điểm giao dịch}
+\label{app:fashion_configuration}
+
+\textit{Kích thước vùng ảnh.}
+Lưới không chồng lấp trên ảnh $28\times28$ tạo 196, 49 hoặc 16 vùng khi cạnh vùng lần lượt là 2, 4 hoặc 7 pixel. Vùng nhỏ cho phép lọc nền chi tiết hơn nhưng làm tăng số vectơ cần xử lý. Vùng lớn chứa nhiều điểm ảnh lân cận hơn và có thể trộn nền với đường biên của vật thể. Trong phép đối chiếu $4\times4$ với $7\times7$, khi cả hai lưới loại khoảng 39,3\% số vùng, tỷ lệ gradient bị mất lần lượt là 5,92\% và 14,00\%. Kết quả là căn cứ thực nghiệm để dùng lưới $4\times4$.
+
+\textit{Lọc nền.}
+Quy tắc phát hành giữ một vùng nếu có ít nhất một pixel lớn hơn 29. Trên 70.000 ảnh, quy tắc này loại 37,50\% số vùng và làm mất 4,41\% tổng độ lớn gradient; mọi ảnh đều còn vùng. Tổng số descriptor dùng trong lượt K-means là 2.143.746 trên 3.430.000 vùng ban đầu.
+
+\textit{Khảo sát số cụm.}
+Bảng~\ref{tab:fashion_k_appendix} lưu kết quả khảo sát cấu hình trước khi tạo gói hiện tại. Các số này mô tả phép khảo sát $K$ đã lưu; số đo K-means của gói đang phân tích được trình bày riêng trong Bảng~\ref{tab:kmeans_configuration}.
+
+\begin{center}
+    \captionof{table}{Kết quả khảo sát cấu hình K-means}
+    \label{tab:fashion_k_appendix}
+    \footnotesize
+    \begin{tabular}{@{}rrrr@{}}
+        \toprule
+        $K$ & Độ méo & Số mã trung bình/giao dịch & Hội tụ \\
+        \midrule
+        16  & 0,441 &  9,00 & Có \\
+        32  & 0,347 & 12,27 & Có \\
+        64  & 0,271 & 15,11 & Có \\
+        128 & 0,219 & 17,99 & Có \\
+        256 & 0,177 & 20,29 & Chưa \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Khảo sát cho thấy khi tăng $K$, độ méo giảm nhưng số mã trung bình
+trong mỗi giao dịch tăng. Nhóm giữ $K=32$ làm cấu hình cho lượt phân
+tích tiếp theo; bảng này không chứng minh $K=32$ tối ưu theo mọi tiêu chí.
+
+\textit{Thống kê giao dịch của gói hiện tại.}
+Sau khi gộp các mã lặp trong từng ảnh, 70.000 giao dịch có 856.373 lượt xuất hiện của 32 mã. Độ dài giao dịch từ 2 đến 24; trung bình 12,2339, trung vị 12 và độ lệch chuẩn tổng thể 3,0061. Mật độ là $856\,373/(70\,000\times32)=38,23\%$. Không có giao dịch rỗng.
+
+Tham khảo \href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/dbadabc4af05070c602b3bcd890150fcd496c885/docs/UD2/TC_plan.md}{khảo sát tiền xử lý ảnh} và \href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/dbadabc4af05070c602b3bcd890150fcd496c885/notebook/UD2/demo/01_image_exploration.ipynb}{phần khảo sát ảnh}.
+
+\newpage
+\section{Đối chiếu kết quả khai thác}
+\label{app:fashion_eclat}
+
+\textit{Độ hỗ trợ trên BoVW nhị phân.}
+Gọi $D(w)$ là tập giao dịch chứa từ thị giác $w$ và $N$ là số giao dịch. Độ hỗ trợ của tập mục $X$ là
+\[
+    \operatorname{supp}(X)
+    = \frac{\left|\bigcap_{w\in X} D(w)\right|}{N}.
+\]
+Chẳng hạn, với ba giao dịch $\{1,6\}$, $\{6,24\}$ và $\{1,6,24\}$, tập $\{1,6\}$ có độ hỗ trợ $2/3$.
+
+\textit{Đối chiếu hai backend.}
+Bảng~\ref{tab:fashion_audit_appendix} ghi số tập mục trả về trên cùng bộ giao dịch và kết quả so sánh đầy đủ từng tập cùng số hỗ trợ. Hai backend cho kết quả giống nhau ở cả sáu ngưỡng.
+
+\begin{center}
+    \captionof{table}{Số tập mục phổ biến và kết quả so sánh Set với BitVector}
+    \label{tab:fashion_audit_appendix}
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{@{}crrrc@{}}
+        \toprule
+        Ngưỡng & Số hỗ trợ tối thiểu & Set & BitVector & Giống nhau \\
+        \midrule
+        80\% & 56.000 & 0 & 0 & PASS \\
+        60\% & 42.000 & 1 & 1 & PASS \\
+        40\% & 28.000 & 11 & 11 & PASS \\
+        20\% & 14.000 & 145 & 145 & PASS \\
+        10\% & 7.000 & 1.098 & 1.098 & PASS \\
+         5\% & 3.500 & 6.185 & 6.185 & PASS \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Tại ngưỡng 5\%, phân bố độ dài tập mục là:
+
+\begin{center}
+    \captionof{table}{Số tập mục theo độ dài ở ngưỡng 5\%}
+    \label{tab:fashion_itemset_lengths}
+    \footnotesize
+    \begin{tabular}{@{}rr@{}}
+        \toprule
+        Độ dài & Số tập mục \\
+        \midrule
+        1 & 32 \\
+        2 & 482 \\
+        3 & 2.468 \\
+        4 & 2.681 \\
+        5 & 508 \\
+        6 & 14 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\textit{Thời gian Eclat.}
+Bảng~\ref{tab:fashion_eclat_measurements} ghi số đo trong tiến trình riêng cho sáu ngưỡng. Tỷ số được tính bằng thời gian Set chia cho thời gian BitVector; giá trị lớn hơn 1 nghĩa là BitVector nhanh hơn trong lượt đo đó.
+
+\begin{center}
+    \captionof{table}{Thời gian Eclat theo cách cài đặt và ngưỡng hỗ trợ}
+    \label{tab:fashion_eclat_measurements}
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{@{}c r r r@{}}
+        \toprule
+        Ngưỡng & Set (s) & BitVector (s) & Tỷ số Set/BitVector \\
+        \midrule
+        80\% & 4,580 & 4,161 & 1,10$\times$ \\
+        60\% & 4,755 & 4,493 & 1,06$\times$ \\
+        40\% & 5,260 & 5,380 & 0,98$\times$ \\
+        20\% & 7,629 & 6,097 & 1,25$\times$ \\
+        10\% & 11,862 & 7,467 & 1,59$\times$ \\
+         5\% & 20,937 & 8,727 & 2,40$\times$ \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Mỗi cấu hình được đo một lượt, không có lượt làm nóng và không đo lặp; do đó bảng không đủ để kết luận chênh lệch thời gian có ổn định giữa các lần chạy hay môi trường hay không. Thời gian tiến trình đo tính từ lúc đọc tệp giao dịch đến khi ghi kết quả.
+
+\newpage
+\section{Phân tích mẫu theo lớp}
+\label{app:fashion_enrichment}
+
+\textit{Các mẫu đại diện ở ngưỡng 5\%.}
+Bảng~\ref{tab:fashion_representative_patterns} ghi bốn mẫu được chọn theo quy tắc phân tích đã áp dụng: mẫu đơn hỗ trợ cao nhất, cặp hỗ trợ cao nhất, tập từ ba mã trở lên hỗ trợ cao nhất và một mẫu nhiều mã có hỗ trợ dưới 10\%. Mẫu cuối có mức làm giàu cao nhất trong bốn ví dụ, nhưng vẫn là mô tả hậu nghiệm trên toàn bộ dữ liệu.
+
+\begin{center}
+    \captionof{table}{Bốn mẫu đại diện được truy vết}
+    \label{tab:fashion_representative_patterns}
+    \scriptsize
+    \setlength{\tabcolsep}{2pt}
+    \begin{tabular}{@{}l r r l r@{}}
+        \toprule
+        Mẫu & Hỗ trợ & Toàn cục (\%) & \shortstack{Lớp $E$ cao nhất\\Tỷ lệ trong lớp (\%)} & $E_{\max}$ \\
+        \midrule
+        $\{6\}$ & 49.181 & 70,259 & Sandal (90,94) & 1,294 \\
+        $\{6,12\}$ & 29.223 & 41,747 & T-shirt/top (62,20) & 1,490 \\
+        $\{6,12,22\}$ & 16.218 & 23,169 & Sandal (37,30) & 1,610 \\
+        $\{6,15,17\}$ & 6.991 & 9,987 & Sandal (31,17) & 3,121 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\textit{Số tập được làm giàu theo lớp.}
+Ở ngưỡng hỗ trợ 5\%, số tập mục có $E(X,c)\geq2$ theo lớp lần lượt là:
+
+\begin{center}
+    \captionof{table}{Số tập mục có hệ số làm giàu ít nhất 2 theo lớp}
+    \label{tab:fashion_enriched_counts_by_class}
+    \scriptsize
+    \begin{tabular}{@{}l r@{\qquad}l r@{}}
+        \toprule
+        Lớp & Số tập mục & Lớp & Số tập mục \\
+        \midrule
+        T-shirt/top & 424 & Trouser & 468 \\
+        Pullover & 317 & Dress & 275 \\
+        Coat & 742 & Sandal & 480 \\
+        Shirt & 169 & Sneaker & 572 \\
+        Bag & 154 & Ankle boot & 1.710 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Các số đếm không loại trừ nhau vì cùng một tập mục có thể được làm giàu trong nhiều lớp. Ankle boot có số tập đạt ngưỡng nhiều nhất (1.710), nhưng con số này không đồng nghĩa với độ chính xác phân loại hay khả năng nhận diện lớp.
+
+\textit{Một mẫu nhiều mã cho mỗi lớp.}
+Bảng~\ref{tab:fashion_top_pattern_per_class} liệt kê các hàng trong Hình~\ref{fig:fashion_class_pattern_heatmap}. Mỗi mẫu được chọn trong nhóm có ít nhất 10\% ảnh của lớp đích hỗ trợ; cột tỷ lệ trong lớp là $P(X\mid c)$.
+
+\begin{center}
+    \captionof{table}{Mẫu có hệ số làm giàu cao nhất trong từng lớp}
+    \label{tab:fashion_top_pattern_per_class}
+    \scriptsize
+    \setlength{\tabcolsep}{2pt}
+    \begin{tabular}{@{}l l r r r@{}}
+        \toprule
+        Lớp đích & Mẫu & Số ảnh hỗ trợ & Tỷ lệ trong lớp (\%) & $E(X,c)$ \\
+        \midrule
+        T-shirt/top & $\{4,8,20,29\}$ & 3.665 & 18,20 & 3,476 \\
+        Trouser & $\{13,14,26,29\}$ & 3.922 & 31,11 & 5,553 \\
+        Pullover & $\{4,9,11,19\}$ & 4.174 & 22,56 & 3,783 \\
+        Dress & $\{4,8,10,26\}$ & 3.780 & 17,36 & 3,214 \\
+        Coat & $\{3,9,12,19,31\}$ & 3.511 & 18,54 & 3,697 \\
+        Sandal & $\{6,22,23,30\}$ & 3.759 & 26,37 & 4,911 \\
+        Shirt & $\{5,12,18,31\}$ & 3.659 & 13,89 & 2,656 \\
+        Sneaker & $\{5,15,24,30\}$ & 3.849 & 21,46 & 3,902 \\
+        Bag & $\{5,12,17\}$ & 3.674 & 25,11 & 4,785 \\
+        Ankle boot & $\{3,10,15,22\}$ & 3.518 & 25,91 & 5,156 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Các tỷ lệ này mô tả đồng xuất hiện của từ thị giác trong ảnh thuộc mỗi lớp. Nhãn lớp được dùng sau khai thác; do codebook và tập mục đều được tạo từ cả tập huấn luyện lẫn kiểm thử, không xem các con số là đánh giá độc lập. Xem \href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/dbadabc4af05070c602b3bcd890150fcd496c885/notebook/UD2/demo/03_transaction_exploration_and_mining.ipynb}{tài liệu phân tích giao dịch trên GitHub} để biết quy tắc chọn, kiểm tra đối chiếu và truy vết.

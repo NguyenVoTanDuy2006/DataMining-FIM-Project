@@ -7,7 +7,7 @@ bắt đầu trực tiếp từ chương, không có tiêu đề, tên cá nhân
 riêng. PDF gồm 2 trang kể cả tài liệu tham khảo; yêu cầu 10–15 trang áp
 dụng cho báo cáo nhóm.
 
-- `../report_tv1.tex`: vỏ biên dịch; `../Report_TV1.pdf`: bản đọc.
+- `Report_TV1.tex`: vỏ biên dịch; `Report_TV1.pdf`: bản đọc.
 - `algorithm.tex`: nội dung Chương I để ghép vào báo cáo chung.
 - Trọng tâm: biểu diễn dọc, DFS, tính đúng đắn, baseline Set, hai kỹ thuật
   tối ưu đã cài đặt (BitVector và lọc singleton trước cấp phát), độ phức
@@ -32,8 +32,8 @@ Chạy từ repo root, hai lượt để cập nhật dẫn chiếu:
 ```sh
 mkdir -p /tmp/eclat-tv1
 cd docs
-xelatex -interaction=nonstopmode -halt-on-error -jobname=Report_TV1 -output-directory=/tmp/eclat-tv1 report_tv1.tex
-xelatex -interaction=nonstopmode -halt-on-error -jobname=Report_TV1 -output-directory=/tmp/eclat-tv1 report_tv1.tex
+xelatex -interaction=nonstopmode -halt-on-error -jobname=Report_TV1 -output-directory=/tmp/eclat-tv1 Report_TV1.tex
+xelatex -interaction=nonstopmode -halt-on-error -jobname=Report_TV1 -output-directory=/tmp/eclat-tv1 Report_TV1.tex
 cp /tmp/eclat-tv1/Report_TV1.pdf Report_TV1.pdf
 ```
 
@@ -43,7 +43,7 @@ Trong vỏ báo cáo nhóm, thêm package `algorithmic` và các lệnh đổi n
 Đầu vào/Đầu ra từ vỏ TV1. Sau phần mở đầu, dùng lần lượt:
 
 ```tex
-\input{report_tv1/algorithm}
+\input{algorithm}
 \input{report_tv2/benchmark}
 \input{report_tv2/groceries}
 ```

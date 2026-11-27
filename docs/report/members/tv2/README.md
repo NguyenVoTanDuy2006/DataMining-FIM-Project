@@ -6,7 +6,7 @@ tham khảo. Đã kiểm tra trực quan PDF; đối chiếu đủ 56 dòng củ
 với CSV. Lượt biên dịch cuối không có lỗi tràn hộp, thiếu ký tự hay dẫn chiếu
 chưa xác định. Không chạy lại unit test/benchmark vì chỉ bổ sung tài liệu.
 
-Mở [Report_TV2.pdf](../Report_TV2.pdf). Đây là phần Chương II (benchmark) và
+Mở [Report_TV2.pdf](Report_TV2.pdf). Đây là phần Chương II (benchmark) và
 III.A (Groceries), không phải báo cáo nhóm đầy đủ. Yêu cầu 10–15 trang của đề
 áp dụng cho bản nhóm, không áp dụng riêng phần này. Nội dung bắt đầu trực tiếp
 từ Chương II; không có tiêu đề riêng, tên cá nhân, abstract, từ khóa hay tổng
@@ -16,7 +16,7 @@ kết công việc. Abstract và từ khóa chỉ đặt một lần ở đầu 
 
 Nếu cần tạo lại hình khổ một cột từ CSV, chạy `python scripts/plot_report.py`
 tại repo root trước khi biên dịch. Script chỉ đọc CSV và vẽ năm PNG trong
-`docs/report_tv2/figures/`, không chạy mining hoặc tạo nội dung báo cáo.
+`docs/report/members/tv2/figures/`, không chạy mining hoặc tạo nội dung báo cáo.
 
 Cần XeLaTeX, Times New Roman, Arial, Consolas và các package chuẩn trong
 preamble. Chạy từ thư mục gốc repo bằng PowerShell:
@@ -25,7 +25,7 @@ preamble. Chạy từ thư mục gốc repo bằng PowerShell:
 Set-Location docs
 New-Item -ItemType Directory -Force ../.build/report_tv2 | Out-Null
 1..2 | ForEach-Object {
-    xelatex --disable-installer -interaction=nonstopmode -halt-on-error -file-line-error '-jobname=Report_TV2' '-output-directory=../.build/report_tv2' report_tv2.tex
+    xelatex --disable-installer -interaction=nonstopmode -halt-on-error -file-line-error '-jobname=Report_TV2' '-output-directory=../.build/report_tv2' Report_TV2.tex
     if ($LASTEXITCODE -ne 0) { throw 'XeLaTeX failed' }
 }
 Copy-Item -LiteralPath ../.build/report_tv2/Report_TV2.pdf -Destination Report_TV2.pdf
@@ -40,15 +40,15 @@ Vietnamese; nội dung dùng Times New Roman do fontspec thiết lập sau đó.
 
 ## Ghép vào báo cáo nhóm
 
-- Dùng XeLaTeX và preamble tương thích của `report_tv2.tex`. Giữ các macro
+- Dùng XeLaTeX và preamble tương thích của `Report_TV2.tex`. Giữ các macro
   `\bv`, `\st`, hai môi trường `reportfigure`, `reporttable` và graphicspath
-  `report_tv2/figures/` (từ thư mục `docs/`). Hai môi trường giữ hình/bảng nhỏ
+  `figures/` (từ thư mục `docs/`). Hai môi trường giữ hình/bảng nhỏ
   trong luồng nội dung thay vì cho trôi sang phần khác.
-- Sau Chương I, thêm `\input{report_tv2/benchmark}` để tạo Chương II.
+- Sau Chương I, thêm `\input{benchmark}` để tạo Chương II.
 - `groceries.tex` chứa `\section{Ứng dụng thực tế}` và `\subsection{Groceries...}`.
   Đưa phần Fashion-MNIST vào sau dưới dạng subsection tiếp theo của Chương III;
   tránh tạo thêm một section Chương III trùng.
-- Ghép các bibitem trong `report_tv2.tex` vào bibliography chung, giữ citation keys
+- Ghép các bibitem trong `Report_TV2.tex` vào bibliography chung, giữ citation keys
   hoặc đổi đồng bộ. File chính chỉ là vỏ để xem PDF; khi ghép dùng các input nội
   dung, không sao chép preamble, document hoặc lệnh ngắt trang của vỏ.
 - Chỉ có hai file nội dung: `benchmark.tex` và `groceries.tex`; các bảng nằm

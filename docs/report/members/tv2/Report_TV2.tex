@@ -1,4 +1,4 @@
-% Compile from docs/: xelatex --disable-installer -jobname=Report_TV2 report_tv2.tex
+% Compile here: xelatex --disable-installer -jobname=Report_TV2 Report_TV2.tex
 \documentclass[conference,a4paper]{IEEEtran}
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
@@ -7,7 +7,7 @@
 \usepackage[vietnamese]{babel}
 \usepackage{amsmath,amssymb,graphicx,booktabs,array,url}
 \usepackage[hidelinks,unicode]{hyperref}
-\graphicspath{{report_tv2/figures/}{../results/benchmarks/}}
+\graphicspath{{figures/}{../../../../results/benchmarks/}}
 \renewcommand{\figurename}{Hình}
 \renewcommand{\tablename}{Bảng}
 \renewcommand{\refname}{Tài liệu tham khảo}
@@ -27,8 +27,8 @@
 \begin{document}
 \raggedbottom
 \setcounter{section}{1}
-\input{report_tv2/benchmark}
-\input{report_tv2/groceries}
+\input{benchmark}
+\input{groceries}
 \newpage
 \begin{thebibliography}{9}
 \bibitem{zaki} M. J. Zaki, ``Scalable Algorithms for Association Mining,'' \emph{IEEE Transactions on Knowledge and Data Engineering}, vol. 12, no. 3, pp. 372--390, 2000, doi: 10.1109/69.846291.
