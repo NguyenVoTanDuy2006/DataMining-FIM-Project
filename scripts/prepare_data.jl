@@ -12,6 +12,7 @@ include("groceries_demo.jl")
 end
 
 const ROOT = normpath(joinpath(@__DIR__, ".."))
+const BENCHMARK_BASE_URL = "https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks/resolve/92ce74f1107250b7c8cd79df07ba415df58ca98d"
 const CHECKSUMS = (
     ("chess", "a12ea887df58a396709430af5bf0a9a32d1f6eba8e7c13dd41f28b98572c5db2"),
     ("mushroom", "6cf94bc482712c3936f0b40c921381ab2b776c3d9941880fecac4d83ca5cbeb5"),
@@ -41,7 +42,7 @@ end
 function main(args=ARGS)
     isempty(args) || throw(ArgumentError("Usage: julia --project=. scripts/prepare_data.jl"))
     for (name, digest) in CHECKSUMS
-        verified_download("https://fimi.uantwerpen.be/data/$name.dat",
+        verified_download("$BENCHMARK_BASE_URL/$name.dat",
             joinpath(ROOT, "data", "benchmark", "raw", "$name.dat"), digest)
     end
     verified_download(

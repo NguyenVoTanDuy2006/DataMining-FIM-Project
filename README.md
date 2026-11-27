@@ -35,6 +35,14 @@ dự án trong terminal PowerShell, không nhập vào dấu nhắc `julia>`.
 
 Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.
 
+Bốn benchmark Chess, Mushroom, Retail và T10I4D100K được lưu công khai tại
+[Hugging Face: Yelgsef/fimi-eclat-benchmarks](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks).
+Chạy `julia --project=. scripts/prepare_data.jl` để tải và chuẩn hóa dữ liệu.
+Downloader ghim phiên bản `92ce74f1107250b7c8cd79df07ba415df58ca98d`,
+xác minh SHA-256 và giữ nguyên dữ liệu đã có nếu checksum đúng. Bản lưu khớp từng
+byte với dữ liệu FIMI dùng cho thực nghiệm; Mushroom có 8.124 giao dịch.
+Xem [nguồn, checksum và điều kiện sử dụng](docs/benchmark_data.md).
+
 The core API is:
 
 ```julia
