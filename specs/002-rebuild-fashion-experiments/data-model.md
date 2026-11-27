@@ -46,7 +46,7 @@ One K-means result for a canonical `(K, seed)` pair.
 | `seed` | Integer | One of 42, 123, 2026 |
 | `fit_scope` | String | All retained descriptors; no image or descriptor sampling |
 | `algorithm` | String | Existing raw full-batch K-means implementation with K-means++ initialization |
-| `max_iterations` / `tolerance` | Number | 300 / `1e-4` |
+| `max_iterations` / `tolerance` | Number | 1,000 / `1e-4` |
 | `status` | Enum | `COMPLETED`, `FAILED`, or `NOT_RUN` |
 | `converged` / `iterations` | Boolean / Integer | Actual fit outcome; never infer convergence from status alone |
 | `metrics` | Object | Distortion, occupancy, empty clusters, top-cluster share, entropy, and available stability evidence |

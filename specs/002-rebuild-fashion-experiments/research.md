@@ -9,9 +9,9 @@
 - **Alternatives considered**: Upload previously generated S0 runs or only refit from saved descriptors. Both omit part of the requested reproducible experiment and make results depend on untracked prior outputs.
 - **Evidence**: `configs/transactions/combined_full.toml`, `FashionTC.jl`, and `transaction_construction/pipeline/` define the existing pipeline and configuration. `dataset/FashionMNIST.jl` provides download, checksum verification, and IDX loading.
 
-### 2. Preserve the release preprocessing and fit settings
+### 2. Use the full-data preprocessing and fit settings
 
-- **Decision**: Use all 70,000 images; non-overlapping 4×4 patches; strict pixel threshold `>29`; raw, normalized 16-dimensional Float32 descriptors; full retained-descriptor fitting; K-means++ with squared Euclidean distance; 300 iterations and tolerance `1e-4`; CPU execution.
+- **Decision**: Use all 70,000 images; non-overlapping 4×4 patches; strict pixel threshold `>29`; raw, normalized 16-dimensional Float32 descriptors; full retained-descriptor fitting; K-means++ with squared Euclidean distance; at most 1,000 iterations and tolerance `1e-4`; CPU execution.
 - **Rationale**: These settings are already recorded in the full combined configuration and match the user-approved search. The feature changes orchestration and reporting, not experiment semantics.
 - **Alternatives considered**: Sampling descriptors, changing the threshold, or adding a quantized/weighted K-means variant would create a different experiment and are out of this feature's scope.
 
