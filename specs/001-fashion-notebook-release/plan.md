@@ -53,7 +53,7 @@ specs/001-fashion-notebook-release/
 ### Source and release artifacts
 
 ```text
-notebook/UD2/
+notebooks/fashion-mnist/
 ├── release/
 │   ├── 01_dataset_validation.ipynb
 │   ├── 02_transaction_construction.ipynb
@@ -78,7 +78,7 @@ results/fashion/release/<run_id>/                    # ignored per-run outputs
 README.md                                             # release entry point/run guide
 ```
 
-**Structure Decision**: Promote/adapt the current dataset, TC construction, mining, and visual interpretation notebooks into `notebook/UD2/release/` in run order. Keep only the three explicitly deferred notebooks in `notebook/UD2/experiments/`. Reuse existing package modules and Python helpers; add no new application layer. A run ID created by Notebook 01 scopes every later notebook output under `results/fashion/release/<run_id>/`.
+**Structure Decision**: Promote/adapt the current dataset, TC construction, mining, and visual interpretation notebooks into `notebooks/fashion-mnist/archive/release/` in run order. Keep only the three explicitly deferred notebooks in `notebooks/fashion-mnist/archive/experiments/`. Reuse existing package modules and Python helpers; add no new application layer. A run ID created by Notebook 01 scopes every later notebook output under `results/fashion/release/<run_id>/`.
 
 ## Implementation Sequence & Validation Gates
 

@@ -49,7 +49,7 @@ Repository code, configs, notebooks, tests, and `docs/plan.md` were treated as t
 
 ### 7. Promote the four primary notebooks and update their narrative
 
-- **Decision**: Adapt the current dataset, TC, FIM mining, and visual interpretation notebooks into `notebook/UD2/release/`; retain only the TC4 vector benchmark, spatial extension, and EDA2 notebook under `experiments/`.
+- **Decision**: Adapt the current dataset, TC, FIM mining, and visual interpretation notebooks into `notebooks/fashion-mnist/archive/release/`; retain only the TC4 vector benchmark, spatial extension, and EDA2 notebook under `experiments/`.
 - **Rationale**: The current primary notebooks are in `experiments/`, while README links point to older root-level notebook paths. The release needs one unambiguous four-step entry point and Markdown setup/explanation immediately before each code cell.
 - **Alternatives considered**: Keep all seven notebooks in the release directory; rejected because the user explicitly deferred three. Keep stale README links; rejected because clean-checkout users would not find the release sequence.
 
@@ -62,7 +62,7 @@ Repository code, configs, notebooks, tests, and `docs/plan.md` were treated as t
 - `src/applications/Fashion-Mnist/mining/scripts/run_mining_worker.jl`: invokes the default Set backend and rejects empty production transactions today.
 - `src/fashion_fim/FashionFIMWorkflow.jl`: transaction loader currently stores numeric `image_id` values.
 - `src/applications/Fashion-Mnist/mining/scripts/analysis.py`: existing v1.3 deterministic nine-cell representative selector; `src/applications/Fashion-Mnist/mining/scripts/interpretation.py` provides patch witnesses, retrieval, class counts, galleries, and review output.
-- `notebook/UD2/experiments/`: contains the seven current Fashion notebooks; four are promoted, three remain deferred.
+- `notebooks/fashion-mnist/archive/experiments/`: contains the seven current Fashion notebooks; four are promoted, three remain deferred.
 - `README.md`: current links do not identify the new release directory.
 - `docs/plan.md`: shared Eclat input/output contract and Fashion transaction expectations were reviewed before proposing data-boundary changes.
 

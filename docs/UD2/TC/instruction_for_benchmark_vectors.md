@@ -7,7 +7,7 @@ Nhiệm vụ của bạn là **thực thi notebook benchmark K-means thay cho ng
 Notebook:
 
 ```text
-/run/media/fernir/Data/Documents/HCMUS/SEMESTER7/DataMining/TeamProject-FrequentItemsetMining/notebook/UD2/04_tc4_vector_pre_kmeans_tradeoff_60k.ipynb
+/run/media/fernir/Data/Documents/HCMUS/SEMESTER7/DataMining/TeamProject-FrequentItemsetMining/notebooks/fashion-mnist/04_tc4_vector_pre_kmeans_tradeoff_60k.ipynb
 ```
 
 Chạy lần lượt các giá trị:

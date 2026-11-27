@@ -6,7 +6,7 @@
 
 **Status**: Draft
 
-**Input**: User description: Release four Fashion-MNIST notebooks that validate the dataset, build S0 transactions using B0/K=32/seed=123, compare Set and BitVector Eclat results, and visually interpret selected patterns. Keep the TC4 benchmark, spatial encoding, and EDA2 notebooks in `notebook/UD2/experiments/`.
+**Input**: User description: Release four Fashion-MNIST notebooks that validate the dataset, build S0 transactions using B0/K=32/seed=123, compare Set and BitVector Eclat results, and visually interpret selected patterns. Keep the TC4 benchmark, spatial encoding, and EDA2 notebooks in `notebooks/fashion-mnist/archive/experiments/`.
 
 ## Clarifications
 
@@ -91,7 +91,7 @@ A project researcher uses mined itemsets to inspect their visual-word centroids,
 
 ### Functional Requirements
 
-- **FR-001**: The release MUST provide four notebooks in `notebook/UD2/release/`, numbered and named in execution order: `01_dataset_validation.ipynb`, `02_transaction_construction.ipynb`, `03_frequent_itemset_mining.ipynb`, and `04_visual_interpretation.ipynb`.
+- **FR-001**: The release MUST provide four notebooks in `notebooks/fashion-mnist/archive/release/`, numbered and named in execution order: `01_dataset_validation.ipynb`, `02_transaction_construction.ipynb`, `03_frequent_itemset_mining.ipynb`, and `04_visual_interpretation.ipynb`.
 - **FR-002**: Each notebook MUST begin with its purpose, execution conditions, inputs, and outputs.
 - **FR-003**: Each code cell MUST be immediately preceded by a Markdown cell that explains the code cell's purpose, required data, and output to inspect.
 - **FR-004**: The release notebooks MUST share a unique per-run output directory under `results/fashion/release/`; the first notebook creates the run identity, and later notebooks consume that run's artifacts.
@@ -113,7 +113,7 @@ A project researcher uses mined itemsets to inspect their visual-word centroids,
 - **FR-020**: Interpretation MUST verify its manifests and hashes, render 4×4 centroids and source patches, show supporting-image evidence and available contrast images, and report class distributions.
 - **FR-021**: For each interpreted itemset, the number of retrieved supporting images MUST be checked against its support count; mismatches MUST be shown as audit failures.
 - **FR-022**: Interpretation MUST export a sample review sheet and a run report whose review status remains pending until human comments are recorded.
-- **FR-023**: The TC4 vector-tradeoff benchmark, spatial-encoding notebook, and EDA2 notebook MUST remain in `notebook/UD2/experiments/` and MUST NOT be part of the four-notebook release sequence.
+- **FR-023**: The TC4 vector-tradeoff benchmark, spatial-encoding notebook, and EDA2 notebook MUST remain in `notebooks/fashion-mnist/archive/experiments/` and MUST NOT be part of the four-notebook release sequence.
 - **FR-024**: The project README MUST link to the four release notebooks, identify their handoff artifacts, and explain how to rerun them when input data is missing.
 
 ### Key Entities *(include if feature involves data)*

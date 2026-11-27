@@ -210,16 +210,16 @@ Run these notebooks in order from fresh Julia kernels. Notebook 01 creates a
 run ID; notebooks 02–04 consume artifacts under the same
 `results/fashion/release/<run_id>/` directory.
 
-1. [01 — Dataset validation](notebook/UD2/release/01_dataset_validation.ipynb):
+1. [01 — Dataset validation](notebooks/fashion-mnist/archive/release/01_dataset_validation.ipynb):
    downloads or reuses the four official archives, verifies SHA-256 and IDX
    dimensions/counts, displays one image per class, and writes
    `dataset/dataset_manifest.toml`.
-2. [02 — Transaction construction](notebook/UD2/release/02_transaction_construction.ipynb):
+2. [02 — Transaction construction](notebooks/fashion-mnist/archive/release/02_transaction_construction.ipynb):
    builds S0 using one B0 codebook with K=32 and seed 123 across all 70,000
    images. Its handoff is `transactions/tc7_manifest.toml`, containing hashes
    and paths for transactions, codebook, centroids, assignments, image mapping,
    metadata, config, and integrity report.
-3. [03 — Frequent itemset mining](notebook/UD2/release/03_frequent_itemset_mining.ipynb):
+3. [03 — Frequent itemset mining](notebooks/fashion-mnist/archive/release/03_frequent_itemset_mining.ipynb):
    compares Set and BitVector at 80%, 60%, 40%, 20%, 10%, and 5% support.
    `mining/comparison.csv` reports itemset counts, exact parity, runtime, peak
    RSS, and job status. It automatically selects four representative Set
@@ -232,7 +232,7 @@ run ID; notebooks 02–04 consume artifacts under the same
    buckets and diversity score, and `mining/selected_itemsets.csv` for the
    Notebook 04 handoff. The full `itemset_selection_candidates.csv` is an
    audit catalog; no manual edits are needed.
-4. [04 — Visual interpretation](notebook/UD2/release/04_visual_interpretation.ipynb):
+4. [04 — Visual interpretation](notebooks/fashion-mnist/archive/release/04_visual_interpretation.ipynb):
    traces the automatically selected 3–4 patterns to centroids, source patches,
    images, and class counts, then writes a review sheet and a report marked
    `PENDING_REVIEW`.

@@ -20,25 +20,11 @@ data/processed/**
 data/benchmark/**
 !data/benchmark/.gitkeep
 
-# Ignore generated outputs except selected benchmark, Groceries, and Fashion reports
-results/*
-!results/.gitkeep
-!results/benchmarks/
-!results/groceries/
-!results/fashion/
-results/fashion/*
-!results/fashion/.gitkeep
-!results/fashion/tc/
-!results/fashion/colab_report_20261125/
-results/fashion/tc/*
-!results/fashion/tc/tc4_vector_tradeoff_60k/
-!results/fashion/tc/tc4_weighted_kmeans_k16/
-!results/fashion/tc/tc4_weighted_kmeans_k32/
-!results/fashion/tc/tc4_weighted_kmeans_k64/
-!results/fashion/tc/tc4_weighted_kmeans_k128/
-!results/fashion/tc/tc4_weighted_kmeans_k256/
-results/**/tmp/
-results/fashion/eda1/[0-9]*
+# Local experiment outputs and generated artifacts
+/results/
+
+# Feature specification drafts
+/specs/
 
 # Local agent configuration
 .agents/
