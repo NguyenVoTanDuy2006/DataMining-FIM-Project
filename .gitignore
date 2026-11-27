@@ -21,7 +21,14 @@ data/benchmark/**
 !data/benchmark/.gitkeep
 
 # Local experiment outputs and generated artifacts
-/results/
+# Ignore generated results except the TC6 Fashion-MNIST result bundle.
+/results/*
+!/results/fashion/
+results/fashion/*
+!/results/fashion/tc/
+results/fashion/tc/*
+!/results/fashion/tc/tc6_configs/
+!/results/fashion/tc/tc6_configs/**
 
 # Feature specification drafts
 /specs/

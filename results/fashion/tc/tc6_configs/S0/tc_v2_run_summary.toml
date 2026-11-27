@@ -1,0 +1,30 @@
+method = "raw_full_batch_kmeans"
+elapsed_seconds = 6764.865486860275
+status = "COMPLETED"
+mode = "full"
+codebook_count = 42
+run_ids = ["FashionMNIST_T2_S0_B0_K16_seed42", "FashionMNIST_T2_S0_B0_K16_seed123", "FashionMNIST_T2_S0_B0_K16_seed2026", "FashionMNIST_T2_S0_B0_K32_seed42", "FashionMNIST_T2_S0_B0_K32_seed123", "FashionMNIST_T2_S0_B0_K32_seed2026", "FashionMNIST_T2_S0_B0_K64_seed42", "FashionMNIST_T2_S0_B0_K64_seed123", "FashionMNIST_T2_S0_B0_K64_seed2026", "FashionMNIST_T2_S0_B0_K16_seed42", "FashionMNIST_T2_S0_B0_K16_seed123", "FashionMNIST_T2_S0_B0_K16_seed2026", "FashionMNIST_T2_S0_B0_K32_seed42", "FashionMNIST_T2_S0_B0_K32_seed123", "FashionMNIST_T2_S0_B0_K32_seed2026", "FashionMNIST_T2_S0_B0_K64_seed42", "FashionMNIST_T2_S0_B0_K64_seed123", "FashionMNIST_T2_S0_B0_K64_seed2026", "FashionMNIST_T2_S0_B0_K16_seed42", "FashionMNIST_T2_S0_B0_K16_seed123", "FashionMNIST_T2_S0_B0_K16_seed2026", "FashionMNIST_T2_S0_B0_K32_seed42", "FashionMNIST_T2_S0_B0_K32_seed123", "FashionMNIST_T2_S0_B0_K32_seed2026", "FashionMNIST_T2_S0_B0_K64_seed42", "FashionMNIST_T2_S0_B0_K64_seed123", "FashionMNIST_T2_S0_B0_K64_seed2026", "FashionMNIST_T2_S0_B0_K16_seed42", "FashionMNIST_T2_S0_B0_K16_seed123", "FashionMNIST_T2_S0_B0_K16_seed2026", "FashionMNIST_T2_S0_B0_K32_seed42", "FashionMNIST_T2_S0_B0_K32_seed123", "FashionMNIST_T2_S0_B0_K32_seed2026", "FashionMNIST_T2_S0_B0_K64_seed42", "FashionMNIST_T2_S0_B0_K64_seed123", "FashionMNIST_T2_S0_B0_K64_seed2026", "FashionMNIST_T2_S0_B0_K128_seed42", "FashionMNIST_T2_S0_B0_K128_seed123", "FashionMNIST_T2_S0_B0_K128_seed2026", "FashionMNIST_T2_S0_B0_K256_seed42", "FashionMNIST_T2_S0_B0_K256_seed123", "FashionMNIST_T2_S0_B0_K256_seed2026"]
+image_count = 70000
+
+[checks]
+tc4_FashionMNIST_T2_S0_B0_K64_seed42 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K64_seed2026 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K64_seed123 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K256_seed123 = "NON_CONVERGED"
+tc4_codebooks_and_metrics = "PASS"
+tc4_FashionMNIST_T2_S0_B0_K16_seed2026 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K256_seed42 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K128_seed2026 = "FITTED"
+tc5_hard_assignments = "PASS"
+tc4_FashionMNIST_T2_S0_B0_K256_seed2026 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K16_seed42 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K128_seed42 = "NON_CONVERGED"
+tc6_s0_transactions = "PASS"
+tc1_patch_geometry_and_mapping = "PASS"
+tc4_FashionMNIST_T2_S0_B0_K16_seed123 = "FITTED"
+tc2_foreground_filter = "PASS"
+tc4_FashionMNIST_T2_S0_B0_K32_seed2026 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K32_seed42 = "FITTED"
+tc4_FashionMNIST_T2_S0_B0_K128_seed123 = "FITTED"
+tc3_raw_descriptor_contract = "PASS"
+tc4_FashionMNIST_T2_S0_B0_K32_seed123 = "FITTED"

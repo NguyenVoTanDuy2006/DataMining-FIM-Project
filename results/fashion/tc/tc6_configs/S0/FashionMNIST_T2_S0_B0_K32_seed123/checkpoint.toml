@@ -1,0 +1,15 @@
+fingerprint = "1bf38ca12dafe7d88b5530201c90caf34a3596ced5044dfe540d4b617fabb835"
+codebook_sha256 = "5b96dfd8a21c4cd0f7354fe66547dd94272a802518a49702a881f22adafcca83"
+julia_version = "1.13.3"
+method = "raw_full_batch_kmeans"
+seed = 123
+fit_status = "FITTED"
+library_version = "0.15.8"
+converged = true
+library = "Clustering.jl"
+iterations = 139
+k = 32
+completed_at_unix = 1.794933845547848e9
+run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+status = "COMPLETED"
+fit_seconds = 53.08525800704956
