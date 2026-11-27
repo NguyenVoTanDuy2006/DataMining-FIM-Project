@@ -12,8 +12,8 @@ Xem [báo cáo nhóm](docs/Report.pdf) và [hướng dẫn biên dịch](docs/re
 
 Bắt đầu với [demo Eclat, Groceries và benchmark](#demo-eclat-groceries-và-benchmark-trên-google-colab)
 hoặc [ba notebook Fashion-MNIST](#demo-fashion-mnist-trên-google-colab).
-Notebook Eclat đã chạy đầy đủ trên Linux local; việc xác nhận trên Colab đang
-được thực hiện. Các nguồn benchmark được lưu trên
+Notebook Eclat đã chạy đầy đủ trên Linux local và VM Colab CPU bằng kernel
+Julia qua Jupyter; chi tiết kiểm chứng nằm ở phần demo bên dưới. Các nguồn benchmark được lưu trên
 [Hugging Face](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks).
 
 ## Julia setup
@@ -111,30 +111,31 @@ Notebook demo tạo mới cả năm đáp án SPMF trước khi chạy test.
 
 Theo [đề bài](docs/itemset.md), auto test phải bao phủ ít nhất 5 CSDL, khớp SPMF, và output lần chạy cuối phải có trong README. File `test_benchmark.jl` trong cấu trúc gợi ý không có nghĩa là bắt buộc unit test từng hàm đo runtime, Peak RAM hoặc sinh CSV.
 
-Lần chạy notebook local ngày 2026-11-27 trên Julia 1.13.3 / Linux: **569/569 assertions pass**.
+Lần chạy ngày 2026-11-27 trên VM Colab CPU / Julia 1.12.6: **569/569 assertions pass**.
+Notebook dùng source ghim tại commit `c93fed0c436275e51f8672f6e7e8182d9b855040`.
 Set và BitVector khớp toàn bộ itemset/support với SPMF trên năm CSDL đầy đủ.
 Python release tests: **16/16 pass**; kiểm tra cấu trúc bốn notebook release: **PASS**.
 
 <details>
-<summary>Output tham khảo của julia --project=. test/runtests.jl (2026-11-24)</summary>
+<summary>Output test Julia trên Colab ngày 2026-11-27 (phần kết quả kiểm thử)</summary>
 
 ```text
 Test Summary:                    | Pass  Total  Time
-Eclat correctness and edge cases |   22     22  1.8s
+Eclat correctness and edge cases |   22     22  5.3s
 Test Summary:                 | Pass  Total  Time
-SPMF I/O and exact comparison |   11     11  1.2s
+SPMF I/O and exact comparison |   11     11  3.6s
 Test Summary:              | Pass  Total  Time
-Groceries - xu ly gio hang |   10     10  0.2s
+Groceries - xu ly gio hang |   10     10  0.8s
 Test Summary:            | Pass  Total  Time
-Luat ket hop - cong thuc |   11     11  0.1s
+Luat ket hop - cong thuc |   11     11  0.3s
 Test Summary:                 | Pass  Total  Time
-Luat ket hop - tap con hop le |    7      7  0.4s
+Luat ket hop - tap con hop le |    7      7  2.0s
 Test Summary:              | Pass  Total  Time
-Luat ket hop - sinh va loc |   59     59  0.8s
+Luat ket hop - sinh va loc |   59     59  2.4s
 Test Summary:                                 | Pass  Total  Time
-BitVector singleton pruning before allocation |   18     18  0.4s
+BitVector singleton pruning before allocation |   18     18  0.9s
 Test Summary:                                          | Pass  Total  Time
-Pruned BitVector matches independent exhaustive oracle |  280    280  0.5s
+Pruned BitVector matches independent exhaustive oracle |  280    280  1.6s
 Groceries / set: matched=333/333; missing=0; extra=0; support_mismatches=0
 Groceries / bitvector: matched=333/333; missing=0; extra=0; support_mismatches=0
 Chess / set: matched=1386/1386; missing=0; extra=0; support_mismatches=0
@@ -146,27 +147,27 @@ Retail / bitvector: matched=18/18; missing=0; extra=0; support_mismatches=0
 T10I4D100K / set: matched=237/237; missing=0; extra=0; support_mismatches=0
 T10I4D100K / bitvector: matched=237/237; missing=0; extra=0; support_mismatches=0
 Test Summary:                | Pass  Total  Time
-Correctness SPMF tren 5 CSDL |   22     22  2.6s
+Correctness SPMF tren 5 CSDL |   22     22  8.6s
 Test Summary:           | Pass  Total  Time
-Fashion-MNIST IDX input |   17     17  0.6s
+Fashion-MNIST IDX input |   17     17  1.9s
 Test Summary:                    | Pass  Total  Time
-Verified Fashion-MNIST downloads |    7      7  0.1s
+Verified Fashion-MNIST downloads |    7      7  0.3s
 Test Summary:                  | Pass  Total  Time
 Stable Fashion-MNIST image IDs |   12     12  0.0s
 Test Summary:                             | Pass  Total  Time
-Fashion-MNIST dataset manifest round trip |   11     11  0.4s
+Fashion-MNIST dataset manifest round trip |   11     11  4.5s
 Test Summary:                        | Pass  Total  Time
-Fashion transaction input validation |    9      9  0.3s
-Test Summary:            | Pass  Total  Time
-Fashion-MNIST TC helpers |   39     39  3.8s
+Fashion transaction input validation |    9      9  0.8s
+Test Summary:            | Pass  Total   Time
+Fashion-MNIST TC helpers |   39     39  11.9s
 Test Summary:                         | Pass  Total  Time
-Release Fashion-FIM transaction input |    9      9  0.4s
+Release Fashion-FIM transaction input |    9      9  1.7s
 Test Summary:                | Pass  Total  Time
-Fashion TC6 spatial encoding |    1      1  0.2s
+Fashion TC6 spatial encoding |    1      1  0.7s
 Test Summary:                    | Pass  Total  Time
-EDA2 input and mining invariants |   18     18  0.7s
+EDA2 input and mining invariants |   18     18  3.0s
 Test Summary:                                   | Pass  Total  Time
-Verified input download preserves existing data |    6      6  0.1s
+Verified input download preserves existing data |    6      6  0.2s
 ```
 
 </details>
@@ -205,13 +206,27 @@ Source ghim chứa script chuẩn hóa cũ; notebook tải trước đúng bốn
 Hugging Face ghim, nên bước chuẩn hóa tái sử dụng các file đã xác minh mà không
 cần tải lại từ FIMI. Ba notebook Fashion-MNIST riêng nằm ở phần tiếp theo.
 
-Kiểm tra ngày 2026-11-27 trên Linux local/IJulia 1.13.3: **12/12 ô Julia
-chạy thành công**, 569 assertions pass, 84 mẫu runtime, 8 mẫu Peak RAM,
-10 mẫu scalability và 10 mẫu độ dài giao dịch. Cả bốn script kiểm tra/vẽ
-biểu đồ và bước đóng gói kết quả đều hoàn tất. Đây là kiểm tra local với
-một lượt đo mỗi cấu hình, đã kiểm tra nhánh tự tải Java 25 từ Java 21,
-chưa phải xác nhận chạy trên Google Colab. Kiểm tra nhanh các nhánh phục hồi:
-`python test/check_colab_notebook.py`.
+Kiểm chứng ngày 2026-11-27 trên **VM Colab CPU Standard, Julia 1.12.6**:
+**12/12 ô code chạy thành công, 569 assertions pass**, đủ 84 mẫu runtime,
+8 mẫu Peak RAM, 10 mẫu scalability, 10 mẫu độ dài giao dịch và 10 file PNG/SVG.
+Gói kết quả có 69 mục, bao gồm log test, môi trường, tham chiếu SPMF và đầu ra
+Groceries. Lần chạy dùng `BENCHMARK_RUNS = 1` để kiểm tra luồng; không thay
+số liệu năm lượt đo trong báo cáo.
+
+Colab CLI cấp phát VM; Jupyter trong VM thực thi notebook bằng kernel `julia`.
+Lần khởi động lạnh vượt giới hạn chờ 60 giây do biên dịch kernel; chạy lại với
+`startup_timeout = 600` đã hoàn tất. Kết quả này xác nhận thực thi trên VM Colab,
+chưa xác nhận thao tác **Run all** bằng giao diện web Colab. Lần kiểm tra local
+trước đó dùng IJulia 1.13.3 và đã kiểm tra nhánh tự tải Java 25 từ Java 21.
+
+Bằng chứng đã tải về máy, lưu trong `results/colab/notebook_validation/`
+(không đưa vào Git):
+
+- `eclat_groceries_benchmarks.colab.executed.ipynb`: notebook có output.
+- `eclat_groceries_benchmarks.colab.results.tar.gz`: gói kết quả;
+  SHA-256 `b2aa6cc0e4e862aaaabc0ecb64b66a0f1d012d87c95a5b6057ba2b53f9ef568c`.
+
+Kiểm tra nhanh các nhánh phục hồi bằng `python test/check_colab_notebook.py`.
 
 ## Demo Fashion-MNIST trên Google Colab
 
