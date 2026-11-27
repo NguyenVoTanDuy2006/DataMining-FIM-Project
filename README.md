@@ -204,6 +204,38 @@ chưa xác nhận bằng runtime Google Colab. Full-data Fashion demo chưa ch�
 Nếu chạy notebook local, dùng `uv sync --locked` để cài Jupyter và matplotlib
 đã khai báo trong `pyproject.toml`.
 
+## Demo Fashion-MNIST trên Google Colab
+
+Ba notebook demo trình bày quy trình Fashion-MNIST bằng Julia, từ khảo sát ảnh
+đến tạo giao dịch và khai thác tập mục. Mở từng notebook bằng Colab:
+
+| Thứ tự | Notebook | Mở trên Colab |
+|---|---|---|
+| 1 | Khảo sát ảnh và quyết định tiền xử lý | [Notebook 1](https://colab.research.google.com/drive/1cyyfr4Yt410cpJJhl-rI7gDsCWOOXnLs) |
+| 2 | Tạo giao dịch Fashion-MNIST | [Notebook 2](https://colab.research.google.com/drive/1sIsAmpG8UQRmVNxmj6TI6ENCvo7rd-zF) |
+| 3 | Khám phá giao dịch và khai thác tập mục | [Notebook 3](https://colab.research.google.com/drive/1lxDm_OweS1I65y66Vs0qmTk2P3qTy_VK) |
+
+### Cách chạy
+
+1. Trong Colab, chọn runtime CPU rồi chạy từng notebook từ đầu đến cuối. Notebook
+   tự tải source đã ghim và dữ liệu Fashion-MNIST khi cần; lần chạy đầu cần mạng.
+2. Notebook 1 khảo sát 10 ảnh mẫu và minh họa lựa chọn kích thước vùng, lọc nền
+   cùng descriptor. Đây là bước giải thích tiền xử lý; notebook 2 vẫn tự kiểm tra
+   dữ liệu và cấu hình trước khi chạy pipeline.
+3. Notebook 2 chạy pipeline trên 70.000 ảnh với cấu hình $K=32$, seed 123,
+   dung sai 0,0001 và giới hạn tối đa 400 vòng. Khi hoàn tất, tải gói
+   `fashion-demo-<run_id>.tar.gz` từ Files panel của Colab.
+4. Mở notebook 3, tải gói `.tar.gz` vừa tạo lên Files panel (thư mục `/content`),
+   rồi chạy notebook từ đầu đến cuối. Notebook xác minh gói đầu vào, đối chiếu
+   Eclat Set/BitVector, tạo bảng và biểu đồ phân tích, rồi lưu toàn bộ kết quả
+   vào một thư mục duy nhất và nén thành `fashion-demo-analysis.tar.gz`.
+5. Tải `fashion-demo-analysis.tar.gz` về máy trước khi đóng hoặc khởi động lại
+   runtime Colab. Nội dung trong `/content` bị xóa khi runtime kết thúc.
+
+Notebook 3 đọc gói do notebook 2 tạo, không chạy lại bước tạo giao dịch. Nếu
+chỉ muốn xem quy trình tiền xử lý, có thể chạy riêng notebook 1; để phân tích
+đầy đủ cần chạy notebook 2 trước notebook 3.
+
 ## Fashion-MNIST release
 
 Run these notebooks in order from fresh Julia kernels. Notebook 01 creates a
