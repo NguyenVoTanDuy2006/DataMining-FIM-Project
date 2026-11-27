@@ -12,7 +12,7 @@ số hoặc bổ sung nhãn vào giao dịch.
 Kết quả: **9.835 giao dịch, 169 sản phẩm**. Input Eclat nằm ở
 `data/processed/groceries_spmf.txt`; mapping ngược ở `data/processed/item_mapping.csv`.
 Nguồn và SHA-256 của input/tham chiếu được ghi trong
-[metadata kiểm chứng](../results/groceries/groceries_spmf_0.01_metadata.md).
+`results/groceries/groceries_spmf_0.01_metadata.md`.
 Test đối chiếu dữ liệu đầy đủ xác nhận cả Set và BitVector khớp SPMF toàn bộ
 333 itemsets/support tại minsup 1%.
 
@@ -33,7 +33,7 @@ hai vế để kết quả ổn định khi lift bằng nhau. Không dùng thư 
 
 ## Top 10 luật và ý nghĩa kinh doanh
 
-Số liệu dưới đây được làm tròn từ [top10_rules.csv](../results/groceries/top10_rules.csv).
+Số liệu dưới đây được làm tròn từ `results/groceries/top10_rules.csv`.
 Tên sản phẩm giữ theo nguồn để tra mapping; “other vegetables” là một nhóm
 sản phẩm, không phải một mặt hàng cụ thể.
 
@@ -63,7 +63,7 @@ không có danh tính khách, thời gian, giá hay khuyến mãi để giải t
 
 ## Ảnh hưởng của ngưỡng
 
-[parameter_summary.csv](../results/groceries/parameter_summary.csv) ghi đủ 12 cấu hình:
+`results/groceries/parameter_summary.csv` ghi đủ 12 cấu hình:
 
 | Minsup | Itemsets | Luật minconf 30% | Luật minconf 50% | Luật minconf 70% |
 | ---: | ---: | ---: | ---: | ---: |
@@ -88,5 +88,4 @@ julia --project=. test/runtests.jl
 ```
 
 Demo tạo dữ liệu chuẩn hóa, mapping và hai bảng luật. Test dùng thêm bốn CSDL
-benchmark đầy đủ, chuẩn bị theo [README](../README.md). Các bước chuyển đổi
-và demo này cần được ghép vào Colab chung trước khi nộp.
+benchmark đầy đủ, chuẩn bị theo [README](../README.md). Các bước này đã có trong [notebook Julia](../notebooks/eclat_groceries_benchmarks.ipynb).
