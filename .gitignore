@@ -21,8 +21,30 @@ data/benchmark/**
 !data/benchmark/.gitkeep
 
 # Local experiment outputs and generated artifacts
-# Ignore generated results except selected Fashion-MNIST evidence bundles.
+# Keep selected benchmark evidence and Fashion-MNIST result snapshots.
 /results/*
+!/results/benchmarks/
+/results/benchmarks/*
+!/results/benchmarks/processes/
+!/results/benchmarks/peak_ram/
+!/results/benchmarks/scalability/
+!/results/benchmarks/transaction_length/
+/results/benchmarks/processes/*
+/results/benchmarks/peak_ram/*
+/results/benchmarks/scalability/*
+/results/benchmarks/transaction_length/*
+!/results/benchmarks/processes/runs.csv
+!/results/benchmarks/processes/summary.csv
+!/results/benchmarks/processes/metadata.md
+!/results/benchmarks/peak_ram/runs.csv
+!/results/benchmarks/peak_ram/summary.csv
+!/results/benchmarks/peak_ram/metadata.md
+!/results/benchmarks/scalability/runs.csv
+!/results/benchmarks/scalability/summary.csv
+!/results/benchmarks/scalability/metadata.md
+!/results/benchmarks/transaction_length/runs.csv
+!/results/benchmarks/transaction_length/summary.csv
+!/results/benchmarks/transaction_length/metadata.md
 !/results/fashion/
 results/fashion/*
 !/results/fashion/tc/
