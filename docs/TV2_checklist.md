@@ -30,11 +30,12 @@ chạy lại cho hai CSV có SHA-256 không đổi. Cả bốn CLI vẽ đã đ�
 CSV thành công: 420 + 40 + 50 + 50 = 560 mẫu; các CLI chỉ xuất PNG/SVG.
 Output auto test cuối được đính kèm trong README. Chưa chạy Colab ở lần này.
 
-## Việc tích hợp chung còn lại trước khi nộp
+## Tích hợp vào bài nộp
 
-- Ghép Groceries và benchmark vào notebook chung, chạy Colab từ runtime sạch
-  và đặt link công khai trong README (TV3 điều phối, TV2 hỗ trợ).
-- Bổ sung bản lưu trữ benchmark trên Hugging Face/Kaggle và link công khai theo
-  chính sách dữ liệu của đề. Hiện có nguồn FIMI và checksum, chưa có bản lưu trữ đó.
-- Ghép nội dung báo cáo TV2 vào PDF IEEE của nhóm; hoàn tất review chéo/PR
-  trước khi merge. Push nhánh không đồng nghĩa đã merge hoặc nộp bài.
+- Notebook `notebooks/eclat_groceries_benchmarks.ipynb` gộp Groceries và benchmark;
+  link Colab và log 569 assertions ngày 27/11/2026 nằm trong README.
+  Lần chạy đã ghi nhận dùng Colab CLI/Jupyter; chưa xác minh Run all qua giao diện web.
+- Bốn benchmark đã có bản lưu công khai trên Hugging Face; xem
+  [nguồn dữ liệu và checksum](benchmark_data.md).
+- Báo cáo nhóm `docs/Report.pdf` đã ghép Chương I, benchmark và Groceries.
+  Xem [nguồn báo cáo và cách biên dịch](report/README.md).
