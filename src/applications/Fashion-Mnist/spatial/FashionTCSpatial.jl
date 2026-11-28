@@ -471,6 +471,17 @@ end
 
 const NEIGHBOR_PAIRS = _neighbor_pairs()
 
+function _neighbor_geometry_is_bounded()
+    return all(NEIGHBOR_PAIRS) do pair
+        p, q, expected_distance = pair
+        r1, c1 = (p - 1) ÷ 7 + 1, (p - 1) % 7 + 1
+        r2, c2 = (q - 1) ÷ 7 + 1, (q - 1) % 7 + 1
+        1 <= r1 <= 7 && 1 <= c1 <= 7 && 1 <= r2 <= 7 && 1 <= c2 <= 7 &&
+            abs(r1 - r2) + abs(c1 - c2) == expected_distance &&
+            1 <= expected_distance <= 2
+    end
+end
+
 function _encode_s6(observations::Vector{NTuple{3,Int}}, k::Int; image_slot::Int=0,
     witnesses::Dict{Int,Tuple{Int,NTuple{3,Int},NTuple{3,Int}}}=Dict{Int,Tuple{Int,NTuple{3,Int},NTuple{3,Int}}}())
     words = zeros(Int, 49)
@@ -485,6 +496,8 @@ function _encode_s6(observations::Vector{NTuple{3,Int}}, k::Int; image_slot::Int
     end
     items = Int[]
     eligible_pairs = 0
+    eligible_boundary_pairs = 0
+    eligible_corner_pairs = 0
     occurrences = 0
     for (p, q, _) in NEIGHBOR_PAIRS
         wp, wq = words[p], words[q]
@@ -492,6 +505,15 @@ function _encode_s6(observations::Vector{NTuple{3,Int}}, k::Int; image_slot::Int
         eligible_pairs += 1
         rp, cp = (p - 1) ÷ 7 + 1, (p - 1) % 7 + 1
         rq, cq = (q - 1) ÷ 7 + 1, (q - 1) % 7 + 1
+        touches_boundary = rp in (1,7) || rq in (1,7) || cp in (1,7) || cq in (1,7)
+        if touches_boundary
+            eligible_boundary_pairs += 1
+        end
+        corner_p = rp in (1,7) && cp in (1,7)
+        corner_q = rq in (1,7) && cq in (1,7)
+        if corner_p || corner_q
+            eligible_corner_pairs += 1
+        end
         left_obs, right_obs = (rp, cp, wp), (rq, cq, wq)
         if rp != rq
             a, b = rp < rq ? (wp, wq) : (wq, wp)
@@ -509,7 +531,8 @@ function _encode_s6(observations::Vector{NTuple{3,Int}}, k::Int; image_slot::Int
         end
     end
     length(NEIGHBOR_PAIRS) == 226 || error("S6-B neighbor geometry must contain 226 pairs")
-    return sort!(unique!(items)), eligible_pairs, occurrences
+    return sort!(unique!(items)), eligible_pairs, eligible_boundary_pairs,
+        eligible_corner_pairs, occurrences
 end
 
 function _projection(items::Vector{Int}, variant::String, k::Int)
@@ -718,6 +741,8 @@ function _encode_variant(data::SourceData, variant::String, count::Int)
     transactions = Vector{Vector{Int}}(undef, count)
     witnesses = Dict{Int,Tuple{Int,NTuple{3,Int},NTuple{3,Int}}}()
     eligible_pairs = 0
+    eligible_boundary_pairs = 0
+    eligible_corner_pairs = 0
     relation_occurrences = 0
     for i in 1:count
         observations = data.observations[i]
@@ -726,16 +751,19 @@ function _encode_variant(data::SourceData, variant::String, count::Int)
         elseif variant == "S3"
             transactions[i] = _encode_s3(observations, k)
         elseif variant == "S6-B"
-            transactions[i], pairs, occurrences = _encode_s6(observations, k;
+            transactions[i], pairs, boundary_pairs, corner_pairs, occurrences = _encode_s6(observations, k;
                 image_slot=i, witnesses=witnesses)
             eligible_pairs += pairs
+            eligible_boundary_pairs += boundary_pairs
+            eligible_corner_pairs += corner_pairs
             relation_occurrences += occurrences
         else
             error("Unsupported spatial variant: $variant")
         end
     end
     _check_projection(transactions, data, variant, k, count)
-    return transactions, witnesses, eligible_pairs, relation_occurrences
+    return transactions, witnesses, eligible_pairs, eligible_boundary_pairs,
+        eligible_corner_pairs, relation_occurrences
 end
 
 function _read_output_transactions(path::String, mapping::Vector{TIDMapping}, variant::String,
@@ -912,7 +940,7 @@ function _run_one(context::TC6Context, data::SourceData, variant::String, count:
             get(checkpoint, "source_assignments_sha256", "") == data.hashes["patch_assignments.csv"] ||
                 error("Completed output source assignments changed; refusing overwrite: $output_dir")
             empty_witnesses = Dict{Int,Tuple{Int,NTuple{3,Int},NTuple{3,Int}}}()
-            transactions, witnesses, _, _ = _encode_variant(data, variant, count)
+            transactions, witnesses, _, _, _, _ = _encode_variant(data, variant, count)
             if variant == "S6-B"
                 merge!(empty_witnesses, witnesses)
             end
@@ -940,7 +968,8 @@ function _run_one(context::TC6Context, data::SourceData, variant::String, count:
     _write_toml(checkpoint_path, checkpoint)
     try
         encode_started = time()
-        transactions, witnesses, eligible_pairs, occurrences = _encode_variant(data, variant, count)
+        transactions, witnesses, eligible_pairs, eligible_boundary_pairs,
+            eligible_corner_pairs, occurrences = _encode_variant(data, variant, count)
         encode_seconds = time() - encode_started
         _write_transactions(joinpath(output_dir, "transactions.jsonl"), transactions, data.mapping[1:count])
         item_ids = sort!(unique!([item for tx in transactions for item in tx]))
@@ -960,6 +989,8 @@ function _run_one(context::TC6Context, data::SourceData, variant::String, count:
         stats["support_denominator"] = count
         stats["retained_patch_count"] = sum(length(data.observations[i]) for i in 1:count)
         stats["eligible_neighbor_pairs_processed"] = eligible_pairs
+        stats["eligible_boundary_neighbor_pairs_processed"] = eligible_boundary_pairs
+        stats["eligible_corner_neighbor_pairs_processed"] = eligible_corner_pairs
         stats["relation_occurrences_before_dedup"] = occurrences
         stats["observed_item_count"] = length(item_ids)
         stats["encoding_seconds"] = encode_seconds
@@ -991,6 +1022,10 @@ function _run_one(context::TC6Context, data::SourceData, variant::String, count:
             "item_mapping_roundtrip_valid"=>true,
             "support_denominator_valid"=>(check_stats["transaction_count"] == count),
             "empty_and_nonempty_counts_sum"=>(check_stats["empty_count"] + check_stats["nonempty_count"] == count),
+            "s6b_in_bounds_no_wrap_valid"=>(variant != "S6-B" || _neighbor_geometry_is_bounded()),
+            "s6b_boundary_counts_within_capacity"=>(variant != "S6-B" ||
+                (0 <= eligible_corner_pairs <= eligible_boundary_pairs <= eligible_pairs <= 226 * count &&
+                 eligible_boundary_pairs <= 124 * count && eligible_corner_pairs <= 20 * count)),
             "variant_specific_invariant_valid"=>true,
         )
         report = Dict{String,Any}(
@@ -1006,7 +1041,10 @@ function _run_one(context::TC6Context, data::SourceData, variant::String, count:
             "source_assignments_sha256"=>data.hashes["patch_assignments.csv"],
             "source_codebook_sha256"=>data.hashes["codebook.bin"],
             "applicable_checks"=>(variant in ("S1", "S3") ?
-                ["S0 projection equality for every image"] : ["S6-B witness geometry for every observed item"]),
+                ["S0 projection equality for every image"] :
+                ["S6-B witness geometry for every observed item",
+                 "S6-B in-bounds boundary and no-wrap policy",
+                 "S6-B eligible boundary-pair capacity"]),
             "not_applicable_checks"=>(variant in ("S1", "S3") ?
                 ["S6-B witnesses"] : ["S0 projection equality"]),
             "transaction_sha256"=>_sha256(joinpath(output_dir, "transactions.jsonl")),
@@ -1075,18 +1113,26 @@ function run_variant!(context::TC6Context, variant::AbstractString)
     sources = _selected_sources(context)
     isempty(sources) && error("No source runs selected for profile=$(context.profile)")
     for source in sources
-        data = try
-            _load_source(source, context)
-        catch err
-            error("TC6 load failed for $(source.run_id): $(sprint(showerror, err))")
-        end
-        data.hashes["tid_image_mapping.csv"] == context.mapping_hash ||
-            error("TID mapping changed after source preflight for $(source.run_id)")
         started = time()
-        result = _run_one(context, data, variant, count)
+        run_id = _run_id(source, variant, context.profile, count)
+        result = try
+            data = _load_source(source, context)
+            data.hashes["tid_image_mapping.csv"] == context.mapping_hash ||
+                error("TID mapping changed after source preflight for $(source.run_id)")
+            _run_one(context, data, variant, count)
+        catch err
+            get(context.config["execution"], "continue_on_variant_error", false) || rethrow()
+            Dict{String,Any}(
+                "run_id"=>run_id, "source_run_id"=>source.run_id,
+                "variant"=>variant, "k"=>source.k, "seed"=>source.seed,
+                "status"=>"FAILED", "integrity"=>"FAIL", "transaction_count"=>0,
+                "empty_count"=>0, "output_path"=>relpath(_output_run_dir(context, variant, run_id), context.repo_root),
+                "issue"=>sprint(showerror, err), "elapsed_seconds"=>time()-started,
+            )
+        end
         context.results[(source.k, source.seed, variant)] = result
         _write_progress_summary(context)
-        println("[TC6 $(variant)] $(result["status"]) $(result["run_id"]) | records=$(result["transaction_count"]) | empty=$(result["empty_count"]) | source=$(source.path) | output=$(result["output_path"]) | elapsed=$(round(time()-started; digits=2))s")
+        println("[TC6 $(variant)] $(result["status"]) $(result["run_id"]) | records=$(result["transaction_count"]) | source=$(source.path) | elapsed=$(round(time()-started; digits=2))s")
     end
     return sort!(collect(values(filter(pair -> pair.first[3] == variant, context.results))); by=row -> (row["k"], row["seed"]))
 end
@@ -1104,6 +1150,7 @@ function validate_global_integrity!(context::TC6Context)
             "source_mapping_sha256"=>source_row["mapping_sha256"], "source_integrity"=>"PASS"))
     end
     for result in values(context.results)
+        result["status"] == "COMPLETED" || continue
         output_dir = joinpath(context.repo_root, String(result["output_path"]))
         checkpoint = TOML.parsefile(joinpath(output_dir, "checkpoint.toml"))
         integrity = TOML.parsefile(joinpath(output_dir, "integrity_report.toml"))
@@ -1112,8 +1159,10 @@ function validate_global_integrity!(context::TC6Context)
         get(checkpoint, "transaction_sha256", "") == _sha256(joinpath(output_dir, "transactions.jsonl")) ||
             error("Global transaction checksum mismatch for $(result["run_id"])")
     end
-    return Dict("source_runs"=>length(rows), "completed_spatial_runs"=>length(context.results),
-        "source_integrity"=>"PASS", "spatial_integrity"=>"PASS")
+    completed = count(row -> row["status"] == "COMPLETED" && row["integrity"] == "PASS", values(context.results))
+    return Dict("source_runs"=>length(rows), "completed_spatial_runs"=>completed,
+        "failed_spatial_runs"=>length(context.results)-completed,
+        "source_integrity"=>"PASS", "spatial_integrity"=>(completed == length(context.results) ? "PASS" : "PARTIAL"))
 end
 
 function _manifest_source(source::SourceRun, context::TC6Context)
@@ -1194,36 +1243,54 @@ function _hydrate_completed_results!(context::TC6Context)
     return length(context.results)
 end
 
-function finalize_outputs!(context::TC6Context)
+function finalize_outputs!(context::TC6Context; allow_partial=false)
     context.preflight_complete || error("Run TC6 source preflight before finalization")
     _hydrate_completed_results!(context)
     expected_count = context.profile == "full" ? 45 : 3
+    if allow_partial
+        count = _output_limit(context)
+        for source in _selected_sources(context), variant in String.(context.config["tc6_spatial_extension"]["variants_to_generate"])
+            key = (source.k, source.seed, variant)
+            haskey(context.results, key) && continue
+            run_id = _run_id(source, variant, context.profile, count)
+            context.results[key] = Dict{String,Any}(
+                "run_id"=>run_id, "source_run_id"=>source.run_id, "variant"=>variant,
+                "k"=>source.k, "seed"=>source.seed, "status"=>"NOT_RUN",
+                "integrity"=>"NOT_CHECKED", "transaction_count"=>0,
+                "output_path"=>relpath(_output_run_dir(context, variant, run_id), context.repo_root),
+                "issue"=>"No completed or failed checkpoint was found",
+            )
+        end
+    end
     length(context.results) == expected_count ||
-        error("Expected $expected_count spatial outputs, found $(length(context.results))")
-    all(row -> row["status"] == "COMPLETED" && row["integrity"] == "PASS", values(context.results)) ||
-        error("Not all spatial outputs are COMPLETED/PASS")
+        error("Expected $expected_count spatial statuses, found $(length(context.results))")
+    all_completed = all(row -> row["status"] == "COMPLETED" && row["integrity"] == "PASS", values(context.results))
+    (!allow_partial && !all_completed) && error("Not all spatial outputs are COMPLETED/PASS")
     global_report = validate_global_integrity!(context)
     summary = _write_progress_summary(context)
 
     databases = Dict{String,Any}[_manifest_source(source, context) for source in context.sources]
-    for result in sort!(collect(values(context.results)); by=row -> (row["k"], row["seed"], row["variant"]))
-        output_dir = joinpath(context.repo_root, String(result["output_path"]))
-        source = only(filter(item -> item.run_id == result["source_run_id"], context.sources))
-        push!(databases, Dict{String,Any}(
-            "database_id"=>result["run_id"], "variant"=>result["variant"], "method"=>"B0",
-            "k"=>result["k"], "seed"=>result["seed"],
-            "transaction_path"=>relpath(joinpath(output_dir, "transactions.jsonl"), context.repo_root),
-            "item_mapping_ref"=>relpath(joinpath(output_dir, "item_mapping.csv"), context.repo_root),
-            "source_codebook_path"=>relpath(joinpath(source.path, "codebook.bin"), context.repo_root),
-            "source_run_path"=>relpath(source.path, context.repo_root),
-            "source_lineage"=>relpath(joinpath(output_dir, "source_artifacts.toml"), context.repo_root),
-            "transaction_count"=>result["transaction_count"],
-            "transaction_sha256"=>result["transaction_sha256"],
-        ))
+    if all_completed
+        for result in sort!(collect(values(context.results)); by=row -> (row["k"], row["seed"], row["variant"]))
+            output_dir = joinpath(context.repo_root, String(result["output_path"]))
+            source = only(filter(item -> item.run_id == result["source_run_id"], context.sources))
+            push!(databases, Dict{String,Any}(
+                "database_id"=>result["run_id"], "variant"=>result["variant"], "method"=>"B0",
+                "k"=>result["k"], "seed"=>result["seed"],
+                "transaction_path"=>relpath(joinpath(output_dir, "transactions.jsonl"), context.repo_root),
+                "item_mapping_ref"=>relpath(joinpath(output_dir, "item_mapping.csv"), context.repo_root),
+                "source_codebook_path"=>relpath(joinpath(source.path, "codebook.bin"), context.repo_root),
+                "source_run_path"=>relpath(source.path, context.repo_root),
+                "source_lineage"=>relpath(joinpath(output_dir, "source_artifacts.toml"), context.repo_root),
+                "transaction_count"=>result["transaction_count"],
+                "transaction_sha256"=>result["transaction_sha256"],
+            ))
+        end
     end
     eda2_ready = context.profile == "full" && length(databases) == 60 &&
-        all(row -> row["transaction_count"] == EXPECTED_IMAGES, databases)
-    context.profile == "full" && !eda2_ready && error("Full EDA2 manifest must contain exactly 60 full databases")
+        all_completed && all(row -> row["transaction_count"] == EXPECTED_IMAGES, databases)
+    context.profile == "full" && all_completed && !eda2_ready &&
+        error("Full EDA2 manifest must contain exactly 60 full databases")
     manifest = Dict{String,Any}(
         "schema_version"=>TC6_SCHEMA_VERSION,
         "profile"=>context.profile,
@@ -1235,9 +1302,15 @@ function finalize_outputs!(context::TC6Context)
         "databases"=>databases,
     )
     manifest_name = context.profile == "full" ? "eda2_database_manifest.toml" : "eda2_database_manifest_smoke.toml"
-    _write_toml(joinpath(context.output_root, manifest_name), manifest)
+    manifest_path = joinpath(context.output_root, manifest_name)
+    if context.profile != "full" || eda2_ready
+        _write_toml(manifest_path, manifest)
+    else
+        rm(manifest_path; force=true)
+    end
     summary["global_integrity"] = global_report
-    summary["eda2_manifest_path"] = relpath(joinpath(context.output_root, manifest_name), context.repo_root)
+    summary["eda2_manifest_path"] = (context.profile != "full" || eda2_ready) ?
+        relpath(manifest_path, context.repo_root) : "UNAVAILABLE"
     summary["eda2_manifest_ready"] = eda2_ready
     _write_toml(joinpath(context.output_root, "spatial_extension_run_summary.toml"), summary)
     println("[TC6] FINALIZED profile=$(context.profile) | spatial=$(length(context.results)) | manifest=$(length(databases)) references | eda2_ready=$eda2_ready | output_root=$(context.output_root)")
@@ -1250,6 +1323,26 @@ function run_unit_checks!()
         p, q, _ = pair
         (p - 1) ÷ 7 != (q - 1) ÷ 7 && (p - 1) % 7 != (q - 1) % 7
     end, NEIGHBOR_PAIRS) == 72
+    @assert all(pair -> begin
+        p, q, distance = pair
+        r1, c1 = (p - 1) ÷ 7 + 1, (p - 1) % 7 + 1
+        r2, c2 = (q - 1) ÷ 7 + 1, (q - 1) % 7 + 1
+        1 <= r1 <= 7 && 1 <= c1 <= 7 && 1 <= r2 <= 7 && 1 <= c2 <= 7 &&
+            abs(r1-r2) + abs(c1-c2) == distance
+    end, NEIGHBOR_PAIRS)
+    @assert _neighbor_geometry_is_bounded()
+    @assert count(pair -> begin
+        p, q, _ = pair
+        r1,c1=(p-1)÷7+1,(p-1)%7+1
+        r2,c2=(q-1)÷7+1,(q-1)%7+1
+        r1 in (1,7) || r2 in (1,7) || c1 in (1,7) || c2 in (1,7)
+    end, NEIGHBOR_PAIRS) == 124
+    @assert count(pair -> begin
+        p, q, _ = pair
+        r1,c1=(p-1)÷7+1,(p-1)%7+1
+        r2,c2=(q-1)÷7+1,(q-1)%7+1
+        (r1 in (1,7) && c1 in (1,7)) || (r2 in (1,7) && c2 in (1,7))
+    end, NEIGHBOR_PAIRS) == 20
     region_counts = [0, 0, 0, 0]
     for row in 1:7, col in 1:7
         region_counts[_region(row, col)] += 1
@@ -1261,31 +1354,47 @@ function run_unit_checks!()
     @assert _s3_id(3, 5, 128) == 261 && _decode_item("S3", 261, 128) == (3, 5)
 
     diagonal = NTuple{3,Int}[(1, 1, 5), (2, 2, 12)]
-    s6, pairs, occurrences = _encode_s6(diagonal, 16)
+    s6, pairs, _, _, occurrences = _encode_s6(diagonal, 16)
     @assert pairs == 1 && occurrences == 2
     @assert s6 == sort([_s6_id(1, 5, 12, 16), _s6_id(2, 5, 12, 16)])
     @assert _decode_item("S6-B", _s6_id(1, 5, 12, 16), 16) == (1, 5, 12)
-    vertical, _, vertical_occurrences = _encode_s6([(1, 1, 5), (3, 1, 12)], 16)
+    vertical, _, _, _, vertical_occurrences = _encode_s6([(1, 1, 5), (3, 1, 12)], 16)
     @assert vertical == [_s6_id(1, 5, 12, 16)] && vertical_occurrences == 1
-    too_far, _, _ = _encode_s6([(1, 1, 5), (3, 2, 12)], 16)
+    right_edge, _, _, _, _ = _encode_s6([(4, 6, 5), (4, 7, 12)], 16)
+    @assert right_edge == [_s6_id(2, 5, 12, 16)]
+    bottom_edge, _, _, _, _ = _encode_s6([(6, 7, 5), (7, 7, 12)], 16)
+    @assert bottom_edge == [_s6_id(1, 5, 12, 16)]
+    row_wrap, _, _, _, _ = _encode_s6([(1, 7, 5), (2, 1, 12)], 16)
+    column_wrap, _, _, _, _ = _encode_s6([(1, 1, 5), (7, 2, 12)], 16)
+    @assert isempty(row_wrap) && isempty(column_wrap)
+    out_of_bounds_rejected = try
+        _encode_s6([(1, 8, 5)], 16)
+        false
+    catch err
+        err isa ArgumentError
+    end
+    @assert out_of_bounds_rejected
+    too_far, _, _, _, _ = _encode_s6([(1, 1, 5), (3, 2, 12)], 16)
     @assert isempty(too_far)
-    same_word, _, _ = _encode_s6([(1, 1, 5), (1, 2, 5)], 16)
+    same_word, _, _, _, _ = _encode_s6([(1, 1, 5), (1, 2, 5)], 16)
     @assert same_word == [_s6_id(2, 5, 5, 16)]
-    duplicate_patch, _, _ = _encode_s6([(1, 1, 5), (1, 1, 5)], 16)
+    duplicate_patch, _, _, _, _ = _encode_s6([(1, 1, 5), (1, 1, 5)], 16)
     @assert isempty(duplicate_patch)
     repeated = [(1, 1, 5), (1, 2, 5), (2, 1, 12), (2, 2, 12)]
-    repeated_items, _, _ = _encode_s6(repeated, 16)
-    reversed_items, _, _ = _encode_s6(reverse(repeated), 16)
+    repeated_items, _, _, _, _ = _encode_s6(repeated, 16)
+    reversed_items, _, _, _, _ = _encode_s6(reverse(repeated), 16)
     @assert repeated_items == reversed_items
     @assert length(repeated_items) == length(unique(repeated_items))
-    empty_items, _, _ = _encode_s6(NTuple{3,Int}[], 16)
-    single_items, _, _ = _encode_s6([(7, 7, 2)], 16)
+    empty_items, _, _, _, _ = _encode_s6(NTuple{3,Int}[], 16)
+    single_items, _, _, _, _ = _encode_s6([(7, 7, 2)], 16)
     @assert isempty(empty_items) && isempty(single_items)
     @assert isempty(_encode_s1(NTuple{3,Int}[], 16)) && isempty(_encode_s3(NTuple{3,Int}[], 16))
     @assert all(_validate_witness(id, (1, diagonal[1], diagonal[2]), 16, diagonal) for id in s6)
     return Dict("s1_regions_and_roundtrip"=>"PASS", "s3_stripes_and_roundtrip"=>"PASS",
         "s6b_neighbor_geometry_226_pairs_72_diagonals"=>"PASS",
-        "s6b_direction_distance_same_word_dedup_order_empty_witness"=>"PASS")
+        "s6b_boundary_geometry_124_edge_pairs_20_corner_pairs_68_wrap_only_excluded"=>"PASS",
+        "s6b_direction_distance_same_word_dedup_order_empty_witness"=>"PASS",
+        "s6b_image_edges_no_wrap_and_coordinate_bounds"=>"PASS")
 end
 
 end # module FashionTCSpatial

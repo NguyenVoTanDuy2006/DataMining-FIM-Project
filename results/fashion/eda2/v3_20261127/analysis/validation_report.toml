@@ -1,0 +1,9 @@
+expected_databases = 60
+blocked_database_ids = ["B0_K16_seed42_S6-B", "B0_K16_seed123_S6-B", "B0_K16_seed2026_S6-B", "B0_K32_seed42_S6-B", "B0_K32_seed123_S6-B", "B0_K32_seed2026_S6-B", "B0_K64_seed42_S6-B", "B0_K64_seed123_S6-B", "B0_K64_seed2026_S6-B", "B0_K128_seed42_S6-B", "B0_K128_seed123_S6-B", "B0_K128_seed2026_S6-B", "B0_K256_seed42_S6-B", "B0_K256_seed123_S6-B", "B0_K256_seed2026_S6-B"]
+expected_codebooks = 15
+validated_codebooks = 15
+scope = "FULL_S0_S1_S3_S6B"
+blocked_databases = 15
+status = "PARTIAL"
+validated_databases = 45
+labels_status = "COMPUTED"

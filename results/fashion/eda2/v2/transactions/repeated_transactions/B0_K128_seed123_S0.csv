@@ -1,0 +1,39 @@
+database_id,variant,item_ids_raw_namespace,decoded_items,multiplicity,length
+B0_K128_seed123_S0,S0,3 9 10 18 29 33 35 47 53 59 66 110,word_3;word_9;word_10;word_18;word_29;word_33;word_35;word_47;word_53;word_59;word_66;word_110,4,12
+B0_K128_seed123_S0,S0,3 35 44 52 53 59 61 79 86,word_3;word_35;word_44;word_52;word_53;word_59;word_61;word_79;word_86,3,9
+B0_K128_seed123_S0,S0,12 14 21 27 33 34 35 47 52 56 57 58 61 76 109 110 116,word_12;word_14;word_21;word_27;word_33;word_34;word_35;word_47;word_52;word_56;word_57;word_58;word_61;word_76;word_109;word_110;word_116,3,17
+B0_K128_seed123_S0,S0,20 26 69 108,word_20;word_26;word_69;word_108,3,4
+B0_K128_seed123_S0,S0,20 26 104,word_20;word_26;word_104,3,3
+B0_K128_seed123_S0,S0,2 9 12 26 33 37 39 48 52 60 61 65 66 75 83 84 86 98 117 122 124,word_2;word_9;word_12;word_26;word_33;word_37;word_39;word_48;word_52;word_60;word_61;word_65;word_66;word_75;word_83;word_84;word_86;word_98;word_117;word_122;word_124,2,21
+B0_K128_seed123_S0,S0,2 15 17 25 30 32 34 60 75 77 82 92 95 109 114,word_2;word_15;word_17;word_25;word_30;word_32;word_34;word_60;word_75;word_77;word_82;word_92;word_95;word_109;word_114,2,15
+B0_K128_seed123_S0,S0,2 15 26 29 50 60 65 79 89 95 100,word_2;word_15;word_26;word_29;word_50;word_60;word_65;word_79;word_89;word_95;word_100,2,11
+B0_K128_seed123_S0,S0,3 4 6 7 18 26 27 34 56 59 61 76 80 86 89 98 103 110 111 127 128,word_3;word_4;word_6;word_7;word_18;word_26;word_27;word_34;word_56;word_59;word_61;word_76;word_80;word_86;word_89;word_98;word_103;word_110;word_111;word_127;word_128,2,21
+B0_K128_seed123_S0,S0,3 5 12 27 28 35 44 55 61 70 73 76 86 110 115 128,word_3;word_5;word_12;word_27;word_28;word_35;word_44;word_55;word_61;word_70;word_73;word_76;word_86;word_110;word_115;word_128,2,16
+B0_K128_seed123_S0,S0,3 6 7 18 28 29 33 36 65 76 93 106 111 112 119 120 126,word_3;word_6;word_7;word_18;word_28;word_29;word_33;word_36;word_65;word_76;word_93;word_106;word_111;word_112;word_119;word_120;word_126,2,17
+B0_K128_seed123_S0,S0,3 7 9 10 12 33 44 46 47 52 58 59 63 86 110 126,word_3;word_7;word_9;word_10;word_12;word_33;word_44;word_46;word_47;word_52;word_58;word_59;word_63;word_86;word_110;word_126,2,16
+B0_K128_seed123_S0,S0,5 6 15 25 26 29 31 37 48 60 65 87 92 95 101 114,word_5;word_6;word_15;word_25;word_26;word_29;word_31;word_37;word_48;word_60;word_65;word_87;word_92;word_95;word_101;word_114,2,16
+B0_K128_seed123_S0,S0,6 13 14 15 20 25 26 42 67 85 90 100 114,word_6;word_13;word_14;word_15;word_20;word_25;word_26;word_42;word_67;word_85;word_90;word_100;word_114,2,13
+B0_K128_seed123_S0,S0,6 13 14 16 26 37 65 72 91 117 121,word_6;word_13;word_14;word_16;word_26;word_37;word_65;word_72;word_91;word_117;word_121,2,11
+B0_K128_seed123_S0,S0,6 15 16 18 22 30 31 65 74 75 84 116 119 126 127,word_6;word_15;word_16;word_18;word_22;word_30;word_31;word_65;word_74;word_75;word_84;word_116;word_119;word_126;word_127,2,15
+B0_K128_seed123_S0,S0,6 19 20 31 32 40 50 65 92 94 114 116 118 123,word_6;word_19;word_20;word_31;word_32;word_40;word_50;word_65;word_92;word_94;word_114;word_116;word_118;word_123,2,14
+B0_K128_seed123_S0,S0,6 20 26 29 65 69 108,word_6;word_20;word_26;word_29;word_65;word_69;word_108,2,7
+B0_K128_seed123_S0,S0,7 9 10 33 44 46 47 58 76 86 110,word_7;word_9;word_10;word_33;word_44;word_46;word_47;word_58;word_76;word_86;word_110,2,11
+B0_K128_seed123_S0,S0,7 9 18 27 44 46 47 52 63 76 86 109 110,word_7;word_9;word_18;word_27;word_44;word_46;word_47;word_52;word_63;word_76;word_86;word_109;word_110,2,13
+B0_K128_seed123_S0,S0,7 10 46 58 59 61 63 76,word_7;word_10;word_46;word_58;word_59;word_61;word_63;word_76,2,8
+B0_K128_seed123_S0,S0,9 12 16 26 27 37 39 52 61 65 71 83 84 86 102 115 122 124,word_9;word_12;word_16;word_26;word_27;word_37;word_39;word_52;word_61;word_65;word_71;word_83;word_84;word_86;word_102;word_115;word_122;word_124,2,18
+B0_K128_seed123_S0,S0,9 35 47 52 53 61 63 76 79 110,word_9;word_35;word_47;word_52;word_53;word_61;word_63;word_76;word_79;word_110,2,10
+B0_K128_seed123_S0,S0,12 18 27 33 35 36 39 44 52 65 71 76,word_12;word_18;word_27;word_33;word_35;word_36;word_39;word_44;word_52;word_65;word_71;word_76,2,12
+B0_K128_seed123_S0,S0,12 24 27 33 34 39 61 83 84 103 109 111 113 120 124 128,word_12;word_24;word_27;word_33;word_34;word_39;word_61;word_83;word_84;word_103;word_109;word_111;word_113;word_120;word_124;word_128,2,16
+B0_K128_seed123_S0,S0,14 16 26 41 49 65 72 85 91 117 121,word_14;word_16;word_26;word_41;word_49;word_65;word_72;word_85;word_91;word_117;word_121,2,11
+B0_K128_seed123_S0,S0,15 26 29 65 69 79 95 114,word_15;word_26;word_29;word_65;word_69;word_79;word_95;word_114,2,8
+B0_K128_seed123_S0,S0,19 20 26,word_19;word_20;word_26,2,3
+B0_K128_seed123_S0,S0,19 20 26 65 69,word_19;word_20;word_26;word_65;word_69,2,5
+B0_K128_seed123_S0,S0,20 26 29 65 69 87 100 118 124,word_20;word_26;word_29;word_65;word_69;word_87;word_100;word_118;word_124,2,9
+B0_K128_seed123_S0,S0,20 26 29 65 69 104 118,word_20;word_26;word_29;word_65;word_69;word_104;word_118,2,7
+B0_K128_seed123_S0,S0,20 26 29 65 69 108 118,word_20;word_26;word_29;word_65;word_69;word_108;word_118,2,7
+B0_K128_seed123_S0,S0,20 26 29 69 78 87 108,word_20;word_26;word_29;word_69;word_78;word_87;word_108,2,7
+B0_K128_seed123_S0,S0,20 26 29 69 104,word_20;word_26;word_29;word_69;word_104,2,5
+B0_K128_seed123_S0,S0,20 26 29 104 119,word_20;word_26;word_29;word_104;word_119,2,5
+B0_K128_seed123_S0,S0,20 26 29 108 118,word_20;word_26;word_29;word_108;word_118,2,5
+B0_K128_seed123_S0,S0,20 26 85 108 118,word_20;word_26;word_85;word_108;word_118,2,5
+B0_K128_seed123_S0,S0,20 26 91 104,word_20;word_26;word_91;word_104,2,4

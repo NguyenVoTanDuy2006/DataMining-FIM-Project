@@ -24,6 +24,7 @@ function _codebook_analysis!(ctx)
     flags = Vector{Vector{Any}}()
     for k in EXPECTED_K, seed in EXPECTED_SEEDS
         spec = first(filter(s -> s.k == k && s.seed == seed && s.variant == "S0", ctx.specs))
+        try
         integrity = _metadata!(spec)
         metrics = TOML.parsefile(joinpath(spec.run_dir, "tc4_metrics.toml"))
         get(metrics,"k",0)==k && get(metrics,"seed",-1)==seed || error("TC4 metrics K/seed mismatch for $(spec.database_id)")
@@ -41,6 +42,11 @@ function _codebook_analysis!(ctx)
             get(metrics,"library_version",""), get(metrics,"seed_stability_ari_mean",""),
             get(metrics,"stability_sample_size",""), get(integrity,"codebook_sha256","")])
         push!(flags, [k, seed, flag, get(metrics,"stop_reason",""), get(metrics,"converged",false)])
+        catch err
+            push!(rows, ["B0", k, seed, _canonical_run(k,seed), relpath(spec.run_dir,ctx.repo_root),
+                "", "", "", "", "", "", "UNAVAILABLE", "INVALID_INPUT", "", "", "", "", ""])
+            push!(flags, [k, seed, "INVALID_INPUT", sprint(showerror, err), false])
+        end
     end
     previous_distortion=nothing
     for k in EXPECTED_K

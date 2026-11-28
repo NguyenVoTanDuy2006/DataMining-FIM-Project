@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" width="840" height="388" viewBox="0 0 840 388"><title>Độ méo trung bình theo K</title>
+<rect width="100%" height="100%" fill="#fff"/><g font-family="DejaVu Sans, sans-serif" fill="#1e293b">
+<text x="110" y="26" font-size="17" font-weight="700">Độ méo trung bình theo K</text>
+<path d="M 110 308.0 H 805" stroke="#e2e8f0"/><text x="101" y="312.0" text-anchor="end" font-size="11">0</text>
+<path d="M 110 261.6 H 805" stroke="#e2e8f0"/><text x="101" y="265.6" text-anchor="end" font-size="11">0.09</text>
+<path d="M 110 215.2 H 805" stroke="#e2e8f0"/><text x="101" y="219.2" text-anchor="end" font-size="11">0.18</text>
+<path d="M 110 168.8 H 805" stroke="#e2e8f0"/><text x="101" y="172.8" text-anchor="end" font-size="11">0.27</text>
+<path d="M 110 122.4 H 805" stroke="#e2e8f0"/><text x="101" y="126.4" text-anchor="end" font-size="11">0.36</text>
+<path d="M 110 76.0 H 805" stroke="#e2e8f0"/><text x="101" y="80.0" text-anchor="end" font-size="11">0.45</text>
+<path d="M 110 76 V 308 H 805" fill="none" stroke="#64748b"/>
+<text x="110.0" y="329" text-anchor="middle" font-size="11">16</text>
+<text x="283.75" y="329" text-anchor="middle" font-size="11">32</text>
+<text x="457.5" y="329" text-anchor="middle" font-size="11">64</text>
+<text x="631.25" y="329" text-anchor="middle" font-size="11">128</text>
+<text x="805.0" y="329" text-anchor="middle" font-size="11">256</text>
+<text x="457.5" y="374" text-anchor="middle" font-size="13">K</text>
+<text transform="translate(24 192.0) rotate(-90)" text-anchor="middle" font-size="13">Độ méo</text>
+<path d="M 110 47 h 18" stroke="#2563eb" stroke-width="3" stroke-dasharray="none"/><text x="134" y="51" font-size="12">Độ méo</text>
+<circle cx="110.0" cy="77.91995493570965" r="4" fill="#2563eb" stroke="#fff"><title>Độ méo • 16 • 0.4463</title></circle>
+<path d="M 110.0 77.91995493570965 L 283.75 128.18287588048867" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="283.75" cy="128.18287588048867" r="4" fill="#2563eb" stroke="#fff"><title>Độ méo • 32 • 0.3488</title></circle>
+<path d="M 283.75 128.18287588048867 L 457.5 167.77006947552718" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="457.5" cy="167.77006947552718" r="4" fill="#2563eb" stroke="#fff"><title>Độ méo • 64 • 0.272</title></circle>
+<path d="M 457.5 167.77006947552718 L 631.25 195.6782864994473" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="631.25" cy="195.6782864994473" r="4" fill="#2563eb" stroke="#fff"><title>Độ méo • 128 • 0.2179</title></circle>
+<path d="M 631.25 195.6782864994473 L 805.0 216.81833244253087" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="805.0" cy="216.81833244253087" r="4" fill="#2563eb" stroke="#fff"><title>Độ méo • 256 • 0.1769</title></circle>
+</g></svg>

@@ -1,3 +1,13 @@
+function deep_pilot_rows_for_selection(rows, selected, variants, minsups)
+    expected = Set((Int(k), Int(seed), String(variant), Float64(minsup))
+        for (k, seed) in selected for variant in variants for minsup in minsups)
+    return filter(rows) do row
+        key = (parse(Int, row["K"]), parse(Int, row["seed"]), row["variant"],
+            parse(Float64, row["minsup_fraction"]))
+        key in expected
+    end
+end
+
 function run_deep_pilot!(ctx::EDA2Context)
     selected=_read_decisions(ctx)
     isempty(selected) && error("No codebooks are selected. Review shortlist_decision.csv, set selected=true and document the reason.")

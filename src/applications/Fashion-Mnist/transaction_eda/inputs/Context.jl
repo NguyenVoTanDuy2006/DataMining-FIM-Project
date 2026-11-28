@@ -1,6 +1,6 @@
 const EXPECTED_K = [16, 32, 64, 128, 256]
 const EXPECTED_SEEDS = [42, 123, 2026]
-const VARIANTS = ["S0", "S1", "S3"]
+const VARIANTS = ["S0", "S1", "S3", "S6-B"]
 const EXPECTED_CODEBOOKS = length(EXPECTED_K) * length(EXPECTED_SEEDS)
 const EXPECTED_DATABASES = EXPECTED_CODEBOOKS * length(VARIANTS)
 const EXPECTED_IMAGES = 70_000
@@ -24,6 +24,7 @@ mutable struct EDA2Context
     output_root::String
     baseline_root::String
     spatial_root::String
+    scope::String
     specs::Vector{DatabaseSpec}
     labels::Vector{Int}
     image_ids::Vector{Int}
@@ -35,6 +36,7 @@ function _theoretical_size(variant, k)
     variant == "S0" && return k
     variant == "S1" && return 4k
     variant == "S3" && return 3k
+    variant == "S6-B" && return 2k^2
     throw(ArgumentError("Unsupported EDA2 variant: $variant"))
 end
 output_path(ctx::EDA2Context, parts...) = joinpath(ctx.output_root, parts...)
@@ -58,6 +60,8 @@ function load_context(config_path::AbstractString; repo_root=pwd())
     baseline = _absolute(repo_root, get(input, "baseline_root", "results/fashion/tc/tc6_configs/S0"))
     spatial = _absolute(repo_root, get(input, "spatial_root", "results/fashion/tc/tc6_configs"))
     out = _absolute(repo_root, get(run, "output_root", "results/fashion/eda2/v2"))
+    scope = String(get(input, "scope", "FULL_S0_S1_S3_S6B"))
+    scope in ("S0_ONLY", "FULL_S0_S1_S3_S6B") || throw(ArgumentError("input.scope must be S0_ONLY or FULL_S0_S1_S3_S6B"))
     Int(get(input,"expected_images",0))==EXPECTED_IMAGES || throw(ArgumentError("input.expected_images must be 70,000"))
     Int.(get(input,"expected_k",Int[]))==EXPECTED_K || throw(ArgumentError("input.expected_k differs from the fixed EDA2 design"))
     Int.(get(input,"expected_seeds",Int[]))==EXPECTED_SEEDS || throw(ArgumentError("input.expected_seeds differs from the fixed EDA2 design"))
@@ -80,8 +84,6 @@ function load_context(config_path::AbstractString; repo_root=pwd())
         !_path_contains(input_root,out) || throw(ArgumentError("EDA2 output must not be inside a TC input root: $out"))
         !_path_contains(out,input_root) || throw(ArgumentError("EDA2 output and TC input roots must not contain one another"))
     end
-    isdir(baseline) || throw(ArgumentError("S0 input root does not exist: $baseline"))
-    isdir(spatial) || throw(ArgumentError("TC6 input root does not exist: $spatial"))
     mkpath(out)
     snapshot_path=joinpath(out,"config_snapshot.toml")
     if isfile(snapshot_path)
@@ -90,15 +92,17 @@ function load_context(config_path::AbstractString; repo_root=pwd())
     else
         cp(config_path,snapshot_path;force=true)
     end
-    return EDA2Context(repo_root, config_path, config, out, baseline, spatial,
+    return EDA2Context(repo_root, config_path, config, out, baseline, spatial, scope,
         DatabaseSpec[], Int[], Int[])
 end
 
 function discover_inputs(ctx::EDA2Context)
     specs = DatabaseSpec[]
-    for k in EXPECTED_K, seed in EXPECTED_SEEDS, variant in VARIANTS
+    variants = ctx.scope == "S0_ONLY" ? ("S0",) : VARIANTS
+    for k in EXPECTED_K, seed in EXPECTED_SEEDS, variant in variants
         run_id = _run_name(k, seed, variant)
-        root = variant == "S0" ? ctx.baseline_root : joinpath(ctx.spatial_root, variant)
+        folder = variant == "S6-B" ? "S6B" : variant
+        root = variant == "S0" ? ctx.baseline_root : joinpath(ctx.spatial_root, folder)
         run_dir = joinpath(root, run_id)
         source_dir = joinpath(ctx.baseline_root, _canonical_run(k, seed))
         push!(specs, DatabaseSpec("B0_K$(k)_seed$(seed)_$(variant)", k, seed, variant, run_dir, source_dir))

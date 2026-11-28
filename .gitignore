@@ -21,7 +21,7 @@ data/benchmark/**
 !data/benchmark/.gitkeep
 
 # Local experiment outputs and generated artifacts
-# Ignore generated results except the TC6 Fashion-MNIST result bundle.
+# Ignore generated results except selected Fashion-MNIST evidence bundles.
 /results/*
 !/results/fashion/
 results/fashion/*
@@ -29,6 +29,27 @@ results/fashion/*
 results/fashion/tc/*
 !/results/fashion/tc/tc6_configs/
 !/results/fashion/tc/tc6_configs/**
+!results/fashion/tc/tc4_vector_tradeoff_60k/
+!results/fashion/tc/tc4_weighted_kmeans_k16/
+!results/fashion/tc/tc4_weighted_kmeans_k32/
+!results/fashion/tc/tc4_weighted_kmeans_k64/
+!results/fashion/tc/tc4_weighted_kmeans_k128/
+!results/fashion/tc/tc4_weighted_kmeans_k256/
+
+# Keep selected Fashion-MNIST EDA2 evidence and Colab report outputs.
+!results/fashion/eda2/
+results/fashion/eda2/*
+!results/fashion/eda2/README.md
+!results/fashion/eda2/v2/
+!results/fashion/eda2/v2/**
+!results/fashion/eda2/v3_20261127/
+!results/fashion/eda2/v3_20261127/**
+!results/fashion/colab_report_20261125/
+!results/fashion/colab_report_20261125/**
+
+# Local benchmark scratch files and superseded exploratory outputs.
+results/**/tmp/
+results/fashion/eda1/[0-9]*
 
 # Feature specification drafts
 /specs/

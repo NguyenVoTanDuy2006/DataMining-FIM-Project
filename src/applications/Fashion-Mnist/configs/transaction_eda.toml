@@ -1,5 +1,5 @@
 [run]
-run_id = "FashionMNIST_EDA2_B0_S0_S1_S3_v2"
+run_id = "FashionMNIST_EDA2_B0_S0_S1_S3_S6B_v3"
 output_root = "results/fashion/eda2/v2"
 fail_fast_on_invalid_input = false
 overwrite_source_artifacts = false
@@ -11,7 +11,7 @@ spatial_root = "results/fashion/tc/tc6_configs"
 expected_images = 70000
 expected_k = [16, 32, 64, 128, 256]
 expected_seeds = [42, 123, 2026]
-variants = ["S0", "S1", "S3"]
+variants = ["S0", "S1", "S3", "S6-B"]
 
 [support]
 rare_support_max = 0.01

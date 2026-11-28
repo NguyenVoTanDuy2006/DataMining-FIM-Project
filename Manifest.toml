@@ -2,7 +2,7 @@
 
 julia_version = "1.13.3"
 manifest_format = "2.1"
-project_hash = "053d5d9aa403713122da9075b6c9a615d054934a"
+project_hash = "2031f035baebd4beb3265605fcb864764b18a373"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "2d9c9a55f9c93e8887ad391fbae72f8ef55e1177"
@@ -137,7 +137,7 @@ uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 version = "1.7.0"
 
 [[deps.EclatFIM]]
-deps = ["Clustering", "CodecZlib", "ColorTypes", "Downloads", "FixedPointNumbers", "IJulia", "LinearAlgebra", "PNGFiles", "Random", "SHA", "Serialization", "Statistics", "TOML", "Tar"]
+deps = ["Clustering", "CodecZlib", "ColorTypes", "Dates", "Downloads", "FixedPointNumbers", "IJulia", "LibGit2", "LinearAlgebra", "PNGFiles", "Random", "SHA", "Serialization", "Statistics", "TOML", "Tar"]
 path = "."
 uuid = "f035e606-8504-4775-8232-c73e28f25aa6"
 version = "0.1.0"

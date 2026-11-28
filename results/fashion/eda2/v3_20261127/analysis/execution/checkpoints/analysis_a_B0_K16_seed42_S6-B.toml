@@ -1,0 +1,7 @@
+issue = "B0_K16_seed42_S6-B missing artifacts: transactions.jsonl, tid_image_mapping.csv, item_mapping.csv, encoding_stats.toml, integrity_report.toml, checkpoint.toml, config_snapshot.toml, source_artifacts.toml"
+status = "BLOCKED"
+database_id = "B0_K16_seed42_S6-B"
+updated_unix_seconds = 1.795811986135721e9
+record_count = 0
+config_sha256 = "ae3ead863aca8c250b4371b4f0bdfcce73ce7160d96939a27891de9388e5802a"
+source_sha256 = ""

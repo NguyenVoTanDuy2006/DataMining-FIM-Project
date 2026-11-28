@@ -78,6 +78,18 @@ Mỗi mã được ghi một lần và các mã được sắp tăng dần. Tọ
 được lưu riêng để truy vết. Sau bước này, cả 70.000 giao dịch đều
 có ít nhất một mã, với độ dài trung bình khoảng 12,23 mã.
 
+Khảo sát năm kích thước từ điển với ba seed chọn $K=32$ làm cấu hình
+cơ sở: ở ngưỡng hỗ trợ 3\%, số cặp phổ biến trung bình là 487,3,
+so với 120 tại $K=16$ và 1.451,3 tại $K=64$; độ dài giao dịch trung
+bình tại $K=32$ là 12,26 mã, thấp hơn mức 15,04 mã tại $K=64$.
+BoVW nhị phân được giữ làm biểu diễn chính vì mỗi giao dịch chỉ ghi
+nhận các mã khác nhau cùng xuất hiện, không gắn chúng với vị trí cố
+định. Các biểu diễn theo vùng và dải được dùng để đối chiếu ảnh hưởng
+của vị trí. Độ méo tiếp tục giảm khi tăng $K$, nên $K=32$ là lựa chọn
+thực dụng theo độ gọn và khối lượng mẫu cần rà soát, không phải mức
+tối ưu đã được chứng minh. Bảng khảo sát nhiều seed được trình bày ở
+Phụ lục~\ref{sec:fashion-reproduction}.
+
 \subsubsection{Thiết kế thực nghiệm khai thác}
 Nhóm dùng Eclat với Set và BitVector trên cùng bộ giao dịch BoVW
 nhị phân, ở sáu ngưỡng hỗ trợ từ 80\% đến 5\%. Dải ngưỡng cho

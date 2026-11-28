@@ -161,8 +161,37 @@ Ví dụ truy vết trong phần chính được chọn theo độ hỗ trợ. X
 \href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/master/docs/UD2/TC_plan.md}{khảo sát tiền xử lý ảnh}
 để đối chiếu lựa chọn kích thước vùng và ngưỡng lọc nền.
 
-Trong khảo sát, khi tăng số cụm từ 16 lên 256, độ méo giảm
-từ 0,441 xuống 0,177 và độ dài giao dịch trung bình tăng từ
-9,00 lên 20,29 mã. Ở $K=32$, hai chỉ số lần lượt là 0,347 và
-12,27 mã. Nhóm dùng $K=32$ để giữ từ điển gọn cho bước khai thác.
+Khảo sát gồm năm kích thước từ điển, mỗi kích thước chạy với ba
+seed. Cả 15 lượt K-means đều hội tụ và sử dụng đủ số cụm. Bảng
+~\ref{tab:fashion-k-selection} tổng hợp độ méo, độ dài giao dịch
+BoVW nhị phân và số cặp phổ biến trung bình tại ngưỡng hỗ trợ 3\%
+với giới hạn độ dài hai.
+
+\begin{reporttable}
+\caption{Kết quả khảo sát K-means và giao dịch theo kích thước từ điển.}
+\label{tab:fashion-k-selection}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{crrr}\toprule
+$K$ & $\bar{D}\pm s_D$ & $\overline{|T|}$ & Số cặp phổ biến \\
+\midrule
+16  & $0{,}4463\pm0{,}0065$ & 8,82  & 120,0 \\
+32  & $0{,}3488\pm0{,}0037$ & 12,26 & 487,3 \\
+64  & $0{,}2720\pm0{,}0006$ & 15,04 & 1.451,3 \\
+128 & $0{,}2179\pm0{,}0005$ & 17,92 & 1.489,7 \\
+256 & $0{,}1769\pm0{,}0001$ & 20,37 & 638,3 \\
+\bottomrule
+\end{tabular}
+\end{reporttable}
+
+Độ méo giảm theo $K$, nhưng không có điểm gãy rõ tại 32. Lựa chọn
+$K=32$ cân bằng giữa giao dịch gọn và số cặp đủ lớn để phân tích:
+giao dịch trung bình ngắn hơn tại $K=64$, trong khi số cặp phổ biến
+nhiều hơn rõ rệt tại $K=16$. Số đếm này phản ánh khối lượng mẫu cần
+rà soát, không đo trực tiếp chất lượng ngữ nghĩa. BoVW nhị phân được
+giữ làm biểu diễn chính vì nó ghi nhận đồng xuất hiện mà không áp đặt
+vị trí; biểu diễn theo vùng và dải dùng để đối chiếu tác động của
+thông tin vị trí. Các kết quả này hỗ trợ một lựa chọn thực dụng cho
+phân tích khai phá mẫu, không chứng minh cấu hình tối ưu hay giá trị
+dự đoán.
 \end{document}

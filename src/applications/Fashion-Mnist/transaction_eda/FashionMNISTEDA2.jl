@@ -1,4 +1,4 @@
-"""Exploratory data analysis of Fashion-MNIST transactions across S0, S1 and S3."""
+"""Exploratory data analysis of Fashion-MNIST transactions across S0, S1, S3 and S6-B."""
 module FashionMNISTEDA2
 
 using Random
@@ -12,7 +12,8 @@ using ..FashionTransactionIO: tryparse_compact_transaction
 
 export EDA2Context, load_context, discover_inputs, run_analysis_a!, run_common_pilot!,
     prepare_shortlist!, run_deep_pilot!, prepare_pattern_review!, write_inconclusive_report!, output_path,
-    source_sha256
+    write_configuration_recommendations!, source_sha256, shortlist_review_complete, common_pilot_scope_status,
+    deep_pilot_rows_for_selection
 
 const SOURCE_FILES = (
     "inputs/Context.jl",
@@ -24,6 +25,7 @@ const SOURCE_FILES = (
     "analysis/TransactionMetrics.jl",
     "analysis/TransactionSimilarity.jl",
     "analysis/RunAnalysis.jl",
+    "analysis/ConfigurationRecommendation.jl",
     "pilot_mining/BoundedMining.jl",
     "pilot_mining/CommonPilot.jl",
     "pilot_mining/Shortlist.jl",

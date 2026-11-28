@@ -81,7 +81,7 @@ function run_tc4!(state::TCState)
     return _finish_stage!(state, 4, "Fit K-means codebook", fit_summaries)
 end
 
-function run_tc4!(state::TCv2State)
+function run_tc4!(state::TCv2State; after_fit! = nothing)
     _require_stage(state, 4)
     config = state.config["tc4_codebook"]
     method = config["training_method"]
@@ -166,6 +166,9 @@ function run_tc4!(state::TCv2State)
         state.run_ids = vcat(state.run_ids, run_id)
         state.run_dirs[run_id] = run_dir
         state.checks["tc4_$(run_id)"] = metrics["status"]
+        if !isnothing(after_fit!)
+            after_fit!(state, run_id, k, seed, fingerprint, run_dir, metrics)
+        end
         fit_status = metrics["status"]
         iterations = metrics["iterations"]
         converged = metrics["converged"]

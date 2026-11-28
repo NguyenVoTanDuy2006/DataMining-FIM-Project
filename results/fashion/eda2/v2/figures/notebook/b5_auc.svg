@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" width="840" height="388" viewBox="0 0 840 388"><title>AUC phân biệt cặp cùng lớp và khác lớp</title>
+<rect width="100%" height="100%" fill="#fff"/><g font-family="DejaVu Sans, sans-serif" fill="#1e293b">
+<text x="110" y="26" font-size="17" font-weight="700">AUC phân biệt cặp cùng lớp và khác lớp</text>
+<path d="M 110 308.0 H 805" stroke="#e2e8f0"/><text x="101" y="312.0" text-anchor="end" font-size="11">0</text>
+<path d="M 110 261.6 H 805" stroke="#e2e8f0"/><text x="101" y="265.6" text-anchor="end" font-size="11">0.2</text>
+<path d="M 110 215.2 H 805" stroke="#e2e8f0"/><text x="101" y="219.2" text-anchor="end" font-size="11">0.4</text>
+<path d="M 110 168.8 H 805" stroke="#e2e8f0"/><text x="101" y="172.8" text-anchor="end" font-size="11">0.6</text>
+<path d="M 110 122.39999999999998 H 805" stroke="#e2e8f0"/><text x="101" y="126.39999999999998" text-anchor="end" font-size="11">0.8</text>
+<path d="M 110 76.0 H 805" stroke="#e2e8f0"/><text x="101" y="80.0" text-anchor="end" font-size="11">1</text>
+<path d="M 110 76 V 308 H 805" fill="none" stroke="#64748b"/>
+<text x="110.0" y="329" text-anchor="middle" font-size="11">16</text>
+<text x="283.75" y="329" text-anchor="middle" font-size="11">32</text>
+<text x="457.5" y="329" text-anchor="middle" font-size="11">64</text>
+<text x="631.25" y="329" text-anchor="middle" font-size="11">128</text>
+<text x="805.0" y="329" text-anchor="middle" font-size="11">256</text>
+<text x="457.5" y="374" text-anchor="middle" font-size="13">K</text>
+<text transform="translate(24 192.0) rotate(-90)" text-anchor="middle" font-size="13">AUC</text>
+<path d="M 110 47 h 18" stroke="#2563eb" stroke-width="3" stroke-dasharray="none"/><text x="134" y="51" font-size="12">S0</text>
+<circle cx="110.0" cy="163.27771996159998" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 16 • 0.6238</title></circle>
+<path d="M 110.0 163.27771996159998 L 283.75 160.18644460746665" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="283.75" cy="160.18644460746665" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 32 • 0.6371</title></circle>
+<path d="M 283.75 160.18644460746665 L 457.5 160.61132945386666" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="457.5" cy="160.61132945386666" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 64 • 0.6353</title></circle>
+<path d="M 457.5 160.61132945386666 L 631.25 161.50438021600002" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="631.25" cy="161.50438021600002" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 128 • 0.6314</title></circle>
+<path d="M 631.25 161.50438021600002 L 805.0 163.23622696266668" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="805.0" cy="163.23622696266668" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 256 • 0.624</title></circle>
+<path d="M 268 47 h 18" stroke="#be4a28" stroke-width="3" stroke-dasharray="6 3"/><text x="292" y="51" font-size="12">S1</text>
+<circle cx="110.0" cy="146.6071476816" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 16 • 0.6957</title></circle>
+<path d="M 110.0 146.6071476816 L 283.75 149.20669905119996" stroke="#be4a28" stroke-width="2" stroke-dasharray="6 3"/>
+<circle cx="283.75" cy="149.20669905119996" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 32 • 0.6845</title></circle>
+<path d="M 283.75 149.20669905119996 L 457.5 153.0893632005333" stroke="#be4a28" stroke-width="2" stroke-dasharray="6 3"/>
+<circle cx="457.5" cy="153.0893632005333" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 64 • 0.6677</title></circle>
+<path d="M 457.5 153.0893632005333 L 631.25 156.07817444" stroke="#be4a28" stroke-width="2" stroke-dasharray="6 3"/>
+<circle cx="631.25" cy="156.07817444" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 128 • 0.6548</title></circle>
+<path d="M 631.25 156.07817444 L 805.0 159.13504608106666" stroke="#be4a28" stroke-width="2" stroke-dasharray="6 3"/>
+<circle cx="805.0" cy="159.13504608106666" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 256 • 0.6417</title></circle>
+<path d="M 426 47 h 18" stroke="#087d66" stroke-width="3" stroke-dasharray="none"/><text x="450" y="51" font-size="12">S3</text>
+<circle cx="110.0" cy="146.30112863839997" r="4" fill="#087d66" stroke="#fff"><title>S3 • 16 • 0.697</title></circle>
+<path d="M 110.0 146.30112863839997 L 283.75 146.64785593279998" stroke="#087d66" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="283.75" cy="146.64785593279998" r="4" fill="#087d66" stroke="#fff"><title>S3 • 32 • 0.6955</title></circle>
+<path d="M 283.75 146.64785593279998 L 457.5 149.98113942666666" stroke="#087d66" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="457.5" cy="149.98113942666666" r="4" fill="#087d66" stroke="#fff"><title>S3 • 64 • 0.6811</title></circle>
+<path d="M 457.5 149.98113942666666 L 631.25 153.78731933173333" stroke="#087d66" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="631.25" cy="153.78731933173333" r="4" fill="#087d66" stroke="#fff"><title>S3 • 128 • 0.6647</title></circle>
+<path d="M 631.25 153.78731933173333 L 805.0 157.8697712709333" stroke="#087d66" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="805.0" cy="157.8697712709333" r="4" fill="#087d66" stroke="#fff"><title>S3 • 256 • 0.6471</title></circle>
+</g></svg>

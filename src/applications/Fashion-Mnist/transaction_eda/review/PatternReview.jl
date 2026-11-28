@@ -8,6 +8,13 @@ function _decode_item(variant,item,k)
         stripe=(item-1)÷k+1; word=(item-1)%k+1
         label=("TOP","MIDDLE","BOTTOM")[stripe]
         return "$(label)_word$(word)"
+    elseif variant=="S6-B"
+        zero_based=item-1
+        relation=zero_based÷k^2+1
+        pair=zero_based%k^2
+        word_a,word_b=pair÷k+1,pair%k+1
+        label=relation==1 ? "ABOVE" : relation==2 ? "LEFT_OF" : "INVALID_RELATION"
+        return "$(label)_word$(word_a)_word$(word_b)"
     else
         throw(ArgumentError("Unsupported EDA2 variant: $variant"))
     end

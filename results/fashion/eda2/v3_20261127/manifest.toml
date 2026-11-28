@@ -1,0 +1,4122 @@
+expected_spatial_runs = 45
+k_recommendation_status = "PROVISIONAL"
+source_stage_archive_sha256 = "15780979c8f73a493105358071f7858b34baa39c137c8a9e7b6d083da9b5cf0b"
+preprocessing_fingerprint = "e456514c5e3053aa0404017610e5f47c926e963e842e61d85b9b6069de157638"
+julia_version = "1.12.6"
+status = "COMPLETED"
+recommendation_status = "PROVISIONAL"
+created_at_utc = "2026-11-27T21:20:08.951Z"
+scope = "S0_S1_S3_S6-B"
+expected_transaction_sets = 60
+eda2_database_manifest_ready = true
+source_s0_manifest_sha256 = "4b61511330b64c15abc6648a4c03e4c59538b0ea7252503276b324aeea8a87bf"
+completed_spatial_runs = 45
+clustering_version = "0.15.8"
+configuration_sha256 = "8faa5f5383d6ff3f04dab058da23dfe338d18a7869a866ecacb36e735109c742"
+completed_transaction_sets = 60
+source_commit = "3867971e166bdf2bff03fc218dd6e8f6e36ec28f"
+representation_recommendation_status = "PROVISIONAL"
+notebook_sha256 = "5f6bc0d70a076bd38a6632777fcc4d57479510bebc8b3fd28c9dbf95a8b8b1ad"
+bundle_kind = "fashion_full_experiment"
+schema_version = 1
+expected_fit_count = 15
+
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S0"
+run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K16_seed42"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K16_seed42"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K16_seed42"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K16_seed123"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K16_seed123"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K16_seed123"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K16_seed2026"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K16_seed2026"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K16_seed2026"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K32_seed42"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K32_seed42"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K32_seed42"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K32_seed123"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K32_seed123"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K32_seed123"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K32_seed2026"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K32_seed2026"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K32_seed2026"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K64_seed42"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K64_seed42"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K64_seed42"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K64_seed123"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K64_seed123"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K64_seed123"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K64_seed2026"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K64_seed2026"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K64_seed2026"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K128_seed42"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K128_seed42"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K128_seed42"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K128_seed123"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K128_seed123"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K128_seed123"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K128_seed2026"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K128_seed2026"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K128_seed2026"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K256_seed42"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K256_seed42"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K256_seed42"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K256_seed123"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K256_seed123"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K256_seed123"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K256_seed2026"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K256_seed2026"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[transaction_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K256_seed2026"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+
+[dataset_archive_sha256]
+"t10k-labels-idx1-ubyte.gz" = "67da17c76eaffca5446c3361aaab5c3cd6d1c2608764d35dfb1850b086bf8dd5"
+"train-images-idx3-ubyte.gz" = "3aede38d61863908ad78613f6a32ed271626dd12800ba2636569512369268a84"
+"train-labels-idx1-ubyte.gz" = "a04f17134ac03560a47e3764e11b92fc97de4d1bfaf8ba1a3aa29af54cc90845"
+"t10k-images-idx3-ubyte.gz" = "346e55b948d973a97e58d2351dde16a484bd415d4595297633bb08f03db6a073"
+
+[eda2_phase_statuses.pilot_c1]
+status = "COMPLETED_WITH_CENSORING"
+scope = "FULL_S0_S1_S3_S6B"
+updated_unix_seconds = 1.795812341573399e9
+rows = 60
+expected_runs = 60
+completed = 45
+censored_or_blocked = 15
+
+[eda2_phase_statuses.analysis_a_b]
+expected_databases = 60
+status = "PARTIAL"
+scope = "FULL_S0_S1_S3_S6B"
+updated_unix_seconds = 1.795812123489992e9
+validated_databases = 45
+codebooks = 15
+labels_status = "COMPUTED"
+
+[eda2_phase_statuses.final_decision]
+comparative_rows = 60
+status = "INCONCLUSIVE"
+updated_unix_seconds = 1.795812348964025e9
+automated_winner_selected = false
+
+[[files]]
+size_bytes = 684
+sha256 = "2cf0a216237f0290950840b285c0a25c3110836bff17d2b83dcbea28c4b4a756"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "8d551ac86ae4e764f0ceb60c657014a248e00e455e9e04ac250d9097b140ac1a"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 647
+sha256 = "4325eb53472ab2623c9f532fd616e2818db4b456682a673dec8147c7e0ac2175"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "4dbba8a192824c4808e67ca5c20b899f4ea158e5bbc21e1983355157c8c45a4f"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 20560
+sha256 = "a621b26a5f16daeaa62d8b091d9911a60e3a6705f0f3aa89f20a62035dbc052b"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "d2bd4f1c619b94eeae75eed66d46052d999bd6207ae142bc1cbb9256390674fb"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 8835316
+sha256 = "51696259f6266b67e28d89ea6f0cce52d891185ed1b1e510a64c262f4aa4b70b"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 686
+sha256 = "4e7bca5f46255a63294189e268e0c8110c9743cf1f72d057ce2288e272749e57"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3172
+sha256 = "935283257f28abff429654f98e44fe03d97151f324a63e5d671b8076f6779757"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 648
+sha256 = "47dec98036c34444611cd4510de3d76419d83fe48e4eb6fb9157f663daf249c1"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1397
+sha256 = "1af779947bb9b4e2093999b862dd4b8eb6e6fb7ae95d6396fb6ddec17feb88a0"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 20560
+sha256 = "a621b26a5f16daeaa62d8b091d9911a60e3a6705f0f3aa89f20a62035dbc052b"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2231
+sha256 = "feefe66e0e994ba1aa2ba2fd8e8bf015f5566931c3cac42a423b5e8b54c4f0c5"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 8907999
+sha256 = "9c6b903faef8836c56d9d4bea154cf22889e6dc786c6a209c5b8956078202c68"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 682
+sha256 = "a47b8dec333a6183ae120f582572e1aee28e62b7ccb67fde7d84d745d089c0cb"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "ccb789ef67471a58e27edfb5214ff83e585f141a8a4c09bffa13d9a9f4857ef7"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 645
+sha256 = "aea0638cc722e907a31641a94b0f50c766f50e9bdb0ca4354d9802f8c1ec327b"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "b7e59420cdf52051487ef0dffa29598c631447383defe7a30fb84a154701697f"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 20560
+sha256 = "a621b26a5f16daeaa62d8b091d9911a60e3a6705f0f3aa89f20a62035dbc052b"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "3561843c92ab5df78b83eeabd538fa085655eab2f245da5dd75ef4453c16480e"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 8861471
+sha256 = "b0c2187ddad8d459e981bac1ad68be6109b463f9e38a902cf9e20304fe31fe81"
+path = "S1/FashionMNIST_T2_S1_B0_K128_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 682
+sha256 = "908534485b2ad121ac94637d3d6d0c67533a9034e0fccbac9c15070f6073208c"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "9c2733d428b614ea60246ed7c0f419510bb40459eedf2aa17fe939e43cd27f61"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 644
+sha256 = "1e22b134f68e3c61da98a404d9498e6ce28408c49eab06003a2b70384b513c3e"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "0c54e27aa026cb28ea974016f29257a4834088d94c034f9251cc1b116e829415"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 2559
+sha256 = "50cf1399fb81c714af711295e4d98580e7a2b6534f4ad3014badaf360a635421"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "e35dd535d0781561cc97522f874fca327fd14ae4fa1db02beff003dc84489759"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5963871
+sha256 = "20d44907a475f244fd337c3abcbc0537cdec0706ab229e641edd8dd568a5a3ce"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "d4839532d2172cddf4c34de9eb62292b4664e1db37dd3fa18884dc6e2a22bdc6"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "9bf7e0ac2fb115ef207c363a71cf91fcbc05ea316e8de8a34a4d4b5c946262e0"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 646
+sha256 = "23cada0d709a5fcd2f7f5fa33fcc28d35f75de41de5c01096bb9c4c738b88a9c"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "f4716910ff460fb9782f2608ad7e3cd1346aa763d1260e625ed1b50d364020a0"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 2559
+sha256 = "50cf1399fb81c714af711295e4d98580e7a2b6534f4ad3014badaf360a635421"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "d192358ec34b8119c4741832d2cd647789349fb4f9d9562fa93601b85cd56fb1"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5976732
+sha256 = "c1339b06edca346ad5db48d511d958619687ef2bda2dda012bb07824047b0570"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 679
+sha256 = "0f534dc9a818b7b8bc8f606f656072999b253ca42d3e5852c2b85a2969901473"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3154
+sha256 = "b0604833a9e7d7036522943b429d9381c6016c16698bba2fd924579c7d6680f7"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 643
+sha256 = "85ffe01f724ea1b26461854c70e854d00c486a160d989e15867dac8f2c27f9ab"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1391
+sha256 = "c4818a0cb4c0e3067e7d98a319c11d2142b10466cb7a6420a75bdde47db45e10"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 2559
+sha256 = "50cf1399fb81c714af711295e4d98580e7a2b6534f4ad3014badaf360a635421"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "20396e118d835501cf3d7c0a138f5e9bc5ef1adf9261a5e07d236a079d3661ab"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5924397
+sha256 = "57745fe28fddfb199f469269ab4d91f18b79f38530c9eeb725eb7d645512ecfb"
+path = "S1/FashionMNIST_T2_S1_B0_K16_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "80d23de6f2cd473c64f353cc7f1188c803aaf624820e3b682d35efb80acbcc6b"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "2d533aaae8f043770bd08629567af1f8460066085c9c3cdf6bd2cb04daa99779"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 648
+sha256 = "6eb89bf8b21b0484575c3c5ff9f6e837dc3a61778ada21107c317d8b1f413064"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "28a2de67bc1fdb1e01975790cfcbe4febd118dd7355801ed5e29d4e3b38020a4"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 41577
+sha256 = "b9c8816e52b81058367c49cfa6df9586eb2487713204d2b63dcda20c58e53a5f"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "7bb2979c87f91a6e98f580883f4b0597a43a9c7a2f2820dad66b8b1a59d2663e"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 9527569
+sha256 = "c8ef1594f679f2d4c919cf0327a7068cfb78ab5c8267beb279f2c3080d03ecd5"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 687
+sha256 = "3e3dd52351ead9652f7c3f55db2e0cda3b4593cd82496d7b1ca5cb1d2a2c0d70"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3172
+sha256 = "75857485b31e85b06566b169de326289b526b8cd3b163bf2af406bdb5000abbd"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 648
+sha256 = "a390d8368dd80cf2b7f20fdd7163595c697ffb318b99740a90eeccb02c1cb75f"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1397
+sha256 = "0c48201477cc30369c2c56631bf157581ab4522d84bd4d83f9b9f77a61d1ac49"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 41577
+sha256 = "b9c8816e52b81058367c49cfa6df9586eb2487713204d2b63dcda20c58e53a5f"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2231
+sha256 = "2ab570785b0ddf7dfde61392357edf1b6e8018f6000856ea71512b8fca42ed46"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 9477355
+sha256 = "858748ff4cecd7a2ca0548f7b192615d84591f62a0e23d1b5c4c776e5aba3780"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 682
+sha256 = "2d3aea91f82b7c84a80f9743b3051197a5fbf5db48c106ae95604c433e2ac90d"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "5342f1750915842c87ff475c396e637a8707ccf7105668f0c4425cb4eb0f1ed1"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 645
+sha256 = "bb69114a1ff1d8ab234d191bffe3ba59f4ae19c5ba6dd861fdead2f525bc1136"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "cdebc91e6812580537750e3f20d6eb7236107de18b069c86e53d2e8861f3177f"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 41577
+sha256 = "b9c8816e52b81058367c49cfa6df9586eb2487713204d2b63dcda20c58e53a5f"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "9fd72a6874a25986c39a7cc457315e2b92be843923ced03c50c4be49f0353ee3"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 9484650
+sha256 = "4b55c148be9217a15fd2d0a05195bbc2f6393e4aa47f0b98305fd45067558629"
+path = "S1/FashionMNIST_T2_S1_B0_K256_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 682
+sha256 = "6900e7632f6488b213ddf8080399317e0a538f9e9830f205619909a24bcf92cd"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "84b2c3aaaa1789847a13110eed7b709c74df381227b11726f2be06a94de196cb"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 646
+sha256 = "a0da7eb1c8be5031feb753af38fa6f14625025fb598fc3ed61accc53fc01f5fc"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "76ad84155205b81c53a44b8be513d50fbc5a2e479b20ec2b7c499ae730f7541f"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 5084
+sha256 = "aa34f036874a69d63e7a552182b94b11da2f700785225ee06585de29ea0b05c2"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "e20d87b57fc6618fbb0561a5d1e2bb31199c853754d8f7867af9c2bba64ce745"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6892133
+sha256 = "e4d983be7aa5d06e3f46532e2754cb660192f888b9117fa32810da43cfacb245"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 685
+sha256 = "d27d461d88645f7815fbf36b461290c4fbbd36852fa8d0b6a5fb1f33eaba77b8"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "ecb77093c451c74fd5d3d3822a26fea03a975721a3202d883a2587d2cf74c130"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 637
+sha256 = "07acbe097cbf5ef39d57612c379c76e0b3b5f217df583ad304c0712dc694291f"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "bf9adedba1a028ca44db61295be510c5f86b096298a0b12a6a868248b89320b9"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 5084
+sha256 = "aa34f036874a69d63e7a552182b94b11da2f700785225ee06585de29ea0b05c2"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "fe05cdd7851951b946353955f51813945aebe3bf0b75896d462070dc3676df80"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6934785
+sha256 = "f27c7db21a0278ecde305e82b0083d7288b5792f374ed28cb67f39d250a7a081"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 678
+sha256 = "ed6ead6982d990eb9232c721dbbb1de242eaca6612cfbc10a76068aab9cf2485"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3154
+sha256 = "a3195d05ded6b6b49fac81483639ed66908fc6ea2dd1ae08f275dbb8cbf7665a"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 643
+sha256 = "6c11774bbcbd7ae43c8892c0e51f6eca59e1896cbc5db583f2fd0074f5e798f6"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1391
+sha256 = "896c5eab4004523aec29b8ef7aa75e6f14fac198b543de32bdd37e818f2320c7"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 5084
+sha256 = "aa34f036874a69d63e7a552182b94b11da2f700785225ee06585de29ea0b05c2"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "4e7b43cfb4f0e9518fcf721d93a86f4f734c90b8420aa856ec4a7830016985cd"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6936905
+sha256 = "1973e093b27794563704e58238dc362b94fe5001c09f78611a8a07b78e6c7a4a"
+path = "S1/FashionMNIST_T2_S1_B0_K32_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 680
+sha256 = "da310c19272b354409cde1d230a74f6df9fe088adc333e19c6505d5125525fc2"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "538920be4498421f82ee6700ebf8fea7bddaa1701fbe0a75a9fad5df0d608f5b"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 644
+sha256 = "c67d2d6f07c60a21b8c9eeb9fc9a417a5714842fc4389ac7cc0efd62c848bb1f"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "36c3949cd476dce0a1f98c58fdd81dea38710bc099c2162c4b39423cf60ca05f"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 10204
+sha256 = "10b86a3675cfd4e6680bccf79849faecdc47a58127244361768e1514327a22e3"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "46e1ff247993a1ae1fe9755f31ea22cbe1c82c74a304d7a3f632668eacbb3f52"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 7999406
+sha256 = "f145d620089ff6c105056152ae57aeb9bf10bcbb95471640e9cfe28739e3723d"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 683
+sha256 = "83eb43985f84cb13854b8e96cd51a1d579be60cb43251d3a913b5f0ea6d2c333"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "87e3ed6b349b029ee0ee360d046b10f9ae5749225462ec2f6ce1a0c7a4b294e6"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 647
+sha256 = "f53a4fb62caf417232271cd9d15ebe6e040c34572ad59338a0288a3bfb0e7974"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "02328605d2b2c86b0970f804eee0fa7e79e7a177dcc8647dc93d97b3c3f51a87"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 10204
+sha256 = "10b86a3675cfd4e6680bccf79849faecdc47a58127244361768e1514327a22e3"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "2d49e3ff82818d2cd716ceb8c916f3b3e76c8108d937984c65f5fbc54ee91f2a"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 8006087
+sha256 = "eb95bf7a41b0f738afdd80aef313f0cd221cf4848a7b98abd7920264288063f0"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 679
+sha256 = "fd5e689c2dbbbb74f588291a066534eebdecdb87ae1f6fd578023eb6b1dee6d9"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3154
+sha256 = "d28d46afad8415dce80a2bc6d596700518a982146bba541d531970ddc3e39e10"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 645
+sha256 = "902c4c5dba7d4b54fe37e4e20beb26107ccd2883c9267e1990857be669238289"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1391
+sha256 = "962b96a5c75baf865687978ad277b5911fdf96e24d7428690cc969d99e6cd5ea"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 10204
+sha256 = "10b86a3675cfd4e6680bccf79849faecdc47a58127244361768e1514327a22e3"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "f8c4c49006a1c49cf2fdb978bd2a54d2c689a96b99826d75a9eac2c67abba0c8"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 8033739
+sha256 = "b431b0ae947726eb271e05427be0ca3db96cadb34e6f290f3f2b89dad56ee4d7"
+path = "S1/FashionMNIST_T2_S1_B0_K64_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "c566fdf62f9b42c95aefc8978765b16de2a55d304d0e4f0326844f8850398746"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "0cdcd419f0722be48cd0f1e178bad61ced8c3541b81f859c11413af60dbfe5f0"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 647
+sha256 = "05072b8d9b685518a632e3fd0011ee38c2f150a975209e10a99bcd486797c4d5"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "40d2ea36aa43eee6e344f3a9d7ded53d21c079adcb7166cca4c1016e58007d8c"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 13500
+sha256 = "f47368ac1569a6ecd73c2c36b7d1ecf19e36704259e387184a29b5fef08bca07"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "d2bd4f1c619b94eeae75eed66d46052d999bd6207ae142bc1cbb9256390674fb"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 8340796
+sha256 = "11d6a948a30c2eb84d28f09438685bddf79731611ff3630bb036616eef9a3ea4"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 687
+sha256 = "b73f45ed30b613d839d3cbfbda9e487d0ee206e8fbb879b70bed2979a6f8d262"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3172
+sha256 = "43330ab7e153f7770e4401890dcfc5c1ca8cd2624c0c9e9e066e43f534191376"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 647
+sha256 = "7118bc3a6c9e421f64e437d6383114cbbaddfb04bbf93105d94392efed009737"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1397
+sha256 = "6832ce6ccb7ac56fad8cdbed252a1517d482adfba7a01c03ad47874e03c2c713"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 13500
+sha256 = "f47368ac1569a6ecd73c2c36b7d1ecf19e36704259e387184a29b5fef08bca07"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2231
+sha256 = "feefe66e0e994ba1aa2ba2fd8e8bf015f5566931c3cac42a423b5e8b54c4f0c5"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 8375425
+sha256 = "19e138e07053937d28fa7d92f24a28059827fee45b1ab31dfb27cd01e4f39d39"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 682
+sha256 = "92fed4403c2cd601e0d2f5f04b9cc1d9501de7f14402a7498ea3a18df21d1d32"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "78a2278409e66d378b4ebbd6c6185e45391b184d595a504046723308f3387826"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 646
+sha256 = "a1e77f02b0f7ad38cf3e30589df16baf12f683e1e2454de4b42fee3f9a883796"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "72a80d790dd9a60da8a35d9e1187f70391b14e472518548a5b7cef4bdf23b793"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 13500
+sha256 = "f47368ac1569a6ecd73c2c36b7d1ecf19e36704259e387184a29b5fef08bca07"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "3561843c92ab5df78b83eeabd538fa085655eab2f245da5dd75ef4453c16480e"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 8380170
+sha256 = "4e8ca6ceca241bf9671584142df36a7bc10352fc8ba893b1fce8bf606fe1f1fe"
+path = "S3/FashionMNIST_T2_S3_B0_K128_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 682
+sha256 = "a8bfcfaf1acde41a4e8e12a0569df40c5f67652599c3cb73e71ce8286fcb5843"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "cac479a23375ca1fdeff0e6ad3145820a00ff77c98930c99aa27968cbf87e668"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 645
+sha256 = "9464deda48940f36af2637f80b31da47392003b79c6865ab70172b70620ea17e"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "0656925d35323744e9682ec13571b7a1e56628df0aebe73d4ebdb251f29d16c9"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 1704
+sha256 = "80e5b39bb720452a0f2e41deb0c8bea87924d69173dda9d4e909beae56cca18a"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "e35dd535d0781561cc97522f874fca327fd14ae4fa1db02beff003dc84489759"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5511532
+sha256 = "9b912f8701ce81be353071764afe87addde7a57f64566043b2211ef4c0514cb0"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "14c339c3047d96169ff6a25081e5f053ebcaf1080bc890c61a4314ceda65d037"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "728d22e71e1cbc147adc006b49702711dbf87151572014fb7125535512c56d6c"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 647
+sha256 = "7d051aa5997c8d19bfe64d530d1c7a61fba2dc4f801353291e49e5d2e31e7012"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "b856fbcee36535b17a84107475d6d1189d8452938870a1657fb5b38ddc7de1e3"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 1704
+sha256 = "80e5b39bb720452a0f2e41deb0c8bea87924d69173dda9d4e909beae56cca18a"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "d192358ec34b8119c4741832d2cd647789349fb4f9d9562fa93601b85cd56fb1"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5491823
+sha256 = "037e91f52f4c480ba4c983d5597a480890c3d7d557dad784acfd22d0da093eff"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 678
+sha256 = "234fd2c04c40d71106b32a67fc29055914cc97f531be465c47d26cc98fd13637"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3154
+sha256 = "4acf21ae3688caef8023957e6e25d63b3853054ed1352c585cfb1fa8c13669fb"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 643
+sha256 = "38a3f5b4b6f7b7c15d182e76a776bc2a0a3fa8888abcd3b76abdc6a601d1a1dc"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1391
+sha256 = "e92ced21794a594e7ec6d383b68581668780a58a12cd549eb108c8ea91625a11"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 1704
+sha256 = "80e5b39bb720452a0f2e41deb0c8bea87924d69173dda9d4e909beae56cca18a"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "20396e118d835501cf3d7c0a138f5e9bc5ef1adf9261a5e07d236a079d3661ab"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5463364
+sha256 = "0506a03aad3cc249d7275fce3d9b54dfb7b1d8393687f2ff935ee85c29d83ba9"
+path = "S3/FashionMNIST_T2_S3_B0_K16_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 683
+sha256 = "fd995cabb9a37c542728eb9a65b7c7f4dd7549b28f5c561558659fde9269b532"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "854ed004fd3e0a5e81d64a9c58a770d595b83762375b2c306dd82ec51f522beb"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 646
+sha256 = "b65e7380435948c851f8544f951992755e8d16320af03723376467d65e4cdb69"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "1b5a24e804360db6bf370cd6a7741ca7d9835fe07e976644d64655b503033f23"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 27324
+sha256 = "478b98cc8286a85071452baba3144a461c2bb46c67f2231dedd3ba88f6dcbcb7"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "7bb2979c87f91a6e98f580883f4b0597a43a9c7a2f2820dad66b8b1a59d2663e"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 9095714
+sha256 = "1e7403defb4b8e1d7457d9cb8378bb2aaf57ca9ac93f524c4702935ea35dc6d5"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 687
+sha256 = "8c74aaa67235a259e6af1310211eccb2be6517de49539b60f4d27a3263c5e517"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3172
+sha256 = "b4111aa177aaf7e88fd47352cc25666c396a1365f2f250c02ff8272fe9cd5ec8"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 648
+sha256 = "2a14d86c2e98b6cbb8b95a9218de0e011310ef7072dad11421baa33bb8d18a3a"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1397
+sha256 = "39589990337b75200a5d70f44193d7c7946d75373c29bd9e72f371e6a91811ad"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 27324
+sha256 = "478b98cc8286a85071452baba3144a461c2bb46c67f2231dedd3ba88f6dcbcb7"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2231
+sha256 = "2ab570785b0ddf7dfde61392357edf1b6e8018f6000856ea71512b8fca42ed46"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 9063891
+sha256 = "76e2cc0d3775bf75a0e87603de61a7f2b1001b2cb4b3455c2e079d09913762cd"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 681
+sha256 = "557fe91555c22dd9702c0b0c0d627bc8cdce77c9a3b1fcc0a05e03ee9c2f0e35"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "77b5dae380be8efbdbb36ef0053d6b6d181ea4b4e57aada29b5bf289fad0a7c3"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 646
+sha256 = "bd23344dc721bc4f3f0e0877e28b218cdfd670e1da7f7694d4bc7b5f3844b436"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "22dd8b42429f10a2fd032d350deecd0a9baa4c04a0a30e7b0c38f35f1a967948"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 27324
+sha256 = "478b98cc8286a85071452baba3144a461c2bb46c67f2231dedd3ba88f6dcbcb7"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "9fd72a6874a25986c39a7cc457315e2b92be843923ced03c50c4be49f0353ee3"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 9060688
+sha256 = "348644211627dc338bc08a31127b44d33353183f0efdb20d94940111d6ef10a5"
+path = "S3/FashionMNIST_T2_S3_B0_K256_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 681
+sha256 = "2ac966099e9dc16667226b6b421c4462432c2cc14eae499255b0fef6136f2d0d"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "6f67b1581cba752d07643b9248d6bcfb4141b99b9d5cb6e7232ae07195e5d265"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 646
+sha256 = "8ecbf5615131631311688bddba62d434afa1eb60505faaf84f086e7db8266540"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "ae94b85a27e86ba9b6d5f65c0cee2ae35412487fb3eaa451a1b3870394238f89"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 3336
+sha256 = "f1f56d62c67bc99b258ba7ef2bf5598677379078885805db6393704f1dc7fb3a"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "e20d87b57fc6618fbb0561a5d1e2bb31199c853754d8f7867af9c2bba64ce745"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6175246
+sha256 = "b7c515b59aa53ba56de5a5dd32ace440985aa3619b067bd2525fa793a48c4211"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 685
+sha256 = "df49a9f048923c47a44703f500ef0a749f6a9420a1ab3b21d0d4aadc67dab19e"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "73b76041e52f892e829cce1aa1844462c5e1fca2d3c65921ea959ec7814bfc11"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 645
+sha256 = "1d987a5db6fd8c1b1145eb3af269cf9d46e47ca4c90f590c62d0f3e80751ee15"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "8dda50409b311c81b06ae842b1fdf33b30e79d0519db5ba6fcf361dfde9367a4"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 3336
+sha256 = "f1f56d62c67bc99b258ba7ef2bf5598677379078885805db6393704f1dc7fb3a"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "fe05cdd7851951b946353955f51813945aebe3bf0b75896d462070dc3676df80"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6168920
+sha256 = "197e8c28b98b8d4a9021ed1195d9023a9b5c5e7815d8e1e19ae69f430cfb79a1"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 678
+sha256 = "e79b9821a5ef7a77df910a1177399253641c05c2dd42f900cfe1f81e4053d371"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3154
+sha256 = "a5855d0f5f8e0f94f3388799b8a1e4dd26a86906954cfc64b23c46359c46c90b"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 644
+sha256 = "05647a2cb88fefdff0aef3052b31eedb665b833f51858db545c5f26f8dfd4aaa"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1391
+sha256 = "f69dafa64bcdc72b03ede15cd83f7c3e2ba05041f0e71da10c044a83b2352d3e"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 3336
+sha256 = "f1f56d62c67bc99b258ba7ef2bf5598677379078885805db6393704f1dc7fb3a"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "4e7b43cfb4f0e9518fcf721d93a86f4f734c90b8420aa856ec4a7830016985cd"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6208438
+sha256 = "b45ec78454421e4fff57f5be3ca1cc7d096bba92e3a990b9b6322c25e88d96d1"
+path = "S3/FashionMNIST_T2_S3_B0_K32_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 682
+sha256 = "9e8ab135785dc508135f8b485693888613ad70b77364633e2d8a6f83eb5ea025"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3160
+sha256 = "ea9ced3a062c729fa67b3678e0bb77387d35b158ced0e1ebb54cbf523b576939"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 646
+sha256 = "7502cd4d775c7b0313a508f05a0bf13dc02c6dd3907f404a806ab9e0645ca88c"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1393
+sha256 = "67b26ed79ee189bf21d39a73bfeb72429eb95fd1adc26aef66a9f820f2e94930"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 6693
+sha256 = "345bdd4143bab884334cb8965b27508f7af7975aa4d3d935bccf515ec6bb52c3"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "46e1ff247993a1ae1fe9755f31ea22cbe1c82c74a304d7a3f632668eacbb3f52"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 7302710
+sha256 = "58c644a6789579eadaadf8efd6d796240be17a20506e662efbb98c21c3c7ccf0"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 683
+sha256 = "d48a999965fe41c5b8eff4fdf5460bc314e7227790105a67cb0207f723aad8f3"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3166
+sha256 = "f4374394146924ff18f924a46ab082c2eb003610811912c7f836773fe41129ca"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 647
+sha256 = "cefe044a665d5c8eacddd38b042a5f2c5ca5939257a78b3e77e3382ce776eff3"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1395
+sha256 = "607fcaf437755b7a4aaa79b63d68a00a5e267ad5deb44bf25f6a8f6ee86a2c05"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 6693
+sha256 = "345bdd4143bab884334cb8965b27508f7af7975aa4d3d935bccf515ec6bb52c3"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "2d49e3ff82818d2cd716ceb8c916f3b3e76c8108d937984c65f5fbc54ee91f2a"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 7275757
+sha256 = "6f2885c5640f005d989af1f55bcac05f1932dc1a97900ee3fe5d0705409b798c"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 679
+sha256 = "12896a3b5f1e70e9223ea91bb9f38651dc84bdb87278617330a77c6ccd9f42de"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3154
+sha256 = "3b672acd38f3bd7ab85deb549650ba802fae3aeda130ff35ed92b99c2c15fc2f"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 644
+sha256 = "cee76069a5736f165d92beb35befd176f00ca5bde03f40aa39b8fce0f9ce1309"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1391
+sha256 = "568c0791f2fa3693659c7e0b5b66b0996c999154e748af80fbe83dec0b564fb7"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 6693
+sha256 = "345bdd4143bab884334cb8965b27508f7af7975aa4d3d935bccf515ec6bb52c3"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "f8c4c49006a1c49cf2fdb978bd2a54d2c689a96b99826d75a9eac2c67abba0c8"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 7313517
+sha256 = "d7cc145e7bd6d4271e14eb838002417a4bacafc9acee79c8e3845f44215ed7aa"
+path = "S3/FashionMNIST_T2_S3_B0_K64_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 687
+sha256 = "1b7caa9b041efb1e099bffe4249e8153b7846e0c4eb205fc9e521f30b832b41e"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3169
+sha256 = "b3da7c22b60eddc834a52a21409c6e3cf4168158f2bd8282cea3874cc6df04b4"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 675
+sha256 = "2e3744e40eb3d5fe590a5fed4c46a7d207b5a84e871eeaa696efae339689acaa"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1498
+sha256 = "16132a4ef75b67ac5eb2da0de77ac583eafc5aebca6c2ed159a4a15ffea7c007"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 1237286
+sha256 = "76ad0be8897290da2d1aa81273b6c120e460aff0f7c9c6b9a93bf018018767ee"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "d2bd4f1c619b94eeae75eed66d46052d999bd6207ae142bc1cbb9256390674fb"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 42446240
+sha256 = "8d02a50a3ce6e2789deb8880449c27127e1e9a38b4ec8687db5cd7a233c6bce2"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 688
+sha256 = "b082ec3e975f758c36267ed28226283f56cb24d829bf1ed870676a0fdc6942a5"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3175
+sha256 = "9196e869ebd9152afd3a926d46be6b8e17d3fff16909ea47beddc9f4307bc1fb"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 677
+sha256 = "a131866f4ae6f982f31be35faedd49da86bb10ec42f451a81a9cc183cdef1731"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1500
+sha256 = "5d8660fe60496dd53baa5a9785eec588ae40c624f7a0577af98a6b9815e3a821"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 1238958
+sha256 = "9146124726d233e80714eb2c404416ecec06293d87bd5839c882e753edb07bd3"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2231
+sha256 = "feefe66e0e994ba1aa2ba2fd8e8bf015f5566931c3cac42a423b5e8b54c4f0c5"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 43012327
+sha256 = "cd086c0c774324eeea63210bd26441f768f3c83f2bc66d99d850c59ffe2a1468"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "237b9a4c714fb384618524159babb15631c0646c9ca8e02301dbecf54f8c2783"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3163
+sha256 = "eb65ee7832014c21b638873a83085850ddd9f5b90ea0808ce56705d7bc138a31"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 675
+sha256 = "394e04f7ea3f8a809da92e525274021085fe83dce49e6e50386fd85df65625c6"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1496
+sha256 = "0eb6754750ecbe2becc48f1d1051c89d60f48086a53f30db31f1b78432a2ed6f"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 1237894
+sha256 = "2a3917cd870aaca06dd8b3e8ff2f7b3fd7ad6618dffa5af87f2327f64c9aadcd"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "3561843c92ab5df78b83eeabd538fa085655eab2f245da5dd75ef4453c16480e"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 42793549
+sha256 = "a5bc1278a9326c6fa2c15135d26437328441989ce0924a7663e694a4e126bb62"
+path = "S6B/FashionMNIST_T2_S6B_B0_K128_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "f9c9c977a4329fa24698ddc53410409646004d397555fb206133e431f83f0e5b"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3163
+sha256 = "b8488aec9e6ff0331cc759cc3e9801566c2732cea466148f122ea61b3428c1c9"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 673
+sha256 = "315478f96894162e8bbe4f4be237f676fe24d5859b713e454b3477b426c0d066"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1496
+sha256 = "3261d74b37559204894dbcf7569e7ae2507b31b9c216236feb956b7a1531c1b2"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 17856
+sha256 = "2e8d38427b9dde88dfbaa39107b299ae60bc119ed7387c381c669d6fdacbbd3f"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "e35dd535d0781561cc97522f874fca327fd14ae4fa1db02beff003dc84489759"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 17295046
+sha256 = "f2ca1bb50dad2b6f4303e2a7c86183120606fab175be8c0a8a01da462ad768f1"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 687
+sha256 = "7a08ee7144c85e48c7955262b9eaf6bba051fe622f52ff15a86208759a5d0205"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3169
+sha256 = "437c0fcbbb42a52f87319eca77e262b9d08a7ff4725e136ce3447e36948b851b"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 674
+sha256 = "1335c46f613fa701e63a0d572a0626ef7878cf36b905afdf4809bc576309bee1"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1498
+sha256 = "97dbb3daf9a3f4a2a13bbd38716277e8a6498d0f4d30f50e6d84662ea3b2426b"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 17856
+sha256 = "2e8d38427b9dde88dfbaa39107b299ae60bc119ed7387c381c669d6fdacbbd3f"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "d192358ec34b8119c4741832d2cd647789349fb4f9d9562fa93601b85cd56fb1"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 17477463
+sha256 = "e5ae7c363e71dd420904e60aab7f34f29ab5fbe48e8239bfe0431009b8fc4423"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 679
+sha256 = "6a0ca1e210654562c361f4ed1fb6c860044119d8d434f386f62493e7d00a9f92"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3157
+sha256 = "101165a0bd7e0eaab1d569fdc452c2367e5d1f11ae8ddc1d27c5f9ed6655d652"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 660
+sha256 = "9d275e4c07ad9d9f7a04c5db221836ff23f22723ef6e9005716773c3034af3c9"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1494
+sha256 = "5c18b7beb0516d4a5f778c05723cde7c56a1bab3740fbd3dbeff908bafcc8d37"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 17856
+sha256 = "2e8d38427b9dde88dfbaa39107b299ae60bc119ed7387c381c669d6fdacbbd3f"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "20396e118d835501cf3d7c0a138f5e9bc5ef1adf9261a5e07d236a079d3661ab"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 17025802
+sha256 = "f752ea0dce1d21dde8056d0409c1bfe5c195f2dd3b137d86350592ed7d081713"
+path = "S6B/FashionMNIST_T2_S6B_B0_K16_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 687
+sha256 = "0a314751cc81495e143166ec55c633debb3bda627c30c6e6f02d4c154261fccb"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3169
+sha256 = "d641b5f04d6c1b72f0c8d69b9d3eecb620e33e696ea1b9bc87c0bd39b1b630b1"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 667
+sha256 = "6169b0a875abd97df84ba6935e23ecbce4a4e04bcc49d09671b56923c482a138"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1498
+sha256 = "1c4a849bdd2d117f87236b39baf694a1c606143e7cc5c698e1c24a0142c7388c"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 4912471
+sha256 = "21f5da871dc6edb587635a5682cf44f661d23720e5b4d83be6f6f84f5c8145f8"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "7bb2979c87f91a6e98f580883f4b0597a43a9c7a2f2820dad66b8b1a59d2663e"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 52316815
+sha256 = "42281948715ac1a3cbc286d2e63cf540668d7bbd81059a62b2919f427a4c384a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 690
+sha256 = "8e0393acb7ac13f64433e68222c49849485f92cb3295eeb8d5b8ae7cde842f1c"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3175
+sha256 = "eac103449c7930e449f9979bf8469002ccd342dc7ec2251e11759b14004814aa"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 677
+sha256 = "522e6eee582b8f346b675faadebaa3741afcdeea6608ea72377bf308fa5b14c5"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1500
+sha256 = "23d1e364205cfa04a11c647ae00376fdae91d87b587d9d021ac380bb8efcf387"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 4900529
+sha256 = "f72c45e5446242cf4f8300d2ab5fa8697c76a56850a942449d5b9024a8193882"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2231
+sha256 = "2ab570785b0ddf7dfde61392357edf1b6e8018f6000856ea71512b8fca42ed46"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 51724873
+sha256 = "cbc32003ac4130f09e30fc708691cd59d7719c113cb2d012069693bc1222bf85"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "e4a71c7a2accbf5203721aef00c2ef1d1d86d410c75fd79ea79906d06ce37838"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3163
+sha256 = "a7d3ab62734c3667b4ec8450e4ad2625c84884ca3b5baad11a6ec0bfef8e4512"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 666
+sha256 = "acf3c59cc14f77da19cc0853ec842622e55f731a753fcaf968827b29320f0017"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1496
+sha256 = "290070dc9fe28adf66262a1d3709ce652df6ad8573cbd6c72d537d35bf38af56"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 4899787
+sha256 = "33985b3d420dba93f8837f41c62ad4be0fda791acd94143293b3b20aba29f9c6"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "9fd72a6874a25986c39a7cc457315e2b92be843923ced03c50c4be49f0353ee3"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 51351991
+sha256 = "989234446a1d2659d376292bf79ca153e13115d3c8b0a1ac1c83b003f7e6beeb"
+path = "S6B/FashionMNIST_T2_S6B_B0_K256_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "d0f02847ed56610f32e839ba6c9f4e5297250a3c9748c9cc6d3c4093c06a843a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3163
+sha256 = "4dfa074c588f138060785388dd7ae6d7b5f8224d87abec3cea41c7f713a43406"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 672
+sha256 = "0286cea26c893c4497b160f412a814b15298d5c053bf7624ec23c8d9eeaa7ecb"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1496
+sha256 = "13a89585d3634edf555bf430a3565983a3b70c975444390399f8865d62d0d53b"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 73625
+sha256 = "47196c6826a6e4c4a2fbb6b9c6edc990070200fb55de97be35ebdfc891fb1e6b"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "e20d87b57fc6618fbb0561a5d1e2bb31199c853754d8f7867af9c2bba64ce745"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 24936168
+sha256 = "973a52822c2499f113b4db46acc5a87f52b9d43b906243bb33fa17b6295b1d25"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 687
+sha256 = "93c2d583ea5730da14e7a3f5536698075a37defa823cf991904369245a636e95"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3169
+sha256 = "01bfffd7d358abf9b94495bd38e1f05ab38847578fe893cfd4a1d684203115a0"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 674
+sha256 = "9d5b53c3280de76913bcb9872fb10ef1d54a1e77e4ed1c25a5de6e45c3a5dc25"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1498
+sha256 = "1684058d98fa98b556f5a7df420a4c3741dc517e29c8db442a8b108bb9362b66"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 73625
+sha256 = "47196c6826a6e4c4a2fbb6b9c6edc990070200fb55de97be35ebdfc891fb1e6b"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "fe05cdd7851951b946353955f51813945aebe3bf0b75896d462070dc3676df80"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 25090485
+sha256 = "01800426fde0636dfa1b9f660772c91cabb3d3533f6a55fc2e17b0c0f176e2ef"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 679
+sha256 = "19b52cd08763601ef0e40f0cf74abdb3cfe6d6cf3a6152d50fb2330575392a7f"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3157
+sha256 = "7031df1051d7d9e227ba1ad34248ebf25ff7bde7136cd0adcbdd71f4b30e927d"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 662
+sha256 = "ebb34d3276f4c156612ee46b5d6d1ccf2523e91c74eb4c59fdf2c46712599c13"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1494
+sha256 = "c61f3daf7b02acf4ce9cc7ebf7aaf058412edda1aa4c11360b8a59aa82600e0d"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 73625
+sha256 = "47196c6826a6e4c4a2fbb6b9c6edc990070200fb55de97be35ebdfc891fb1e6b"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "4e7b43cfb4f0e9518fcf721d93a86f4f734c90b8420aa856ec4a7830016985cd"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 25445872
+sha256 = "e9d9038da04da04dccce8e86b53888813148e5ff94301b04e593fc365493aaa0"
+path = "S6B/FashionMNIST_T2_S6B_B0_K32_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 684
+sha256 = "92993d51fbde7d1987cc1f31b278d6d3d2e74c68c649afba6d7cca46d23d0fa7"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 3163
+sha256 = "5c01b45844139deea461095eb36b7d65cba150035f7092d3ba1a7f57a374c509"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 672
+sha256 = "5651f3666a2cafcc564eb8e81bf8e65c059ff4556a5a284fb3b8091f69bfce46"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed123/encoding_stats.toml"
+[[files]]
+size_bytes = 1496
+sha256 = "8f0505a7fd0d799f3a1bf663ca3abb62b9684ae86ff6368ccf84a5d4ab32b7cd"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 299801
+sha256 = "30b2c559cadbc4c4946dd844dd48cfbf1ed7703b91355fd89242ec6697ad4bbf"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed123/item_mapping.csv"
+[[files]]
+size_bytes = 2209
+sha256 = "46e1ff247993a1ae1fe9755f31ea22cbe1c82c74a304d7a3f632668eacbb3f52"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed123/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 32172327
+sha256 = "cbdede5626cbd30e8cc11fc47702d29f1fbea130c41d2cd98a8fd3a00f83162e"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 687
+sha256 = "201a1b3ac0fb37cf4a7011d0637cbd3efa1d380d607bb38e24ba1c86f38a0b1f"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 3169
+sha256 = "09f0b7882e35f42c0112d143acf96b5e595b8c32499373a932434ea344d2ba94"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 663
+sha256 = "86e4d04f37340bf35d362a1dea41f92f7c0c843c227fffa54d36337f987b6531"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed2026/encoding_stats.toml"
+[[files]]
+size_bytes = 1498
+sha256 = "120eceb0cadadd523095ec39e3fdb06b352ce95c4e8df94ed972def63e66883e"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 299801
+sha256 = "30b2c559cadbc4c4946dd844dd48cfbf1ed7703b91355fd89242ec6697ad4bbf"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed2026/item_mapping.csv"
+[[files]]
+size_bytes = 2220
+sha256 = "2d49e3ff82818d2cd716ceb8c916f3b3e76c8108d937984c65f5fbc54ee91f2a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed2026/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 32126620
+sha256 = "7951288c95635f8c31d115add760b3a4ec0880c0fa552a654cc9eac9a94e0c03"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 681
+sha256 = "6c193def2c1e5f2cb1e84eb0fa65619256b84793cbe59f95d90f3e636ad65e63"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 3157
+sha256 = "0f764f31bb74021896252b9ec7204748e9d540d86b509d06a6bdb83273bccea8"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 670
+sha256 = "6dc4673246f395116f2bc8641142c4391af7e88e23e800c0066c6a3a6808de9c"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed42/encoding_stats.toml"
+[[files]]
+size_bytes = 1494
+sha256 = "ea3ff400025eae2d7adfe93969fed2919eaa97fcc3f37d34e2ca74d42cc475fc"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 299801
+sha256 = "30b2c559cadbc4c4946dd844dd48cfbf1ed7703b91355fd89242ec6697ad4bbf"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed42/item_mapping.csv"
+[[files]]
+size_bytes = 2198
+sha256 = "f8c4c49006a1c49cf2fdb978bd2a54d2c689a96b99826d75a9eac2c67abba0c8"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed42/source_artifacts.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 32517107
+sha256 = "0792f5c82920b9b311acdfa6962e437270a0b21ec186a450813a8639dfcef2a4"
+path = "S6B/FashionMNIST_T2_S6B_B0_K64_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 640
+sha256 = "186ff527d91e519a213225f8055627048dc2080b5874f15958b7b6e91c4cbbca"
+path = "analysis/codebook/codebook_flags.csv"
+[[files]]
+size_bytes = 5352
+sha256 = "58246317d7b202613d3daa002051efd47be94514ffcaf83401e933e2eb1e999c"
+path = "analysis/codebook/codebook_metrics_15.csv"
+[[files]]
+size_bytes = 1204
+sha256 = "b4720b7a94ac83bafdabe2c4ec1491d9e26266ae691a487e4f688aac2ac8e715"
+path = "analysis/codebook/codebook_metrics_by_k.csv"
+[[files]]
+size_bytes = 148216
+sha256 = "6638b6dfe52df2a516ed9a0f9b79536cc2f766292e8096ccef536d1e99db345d"
+path = "analysis/codebook/figures/centroids_K128_seed123.svg"
+[[files]]
+size_bytes = 148336
+sha256 = "9ece3cdeaa6e363a564bef72a2b8453b9383289fe342a3fa7b78839723fea6c6"
+path = "analysis/codebook/figures/centroids_K128_seed2026.svg"
+[[files]]
+size_bytes = 148435
+sha256 = "e0e241661eb1c5d854aa4c5fefdf25179e714eb102b15e0d925932e9336dc1c9"
+path = "analysis/codebook/figures/centroids_K128_seed42.svg"
+[[files]]
+size_bytes = 18592
+sha256 = "25082e3d9225f387413492e617341ac3e3d624de26ae6fe784f0d2a2bfcb90fe"
+path = "analysis/codebook/figures/centroids_K16_seed123.svg"
+[[files]]
+size_bytes = 18559
+sha256 = "5bbcc3d4a1e86f93a721d2155decd962219ab6b2c0ed404ccedbc32d06f80f3a"
+path = "analysis/codebook/figures/centroids_K16_seed2026.svg"
+[[files]]
+size_bytes = 18622
+sha256 = "5765e7104e184bd7dec2f2029caed0f29822e5d5d4d28794d6fa89106a8b435e"
+path = "analysis/codebook/figures/centroids_K16_seed42.svg"
+[[files]]
+size_bytes = 298238
+sha256 = "4d7ac33546a85a209755b3ab1467bc877353bbba4b3563a25fc27257d680cde4"
+path = "analysis/codebook/figures/centroids_K256_seed123.svg"
+[[files]]
+size_bytes = 298076
+sha256 = "33ee64c8c6e1ab6c0f88e19817746d3ad52ad62b94def51033681d8de3c94f1b"
+path = "analysis/codebook/figures/centroids_K256_seed2026.svg"
+[[files]]
+size_bytes = 298229
+sha256 = "89b40e2c8ce46de05f4f9c27c26b34af8936c5013b77081d12219c78a451ac99"
+path = "analysis/codebook/figures/centroids_K256_seed42.svg"
+[[files]]
+size_bytes = 37069
+sha256 = "fb6c5d26f5082984124b420248ffbdde1692c6edc5ed1d0b3337c7e1350ebb63"
+path = "analysis/codebook/figures/centroids_K32_seed123.svg"
+[[files]]
+size_bytes = 37102
+sha256 = "9b6fd9a50518d64b4a02692270b4966bd0b0ec53398c20e2e189e2bdd1d7015b"
+path = "analysis/codebook/figures/centroids_K32_seed2026.svg"
+[[files]]
+size_bytes = 37096
+sha256 = "7411c53661bd4bfd66bb1fb93db85912125a794e2b6dadf48edeacce6d56752d"
+path = "analysis/codebook/figures/centroids_K32_seed42.svg"
+[[files]]
+size_bytes = 74128
+sha256 = "93e9ebf6b617b96564ffc5f7e057c54cbefae983570fb0c5e856c94a438a2867"
+path = "analysis/codebook/figures/centroids_K64_seed123.svg"
+[[files]]
+size_bytes = 74245
+sha256 = "2a225994d6e35229550b0ee91aa57b3638c8f7256ec65966a214cb049cc893b3"
+path = "analysis/codebook/figures/centroids_K64_seed2026.svg"
+[[files]]
+size_bytes = 74224
+sha256 = "382b01199f44f6306a6110384672a6bd1f85288173d16be97d0498c5b8b97c27"
+path = "analysis/codebook/figures/centroids_K64_seed42.svg"
+[[files]]
+size_bytes = 1204
+sha256 = "b4720b7a94ac83bafdabe2c4ec1491d9e26266ae691a487e4f688aac2ac8e715"
+path = "analysis/codebook/seed_stability_by_k.csv"
+[[files]]
+size_bytes = 1121
+sha256 = "ae3ead863aca8c250b4371b4f0bdfcce73ce7160d96939a27891de9388e5802a"
+path = "analysis/config_snapshot.toml"
+[[files]]
+size_bytes = 865
+sha256 = "9d82a2b8fc5a310fbedcbbd18cc6fc81f4e41a27dde96fbcc7cb99dd9e0df33c"
+path = "analysis/environment.toml"
+[[files]]
+size_bytes = 292
+sha256 = "e8ec9092a4301a0efa9d06f6ae31e3764e2e2a765583aa8ac7e758d6982af085"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed123_S0.toml"
+[[files]]
+size_bytes = 292
+sha256 = "e4e984e91c473207059202333f7a8702cb52d7c9bbdfdd7f53aed2d2327922db"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed123_S1.toml"
+[[files]]
+size_bytes = 292
+sha256 = "e2035caa7dbdb28ad381833028d5f78aa15edb1c6929a49776fc52fa06ad485e"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed123_S3.toml"
+[[files]]
+size_bytes = 434
+sha256 = "138036e2c6d9afe25514ec987bd396e493e917ee33c12789d38f7cc128589294"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed123_S6-B.toml"
+[[files]]
+size_bytes = 293
+sha256 = "697c17fa75e50393eeae7789dac4822e8f2229a9efe449aa982e4ba40e348261"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed2026_S0.toml"
+[[files]]
+size_bytes = 293
+sha256 = "8db53480cd07e83c259ed8bccc8dc07ab1f5ecde1c42030d20116f9c6f6f9dde"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed2026_S1.toml"
+[[files]]
+size_bytes = 292
+sha256 = "7d666cda1817e92781ba3a4313a9307cfd6832e94c3836d848506a59e0c07be7"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed2026_S3.toml"
+[[files]]
+size_bytes = 436
+sha256 = "126bf7475633a0a56df13eaf411fab4143a103cc60caa3e14601b461d3a25333"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed2026_S6-B.toml"
+[[files]]
+size_bytes = 291
+sha256 = "ae1ba2b989cdd2cde530918b78b2af2d344a666071cb4d4f3d54fd123b9409f5"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed42_S0.toml"
+[[files]]
+size_bytes = 291
+sha256 = "a423b872b7c8d65b3734e3cfaa8e1d49eec37f3d1dd3ac34fc386ce4d1a34cb3"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed42_S1.toml"
+[[files]]
+size_bytes = 291
+sha256 = "f5488c813b0d272444f7685be625dc4a2dc9bfcb1bf79413d8d60ae5cd3b472f"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed42_S3.toml"
+[[files]]
+size_bytes = 432
+sha256 = "daef51933b3d90038125e4033f9e64a79fa2c506699cce0ff9ada451a9578e42"
+path = "analysis/execution/checkpoints/analysis_a_B0_K128_seed42_S6-B.toml"
+[[files]]
+size_bytes = 291
+sha256 = "408ad9b03b3511690387690f783aa3529930d4771855e4d34d288959e5921726"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed123_S0.toml"
+[[files]]
+size_bytes = 291
+sha256 = "02ae1074e82771ced788d72977b9c049803df83fe76e7415ab1a98d20e4f39d7"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed123_S1.toml"
+[[files]]
+size_bytes = 291
+sha256 = "68c10ce0ea09b78c6c348bc1175dd0e4b1cc45271db42cc5ccb2f9082c6a1049"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed123_S3.toml"
+[[files]]
+size_bytes = 432
+sha256 = "bbc88a542e50e003d7f15ffe90a09a2d3b5a3361600ea3f81d750aa898196a69"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed123_S6-B.toml"
+[[files]]
+size_bytes = 292
+sha256 = "4b40c90849c5e2fdd2812029092b3bb9244795ecd6c7a6aea12b7589f9d21a0e"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed2026_S0.toml"
+[[files]]
+size_bytes = 292
+sha256 = "8d571edd1f6336d14c10e1a803acabfad2bb19a5e33c92689d95d5e9d839f57f"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed2026_S1.toml"
+[[files]]
+size_bytes = 292
+sha256 = "f84ed60a61b835f96e9a4143856d593c6dc3c7858d66a6c21fe003b956f83311"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed2026_S3.toml"
+[[files]]
+size_bytes = 434
+sha256 = "9a20fb294726b4b77d63be3dc39f1fa06ee2d99cdf5a19c2be528c8ec1aeed6c"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed2026_S6-B.toml"
+[[files]]
+size_bytes = 289
+sha256 = "36a6327c66a573c6c934dbb1dd60f86e1f64d873078e08400ee4a1e67a9551ba"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed42_S0.toml"
+[[files]]
+size_bytes = 290
+sha256 = "288f90d7d5846901f996c2a55b68a873dc77abd7db43dc1456cd2cb6a94cfb2d"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed42_S1.toml"
+[[files]]
+size_bytes = 290
+sha256 = "088d5bbc41f77cd22c2aae786fd539819dfe769b0ad47deed5cf89ad1520cca0"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed42_S3.toml"
+[[files]]
+size_bytes = 430
+sha256 = "0c4da9675c836cf2dd3ff638bf1cb3ba1c07fd6763d68d62a0d1a2d8aa652d79"
+path = "analysis/execution/checkpoints/analysis_a_B0_K16_seed42_S6-B.toml"
+[[files]]
+size_bytes = 292
+sha256 = "02e8014fab41b9481f1e227821d3fbd97674820126651a52f6c236a7d6ae9a3a"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed123_S0.toml"
+[[files]]
+size_bytes = 292
+sha256 = "942bd9dfe718c322af0baa86a0ff47277710cff1da5401808e8ea0c2cd88aef5"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed123_S1.toml"
+[[files]]
+size_bytes = 292
+sha256 = "3c186efec1006308dce4df3780b4e01f25231fe66342a1eb4f576dcee7f6eb02"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed123_S3.toml"
+[[files]]
+size_bytes = 434
+sha256 = "732f39cad7969139f18b36217b1fefd72af2e724220676ae0dab0e1765d1379c"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed123_S6-B.toml"
+[[files]]
+size_bytes = 293
+sha256 = "db16e0cdbb1dd0e8ba3a332cf44a5d985f89e52ae96f613b685c6bbcb7fcd22d"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed2026_S0.toml"
+[[files]]
+size_bytes = 293
+sha256 = "dce9cbce426ba94a6346e584fabc00c096328af57970b258745ec9fe86f6de77"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed2026_S1.toml"
+[[files]]
+size_bytes = 293
+sha256 = "6c94c9617a61cbc383b1530b8b2d978c746d31cd5e72913ca98364dd5ed5671b"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed2026_S3.toml"
+[[files]]
+size_bytes = 436
+sha256 = "69ab832c3fbebf39625b97bed8e57f701b7525e6b43b8e43c2cd5c204580130d"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed2026_S6-B.toml"
+[[files]]
+size_bytes = 291
+sha256 = "5d8f60f16cf8b9b6658581137f87175f9c206ac26b0ff2a00db02977b5e2f348"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed42_S0.toml"
+[[files]]
+size_bytes = 291
+sha256 = "a5e9a2b02045fe39fdee4b7fb8fbdff9637a645fdb0c6280c2216944fb2671bd"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed42_S1.toml"
+[[files]]
+size_bytes = 291
+sha256 = "dbf5d05a1368f76be67d113b99b6212cac646d163d167a6b2c7bf0125649d5d0"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed42_S3.toml"
+[[files]]
+size_bytes = 432
+sha256 = "86282fb39e51bd2f71435f83f37a3a2a519f2f90a0007d1ecd915c97a47fa817"
+path = "analysis/execution/checkpoints/analysis_a_B0_K256_seed42_S6-B.toml"
+[[files]]
+size_bytes = 291
+sha256 = "31ae6e128ead781b01d71fbe59eb6682cb7e3453f7c0008a380a241f2a4290af"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed123_S0.toml"
+[[files]]
+size_bytes = 291
+sha256 = "34006077b982a0ab6ff4cd60bc852920a1b318892dd827ec2f65a52a5bb55947"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed123_S1.toml"
+[[files]]
+size_bytes = 291
+sha256 = "e852389d084d4175e4b2da986efb361a253deeffd34bf2c7c55f9d74c73f3f33"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed123_S3.toml"
+[[files]]
+size_bytes = 432
+sha256 = "46433771cc9b32e21cec45781e429584aa91863c2ce6403187f38dd244d152af"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed123_S6-B.toml"
+[[files]]
+size_bytes = 292
+sha256 = "fb1c914405c6aa0c7c72abf5322e5f5b4c5279400243da77a844f6b1508dbb33"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed2026_S0.toml"
+[[files]]
+size_bytes = 292
+sha256 = "88ddb39166bf4da10f4b89e2284a264b355d7b557550b1426b4096668a45669b"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed2026_S1.toml"
+[[files]]
+size_bytes = 292
+sha256 = "9d862f8f756f292e381f850e54ed42c052bbb7c48960c55ca0e5790b7d17df77"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed2026_S3.toml"
+[[files]]
+size_bytes = 434
+sha256 = "47b79c188ee0391330ff9ba13bd3137813f9b472ae58b2fe99776d218bc607e8"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed2026_S6-B.toml"
+[[files]]
+size_bytes = 290
+sha256 = "a2db3032319452ba0d07b329c0e98a22735eb5195781920894ddcacb728aac2a"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed42_S0.toml"
+[[files]]
+size_bytes = 288
+sha256 = "ff86c23da9780d780ed70025cb70c45de3d62b7dd272bdc31bdba196db3e4e11"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed42_S1.toml"
+[[files]]
+size_bytes = 290
+sha256 = "bdf3f65fbefb88834eb32260610f7457bea4ee0c5e8db0ba47472a85587bc64b"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed42_S3.toml"
+[[files]]
+size_bytes = 430
+sha256 = "5a6bafedb8cfbd5bd60b057c6c095e3dc7cb22b4f9e0b78baf08d6526b0ecadd"
+path = "analysis/execution/checkpoints/analysis_a_B0_K32_seed42_S6-B.toml"
+[[files]]
+size_bytes = 291
+sha256 = "e702230a3febe56bf378f34e1a11efbc12a1bd71cdd08c02635da844a56c74f0"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed123_S0.toml"
+[[files]]
+size_bytes = 291
+sha256 = "8961563c1c62e89cf819155431f1e32f0f3554174abbe8a11276b34fa8d09398"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed123_S1.toml"
+[[files]]
+size_bytes = 291
+sha256 = "cf2ba5da8fe4b03a050f644f8fffa32ac30af903e98ca36fd8ca7afa6f27753c"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed123_S3.toml"
+[[files]]
+size_bytes = 432
+sha256 = "fadcb192ca12213eda1642d4f84faaa930c22526400ef02a8d17e1bd702efabc"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed123_S6-B.toml"
+[[files]]
+size_bytes = 292
+sha256 = "bb42614edde534d91319bbd041f1194198792642033690ca551ded642b9d475e"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed2026_S0.toml"
+[[files]]
+size_bytes = 292
+sha256 = "e66fbfb9a7dd5eb1a5a72e28ce3d39019873e69f829e384934dc19b4a22c02ec"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed2026_S1.toml"
+[[files]]
+size_bytes = 292
+sha256 = "0798f8001bca1eece285a90158872fa9048caf55a7874a7a4ead767aa5b20176"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed2026_S3.toml"
+[[files]]
+size_bytes = 434
+sha256 = "11aba2944a6554d9f69b21b154fa5b8c8ec74cc6363abd25409e25ab0fbf3bbb"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed2026_S6-B.toml"
+[[files]]
+size_bytes = 290
+sha256 = "29bbd20ed05e87f0437854c7e45402fb7c5fef5b33b79a63cbd3880ecb8976e9"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed42_S0.toml"
+[[files]]
+size_bytes = 290
+sha256 = "8fa3dc8dfe7b0bf868aeb14c190c6f8e2f4f10a01cc25ffd374a1799be19462b"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed42_S1.toml"
+[[files]]
+size_bytes = 290
+sha256 = "e4a0cd4d85dbd1bfb11a3d4b839cb2f72d5554fea1aeea15bac21949f4053514"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed42_S3.toml"
+[[files]]
+size_bytes = 430
+sha256 = "1a850747b564a6284c412c5da52a04c7f64c2a242741cf585bc6a1e07d4f0810"
+path = "analysis/execution/checkpoints/analysis_a_B0_K64_seed42_S6-B.toml"
+[[files]]
+size_bytes = 525
+sha256 = "f12b90fc7f369a70d74c32120f821d8cd3d6ea87757c8e59ebe47184a44bfca2"
+path = "analysis/execution/run_summary.toml"
+[[files]]
+size_bytes = 2876
+sha256 = "cbaae4d22b585a3124fda4848d50aab262d3e643051fc1b23a92415958568ff9"
+path = "analysis/figures/notebook/a_ari.svg"
+[[files]]
+size_bytes = 2912
+sha256 = "220fa307e3afbba587282086063d421007bef8b61c3d7cc93a9d7aeabb76a654"
+path = "analysis/figures/notebook/a_do_meo.svg"
+[[files]]
+size_bytes = 5483
+sha256 = "73b2913c110d250df457950cd6cb72e53996d02f1a34423cf7fe7ec18a31c817"
+path = "analysis/figures/notebook/a_do_meo_theo_seed.svg"
+[[files]]
+size_bytes = 2949
+sha256 = "f2980022203f14f9e44905396b24f27181f7e7ce5ffde803bc9fce6267518d3a"
+path = "analysis/figures/notebook/b1_boxplot.svg"
+[[files]]
+size_bytes = 5467
+sha256 = "5e7f446896aea4e7ac6695f28400ab5bbfdd6aad1a321597428142bd5aecd3b7"
+path = "analysis/figures/notebook/b1_do_dai.svg"
+[[files]]
+size_bytes = 10174
+sha256 = "7137fed5f28ced2d07e66ebf5492802cf587b4ce76c22e5b89d45b04eb33a4f9"
+path = "analysis/figures/notebook/b1_ecdf.svg"
+[[files]]
+size_bytes = 4902
+sha256 = "d661f5ee98cd038d4edd55e70ea48b0eb2bf52857b3f607bd94814e4e751f6ac"
+path = "analysis/figures/notebook/b1_giao_dich_rong.svg"
+[[files]]
+size_bytes = 10040
+sha256 = "56f554a227682379e09d4d99e55dcb38fc3ebb7958c60c6de4720cb832634bce"
+path = "analysis/figures/notebook/b1_histogram.svg"
+[[files]]
+size_bytes = 5496
+sha256 = "81d559c1818b030ce3b6f0f1383e35b098320c1777357ce1b6ae9c6818680f9d"
+path = "analysis/figures/notebook/b1_mat_do.svg"
+[[files]]
+size_bytes = 4918
+sha256 = "d747e1c9581fce52744c512f66b27c03c38399b2fea14d160e9a33bd3b09991f"
+path = "analysis/figures/notebook/b2_support.svg"
+[[files]]
+size_bytes = 16426
+sha256 = "d622276bca188919302066a81acf4ac4d9155178231f4c38f8cd860b064744c2"
+path = "analysis/figures/notebook/b2_support_ecdf.svg"
+[[files]]
+size_bytes = 5477
+sha256 = "b6dc588b8e46fb97d62a76f6baffb833d75a27f759e200cbf62f8597cbcb2276"
+path = "analysis/figures/notebook/b3_jaccard.svg"
+[[files]]
+size_bytes = 5438
+sha256 = "acfc177c1aa3bc8299d41eae52d5456fca3980ef8a01e8bb0bd829c196444106"
+path = "analysis/figures/notebook/b3_phan_biet.svg"
+[[files]]
+size_bytes = 3462
+sha256 = "b4ad0ef102dae2e8698babbc6bcce16ede79b2003c24abf956feb1b5652e8574"
+path = "analysis/figures/notebook/b4_vung.svg"
+[[files]]
+size_bytes = 5526
+sha256 = "f89811edf8569796d072eec32ec0169e15ee6e5b361e7ce46c908473831e0361"
+path = "analysis/figures/notebook/b5_auc.svg"
+[[files]]
+size_bytes = 5555
+sha256 = "a688b3d6359403c40f73dc828611ab18e410ca4f9980294ac4c7e27989f10f5f"
+path = "analysis/figures/notebook/b5_chenh_lech.svg"
+[[files]]
+size_bytes = 20777
+sha256 = "267fa8eec6788a240198a6be201eb222f0ebb81f4263a366a3eaded8b428d4b4"
+path = "analysis/figures/notebook/b5_heatmap_S0_K32_seed123.svg"
+[[files]]
+size_bytes = 20768
+sha256 = "96d652887ece5dbaf7c978f51d85a86aab4df17a1212acb4d20abff1b4ea7300"
+path = "analysis/figures/notebook/b5_heatmap_S1_K32_seed123.svg"
+[[files]]
+size_bytes = 20773
+sha256 = "f60221e212ecb4f77bb8ec0d56e3949ee4fce91120d526adba567ba6b639c792"
+path = "analysis/figures/notebook/b5_heatmap_S3_K32_seed123.svg"
+[[files]]
+size_bytes = 19783
+sha256 = "7c3aca37429fbc62c3bca5ba8a5a132ed81bc3fb66230161d60e5c6bc4d58e9e"
+path = "analysis/figures/notebook/b5_heatmap_S6-B_K32_seed123.svg"
+[[files]]
+size_bytes = 5351
+sha256 = "adf0af7d8c46719f70885a90bbf21a3449accf49a83f2aa8c38c22c8c95b2ea9"
+path = "analysis/figures/notebook/c1_cap_item.svg"
+[[files]]
+size_bytes = 5477
+sha256 = "e12856dd38d2b0ad6083f23b74b40bd9bfd00005b2997a5b8195e8e9bf0de8ac"
+path = "analysis/figures/notebook/c1_thoi_gian.svg"
+[[files]]
+size_bytes = 264
+sha256 = "86a076f462e586f5c6c0c0c318ef92e370505a1cf5cea0dd8c6fd7a6b26117f7"
+path = "analysis/final/EDA2_summary_report.md"
+[[files]]
+size_bytes = 26469
+sha256 = "b9f0a2d68fd66be5a8d009f5de566e1fdcb5553399f1b5e5a0bb86afefa354a0"
+path = "analysis/final/comparative_summary.csv"
+[[files]]
+size_bytes = 430
+sha256 = "a1e73ea7114fe330353841b25efa3d14123af5ad96ec154c1253018da0f3834b"
+path = "analysis/final/final_selection.md"
+[[files]]
+size_bytes = 26469
+sha256 = "b9f0a2d68fd66be5a8d009f5de566e1fdcb5553399f1b5e5a0bb86afefa354a0"
+path = "analysis/final/tradeoff_candidates.csv"
+[[files]]
+size_bytes = 4792
+sha256 = "6e1e4a20492d00ff10f8357a5fb8fadc90cdccd9f4cc6a9d41c6fdbd830ed1d2"
+path = "analysis/input_issues.csv"
+[[files]]
+size_bytes = 54833
+sha256 = "776b2cacbf07f095fb23af2d352de82a116cb98ba8af2fc530fbdcb68de9340a"
+path = "analysis/input_manifest.csv"
+[[files]]
+size_bytes = 31960
+sha256 = "146fdf00ffa0540a013449af066950aefec55d707eff2537ba297a94e6c63553"
+path = "analysis/pilot_eclat/pilot_common_60.csv"
+[[files]]
+size_bytes = 548
+sha256 = "7ebf4f7b7092200f88bcd35cce6d1095869cd0b510f8ed1321448dbf84fc9396"
+path = "analysis/pilot_eclat/pilot_validation_report.toml"
+[[files]]
+size_bytes = 2060
+sha256 = "b4224a1272ce0e8d423e8dfc619f2b53cedb1e726d416a25cf657d86828f9472"
+path = "analysis/recommendations/k_comparison.csv"
+[[files]]
+size_bytes = 1691
+sha256 = "13ae449a517b02703140f707a4d3d70f728cacb6b957cb6c8349e7baaf3627b3"
+path = "analysis/recommendations/recommendation_summary.md"
+[[files]]
+size_bytes = 1144
+sha256 = "363fd6c9f5de53316e0ed6849a4e0bcc46573d1d12f03698229c26636ee76e2a"
+path = "analysis/recommendations/recommendation_summary.toml"
+[[files]]
+size_bytes = 2265
+sha256 = "266efb0bc8229d95ab1b221cb225ab710d925662b0e06e2cd76a089d040fd961"
+path = "analysis/recommendations/representation_comparison.csv"
+[[files]]
+size_bytes = 610
+sha256 = "53d5b678cca69a6547319b1d7cc3602a05cfc28933d76537fb0f41c26f7df45c"
+path = "analysis/recommendations/representation_summary.csv"
+[[files]]
+size_bytes = 278030
+sha256 = "724d8b0229d7c3b58235cbc0405ea6889a2e7bbeca328843a3d7180ecbf69ece"
+path = "analysis/transactions/class_pair_similarity.csv"
+[[files]]
+size_bytes = 3718022
+sha256 = "c3f0697a237a6cbf049dafc179e0e316fd0579d2be72b9b561e1ab55a2f53c73"
+path = "analysis/transactions/class_similarity_pair_manifest.csv"
+[[files]]
+size_bytes = 16468
+sha256 = "8fd255eef55d2de2b52a203210e43f886116df11144537fb9050b1f1143ea6bd"
+path = "analysis/transactions/class_similarity_summary_60.csv"
+[[files]]
+size_bytes = 62187
+sha256 = "17cbfe897b6035147acc4a9ce4f5b138fd5d32e3ec230d6a8e19f66694bbdfb2"
+path = "analysis/transactions/classwise_similarity.csv"
+[[files]]
+size_bytes = 7390
+sha256 = "0200f13994354510f9817d9bd4f135aca9b7eece0b910f14c9ecba93c4c374d9"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed123_S0.csv"
+[[files]]
+size_bytes = 29529
+sha256 = "e36162e4f4f14eb29b1fbf2e53583ad911bd8f5f9e300703b47e5859a7609184"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed123_S1.csv"
+[[files]]
+size_bytes = 21971
+sha256 = "e53e39ac2f31f0da782139be615f463dc6183237b07387ddba1aeb337cedd86b"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed123_S3.csv"
+[[files]]
+size_bytes = 7507
+sha256 = "13fcf50cab0b469e30000751c27d1cfdf46fb4d2beffbbe160cb4fa41c8177c9"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed2026_S0.csv"
+[[files]]
+size_bytes = 30357
+sha256 = "ced97008c3d65c80f928b22b61b178263deaa5d6f6cb4ec4af7554c471df4bbd"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed2026_S1.csv"
+[[files]]
+size_bytes = 22725
+sha256 = "691c0ea8b1d569122e92e22b910615b4833a24225c883bfc1a5cc8d8e68aad9b"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed2026_S3.csv"
+[[files]]
+size_bytes = 7029
+sha256 = "8f882eaa50af7ad90efa0ef4828930b987bcb6ed81f748428f8c0846bd32eb12"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed42_S0.csv"
+[[files]]
+size_bytes = 28332
+sha256 = "18ad511139b5a5bc62dc87ed6e3dcfcde117d386ed17b27a3b643311a67f2965"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed42_S1.csv"
+[[files]]
+size_bytes = 21242
+sha256 = "8cd56038610ebf32a5a55da6f8aac854eff8b6269f39cf506571e986b1bd4add"
+path = "analysis/transactions/item_support_by_database/B0_K128_seed42_S3.csv"
+[[files]]
+size_bytes = 946
+sha256 = "2cffd68480325e66620bdc4e8658b4a8039569fce56734957acc0da5ad17091b"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed123_S0.csv"
+[[files]]
+size_bytes = 3580
+sha256 = "9befd55d634088d58c8ed319d80953b58d3508564a4e8bbcee1eed599e7fba2c"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed123_S1.csv"
+[[files]]
+size_bytes = 2705
+sha256 = "e3d0ec11526888734aeb87b4b45ab73d1c3a6c6f5c9fab7e3ae37dea354dc725"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed123_S3.csv"
+[[files]]
+size_bytes = 962
+sha256 = "f4d9e6fecb278a6f49529a7d0990854b5d45318c862fc05a7a036f79deebbeb8"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed2026_S0.csv"
+[[files]]
+size_bytes = 3660
+sha256 = "aa31ba595c43731e7cc86e0aed885611196eebf1e73555c4b81413add1384bb1"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed2026_S1.csv"
+[[files]]
+size_bytes = 2767
+sha256 = "163e0ab698e315e6ecedd8dc0d1bb4d3633db0d9c7df695edcc7a9672d89f36a"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed2026_S3.csv"
+[[files]]
+size_bytes = 911
+sha256 = "0b848eca8dafef1b4cd64e4357413c46d598614b7e403b4b224fc817a66a750c"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed42_S0.csv"
+[[files]]
+size_bytes = 3504
+sha256 = "60cb0d74b7b94b22d79179b66b1463d670438ef51741a44ef1e7766dbe3849d8"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed42_S1.csv"
+[[files]]
+size_bytes = 2528
+sha256 = "51b824b2d65fb1bebceda3ecf1332c42a73081e6ab74c77b0fe7ae5237ac9a5f"
+path = "analysis/transactions/item_support_by_database/B0_K16_seed42_S3.csv"
+[[files]]
+size_bytes = 14610
+sha256 = "fb6e77038c3802977f1a449e01e81c470cc69f8d4bc7cbfd092ba44e4e5cb3f1"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed123_S0.csv"
+[[files]]
+size_bytes = 58702
+sha256 = "ab3b75c8f931abd583056ef21b8e2df353393cad8ec6f58ea78d50a179a6f668"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed123_S1.csv"
+[[files]]
+size_bytes = 44159
+sha256 = "ee5a89f0d012941efa7f51adaec17d9b3b2abf0d7ebf22a3be7466fcd5386fbe"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed123_S3.csv"
+[[files]]
+size_bytes = 15175
+sha256 = "0f194d803e7392b711d495304cc0cac5c05574dd13d4826632985b09ef838a67"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed2026_S0.csv"
+[[files]]
+size_bytes = 60741
+sha256 = "9cc1e15a851e4b570019436fe3bd9f82c9e9a98f2383c49c5eaa107130c33bf8"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed2026_S1.csv"
+[[files]]
+size_bytes = 45625
+sha256 = "197a1b4d8b1ada3bde4235b74990063a4b3131d4d5747d86eda812e0a3844fcd"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed2026_S3.csv"
+[[files]]
+size_bytes = 14115
+sha256 = "0d20f9577c0d4c3ddeafdc593b5e7f520713739cd42af1cd27d5ab260de293ba"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed42_S0.csv"
+[[files]]
+size_bytes = 56905
+sha256 = "6d7bc743ca5af9b07b039232ef3f67a99c2d24ae63577746646b67cf004dd925"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed42_S1.csv"
+[[files]]
+size_bytes = 42472
+sha256 = "44e62e3e98b7c871921927e0ac8c92ac60087253232f8d9a0eedd1622a6fb740"
+path = "analysis/transactions/item_support_by_database/B0_K256_seed42_S3.csv"
+[[files]]
+size_bytes = 1790
+sha256 = "dd4569234ca05cfd8583c363717ffbe70424305ad1feba459a7d8c493b354a19"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed123_S0.csv"
+[[files]]
+size_bytes = 7023
+sha256 = "2cf442cb91bba7247a05386af9c4d8859b451b56f181d188863648dd5437b37d"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed123_S1.csv"
+[[files]]
+size_bytes = 5242
+sha256 = "ffabacf66feacab701ce58a55ff2c52ba9ae60a8093470f8c889dbe4aa187225"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed123_S3.csv"
+[[files]]
+size_bytes = 1855
+sha256 = "51930dc62f5818685918722d8476590560e7295b719f9ab21681ec6fd78c556a"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed2026_S0.csv"
+[[files]]
+size_bytes = 7439
+sha256 = "aec571243e59e0e0087b56dd90442fc915f5621d557981804fc16d2c9e32950c"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed2026_S1.csv"
+[[files]]
+size_bytes = 5439
+sha256 = "1bcdbd8b86bf1a0594d6c37a7cbf24bf9964b0c6ffb619f4709ce1d656ee0052"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed2026_S3.csv"
+[[files]]
+size_bytes = 1750
+sha256 = "5274c55cdbd5452a1c43530999f873ed78714f7dc5a1655f0b1952a0782e0403"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed42_S0.csv"
+[[files]]
+size_bytes = 6730
+sha256 = "c5c07eb2ce5842155ab3d9ef767d82ca2f68588ed27a26901d42d7c7dd807f7b"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed42_S1.csv"
+[[files]]
+size_bytes = 5133
+sha256 = "54ac5f893335c9ae75fc0b4847b904400bd5de41d5c9f02fe9faec49c602de4f"
+path = "analysis/transactions/item_support_by_database/B0_K32_seed42_S3.csv"
+[[files]]
+size_bytes = 3576
+sha256 = "bad4456484ccfb893524a87d59ad93987dd24fefb91cf07f0a01864df0c2583c"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed123_S0.csv"
+[[files]]
+size_bytes = 13999
+sha256 = "a3ea84afa829bbda42f193ba418a10ed695129cc0d155594e588d692f019ecdd"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed123_S1.csv"
+[[files]]
+size_bytes = 10650
+sha256 = "2e2ee13519f40b72b4d10480a3f5885454fe5dd5edb0fa344340f856c2919ce2"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed123_S3.csv"
+[[files]]
+size_bytes = 3689
+sha256 = "7dc52bf5a9e57d7dc18b8e6774181bb89191c9c46a4cf71ece6f36fa17421a6e"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed2026_S0.csv"
+[[files]]
+size_bytes = 14730
+sha256 = "a0c52186fe14757786c69ff00ff0b424e2f65ab08a634b4a0206c016d8226929"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed2026_S1.csv"
+[[files]]
+size_bytes = 10917
+sha256 = "9c9e2a6e6a4ee87102be7c0fda608d9a4b2170a02c3219679402dfa5d4f1f5f1"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed2026_S3.csv"
+[[files]]
+size_bytes = 3405
+sha256 = "587ddbd2204cbf55080dc567eac054cae867b338cbca8e34d45a4a11a3a1208b"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed42_S0.csv"
+[[files]]
+size_bytes = 13611
+sha256 = "0651013b566615e74e5483d5a985cbc7aeef43dfa44cc2061694828ab16b05d7"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed42_S1.csv"
+[[files]]
+size_bytes = 10268
+sha256 = "666fac66ee9b9f92de1a0307bfae3083e0bc1eb3c04092b47aa0d7225d303f29"
+path = "analysis/transactions/item_support_by_database/B0_K64_seed42_S3.csv"
+[[files]]
+size_bytes = 34169
+sha256 = "b7d03aa214112da1363888b6bdcbfdaab999108407e7e6503ddf495b710e69a5"
+path = "analysis/transactions/item_support_summary_60.csv"
+[[files]]
+size_bytes = 333598
+sha256 = "c30add0160a20ee67917c80bf157e335babba7435b8d20c54c2a863160f07eec"
+path = "analysis/transactions/jaccard_pair_manifest.csv"
+[[files]]
+size_bytes = 2264
+sha256 = "127cbd39899b143f584b0aa658197111f77f53d95e1938806642729955e7e9a3"
+path = "analysis/transactions/paired_encoding_comparison.csv"
+[[files]]
+size_bytes = 7022
+sha256 = "6e4690213faea739d7a8fe9ca30718064e631743591428458af1faf1b9255b82"
+path = "analysis/transactions/region_support_summary.csv"
+[[files]]
+size_bytes = 5983
+sha256 = "b8092eb2056a14b8b963eaf3c4100be5c8ea5da7f7f2641dd6c684ed0e074bfc"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed123_S0.csv"
+[[files]]
+size_bytes = 4977
+sha256 = "9effd9ae6b4fffd08328dd6d0dc7ed2e0e9b0c130aa829211c2687c5a3657e68"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed123_S1.csv"
+[[files]]
+size_bytes = 4144
+sha256 = "5143c349670fbd42e046e255d5a7ff7ec012f318e0d8c7e01ea0b2176059ea3d"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed123_S3.csv"
+[[files]]
+size_bytes = 6360
+sha256 = "9f79e0cb4f56258b70e4b12ae49f708cc8ce9930518650427a283438020d9d59"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed2026_S0.csv"
+[[files]]
+size_bytes = 4070
+sha256 = "4430d01563b3dca5ffe7f3fede6dad2e8a10801b002dedcc462b634b22a2f046"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed2026_S1.csv"
+[[files]]
+size_bytes = 4763
+sha256 = "727b25204acd9024caf528049682c48841fa84bfc5ef313aacffec25578f04fc"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed2026_S3.csv"
+[[files]]
+size_bytes = 4695
+sha256 = "b79771abe2e9df28148aaccda10f1950356b48b30c9b8da9112db57d6f44e47d"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed42_S0.csv"
+[[files]]
+size_bytes = 3309
+sha256 = "a8955cc99fb1630bcf819ccaa8a4faa9ea18f4bea414d351825b61d0dfd1c735"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed42_S1.csv"
+[[files]]
+size_bytes = 2758
+sha256 = "90cfcc41f05260503b031bfabfc23dc49c6a0cc5c0a6814721d2b9b93b511ddb"
+path = "analysis/transactions/repeated_transactions/B0_K128_seed42_S3.csv"
+[[files]]
+size_bytes = 10824
+sha256 = "436a8f5899a8ce84a68ec9a0cc90d28cd6f6d5c8fe8c25029afe54eace28fa55"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed123_S0.csv"
+[[files]]
+size_bytes = 19625
+sha256 = "025aebb18e2081fee3e9a0cffa20874c85a4a64425a6e45a26201929247b105e"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed123_S1.csv"
+[[files]]
+size_bytes = 13455
+sha256 = "e4bfbe035337f3ba1c01843d17aac3e1167f2b347994fd5079bfc9a1eed1b60a"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed123_S3.csv"
+[[files]]
+size_bytes = 10659
+sha256 = "3d0d1510d0c87240b562e7cbe0c728be9bd6305ca29143205a68a202e915273c"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed2026_S0.csv"
+[[files]]
+size_bytes = 21566
+sha256 = "fd53a3bb1d1941ea26ce14b8255b066f8e2bc8b6559ba5b215ec535143210c3a"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed2026_S1.csv"
+[[files]]
+size_bytes = 14039
+sha256 = "1f03a5c21df5d0d31f38f82ab0d099839d7b1f89b70b761f32bd58e1837743b9"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed2026_S3.csv"
+[[files]]
+size_bytes = 10367
+sha256 = "64bb2bafbaa9cdb1df9ebbd536005dd0fca1ee1c1925b583e40ed60b9f4d8cb4"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed42_S0.csv"
+[[files]]
+size_bytes = 18668
+sha256 = "3e22a42827b7ce51a1609259aa0018649d54f27ce524ce930015b06451a2e806"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed42_S1.csv"
+[[files]]
+size_bytes = 13478
+sha256 = "98a7e237b479c51106b93e48ed18adecbd809037544b029cfbe1b8da28a03a34"
+path = "analysis/transactions/repeated_transactions/B0_K16_seed42_S3.csv"
+[[files]]
+size_bytes = 3212
+sha256 = "41a20392f6c785aba8d54c331127c870e18dee6174099fea9613ebdc11893e1b"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed123_S0.csv"
+[[files]]
+size_bytes = 3472
+sha256 = "10f8eaf89bb0b08feb5b24ea06a5862ec59d5c9b6b054abe7d8934819aa63d6d"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed123_S1.csv"
+[[files]]
+size_bytes = 4031
+sha256 = "a2c10fb0abb684cfa2c2aea5ef6174dcfaa79ada0ede3c0c083f3101dcd06685"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed123_S3.csv"
+[[files]]
+size_bytes = 3575
+sha256 = "d53b9cea923704a440eeb9fdde35c8feb25372f0c49120625e8e5d5fccaf3ec7"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed2026_S0.csv"
+[[files]]
+size_bytes = 4774
+sha256 = "5a0343f1bab2c4dac542dc7bac5871c7a000707dd5fa765a20d3c442acc06c9b"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed2026_S1.csv"
+[[files]]
+size_bytes = 5113
+sha256 = "1fbcf178172768d1c29ab4b5f05179fd7fce036316cfec904ae50cf50927aefd"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed2026_S3.csv"
+[[files]]
+size_bytes = 2357
+sha256 = "92b66a00a83e392517f6761b077b1e38f37c6291a2bfc0e943c71a98748bb074"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed42_S0.csv"
+[[files]]
+size_bytes = 3026
+sha256 = "ddae1af0386c60e330c666b036ac4eba504590ea8152424e9e915d960cf7767c"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed42_S1.csv"
+[[files]]
+size_bytes = 2516
+sha256 = "2d1fbd4dba94ab8176c4e60f2367b429a654c03a73d7153b6e1cb795815db9f3"
+path = "analysis/transactions/repeated_transactions/B0_K256_seed42_S3.csv"
+[[files]]
+size_bytes = 11130
+sha256 = "14473f9a7cd34faedb90bcd8469b618511596b1539f45112e3705a41fdd45fde"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed123_S0.csv"
+[[files]]
+size_bytes = 23695
+sha256 = "ba5d865956efd51e6017650c3b93c93f1ce8629ab8b0531d958088d87063dfd4"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed123_S1.csv"
+[[files]]
+size_bytes = 19412
+sha256 = "300939901ed43d748783a881db2782fddc6c36130bb3c83d4b1637423e4688e3"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed123_S3.csv"
+[[files]]
+size_bytes = 11514
+sha256 = "71333263bc81b0e267a4a918835754d43b6bc25e413bff39d09ac2ba5e774973"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed2026_S0.csv"
+[[files]]
+size_bytes = 24879
+sha256 = "4c79481217f920b95870310648fa6dff49385ef8723c4eed895e0cad638c3edf"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed2026_S1.csv"
+[[files]]
+size_bytes = 20844
+sha256 = "e98f750f2e153391f3ec260032bbb160ff9c990edc4b3be436f74c2e91e2d525"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed2026_S3.csv"
+[[files]]
+size_bytes = 10380
+sha256 = "9c305fc0612b8d78be37b960a49ffaf3145aad21578e2dc0c7de3603911bc30e"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed42_S0.csv"
+[[files]]
+size_bytes = 24126
+sha256 = "54004a520c41df17e2b50cf553ed501366be1ed1cf4c61bd6011c5cfaaa5227e"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed42_S1.csv"
+[[files]]
+size_bytes = 19080
+sha256 = "044c4227f44ea4e600cdcbbff6baca6be22abc3b4063714d6fd9478e6c26d90d"
+path = "analysis/transactions/repeated_transactions/B0_K32_seed42_S3.csv"
+[[files]]
+size_bytes = 12728
+sha256 = "35f59b2fd6ecc3403f0f918bcc91e6ff82ed2c4488b1034f8f1f17c183885d77"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed123_S0.csv"
+[[files]]
+size_bytes = 17090
+sha256 = "7a29fa9191377f8044c7821b131231b24448bc72466fb47d21bde6788d429888"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed123_S1.csv"
+[[files]]
+size_bytes = 11530
+sha256 = "e5281aaafd2dd7bc3bc8915084dc80b3919da4ea8682a4445067483e32f476a2"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed123_S3.csv"
+[[files]]
+size_bytes = 12959
+sha256 = "0174ee9021b1aa64e393101942fa3c6c9bcdb3625e53b6180d513b31133b86e9"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed2026_S0.csv"
+[[files]]
+size_bytes = 14801
+sha256 = "3005cfb602e5656bbe2c13a29b5b465fe611cbfd16fc30e20760439aa3b824e0"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed2026_S1.csv"
+[[files]]
+size_bytes = 10453
+sha256 = "b667bb4925e572da18a0f161559bb3211e3a438cccedf018d2594d3df2e0bd1c"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed2026_S3.csv"
+[[files]]
+size_bytes = 13208
+sha256 = "df4b649928e7b57223e2b4188e0b0e311e1cebc5c0c5229b8c0eab3763ed198f"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed42_S0.csv"
+[[files]]
+size_bytes = 15018
+sha256 = "62e4f1fa1a332e2a0cb7bf9736c579e780ea04af284cc3809383cc8e07dd5c03"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed42_S1.csv"
+[[files]]
+size_bytes = 10210
+sha256 = "2f5606eeb8071aeb246f7a31bebd6fea3e8f7fec943da486d6dde644c128fcb5"
+path = "analysis/transactions/repeated_transactions/B0_K64_seed42_S3.csv"
+[[files]]
+size_bytes = 657
+sha256 = "04f939a4d68371e01d1f4ff3d891ccfdae154b13c73c19bb418c86d942a66120"
+path = "analysis/transactions/s6b_neighbor_edge_summary.csv"
+[[files]]
+size_bytes = 34169
+sha256 = "b7d03aa214112da1363888b6bdcbfdaab999108407e7e6503ddf495b710e69a5"
+path = "analysis/transactions/singleton_threshold_counts.csv"
+[[files]]
+size_bytes = 1898
+sha256 = "d4d9b0db8c6e142513c8a58ecdbd578ee7540c362d4ae94b276c50f151eb749c"
+path = "analysis/transactions/spatial_invariants_60.csv"
+[[files]]
+size_bytes = 10088
+sha256 = "9e4cea1a4dc5df861495df155ee3fb806ed71d9f907b033ba567b6e03a79f69b"
+path = "analysis/transactions/transaction_diversity_60.csv"
+[[files]]
+size_bytes = 21452
+sha256 = "de04df692b3cebcc678fb566aa6cd3157b7b18d3bd55a9551f4e9a1a829c091a"
+path = "analysis/transactions/transaction_length_histogram_60.csv"
+[[files]]
+size_bytes = 11068
+sha256 = "568f732e7ef69c263f93c361679c50b6d7f683f1ab63e1b6d363bedd19957693"
+path = "analysis/transactions/transaction_metrics_60.csv"
+[[files]]
+size_bytes = 5090
+sha256 = "433bd3bbc8a6bd7281a4543c7397ccd9beb5f8b97b7009f4ffea561791676efa"
+path = "analysis/validation_report.csv"
+[[files]]
+size_bytes = 570
+sha256 = "2882521323d16844b15a5d339ab11acdf4391914f0902c1d545e37b7509217a8"
+path = "analysis/validation_report.toml"
+[[files]]
+size_bytes = 37071
+sha256 = "6ebe076ebc97484d7aa7d6c964b3fbe631a4869a8ce483132724ccbc8d8407fa"
+path = "eda2_database_manifest.toml"
+[[files]]
+size_bytes = 492
+sha256 = "28a7a14cfbc85b2edb05d21785b46dcfd5b961e79bad7e622be0dacf80088539"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 8381
+sha256 = "d3a45a5941bac4c98a27cb27c882570bc056e5204a4116a520b3af195e84c1d6"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/codebook.bin"
+[[files]]
+size_bytes = 1722
+sha256 = "d0570d0db970c79b1941baa2485753b3d210f54952ee6ca031deb37a269df2dc"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/image_metadata.csv"
+[[files]]
+size_bytes = 553
+sha256 = "53cab77a33180bacde6e1b4e529172549e0631d1679a78d67c9c1a76666434f3"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 33855172
+sha256 = "4e9036a34adfdbdf4fa78c27a8189d84dc570cb2592aac394cb457dc91b40143"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/patch_assignments.csv"
+[[files]]
+size_bytes = 847
+sha256 = "bba67c8596d192231eeea93b5ba375dc90555babca3ed3eb8bf6470d8e00f97f"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6733338
+sha256 = "734dd2cb3c36861ee1c44a66be8c3860ff297f32a0041f6a702de89914311351"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 493
+sha256 = "7bc2752503c92658cb88f13bebd59615ba4f4cf246599d0c6825487ef522f28a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 8381
+sha256 = "913fc2d24fbee23768e390ffe3cf9c239e9c18c6eadd7eefbed8fb45f9e0c8f1"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/codebook.bin"
+[[files]]
+size_bytes = 1724
+sha256 = "cdc52a6f4ca9994d566cf0c9ee1353c4f31bf3a2219abd5905883ce09acdb51f"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/image_metadata.csv"
+[[files]]
+size_bytes = 553
+sha256 = "55ff304e029ec0e3b96f638ef04cbf2b34241aadd5ae7d351c942f9cf36efbb3"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 33857825
+sha256 = "8213157071b7806cfcce90139e256f86846eeb71d60c16c88503636be5b24eef"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/patch_assignments.csv"
+[[files]]
+size_bytes = 859
+sha256 = "4e0b4ccedfe2f15b6521ebb3bcddcad0d910ddfb387bf7e3315aca72f749a3fa"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6747035
+sha256 = "faffb4df16d88ed4cf9dcb594ae284a1cb2dd9714214c70cf8b7e0741b6e2690"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 489
+sha256 = "702ca5dfe006254f28ecce9c4f365ab46fca687771092a74d71c6c03a1005ed9"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 8381
+sha256 = "f4aabf744fd28f960aa876ded38203f28420f78be11fbf4dd01f9818e0dbcaa7"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/codebook.bin"
+[[files]]
+size_bytes = 1720
+sha256 = "c564ae12b778d80387101b7083fef0b308e1297116b5854f942d6ad454766cf1"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/image_metadata.csv"
+[[files]]
+size_bytes = 553
+sha256 = "922cc7f9265c99e0c6bb48956c6e9e4b6c93f885f0cac645a8478c7150cc9022"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 33896231
+sha256 = "d74ea15aae7c8703a955fe69c0f0964558df0ac80d2397833b3c933104e4de61"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/patch_assignments.csv"
+[[files]]
+size_bytes = 856
+sha256 = "537bdfe699842b4f1f6e1f3dbeadfb5fd1b494172c0971cfcee135bc2f8a5f04"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 6784514
+sha256 = "0a2d7160f54aaa103e8f4e51d3da74190a9f52bb8de385ba966ae4794398aa89"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 489
+sha256 = "fc85e9ca1484c907133e6028b87546f01f8c6e46758cb0ba9893a1456be0002d"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 1205
+sha256 = "cc1023038102809f7fadfd07d8c59f36860f419497a9a9f008c75c01047a9ada"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/codebook.bin"
+[[files]]
+size_bytes = 1720
+sha256 = "fe3ec4664b7ea8aa45d76cd333d9ce31cfc511170b738afa66a6a9b4c255c075"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "17e6b5c0195c3e1024f6aff40b31e31361665d8d737a93fd61babf73b077d054"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 32286171
+sha256 = "fee40fc6d5039c795f22584e0b86b46706e6244e78e5cee2bbe5c97b34d7e42b"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/patch_assignments.csv"
+[[files]]
+size_bytes = 848
+sha256 = "055073b7841d722f58e4c06dfc7743b3cf3db3222699ceb6e83856f03574ce04"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 4358985
+sha256 = "45a4d5223eb897405da2a411d9211c4e57aea0e9e89039e3f548d021e2ff8b9d"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 490
+sha256 = "fb5a55992b1fae30c679074ba47a88433376282662a5b579b7564194f7fbb0dc"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 1205
+sha256 = "ad80cc63f6fac9967de86d580d8c9626a8687785552d60d48f7a1011aac9f703"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/codebook.bin"
+[[files]]
+size_bytes = 1722
+sha256 = "9af9aba3813fd992fc99fd00f41eacd467aa1acef1991d83974f3a9900786b63"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "80c645ba9536eb5a504e79468ac4d823d2823c504cc2ed07b0fdc1371c4d3a38"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 32391908
+sha256 = "66e54916a5f4b4b9ffe9471f975dc203658dd6c6ee1c9e9a3622c9418ff2a289"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/patch_assignments.csv"
+[[files]]
+size_bytes = 850
+sha256 = "11ad40bb3d2157112f6b3ea18ccddeb4d98a430b2cfd27a9fd961ef9a0e3c5d0"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 4363464
+sha256 = "14c4be2838817949ceac09786def4f5cec2128e081125b1eb32f0097035bbe4f"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 487
+sha256 = "0e6632c9984239e9ff3df2e0af6c691d4efc8b29d3fcfdb722f731cac6d50dfc"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 1205
+sha256 = "4211965c554887024ec0452cd55f9056f8f624305ffdc9c501f3b806afff6746"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/codebook.bin"
+[[files]]
+size_bytes = 1718
+sha256 = "2ea1cd84e42c3b086eca939d221d173765e60c9fe8d403d98e079f0402929064"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "b53ccda3c38efb18a6e0353d6ddbbb98b334958641796748eeec4b46ae68d3c5"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 32371091
+sha256 = "dde79c73ac3bfbe1f23f7ec639eaaa275f921c5f86f9ef876dc25c9dd903ce38"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/patch_assignments.csv"
+[[files]]
+size_bytes = 844
+sha256 = "d113d2b44f010267bdc03224fb9fd4e120a5ca99a7bf58a3d31917440dba5a48"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 4318918
+sha256 = "1e21fe798e8cfdc8bae3109c980c19cd71f64fe8efcfc2e83155d2cd28a280c2"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 491
+sha256 = "26ed558cab29537c51e66de603841bb801bd6d4658a6607c7be57a0b44db6b72"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 16573
+sha256 = "4922d65317c119f713cb972bcadc8665df9fe44ea54fe30532bf9650f11b4c4f"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/codebook.bin"
+[[files]]
+size_bytes = 1722
+sha256 = "9c6ed92edebe7ed7f4a2a3e5f09ada60f205f44a9c13453fcb79dcbf84c6434b"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/image_metadata.csv"
+[[files]]
+size_bytes = 553
+sha256 = "353967babfd66b402093f6ce9a26e1da54d129cecfd6bb50fd8fe1bd5746f523"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 34825058
+sha256 = "40c3ed28cabe47ca1d4084800a1c5d80674223a52085726184a87eb42f488c17"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/patch_assignments.csv"
+[[files]]
+size_bytes = 844
+sha256 = "589444a97038f8a7a1fef460e525fbfd9e03aeda0572c14d1248a3ede65cbd98"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 7904274
+sha256 = "96a5659b67d29d4856c889e9fb78c081a3bf536585ee37813978a4b9f0d5431f"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 494
+sha256 = "351d4af580c3b2d54ec1874bb5aa3ebc662f1293a02d1369fa93c250465b9b1a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 16573
+sha256 = "1837018476240b613fc7026576bfd53f4153909f725fb035df8f96a5b9b74341"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/codebook.bin"
+[[files]]
+size_bytes = 1724
+sha256 = "cd475c8376524c7354a4bbc5aa3e00884e29fbbedd1a6ebcb5a3ded9d50b11dc"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/image_metadata.csv"
+[[files]]
+size_bytes = 553
+sha256 = "c0a14b66f54da6944405d22f9e058d8d1ae4822a6b19b9a331d05c838fea4c14"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 34823652
+sha256 = "26f2b57244f695081bdcf6e094e8783f8055c55f62c6b1a9e9dcfce9cd298d11"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/patch_assignments.csv"
+[[files]]
+size_bytes = 845
+sha256 = "f470e836542cea3807f71b8bfc97cb48b3dc75e58b8a49cc9b2407ef185fc59c"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 7860610
+sha256 = "f00624ee574a6a6a8ce79dc6bc2fa900cb4836f2c497feff99b2f13564a9f285"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 489
+sha256 = "e32378733e269dc958e65d1087beb04e039fc8fa2f53a84fd6717629705bdffb"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 16573
+sha256 = "d4af3d8df6107bb9da7b715acefe6776934d6e26a3e0aea9a88ef2bf1ed66053"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/codebook.bin"
+[[files]]
+size_bytes = 1720
+sha256 = "3aaa933c98da2755aa878dfd081e8ef7a96df89424094ea637cf049c8d728bec"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/image_metadata.csv"
+[[files]]
+size_bytes = 553
+sha256 = "071dde87072421fefb832f544a2fe9a02446a7dfdff535f6dbd5248dabb7ef84"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 34722828
+sha256 = "8499b47e5e2dc49b6ae92916ff4dfc1cfc230cd6bd7be171f0b5579f6142ea42"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/patch_assignments.csv"
+[[files]]
+size_bytes = 841
+sha256 = "c1b178c067d6f3d710cfdaa295b41bcd425e2644f5b64de1e8dc3e13e0d4d7d3"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 7874293
+sha256 = "0ffda7a5e21f7b618314b74f6dec532c2a616390a09a90e303a7e8230c74a1c8"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 490
+sha256 = "e5b5b891df9e41d7f2c245ae4b1bca0df20baac0cafd4a73111a9d6e89183e5d"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 2229
+sha256 = "15f86044829a72a846284bc7b386b3edede65c71cfb9080e0677124e062250a0"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/codebook.bin"
+[[files]]
+size_bytes = 1720
+sha256 = "e8597cb92d5ded20e4cde5ea2858569386d885dd16090c025d37a4c8a41ebd9b"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "1c315e94747c57aa2e7c15382f450af61b3bd7914a249a033bfc2d441920ceaa"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 32828913
+sha256 = "d83e8581da3b7a68b8bc05d57347c9c38e373b31eec86fb399588629ed0bf1cb"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/patch_assignments.csv"
+[[files]]
+size_bytes = 859
+sha256 = "8a5770679cfd1a18e953c6347b37febdec569a3d2cb78dd305c4ada7794a2cfa"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5145952
+sha256 = "e9715cfe269be369f1f3055fbeb73124a482bc017fad84821a71f3870ed1a5f0"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 490
+sha256 = "508b95feec6e943c32f51e1b9eef228032c4ac05eb2f1d8a0fa38e281bf3e9e5"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 2229
+sha256 = "8ccec250e94f9c8d1a6f687159408e32e0e20cdb32adc09ea43054fb6648deea"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/codebook.bin"
+[[files]]
+size_bytes = 1722
+sha256 = "0a034a83fde6860ed8fd1e20d27cee7f808cf21c0872d128542559f69dd30e06"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "ffb3d07b7d592ddb6c617574622fcd4c9dddd3f0ccbc98b04e7f7a10cc68f61b"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 32980400
+sha256 = "32c445e092c8cd5bdd7bddaee27b62a656573aa18c9bdf6532c29f94f3e04360"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/patch_assignments.csv"
+[[files]]
+size_bytes = 859
+sha256 = "21d521c0984d6a87a3cad61bb98eead41b531eddbeed9142bca3ba7d7518f074"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5177511
+sha256 = "eeb954906837d439e79454cec0ad8c8a119f5d7cd06ad9804e2cc877a83a34b8"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 487
+sha256 = "55c24519edda8f454039209d6029a511dafdad1e4be4fd70c1307145388612f0"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 2229
+sha256 = "f846093aaf85d02f5661cc437811f5d56d22effcc18a2b1030da3c9555bbc732"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/codebook.bin"
+[[files]]
+size_bytes = 1718
+sha256 = "fea6e452aa7010fa5b0e80e02fc458fa501f47d4e03e420b18d2acbf8c0be684"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "4e2ec2e4007273e866afb8ce6b9fd406f66750a156fd03c89dff5c09886f5e68"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 33089369
+sha256 = "14d25ab081f569c1f89c5cb4a0574a1e69bff177f85cd492df25bdb99f2a6135"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/patch_assignments.csv"
+[[files]]
+size_bytes = 854
+sha256 = "5ef5f6df457f8b5562ba1f126979f1ee7792c31f7bc475a180507b091fcf4a17"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5180123
+sha256 = "0a26e4144460088cd146df31afc7b9ff292352721cb9495ecc4601a32dee17a3"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 489
+sha256 = "5de32ac76bcc103a28f6171de0060e86452bde13169c7f5560d3414e78ad4519"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/checkpoint.toml"
+[[files]]
+size_bytes = 4285
+sha256 = "d4dcc54ae76f438ce014a12ae9502f6748052f09ac0cee2091df6e3ac2ca7881"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/codebook.bin"
+[[files]]
+size_bytes = 1720
+sha256 = "77550ea5f8aa298f3799be4e6aa612d0e7f727d900b6ba6745e362fb7f4b70c5"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "7fe573658952ce0b5090828c408981359a3472a4537a98570732d131654a5a88"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/integrity_report.toml"
+[[files]]
+size_bytes = 33223270
+sha256 = "f6cb93587317acf9c5b18624592aa7959f724190bf1b49375a151effd04e97de"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/patch_assignments.csv"
+[[files]]
+size_bytes = 856
+sha256 = "ed91f75406597ea91f9ad7b3c34e259ec05af56cf8f184c50cd8c296707401fa"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5831794
+sha256 = "85d2045bcab260d9ef05626560e26298065ec0b3fea0e58da7e46be3f0b1e20f"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/transactions.jsonl"
+[[files]]
+size_bytes = 491
+sha256 = "8feb4f9490be0a4f53344a93bbbe6d603142aecf72d7a2b89b0fd326639ef18b"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/checkpoint.toml"
+[[files]]
+size_bytes = 4285
+sha256 = "1e793623493f6a8cab6ed2a549a389ea5c9d61e25303113bf3458926de9ba1e9"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/codebook.bin"
+[[files]]
+size_bytes = 1722
+sha256 = "6d3411286540a40605e258ffbd16dd32cb373499e553899ca9c575cf816164c3"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "2ac9997d826b413367460fd2e450d5c1a375d3a2f536832c60be7fe1c09fc5cf"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/integrity_report.toml"
+[[files]]
+size_bytes = 33259891
+sha256 = "d20e53cd2703df2bf01b69101b9b6cbf55d06a82ee821e72721a30606ec0d4ce"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/patch_assignments.csv"
+[[files]]
+size_bytes = 856
+sha256 = "c81eef08b878c478bdd28f5879925d91c80e4b63f0bf08352896409458db537d"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5789570
+sha256 = "dac66543fa3150e1f9417d138a583daba054e04b693cf262415e6dea0ee58e16"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/transactions.jsonl"
+[[files]]
+size_bytes = 487
+sha256 = "14968de3a53b06264086a218b115ea340774cec4002f43f8efe33af087476c24"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/checkpoint.toml"
+[[files]]
+size_bytes = 4285
+sha256 = "3319b4bef55fc6c30ad08e38c7c3f48b802fc9be209e2d2f146b74b388fe4c45"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/codebook.bin"
+[[files]]
+size_bytes = 1718
+sha256 = "37cc489796cf9a82a6e1a7fff6e6a411b91a6a1e19a51449d3934f9f36ec4be3"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/config_snapshot.toml"
+[[files]]
+size_bytes = 1356733
+sha256 = "a67c103d36570740153459ebf9463ae29176f6952b2918c3fc40ef944fe97876"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/image_metadata.csv"
+[[files]]
+size_bytes = 552
+sha256 = "262ba82ea16c940f5fb8da53f0e0da8ed7d17a9e4348982838cf8121500ed03b"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/integrity_report.toml"
+[[files]]
+size_bytes = 33326603
+sha256 = "f364d7fbd549fb7f0cde5c6f126e590672ed0ff9cde84c6119b8f13018fd0672"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/patch_assignments.csv"
+[[files]]
+size_bytes = 852
+sha256 = "c5b115a4ce5ed30d736237af04d879856c658b4051a7b58d41010bdc3c7d4cc8"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/tc4_metrics.toml"
+[[files]]
+size_bytes = 1625619
+sha256 = "67c3a9e8e292dfac173442465fdb22664b85f816dbe23e2816848a8964e6228a"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/tid_image_mapping.csv"
+[[files]]
+size_bytes = 5859114
+sha256 = "9b4063ccc6c116249b4633b9df6cde5ec2ecf1036e3669f1be2bb96948811961"
+path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/transactions.jsonl"
+[[files]]
+size_bytes = 25885
+sha256 = "4b61511330b64c15abc6648a4c03e4c59538b0ea7252503276b324aeea8a87bf"
+path = "s0_source/manifest.toml"
+[[files]]
+size_bytes = 24632
+sha256 = "103f90e8479a004be13699aecd0c5220b20119b5101c429e74056f5e75d5cac5"
+path = "spatial_extension_run_summary.toml"
+
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K16_seed42"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K16_seed42"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K16_seed42"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K16_seed123"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K16_seed123"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K16_seed123"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K16_seed2026"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K16_seed2026"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K16_seed2026"
+k = 16
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K32_seed42"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K32_seed42"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K32_seed42"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K32_seed123"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K32_seed123"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K32_seed123"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K32_seed2026"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K32_seed2026"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K32_seed2026"
+k = 32
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K64_seed42"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K64_seed42"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K64_seed42"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K64_seed123"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K64_seed123"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K64_seed123"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K64_seed2026"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K64_seed2026"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K64_seed2026"
+k = 64
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K128_seed42"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K128_seed42"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K128_seed42"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K128_seed123"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K128_seed123"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K128_seed123"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K128_seed2026"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K128_seed2026"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K128_seed2026"
+k = 128
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K256_seed42"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K256_seed42"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K256_seed42"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+seed = 42
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K256_seed123"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K256_seed123"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K256_seed123"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+seed = 123
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S1"
+run_id = "FashionMNIST_T2_S1_B0_K256_seed2026"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S3"
+run_id = "FashionMNIST_T2_S3_B0_K256_seed2026"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+[[spatial_statuses]]
+issue = ""
+variant = "S6-B"
+run_id = "FashionMNIST_T2_S6B_B0_K256_seed2026"
+k = 256
+status = "COMPLETED"
+source_run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+seed = 2026
+transaction_count = 70000
+integrity = "PASS"
+
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K16_seed42"
+k = 16
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed42/tc4_metrics.toml"
+seed = 42
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K16_seed123"
+k = 16
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed123/tc4_metrics.toml"
+seed = 123
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K16_seed2026"
+k = 16
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K16_seed2026/tc4_metrics.toml"
+seed = 2026
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K32_seed42"
+k = 32
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed42/tc4_metrics.toml"
+seed = 42
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K32_seed123"
+k = 32
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed123/tc4_metrics.toml"
+seed = 123
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K32_seed2026"
+k = 32
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K32_seed2026/tc4_metrics.toml"
+seed = 2026
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K64_seed42"
+k = 64
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed42/tc4_metrics.toml"
+seed = 42
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K64_seed123"
+k = 64
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed123/tc4_metrics.toml"
+seed = 123
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K64_seed2026"
+k = 64
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K64_seed2026/tc4_metrics.toml"
+seed = 2026
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K128_seed42"
+k = 128
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed42/tc4_metrics.toml"
+seed = 42
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K128_seed123"
+k = 128
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed123/tc4_metrics.toml"
+seed = 123
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K128_seed2026"
+k = 128
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K128_seed2026/tc4_metrics.toml"
+seed = 2026
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K256_seed42"
+k = 256
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed42/tc4_metrics.toml"
+seed = 42
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K256_seed123"
+k = 256
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed123/tc4_metrics.toml"
+seed = 123
+fit_result_status = "FITTED"
+[[fit_statuses]]
+issue = ""
+status = "COMPLETED"
+run_id = "FashionMNIST_T2_S0_B0_K256_seed2026"
+k = 256
+checkpoint_path = "s0_source/S0/FashionMNIST_T2_S0_B0_K256_seed2026/tc4_metrics.toml"
+seed = 2026
+fit_result_status = "FITTED"
+
+[phase_statuses]
+c2 = "NOT_RUN"
+c1 = "COMPLETED_WITH_CENSORING"
+part2 = "COMPLETED"
+part1 = "COMPLETED"
+k_recommendation = "PROVISIONAL"
+analysis = "PARTIAL"
+c3 = "NOT_RUN"
+pattern_review = "NOT_RUN"
+representation_recommendation = "PROVISIONAL"
+final_decision = "INCONCLUSIVE"

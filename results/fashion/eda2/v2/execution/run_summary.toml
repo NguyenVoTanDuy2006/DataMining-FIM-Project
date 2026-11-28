@@ -1,0 +1,37 @@
+[pilot_c3]
+runs = 108
+completed_length_capped = 108
+status = "COMPLETED_LENGTH_CAPPED"
+selected_codebooks = 9
+updated_unix_seconds = 1.79505597802183e9
+
+[pilot_c1]
+completed = 45
+status = "COMPLETED"
+censored_or_blocked = 0
+updated_unix_seconds = 1.795029011159324e9
+rows = 45
+
+[interpretability_review]
+patterns = 319
+status = "PENDING_HUMAN_ANNOTATION"
+updated_unix_seconds = 1.795055980978311e9
+
+[pilot_c2]
+decision_rows = 15
+status = "COMPLETED"
+selected = 9
+updated_unix_seconds = 1795056263.06833
+
+[final_decision]
+automated_winner_selected = false
+status = "INCONCLUSIVE"
+comparative_rows = 45
+updated_unix_seconds = 1.79505618230826e9
+
+[analysis_a_b]
+expected_databases = 45
+codebooks = 15
+status = "COMPLETED"
+validated_databases = 45
+updated_unix_seconds = 1.795028796003637e9

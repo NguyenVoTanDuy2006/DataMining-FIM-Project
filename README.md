@@ -30,9 +30,10 @@ dùng các dependency trong `Project.toml`; cần chạy `Pkg.instantiate()` tr�
 dự án trong terminal, không nhập vào dấu nhắc `julia>`.
 Các khối PowerShell bên dưới có ghi rõ loại terminal cần dùng.
 
-Dữ liệu và đầu ra sinh khi chạy được lưu trong `data/` và `results/`,
-không đưa vào Git. Các đường dẫn đầu ra bên dưới chỉ xuất hiện sau khi chạy
-script tương ứng; bảng và hình đã chọn nằm trong báo cáo.
+Dữ liệu nguồn và đầu ra đầy đủ của từng lượt chạy được lưu trong `data/` và
+`results/`, phần lớn không đưa vào Git. Một số gói kết quả Fashion-MNIST đã
+chọn để đối chiếu được lưu trong Git; các thư mục tương ứng được ghi trong
+`.gitignore`.
 
 Bốn benchmark Chess, Mushroom, Retail và T10I4D100K được lưu công khai tại
 [Hugging Face: Yelgsef/fimi-eclat-benchmarks](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks).
@@ -307,6 +308,19 @@ are absent; otherwise it checks the local files in `data/raw/fashion-mnist/`.
 Large archives and generated run artifacts are not committed.
 
 </details>
+
+## Khảo sát cấu hình Fashion-MNIST
+
+Notebook Julia [EDA2 và mở rộng biểu diễn giao dịch](notebooks/fashion-mnist/archive/experiments/EDA2_FashionMNIST_Transaction_Evaluation.ipynb)
+chạy độc lập trên Colab CPU. Notebook khảo sát năm giá trị $K$ với ba seed,
+tạo các biểu diễn BoVW nhị phân, theo vùng, theo dải và quan hệ lân cận, rồi
+ghi bảng, hình và manifest vào gói kết quả dưới `/content`. Các kiểm tra vùng
+và dải chỉ áp dụng cho hai biểu diễn có vị trí; biểu diễn quan hệ lân cận có
+kiểm tra riêng cho cạnh, góc và cặp chạm biên.
+
+Mở [notebook khảo sát trên Colab](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/master/notebooks/fashion-mnist/archive/experiments/EDA2_FashionMNIST_Transaction_Evaluation.ipynb).
+Kết quả đã lưu nằm tại `results/fashion/eda2/v3_20261127/`; các artifact TC6
+được giữ tại `results/fashion/tc/tc6_configs/`.
 
 ## Chạy ứng dụng Groceries
 

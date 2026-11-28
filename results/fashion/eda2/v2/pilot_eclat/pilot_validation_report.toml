@@ -1,0 +1,14 @@
+engine_version = "max-length-v1"
+memory_cap_enforced = false
+timeout_seconds_per_database = 600.0
+peak_rss_measured = false
+minsup_fraction = 0.03
+max_pair_candidates = 20000000
+eda2_module_sha256 = "a84759a8601e9a5cf00fa2ede08e522a498f68cef56dc727ad11d0447c163932"
+minsup_count = 2100
+memory_cap_bytes_configured = 8589934592
+expected_runs = 45
+completed_or_censored_rows = 45
+eclat_baseline_sha256 = "0a480452321e9024aaeced4b6334500ad3a9795c947aa03edc3f7d7ab227c4ed"
+engine_name = "EclatFIM.mine(:set)"
+max_length = 2
