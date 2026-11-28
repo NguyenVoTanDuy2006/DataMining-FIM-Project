@@ -3,7 +3,7 @@
 Báo cáo tổng hợp bốn nhóm thực nghiệm của Eclat Julia: runtime và số frequent
 itemsets theo minsup, Peak RAM, scalability theo số giao dịch, và ảnh hưởng của
 độ dài giao dịch. Các bảng lấy từ CSV của những lần đo đã thực hiện; mỗi phần
-liên kết đến dữ liệu gốc, metadata và biểu đồ tương ứng.
+ghi đường dẫn dữ liệu gốc, metadata và biểu đồ tương ứng.
 
 Các script Python trong `scripts/plot_*.py` chỉ đọc/kiểm tra CSV và vẽ hình.
 Báo cáo này được biên tập trong `docs/`, không tự sinh khi chạy script vẽ.
@@ -42,12 +42,15 @@ Giữ các giao dịch trùng nhau; mỗi dòng vẫn có TID riêng. Bản Mush
 
 ### Tổ chức chứng cứ
 
+Các đường dẫn `results/` dưới đây là đầu ra local, không được đưa lên Git.
+Chạy lại bằng notebook demo hoặc các lệnh cuối tài liệu để tạo bộ kết quả mới.
+
 | Thư mục | CSV tổng hợp | Từng mẫu | Metadata |
 | --- | --- | --- | --- |
-| Runtime | [summary.csv](../results/benchmarks/processes/summary.csv) | [runs.csv](../results/benchmarks/processes/runs.csv) | [metadata.md](../results/benchmarks/processes/metadata.md) |
-| Peak RAM | [summary.csv](../results/benchmarks/peak_ram/summary.csv) | [runs.csv](../results/benchmarks/peak_ram/runs.csv) | [metadata.md](../results/benchmarks/peak_ram/metadata.md) |
-| Scalability | [summary.csv](../results/benchmarks/scalability/summary.csv) | [runs.csv](../results/benchmarks/scalability/runs.csv) | [metadata.md](../results/benchmarks/scalability/metadata.md) |
-| Độ dài giao dịch | [summary.csv](../results/benchmarks/transaction_length/summary.csv) | [runs.csv](../results/benchmarks/transaction_length/runs.csv) | [metadata.md](../results/benchmarks/transaction_length/metadata.md) |
+| Runtime | `results/benchmarks/processes/summary.csv` | `results/benchmarks/processes/runs.csv` | `results/benchmarks/processes/metadata.md` |
+| Peak RAM | `results/benchmarks/peak_ram/summary.csv` | `results/benchmarks/peak_ram/runs.csv` | `results/benchmarks/peak_ram/metadata.md` |
+| Scalability | `results/benchmarks/scalability/summary.csv` | `results/benchmarks/scalability/runs.csv` | `results/benchmarks/scalability/metadata.md` |
+| Độ dài giao dịch | `results/benchmarks/transaction_length/summary.csv` | `results/benchmarks/transaction_length/runs.csv` | `results/benchmarks/transaction_length/metadata.md` |
 
 Metadata là bản ghi tại thời điểm đo. Checksum source có thể khác file hiện tại
 nếu sau lần đo chỉ sửa mô tả, ngôn ngữ hoặc tổ chức báo cáo. Các CSV, tham chiếu
@@ -92,7 +95,7 @@ Các số này là thời gian toàn bộ tiến trình, khác các CSV `*_basel
 đo riêng `mine` sau warm-up trên dữ liệu trong RAM. Cache hệ điều hành có sẵn;
 không phải cold disk cache. Các tiến trình nền Windows không được kiểm soát
 hoàn toàn. Cấu hình máy, phiên bản và checksum input/JAR/source/Manifest nằm
-trong [metadata.md](../results/benchmarks/processes/metadata.md). Nhãn ECLAT
+trong `results/benchmarks/processes/metadata.md`. Nhãn ECLAT
 trong log không thay thế phiên bản hoặc SHA-256 của toàn bộ JAR.
 
 ### Kết quả tại minsup thấp nhất của mỗi bộ
@@ -168,12 +171,12 @@ tỉ số optimized/SPMF và số lần đo để kiểm tra lại các kết lu
 
 ### Biểu đồ và dữ liệu gốc
 
-![Runtime toàn bộ tiến trình](../results/benchmarks/processes/runtime_processes.png)
+Biểu đồ: `results/benchmarks/processes/runtime_processes.png` (được tạo khi chạy script vẽ).
 
-![Số itemset](../results/benchmarks/processes/itemset_counts.png)
+Biểu đồ: `results/benchmarks/processes/itemset_counts.png` (được tạo khi chạy script vẽ).
 
-- [summary.csv](../results/benchmarks/processes/summary.csv): median/min/max và tỉ số từng cấu hình.
-- [runs.csv](../results/benchmarks/processes/runs.csv): 420 mẫu và trạng thái đối chiếu.
+- `results/benchmarks/processes/summary.csv`: median/min/max và tỉ số từng cấu hình.
+- `results/benchmarks/processes/runs.csv`: 420 mẫu và trạng thái đối chiếu.
 - Có thêm bản SVG để dùng trong báo cáo.
 
 <a id="peak-ram"></a>
@@ -202,7 +205,7 @@ tỉ số optimized/SPMF và số lần đo để kiểm tra lại các kết lu
 
 Giảm RAM = 100 × (1 − median BitVector / median Set). Giá trị âm nghĩa là optimized dùng nhiều RAM hơn.
 
-![Peak RAM baseline và optimized](../results/benchmarks/peak_ram/peak_ram.png)
+Biểu đồ: `results/benchmarks/peak_ram/peak_ram.png` (được tạo khi chạy script vẽ).
 
 ### Phân tích và giới hạn
 
@@ -222,7 +225,7 @@ Giảm RAM = 100 × (1 − median BitVector / median Set). Giá trị âm nghĩa
 
 ### Phương pháp
 
-- Retail đầy đủ có 88.162 giao dịch; cộng 1 vào ID để đáp ứng hợp đồng ID dương. Từ một hoán vị chỉ số dòng có seed cố định, lấy lần lượt floor(N × tỷ lệ) chỉ số đầu, rồi sắp lại theo thứ tự dòng gốc. Tập nhỏ nằm trong tập lớn. Giao dịch trùng vẫn giữ riêng. Seed, thuật toán chọn và checksum từng tập con/chỉ số nằm trong [metadata.md](../results/benchmarks/scalability/metadata.md).
+- Retail đầy đủ có 88.162 giao dịch; cộng 1 vào ID để đáp ứng hợp đồng ID dương. Từ một hoán vị chỉ số dòng có seed cố định, lấy lần lượt floor(N × tỷ lệ) chỉ số đầu, rồi sắp lại theo thứ tự dòng gốc. Tập nhỏ nằm trong tập lớn. Giao dịch trùng vẫn giữ riêng. Seed, thuật toán chọn và checksum từng tập con/chỉ số nằm trong `results/benchmarks/scalability/metadata.md`.
 - Mỗi mẫu tạo tiến trình Julia mới, một luồng; đọc tập con và warm-up mine một lần trên đúng tập con/cùng minsup. Sau GC, đo một lần mine bằng @elapsed. Không tính khởi động, đọc input, warm-up/JIT, GC trước đo, ghi output hoặc correctness. GC bên trong mine được tính. Thứ tự hai backend đảo giữa các lần.
 - Đây là wall-clock của hàm mine sau warm-up, khác phép đo toàn bộ tiến trình trong processes/. SPMF tạo tham chiếu ngoài phép đo, không được đặt lên cùng đường runtime với kernel Julia.
 - Giữ minsup tương đối nên min_count tăng theo số giao dịch. Số itemset có thể thay đổi do phân bố tập con và làm tròn support. Runtime không bắt buộc tăng tại mọi điểm.
@@ -239,7 +242,7 @@ Giảm RAM = 100 × (1 − median BitVector / median Set). Giá trị âm nghĩa
 
 Tỉ số Set / BitVector lớn hơn 1 nghĩa là Set mất nhiều thời gian hơn trong cấu hình tương ứng.
 
-![Scalability Retail](../results/benchmarks/scalability/scalability.png)
+Biểu đồ: `results/benchmarks/scalability/scalability.png` (được tạo khi chạy script vẽ).
 
 ### Nhận xét về xu hướng
 
@@ -275,7 +278,7 @@ Thiết kế có kiểm soát: N = 5000 giao dịch, M = 64 item quan sát đư�
 | 16 | 25% | 80000 | 2077 | 485.904 [481.350–551.469] | 8.747 [8.408–11.089] | 55.55 |
 | 20 | 31.25% | 100000 | 2080 | 804.295 [729.641–860.686] | 8.598 [8.418–9.256] | 93.54 |
 
-![Runtime và output size theo độ dài giao dịch](../results/benchmarks/transaction_length/transaction_length.png)
+Biểu đồ: `results/benchmarks/transaction_length/transaction_length.png` (được tạo khi chạy script vẽ).
 
 Trục thời gian dùng thang log để nhìn rõ cả hai backend khi chênh lệch nhiều bậc. Thanh sai số là min–max quan sát, không phải khoảng tin cậy.
 

@@ -1,0 +1,106 @@
+\section{Thuật toán Eclat và tối ưu hóa}
+\label{sec:tv1}
+
+\subsection{Bài toán và lựa chọn thuật toán}
+Cho cơ sở dữ liệu giao dịch $D=(t_1,\ldots,t_N)$ trên tập mục $I$ có $M$ phần tử. Mỗi $t_j\subseteq I$ là một giao dịch. Hai giao dịch có nội dung giống nhau vẫn được tính riêng. Với tập mục $X\subseteq I$, \emph{support count} (số giao dịch chứa $X$) và \emph{relative support} (độ hỗ trợ tương đối) được định nghĩa:
+\begin{equation}
+ c(X)=|\{j:X\subseteq t_j\}|,\qquad s(X)=\frac{c(X)}{N}.
+ \label{eq:tv1-support}
+\end{equation}
+Với $N>0$ và ngưỡng $s\in(0,1]$, bài toán \emph{frequent itemset mining} (khai thác tập phổ biến) yêu cầu tìm mọi $X\ne\varnothing$ thỏa $c(X)\ge c_{\min}$. Ngưỡng đếm tương ứng là
+\begin{equation}
+ c_{\min}=\lceil sN\rceil.
+ \label{eq:tv1-threshold}
+\end{equation}
+Chẳng hạn, với $N=5$ và $s=0{,}5$, một tập cần xuất hiện trong ít nhất ba giao dịch.
+
+Cài đặt sử dụng Eclat theo mô tả của Zaki~\cite{zaki}, với \emph{vertical representation} (biểu diễn dọc) và \emph{depth-first search}, DFS (duyệt theo chiều sâu). Apriori~\cite{agrawal} sinh ứng viên theo từng mức, còn Eclat tính số hỗ trợ bằng giao các tập định danh giao dịch. Cơ chế này cho phép khảo sát hai cấu trúc dữ liệu \texttt{Set} và \texttt{BitVector} trong Julia~\cite{julia} trên cùng quy trình duyệt. SPMF cung cấp cài đặt tham chiếu độc lập để kiểm chứng~\cite{spmf}.
+
+\subsection{Biểu diễn dọc và nguyên tắc mở rộng}
+Với mỗi $X$, đặt $T(X)=\{j:X\subseteq t_j\}$ là \emph{transaction-ID set}, TID-set (tập định danh giao dịch chứa $X$). Khi đó:
+\begin{equation}
+ T(X\cup Y)=T(X)\cap T(Y),\qquad c(X)=|T(X)|.
+ \label{eq:tv1-intersection}
+\end{equation}
+Ví dụ, với $D=(\{1,2,3\},\{1,3\},\{2,3\},\{1,2\})$, ta có $T(\{1\})=\{1,2,4\}$ và $T(\{2\})=\{1,3,4\}$. Vì vậy $T(\{1,2\})=\{1,4\}$, nên số giao dịch hỗ trợ bằng 2. Nếu $s=0{,}5$, tập $\{1,2\}$ phổ biến nhưng $\{1,2,3\}$ không phổ biến vì chỉ xuất hiện một lần.
+
+Các mục được sắp theo mã tăng dần. Tại tiền tố $P$, danh sách mở rộng chứa các cặp $(i,T(P\cup\{i\}))$. Những tập có chung tiền tố tạo thành một \emph{equivalence class} (lớp tương đương); mỗi nhánh chỉ ghép một mục với các mục đứng sau nó. Độ hỗ trợ có tính \emph{anti-monotonicity} (phản đơn điệu): nếu $X\subseteq Y$ thì $T(Y)\subseteq T(X)$, suy ra $c(Y)\le c(X)$. Do đó, khi một phép giao cho số hỗ trợ nhỏ hơn $c_{\min}$, toàn bộ nhánh mở rộng tương ứng được loại.
+
+\subsection{Quy trình khai thác và tính đúng đắn}
+Đầu tiên, thuật toán dựng TID-set của từng mục, giữ các tập một mục đạt $c_{\min}$ và sắp theo ID. Sau đó gọi thủ tục trong Bảng~\ref{tab:tv1-pseudocode} với tiền tố rỗng. TID-set của mỗi ứng viên đã bao gồm điều kiện xuất hiện của toàn bộ tiền tố, nên phép giao ở bước 7 tạo đúng TID-set cho tập mở rộng.
+
+\begin{table}[t]
+\caption{Giả mã DFS dùng chung cho hai phiên bản Eclat.}
+\label{tab:tv1-pseudocode}
+\begin{minipage}{\columnwidth}
+\small
+\begin{algorithmic}[1]
+\REQUIRE Tiền tố $P$; danh sách $C=[(i,A_i)]$ tăng theo ID, với $A_i=T(P\cup\{i\})$, $|A_i|\ge c_{\min}$; ngưỡng $c_{\min}$.
+\ENSURE Bổ sung mọi tập phổ biến thuộc nhánh $P$ vào $R$.
+\FOR{mỗi vị trí $a$ trong $C$}
+  \STATE $(i,A)\gets C[a]$; $Q\gets P\cup\{i\}$
+  \STATE $R[Q]\gets |A|$
+  \STATE $C'\gets [\,]$
+  \FOR{mỗi vị trí $b>a$ trong $C$}
+    \STATE $(j,B)\gets C[b]$
+    \STATE $H\gets A\cap B$
+    \IF{$|H|\ge c_{\min}$}
+      \STATE Thêm $(j,H)$ vào $C'$
+    \ENDIF
+  \ENDFOR
+  \IF{$C'\ne[\,]$}
+    \STATE Gọi EclatDFS$(Q,C',c_{\min},R)$
+  \ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{minipage}
+\end{table}
+
+\textit{Số hỗ trợ chính xác.} Ở gốc, mỗi TID-set được dựng trực tiếp từ giao dịch. Nếu các TID-set tại một mức là đúng, công thức~\eqref{eq:tv1-intersection} bảo đảm tập ở mức kế tiếp cũng đúng. Do đó mọi số hỗ trợ trả về đều bằng số giao dịch thực sự chứa tập mục.
+
+\textit{Đầy đủ và không lặp.} Mỗi tập mục có duy nhất một thứ tự tăng dần. Nếu tập đó phổ biến, mọi tiền tố của nó cũng phổ biến theo tính phản đơn điệu, nên đường mở rộng tương ứng không bị cắt bỏ. Quy tắc chỉ ghép với mục đứng sau bảo đảm đường này được duyệt đúng một lần. Thuật toán vì vậy xuất toàn bộ tập phổ biến, mỗi tập xuất hiện đúng một lần.
+
+\subsection{Cài đặt với Set và BitVector}
+Phiên bản cơ sở dùng \texttt{Set} để lưu các định danh giao dịch chứa
+từng mục. Phép giao xét các định danh thực sự có mặt, phù hợp khi một
+mục chỉ xuất hiện trong ít giao dịch. Chi phí lưu trữ gồm các định danh
+và cấu trúc bảng băm.
+
+Phiên bản tối ưu dùng \texttt{BitVector} với $N$ bit. Bit thứ $j$ cho
+biết giao dịch $j$ có chứa mục đang xét hay không. Phép AND theo bit
+tạo giao, sau đó số bit bật cho biết số giao dịch hỗ trợ. Mỗi phép AND
+có thể xử lý nhiều bit cùng lúc. Lợi thế này dễ thấy khi tập định danh
+dày, còn với tập thưa, thuật toán vẫn phải quét các bit bằng 0.
+
+Phiên bản tối ưu đếm số giao dịch chứa từng mục trước khi cấp phát
+vector. Chỉ các tập một mục đạt ngưỡng mới cần vector bit. Cách làm
+này thêm một lượt quét dữ liệu để giảm số vector phải lưu, đặc biệt
+khi nhiều mục hiếm. Hai phiên bản dùng cùng quy tắc cắt nhánh và trả
+về cùng loại kết quả. Vì phiên bản tối ưu thay đổi cả cách biểu diễn
+lẫn bước cấp phát, chênh lệch trong thực nghiệm là tác động kết hợp
+của hai thay đổi.
+
+\subsection{Độ phức tạp và giới hạn}
+Với \texttt{Set}, chi phí kỳ vọng của một phép giao tỷ lệ với kích
+thước tập nhỏ hơn, giả sử tra cứu bảng băm có chi phí kỳ vọng hằng số.
+Với \texttt{BitVector}, giao và đếm cần $O(\lceil N/w\rceil)$ thao tác
+trên các từ máy, trong đó $w$ là số bit mỗi từ. Do đó, mật độ tập định
+danh và số phép giao ảnh hưởng đến thời gian theo những cách khác nhau
+ở hai phiên bản.
+
+Số kết quả cũng ảnh hưởng đến cả thời gian và bộ nhớ. Với $M$ mục,
+trường hợp xấu nhất có $2^M-1$ tập phổ biến khác rỗng. Ngay cả khi từng
+phép giao nhanh, việc liệt kê và lưu toàn bộ tập phổ biến vẫn có thể
+tốn nhiều tài nguyên.
+
+\subsection{Đầu vào, đầu ra và kiểm chứng}
+Cài đặt đọc giao dịch theo định dạng văn bản của SPMF. Mỗi mục chỉ
+được tính một lần trong từng giao dịch, còn các giao dịch có nội dung
+giống nhau được giữ riêng. Kết quả gồm các tập mục cùng số giao dịch
+hỗ trợ. Công cụ dòng lệnh cho phép chọn ngưỡng hỗ trợ, cách biểu diễn
+và đường dẫn tệp vào, tệp ra.
+
+Nhóm dùng phép đếm vét cạn trên dữ liệu nhỏ để kiểm tra thuật toán
+bằng một cách tính độc lập. Chương~II trình bày đối chiếu từng tập mục
+và số hỗ trợ với SPMF trên năm bộ dữ liệu đầy đủ, sau đó khảo sát chi
+phí của hai cách cài đặt khi thay đổi ngưỡng và đặc điểm giao dịch.

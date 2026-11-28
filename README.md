@@ -4,14 +4,17 @@ Julia project for a from-scratch Eclat implementation, SPMF comparison, four ben
 
 **Team:** Trung (TV1, algorithm), Khang (TV2, benchmarks and Groceries), Duy (TV3, Fashion-MNIST and demo).
 
-## Current state
+## Tổng quan
 
-Eclat baseline (`:set`), optimized (`:bitvector`) và ứng dụng Groceries đã có cài đặt. Groceries đọc giỏ hàng, tạo mapping, mã hóa giao dịch, khai thác luật, xuất top 10 theo lift và so sánh 12 cấu hình. Các test áp dụng cho hai backend, SPMF I/O và phần ứng dụng của TV2; xem thêm kết quả đối chiếu của TV1 trong [tài liệu thuật toán](docs/TV1_algorithm.md). Demo Colab vẫn cần hoàn tất.
+Dự án có hai phiên bản Eclat (`:set` và `:bitvector`), kiểm chứng với SPMF
+trên năm CSDL, bốn nhóm benchmark và hai ứng dụng Groceries, Fashion-MNIST.
+Xem [báo cáo nhóm](docs/Report.pdf) và [hướng dẫn biên dịch](docs/report/README.md).
 
-Phần code/thực nghiệm TV2 bao gồm runtime/count theo minsup cho Set, BitVector
-và SPMF, Peak RAM, scalability Retail và dữ liệu tổng hợp tăng độ dài giao dịch.
-Xem [checklist bàn giao](docs/TV2_checklist.md) để phân biệt kết quả đã có với
-Colab, bản lưu trữ dữ liệu và PDF còn cần tích hợp trước khi nộp.
+Bắt đầu với [demo Eclat, Groceries và benchmark](#demo-eclat-groceries-và-benchmark-trên-google-colab)
+hoặc [ba notebook Fashion-MNIST](#demo-fashion-mnist-trên-google-colab).
+Notebook Eclat đã chạy đầy đủ trên Linux local và VM Colab CPU bằng kernel
+Julia qua Jupyter; chi tiết kiểm chứng nằm ở phần demo bên dưới. Các nguồn benchmark được lưu trên
+[Hugging Face](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks).
 
 ## Julia setup
 
@@ -22,11 +25,22 @@ julia --project=. -e 'using Pkg; Pkg.instantiate()'
 julia --project=. -e 'using EclatFIM'
 ```
 
-`Manifest.toml` ghi môi trường Julia 1.13.3 của lần kiểm chứng; core và các runner
-hiện không cần package Julia bên ngoài. Chạy các lệnh bên dưới từ thư mục gốc
-dự án trong terminal PowerShell, không nhập vào dấu nhắc `julia>`.
+`Manifest.toml` ghi môi trường Julia 1.13.3 của lần kiểm chứng. Phần Fashion-MNIST
+dùng các dependency trong `Project.toml`; cần chạy `Pkg.instantiate()` trước. Chạy các lệnh bên dưới từ thư mục gốc
+dự án trong terminal, không nhập vào dấu nhắc `julia>`.
+Các khối PowerShell bên dưới có ghi rõ loại terminal cần dùng.
 
-Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.
+Dữ liệu và đầu ra sinh khi chạy được lưu trong `data/` và `results/`,
+không đưa vào Git. Các đường dẫn đầu ra bên dưới chỉ xuất hiện sau khi chạy
+script tương ứng; bảng và hình đã chọn nằm trong báo cáo.
+
+Bốn benchmark Chess, Mushroom, Retail và T10I4D100K được lưu công khai tại
+[Hugging Face: Yelgsef/fimi-eclat-benchmarks](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks).
+Chạy `julia --project=. scripts/prepare_data.jl` để tải và chuẩn hóa dữ liệu.
+Downloader ghim phiên bản `92ce74f1107250b7c8cd79df07ba415df58ca98d`,
+xác minh SHA-256 và giữ nguyên dữ liệu đã có nếu checksum đúng. Bản lưu khớp từng
+byte với dữ liệu FIMI dùng cho thực nghiệm; Mushroom có 8.124 giao dịch.
+Xem [nguồn, checksum và điều kiện sử dụng](docs/benchmark_data.md).
 
 The core API is:
 
@@ -49,7 +63,7 @@ have the same output.
 
 ## Kiểm thử tự động
 
-Chạy từ thư mục gốc dự án trong terminal PowerShell:
+Chạy từ thư mục gốc dự án:
 
 ```powershell
 julia --project=. test/runtests.jl
@@ -65,7 +79,7 @@ julia --project=. test/runtests.jl
 Auto test dùng Julia, không cần Python hoặc gọi Java. Cần có đủ năm CSDL đầy đủ
 đã chuẩn hóa trong `data/`; thiếu file sẽ báo lỗi, không tự lấy mẫu hoặc bỏ qua
 test. Dữ liệu lớn được Git-ignore và phải chuẩn bị trước trên máy chạy test.
-Các đáp án SPMF nhỏ nằm trong `results/`; test chỉ đọc, không ghi đè kết quả.
+Các đáp án SPMF cần được tạo trước trong `results/`; test chỉ đọc, không ghi đè kết quả.
 
 Groceries đọc từ `data/processed/groceries_spmf.txt`; bốn CSDL còn lại đọc từ
 `data/benchmark/processed/processes/`.
@@ -90,37 +104,38 @@ foreach(prepare_input, DATASETS)
 '@ | julia --project=. -
 ```
 
-Đáp án Groceries và nguồn gốc nằm trong
-[groceries_spmf_0.01_metadata.md](results/groceries/groceries_spmf_0.01_metadata.md).
+Đáp án Groceries lưu tại `results/groceries/groceries_spmf_0.01.txt`.
+Notebook demo tạo mới cả năm đáp án SPMF trước khi chạy test.
 Đáp án bốn benchmark nằm trong `results/benchmarks/peak_ram/spmf/`, dùng đúng
 đầu vào và minsup được ghi trong metadata của phép đo Peak RAM.
 
 Theo [đề bài](docs/itemset.md), auto test phải bao phủ ít nhất 5 CSDL, khớp SPMF, và output lần chạy cuối phải có trong README. File `test_benchmark.jl` trong cấu trúc gợi ý không có nghĩa là bắt buộc unit test từng hàm đo runtime, Peak RAM hoặc sinh CSV.
 
-Lần chạy gần nhất ngày 2026-11-16 trên Julia 1.13.3 / Windows: **439/439 assertions pass**.
-Set và BitVector đều khớp 100% itemset/support của cả 5 CSDL đầy đủ; không thiếu/thừa
-itemset hoặc sai support.
+Lần chạy ngày 2026-11-27 trên VM Colab CPU / Julia 1.12.6: **569/569 assertions pass**.
+Notebook dùng source ghim tại commit `c93fed0c436275e51f8672f6e7e8182d9b855040`.
+Set và BitVector khớp toàn bộ itemset/support với SPMF trên năm CSDL đầy đủ.
+Python release tests: **16/16 pass**; kiểm tra cấu trúc bốn notebook release: **PASS**.
 
 <details>
-<summary>Output của julia --project=. test/runtests.jl</summary>
+<summary>Output test Julia trên Colab ngày 2026-11-27 (phần kết quả kiểm thử)</summary>
 
 ```text
 Test Summary:                    | Pass  Total  Time
-Eclat correctness and edge cases |   21     21  2.9s
+Eclat correctness and edge cases |   22     22  5.3s
 Test Summary:                 | Pass  Total  Time
-SPMF I/O and exact comparison |   11     11  2.7s
+SPMF I/O and exact comparison |   11     11  3.6s
 Test Summary:              | Pass  Total  Time
-Groceries - xu ly gio hang |   10     10  0.5s
+Groceries - xu ly gio hang |   10     10  0.8s
 Test Summary:            | Pass  Total  Time
-Luat ket hop - cong thuc |   11     11  0.1s
+Luat ket hop - cong thuc |   11     11  0.3s
 Test Summary:                 | Pass  Total  Time
-Luat ket hop - tap con hop le |    7      7  0.8s
+Luat ket hop - tap con hop le |    7      7  2.0s
 Test Summary:              | Pass  Total  Time
-Luat ket hop - sinh va loc |   59     59  1.6s
+Luat ket hop - sinh va loc |   59     59  2.4s
 Test Summary:                                 | Pass  Total  Time
-BitVector singleton pruning before allocation |   18     18  0.4s
+BitVector singleton pruning before allocation |   18     18  0.9s
 Test Summary:                                          | Pass  Total  Time
-Pruned BitVector matches independent exhaustive oracle |  280    280  0.6s
+Pruned BitVector matches independent exhaustive oracle |  280    280  1.6s
 Groceries / set: matched=333/333; missing=0; extra=0; support_mismatches=0
 Groceries / bitvector: matched=333/333; missing=0; extra=0; support_mismatches=0
 Chess / set: matched=1386/1386; missing=0; extra=0; support_mismatches=0
@@ -132,27 +147,142 @@ Retail / bitvector: matched=18/18; missing=0; extra=0; support_mismatches=0
 T10I4D100K / set: matched=237/237; missing=0; extra=0; support_mismatches=0
 T10I4D100K / bitvector: matched=237/237; missing=0; extra=0; support_mismatches=0
 Test Summary:                | Pass  Total  Time
-Correctness SPMF tren 5 CSDL |   22     22  3.7s
+Correctness SPMF tren 5 CSDL |   22     22  8.6s
+Test Summary:           | Pass  Total  Time
+Fashion-MNIST IDX input |   17     17  1.9s
+Test Summary:                    | Pass  Total  Time
+Verified Fashion-MNIST downloads |    7      7  0.3s
+Test Summary:                  | Pass  Total  Time
+Stable Fashion-MNIST image IDs |   12     12  0.0s
+Test Summary:                             | Pass  Total  Time
+Fashion-MNIST dataset manifest round trip |   11     11  4.5s
+Test Summary:                        | Pass  Total  Time
+Fashion transaction input validation |    9      9  0.8s
+Test Summary:            | Pass  Total   Time
+Fashion-MNIST TC helpers |   39     39  11.9s
+Test Summary:                         | Pass  Total  Time
+Release Fashion-FIM transaction input |    9      9  1.7s
+Test Summary:                | Pass  Total  Time
+Fashion TC6 spatial encoding |    1      1  0.7s
+Test Summary:                    | Pass  Total  Time
+EDA2 input and mining invariants |   18     18  3.0s
+Test Summary:                                   | Pass  Total  Time
+Verified input download preserves existing data |    6      6  0.2s
 ```
 
 </details>
 
-## Fashion-MNIST release
+## Demo Eclat, Groceries và benchmark trên Google Colab
+
+Mở [notebook Julia](notebooks/eclat_groceries_benchmarks.ipynb) hoặc
+[Open in Colab](https://colab.research.google.com/github/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/master/notebooks/eclat_groceries_benchmarks.ipynb).
+Link Colab dùng được sau khi notebook được push lên `master`. Trước đó, mở
+Colab và dùng **File → Upload notebook** để tải file `.ipynb` từ máy lên.
+Chọn **Runtime → Change runtime type → Julia**, runtime CPU, rồi chạy từ đầu
+đến cuối. Có thể chạy tương đương bằng Jupyter/IJulia trên máy có Julia.
+
+Notebook thực hiện:
+
+1. Tải source ghim tại commit `c93fed0c436275e51f8672f6e7e8182d9b855040`
+   vào checkout riêng, cài dependencies và tải benchmark từ Hugging Face với SHA-256.
+2. Chuẩn hóa bốn benchmark và Groceries; chuẩn bị Java 25 và JAR SPMF có checksum.
+3. Minh họa API/CLI Eclat, tạo mới năm đáp án SPMF rồi chạy toàn bộ test Julia.
+4. Hiển thị 12 cấu hình Groceries và mười luật theo lift ở minsup 1%/minconf 50%.
+5. Chạy runtime/count trên bốn CSDL × bảy minsup, Peak RSS, scalability Retail
+   và thí nghiệm độ dài giao dịch; hiển thị bảng và biểu đồ.
+6. Đóng gói CSV, biểu đồ, tham chiếu SPMF, log test và môi trường thành `.tar.gz`.
+   Tải gói ngay trong `/content/` từ Files panel trước khi kết thúc runtime.
+
+Mặc định `BENCHMARK_RUNS = 1` để kiểm tra toàn bộ luồng. Đổi thành `5` để đo
+trung vị năm lượt như thiết kế báo cáo. Các phép đo chạy một luồng trong tiến
+trình riêng. Thời gian toàn tiến trình gồm khởi động/JIT/đọc ghi; scalability
+và độ dài giao dịch đo khai thác sau làm nóng. Peak RSS gồm cả môi trường thực thi.
+Kết quả mới được lưu riêng trong `results/colab/eclat_*/`, không ghi đè số liệu báo cáo.
+
+Các ô notebook dùng Julia. Bước vẽ gọi các script Python/matplotlib đã có trong
+repo; Python chỉ đọc CSV và dựng biểu đồ. Notebook tự cài matplotlib vào môi trường Python riêng nếu chưa có.
+Nếu bước vẽ lỗi sau khi đo xong, chạy lại ô benchmark đó để chỉ vẽ lại.
+Source ghim chứa script chuẩn hóa cũ; notebook tải trước đúng bốn file từ bản
+Hugging Face ghim, nên bước chuẩn hóa tái sử dụng các file đã xác minh mà không
+cần tải lại từ FIMI. Ba notebook Fashion-MNIST riêng nằm ở phần tiếp theo.
+
+Kiểm chứng ngày 2026-11-27 trên **VM Colab CPU Standard, Julia 1.12.6**:
+**12/12 ô code chạy thành công, 569 assertions pass**, đủ 84 mẫu runtime,
+8 mẫu Peak RAM, 10 mẫu scalability, 10 mẫu độ dài giao dịch và 10 file PNG/SVG.
+Gói kết quả có 69 mục, bao gồm log test, môi trường, tham chiếu SPMF và đầu ra
+Groceries. Lần chạy dùng `BENCHMARK_RUNS = 1` để kiểm tra luồng; không thay
+số liệu năm lượt đo trong báo cáo.
+
+Colab CLI cấp phát VM; Jupyter trong VM thực thi notebook bằng kernel `julia`.
+Lần khởi động lạnh vượt giới hạn chờ 60 giây do biên dịch kernel; chạy lại với
+`startup_timeout = 600` đã hoàn tất. Kết quả này xác nhận thực thi trên VM Colab,
+chưa xác nhận thao tác **Run all** bằng giao diện web Colab. Lần kiểm tra local
+trước đó dùng IJulia 1.13.3 và đã kiểm tra nhánh tự tải Java 25 từ Java 21.
+
+Bằng chứng đã tải về máy, lưu trong `results/colab/notebook_validation/`
+(không đưa vào Git):
+
+- `eclat_groceries_benchmarks.colab.executed.ipynb`: notebook có output.
+- `eclat_groceries_benchmarks.colab.results.tar.gz`: gói kết quả;
+  SHA-256 `b2aa6cc0e4e862aaaabc0ecb64b66a0f1d012d87c95a5b6057ba2b53f9ef568c`.
+
+Kiểm tra nhanh các nhánh phục hồi bằng `python test/check_colab_notebook.py`.
+
+## Demo Fashion-MNIST trên Google Colab
+
+Ba notebook demo trình bày quy trình Fashion-MNIST bằng Julia, từ khảo sát ảnh
+đến tạo giao dịch và khai thác tập mục. Mở từng notebook bằng Colab:
+
+| Thứ tự | Notebook | Mở trên Colab |
+|---|---|---|
+| 1 | Khảo sát ảnh và quyết định tiền xử lý | [Notebook 1](https://colab.research.google.com/drive/1cyyfr4Yt410cpJJhl-rI7gDsCWOOXnLs) |
+| 2 | Tạo giao dịch Fashion-MNIST | [Notebook 2](https://colab.research.google.com/drive/1sIsAmpG8UQRmVNxmj6TI6ENCvo7rd-zF) |
+| 3 | Khám phá giao dịch và khai thác tập mục | [Notebook 3](https://colab.research.google.com/drive/1lxDm_OweS1I65y66Vs0qmTk2P3qTy_VK) |
+
+### Cách chạy
+
+1. Trong Colab, chọn runtime CPU rồi chạy từng notebook từ đầu đến cuối. Notebook
+   tự tải source đã ghim và dữ liệu Fashion-MNIST khi cần; lần chạy đầu cần mạng.
+2. Notebook 1 khảo sát 10 ảnh mẫu và minh họa lựa chọn kích thước vùng, lọc nền
+   cùng descriptor. Đây là bước giải thích tiền xử lý; notebook 2 vẫn tự kiểm tra
+   dữ liệu và cấu hình trước khi chạy pipeline.
+3. Notebook 2 chạy pipeline trên 70.000 ảnh với cấu hình $K=32$, seed 123,
+   dung sai 0,0001 và giới hạn tối đa 400 vòng. Khi hoàn tất, tải gói
+   `fashion-demo-<run_id>.tar.gz` từ Files panel của Colab.
+4. Mở notebook 3, tải gói `.tar.gz` vừa tạo lên Files panel (thư mục `/content`),
+   rồi chạy notebook từ đầu đến cuối. Notebook xác minh gói đầu vào, đối chiếu
+   Eclat Set/BitVector, tạo bảng và biểu đồ phân tích, rồi lưu toàn bộ kết quả
+   vào một thư mục duy nhất và nén thành `fashion-demo-analysis.tar.gz`.
+5. Tải `fashion-demo-analysis.tar.gz` về máy trước khi đóng hoặc khởi động lại
+   runtime Colab. Nội dung trong `/content` bị xóa khi runtime kết thúc.
+
+Notebook 3 đọc gói do notebook 2 tạo, không chạy lại bước tạo giao dịch. Nếu
+chỉ muốn xem quy trình tiền xử lý, có thể chạy riêng notebook 1; để phân tích
+đầy đủ cần chạy notebook 2 trước notebook 3.
+
+## Notebook Fashion-MNIST lưu trữ
+
+Bốn notebook dưới đây là quy trình release cũ để đối chiếu. Dùng ba notebook
+Colab ở phần trên cho demo hiện tại.
+
+<details>
+<summary>Quy trình release cũ và yêu cầu môi trường</summary>
+
 
 Run these notebooks in order from fresh Julia kernels. Notebook 01 creates a
 run ID; notebooks 02–04 consume artifacts under the same
 `results/fashion/release/<run_id>/` directory.
 
-1. [01 — Dataset validation](notebook/UD2/release/01_dataset_validation.ipynb):
+1. [01 — Dataset validation](notebooks/fashion-mnist/archive/release/01_dataset_validation.ipynb):
    downloads or reuses the four official archives, verifies SHA-256 and IDX
    dimensions/counts, displays one image per class, and writes
    `dataset/dataset_manifest.toml`.
-2. [02 — Transaction construction](notebook/UD2/release/02_transaction_construction.ipynb):
+2. [02 — Transaction construction](notebooks/fashion-mnist/archive/release/02_transaction_construction.ipynb):
    builds S0 using one B0 codebook with K=32 and seed 123 across all 70,000
    images. Its handoff is `transactions/tc7_manifest.toml`, containing hashes
    and paths for transactions, codebook, centroids, assignments, image mapping,
    metadata, config, and integrity report.
-3. [03 — Frequent itemset mining](notebook/UD2/release/03_frequent_itemset_mining.ipynb):
+3. [03 — Frequent itemset mining](notebooks/fashion-mnist/archive/release/03_frequent_itemset_mining.ipynb):
    compares Set and BitVector at 80%, 60%, 40%, 20%, 10%, and 5% support.
    `mining/comparison.csv` reports itemset counts, exact parity, runtime, peak
    RSS, and job status. It automatically selects four representative Set
@@ -165,7 +295,7 @@ run ID; notebooks 02–04 consume artifacts under the same
    buckets and diversity score, and `mining/selected_itemsets.csv` for the
    Notebook 04 handoff. The full `itemset_selection_candidates.csv` is an
    audit catalog; no manual edits are needed.
-4. [04 — Visual interpretation](notebook/UD2/release/04_visual_interpretation.ipynb):
+4. [04 — Visual interpretation](notebooks/fashion-mnist/archive/release/04_visual_interpretation.ipynb):
    traces the automatically selected 3–4 patterns to centroids, source patches,
    images, and class counts, then writes a review sheet and a report marked
    `PENDING_REVIEW`.
@@ -174,11 +304,9 @@ Prerequisites are Julia 1.13, Python 3.10+, the `fashion-mnist-tc` Julia
 kernel, and Linux `systemd --user` with cgroup memory accounting for mining.
 For the first run, Notebook 01 downloads the official dataset if the archives
 are absent; otherwise it checks the local files in `data/raw/fashion-mnist/`.
-Large archives and generated run artifacts are not committed. See
-[`docs/UD2/quickstart.md`](docs/UD2/quickstart.md)
-for setup and rerun details.
+Large archives and generated run artifacts are not committed.
 
-Large source datasets belong outside Git. Place local copies under `data/raw/` or `data/benchmark/`, and document their download URLs, versions, and preparation steps. Keep reproducible summaries and selected plots under `results/`.
+</details>
 
 ## Chạy ứng dụng Groceries
 
@@ -224,9 +352,9 @@ nhóm ba chương trình, bên ngoài phần tính thời gian.
 Kết quả nằm trong `results/benchmarks/processes/`:
 
 - [Báo cáo runtime](docs/report_benchmark.md#runtime): phương pháp, kết quả và giới hạn.
-- [runs.csv](results/benchmarks/processes/runs.csv): từng lần đo.
-- [summary.csv](results/benchmarks/processes/summary.csv): median/min/max và tỉ số runtime.
-- [metadata.md](results/benchmarks/processes/metadata.md): cấu hình máy, phiên bản và checksum.
+- `results/benchmarks/processes/runs.csv`: từng lần đo.
+- `results/benchmarks/processes/summary.csv`: median/min/max và tỉ số runtime.
+- `results/benchmarks/processes/metadata.md`: cấu hình máy, phiên bản và checksum.
 - `runtime_processes.png/.svg`, `itemset_counts.png/.svg`: biểu đồ để dùng trong báo cáo.
 
 Đây là phép đo toàn bộ tiến trình, giữ riêng với các file `*_baseline.csv` đo
@@ -271,10 +399,10 @@ sánh mọi itemset/support của mỗi lần chạy với tham chiếu. Cần J
 Kết quả trong `results/benchmarks/peak_ram/`:
 
 - [Báo cáo Peak RAM](docs/report_benchmark.md#peak-ram): bảng kết quả, phân tích và giới hạn.
-- [peak_ram.png](results/benchmarks/peak_ram/peak_ram.png): biểu đồ median và min–max; có bản SVG.
-- [runs.csv](results/benchmarks/peak_ram/runs.csv): từng peak RSS tính bằng byte và correctness.
-- [summary.csv](results/benchmarks/peak_ram/summary.csv): median/min/max theo MiB, tỉ số và phần trăm giảm.
-- [metadata.md](results/benchmarks/peak_ram/metadata.md): quy trình, máy, phiên bản và checksum.
+- `results/benchmarks/peak_ram/peak_ram.png`: biểu đồ median và min–max; có bản SVG.
+- `results/benchmarks/peak_ram/runs.csv`: từng peak RSS tính bằng byte và correctness.
+- `results/benchmarks/peak_ram/summary.csv`: median/min/max theo MiB, tỉ số và phần trăm giảm.
+- `results/benchmarks/peak_ram/metadata.md`: quy trình, máy, phiên bản và checksum.
 - `spmf/`: tham chiếu mới cùng dữ liệu, minsup và mapping ID đã đo.
 
 Runner từ chối ghi đè lần đo cũ. Ví dụ đo một bộ, lưu vào thư mục mới:
@@ -313,10 +441,10 @@ bên trong `mine` vẫn được tính. SPMF tạo tham chiếu cho từng tập
 Kết quả trong `results/benchmarks/scalability/`:
 
 - [Báo cáo scalability](docs/report_benchmark.md#scalability): bảng kết quả và nhận xét tuyến tính/phi tuyến trong miền đo.
-- [scalability.png](results/benchmarks/scalability/scalability.png): runtime theo số giao dịch và đường chuẩn hóa; có bản SVG.
-- [runs.csv](results/benchmarks/scalability/runs.csv): từng thời gian `mine` và trạng thái correctness.
-- [summary.csv](results/benchmarks/scalability/summary.csv): median/min/max và throughput.
-- [metadata.md](results/benchmarks/scalability/metadata.md): mô tả tiếng Việt, seed, máy, phiên bản và checksum dữ liệu/source.
+- `results/benchmarks/scalability/scalability.png`: runtime theo số giao dịch và đường chuẩn hóa; có bản SVG.
+- `results/benchmarks/scalability/runs.csv`: từng thời gian `mine` và trạng thái correctness.
+- `results/benchmarks/scalability/summary.csv`: median/min/max và throughput.
+- `results/benchmarks/scalability/metadata.md`: mô tả tiếng Việt, seed, máy, phiên bản và checksum dữ liệu/source.
 - `spmf/`: tham chiếu mới cho năm tập con.
 
 Đây là thời gian `mine` sau warm-up, không ghép trực tiếp với thời gian toàn bộ
@@ -357,10 +485,10 @@ vào từng giao dịch. Giữ N và minsup nên ngưỡng support tuyệt đố
 Kết quả tại `results/benchmarks/transaction_length/`:
 
 - [Báo cáo độ dài giao dịch](docs/report_benchmark.md#transaction-length): thiết kế, số liệu và phân tích cơ chế ảnh hưởng.
-- [transaction_length.png](results/benchmarks/transaction_length/transaction_length.png): runtime theo độ dài và số frequent itemsets; có bản SVG. Trục thời gian dùng thang log.
-- [runs.csv](results/benchmarks/transaction_length/runs.csv): từng mẫu thời gian và correctness.
-- [summary.csv](results/benchmarks/transaction_length/summary.csv): độ dài, mật độ, output, median/min/max.
-- [metadata.md](results/benchmarks/transaction_length/metadata.md): mô tả tiếng Việt, seed, máy, phiên bản và checksum.
+- `results/benchmarks/transaction_length/transaction_length.png`: runtime theo độ dài và số frequent itemsets; có bản SVG. Trục thời gian dùng thang log.
+- `results/benchmarks/transaction_length/runs.csv`: từng mẫu thời gian và correctness.
+- `results/benchmarks/transaction_length/summary.csv`: độ dài, mật độ, output, median/min/max.
+- `results/benchmarks/transaction_length/metadata.md`: mô tả tiếng Việt, seed, máy, phiên bản và checksum.
 - `spmf/`: tham chiếu mới của từng CSDL.
 
 Tăng độ dài đồng thời tăng mật độ, số lần xuất hiện item và có thể tăng số ứng
@@ -399,7 +527,7 @@ dataset, first generate an SPMF reference output and then compare every itemset
 key and support count with both backends:
 
 ```sh
-java -jar /path/to/spmf2.64.jar run Eclat INPUT SPMF_OUTPUT MINSUP
+java -jar /path/to/spmf.jar run Eclat INPUT SPMF_OUTPUT MINSUP
 julia --project=. scripts/verify_spmf.jl INPUT SPMF_OUTPUT MINSUP set
 julia --project=. scripts/verify_spmf.jl INPUT SPMF_OUTPUT MINSUP bitvector
 ```

@@ -55,6 +55,7 @@ end
 
     assert_backend_equality(transactions, [0.2, 0.4, 0.6, 1.0])
     @test_throws ArgumentError mine(transactions, 0.4; backend = :unknown)
+    @test_throws ArgumentError mine(Vector{Vector{Int}}(), 0.5; backend = :unknown)
 end
 
 @testset "SPMF I/O and exact comparison" begin
@@ -92,3 +93,4 @@ include("test_fashion_tc.jl")
 include("test_fashion_fim_workflow.jl")
 include("test_fashion_tc_spatial.jl")
 include("test_eda2.jl")
+include("test_prepare_data.jl")

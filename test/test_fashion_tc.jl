@@ -3,6 +3,19 @@ using TOML
 
 const TC = Main.EclatFIM.FashionTC
 
+@testset "Fashion transaction input validation" begin
+    @test_throws ArgumentError TC.assign_words(zeros(Float32, 2, 1), zeros(Float32, 2, 0))
+    @test_throws ArgumentError TC.assign_words(zeros(Float32, 2, 1), zeros(Float32, 2, 1); chunk_size=0)
+    @test_throws ArgumentError TC.assign_words(fill(Float32(NaN), 2, 1), zeros(Float32, 2, 1))
+    @test_throws ArgumentError TC.assign_words(zeros(Float32, 2, 1), fill(Float32(Inf), 2, 1))
+    mapping = [(image_id=1,), (image_id=1,)]
+    @test_throws ArgumentError TC.encode_transactions([1], mapping, [1])
+    @test_throws ArgumentError TC.encode_transactions([1, 0], mapping, [1])
+    @test_throws ArgumentError TC.encode_transactions([1, 2], mapping, [1, 1])
+    @test_throws ArgumentError TC.encode_transactions([1, 2], mapping, [2])
+    @test TC.encode_transactions([2, 2], mapping, [1, 2]) == [[2], Int[]]
+end
+
 @testset "Fashion-MNIST TC helpers" begin
     profiles = joinpath(EclatFIM.FASHION_MNIST_ROOT, "configs", "transactions")
     smoke_path = joinpath(profiles, "split_smoke.toml")

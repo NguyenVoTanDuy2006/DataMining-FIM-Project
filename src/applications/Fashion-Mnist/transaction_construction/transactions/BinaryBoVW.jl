@@ -1,7 +1,12 @@
 """Mỗi ảnh thành transaction binary đã sort; giữ cả ảnh có transaction rỗng."""
 function encode_transactions(assignments, descriptor_index, image_ids)
+    length(assignments) == length(descriptor_index) ||
+        throw(ArgumentError("Assignments không khớp số patch"))
+    all(>(0), assignments) || throw(ArgumentError("Word IDs phải dương"))
+    allunique(image_ids) || throw(ArgumentError("Image IDs phải duy nhất"))
     byimage = Dict(id => Int[] for id in image_ids)
     for (word, row) in zip(assignments, descriptor_index)
+        haskey(byimage, row.image_id) || throw(ArgumentError("Patch có image ID không xác định"))
         push!(byimage[row.image_id], word)
     end
     return [sort!(unique!(byimage[id])) for id in image_ids]

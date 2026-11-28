@@ -1,8 +1,0 @@
-dataset,backend,minsup,n_julia,n_spmf,exact_match
-retail,set,0.1,9,9,true
-retail,set,0.08,13,13,true
-retail,set,0.06,15,15,true
-retail,set,0.04,18,18,true
-retail,set,0.02,55,55,true
-retail,set,0.01,159,159,true
-retail,set,0.005,580,580,true

@@ -1,0 +1,301 @@
+method = "raw_full_batch_kmeans"
+
+[K_16]
+runs = ["FashionMNIST_T2_S0_B0_K16_seed42", "FashionMNIST_T2_S0_B0_K16_seed123", "FashionMNIST_T2_S0_B0_K16_seed2026", "FashionMNIST_T2_S0_B0_K16_seed42", "FashionMNIST_T2_S0_B0_K16_seed123", "FashionMNIST_T2_S0_B0_K16_seed2026", "FashionMNIST_T2_S0_B0_K16_seed42", "FashionMNIST_T2_S0_B0_K16_seed123", "FashionMNIST_T2_S0_B0_K16_seed2026", "FashionMNIST_T2_S0_B0_K16_seed42", "FashionMNIST_T2_S0_B0_K16_seed123", "FashionMNIST_T2_S0_B0_K16_seed2026"]
+distortion_relative_improvement_vs_previous_K = 0.0
+
+    [K_16.metrics_mean_std.cluster_size_min]
+    mean = 50639.666666666664
+    std = 20239.69120018356
+
+    [K_16.metrics_mean_std.cluster_size_q25]
+    mean = 79483.25
+    std = 3118.959354423436
+
+    [K_16.metrics_mean_std.cluster_size_q50]
+    mean = 91797.5
+    std = 2926.8747216721863
+
+    [K_16.metrics_mean_std.cluster_size_q100]
+    mean = 330507.3333333333
+    std = 513.738761581716
+
+    [K_16.metrics_mean_std.cluster_size_q0]
+    mean = 50639.666666666664
+    std = 20239.69120018356
+
+    [K_16.metrics_mean_std.top_cluster_share]
+    mean = 0.1541728046761759
+    std = 0.00023964535051340525
+
+    [K_16.metrics_mean_std.seed_stability_ari_mean]
+    mean = 0.891441764120731
+    std = 0.038841268227352135
+
+    [K_16.metrics_mean_std.cluster_size_max]
+    mean = 330507.3333333333
+    std = 513.738761581716
+
+    [K_16.metrics_mean_std.normalized_entropy]
+    mean = 0.9380132976283436
+    std = 0.005660772140358179
+
+    [K_16.metrics_mean_std.occupancy_fraction]
+    mean = 1.0
+    std = 0.0
+
+    [K_16.metrics_mean_std.cluster_size_q75]
+    mean = 183327.5
+    std = 7055.88122516503
+
+    [K_16.metrics_mean_std.distortion_mean_squared]
+    mean = 0.44507549206415814
+    std = 0.00618753303816571
+
+    [K_16.metrics_mean_std.occupancy_used]
+    mean = 16.0
+    std = 0.0
+
+    [K_16.metrics_mean_std.cluster_size_q95]
+    mean = 294219.8333333333
+    std = 12889.377501601382
+
+[K_128]
+runs = ["FashionMNIST_T2_S0_B0_K128_seed42", "FashionMNIST_T2_S0_B0_K128_seed123", "FashionMNIST_T2_S0_B0_K128_seed2026"]
+distortion_relative_improvement_vs_previous_K = 0.1960564230632015
+
+    [K_128.metrics_mean_std.cluster_size_min]
+    mean = 3517.0
+    std = 423.41941382038686
+
+    [K_128.metrics_mean_std.cluster_size_q25]
+    mean = 8166.0
+    std = 272.38541168719
+
+    [K_128.metrics_mean_std.cluster_size_q50]
+    mean = 12093.0
+    std = 195.0942080124369
+
+    [K_128.metrics_mean_std.cluster_size_q100]
+    mean = 113153.66666666667
+    std = 5530.025527367241
+
+    [K_128.metrics_mean_std.cluster_size_q0]
+    mean = 3517.0
+    std = 423.41941382038686
+
+    [K_128.metrics_mean_std.top_cluster_share]
+    mean = 0.052783149993827
+    std = 0.002579608557808265
+
+    [K_128.metrics_mean_std.seed_stability_ari_mean]
+    mean = 0.6995573408958164
+    std = 0.04043471294880981
+
+    [K_128.metrics_mean_std.cluster_size_max]
+    mean = 113153.66666666667
+    std = 5530.025527367241
+
+    [K_128.metrics_mean_std.normalized_entropy]
+    mean = 0.929383603540506
+    std = 0.0008331479935033047
+
+    [K_128.metrics_mean_std.occupancy_fraction]
+    mean = 1.0
+    std = 0.0
+
+    [K_128.metrics_mean_std.cluster_size_q75]
+    mean = 16499.083333333332
+    std = 384.9842799820966
+
+    [K_128.metrics_mean_std.distortion_mean_squared]
+    mean = 0.21826401352882385
+    std = 0.00024374852027406123
+
+    [K_128.metrics_mean_std.occupancy_used]
+    mean = 128.0
+    std = 0.0
+
+    [K_128.metrics_mean_std.cluster_size_q95]
+    mean = 49572.666666666635
+    std = 647.2624860389565
+
+[K_256]
+runs = ["FashionMNIST_T2_S0_B0_K256_seed42", "FashionMNIST_T2_S0_B0_K256_seed123", "FashionMNIST_T2_S0_B0_K256_seed2026"]
+distortion_relative_improvement_vs_previous_K = 0.18856488103162436
+
+    [K_256.metrics_mean_std.cluster_size_min]
+    mean = 1563.0
+    std = 39.96248240537617
+
+    [K_256.metrics_mean_std.cluster_size_q25]
+    mean = 4034.8333333333335
+    std = 74.00351906046991
+
+    [K_256.metrics_mean_std.cluster_size_q50]
+    mean = 5851.666666666667
+    std = 92.255532806078
+
+    [K_256.metrics_mean_std.cluster_size_q100]
+    mean = 77567.0
+    std = 3646.2324391075235
+
+    [K_256.metrics_mean_std.cluster_size_q0]
+    mean = 1563.0
+    std = 39.96248240537617
+
+    [K_256.metrics_mean_std.top_cluster_share]
+    mean = 0.036182924656185944
+    std = 0.001700869617532824
+
+    [K_256.metrics_mean_std.seed_stability_ari_mean]
+    mean = 0.6380397280147591
+    std = 0.03818709206332724
+
+    [K_256.metrics_mean_std.cluster_size_max]
+    mean = 77567.0
+    std = 3646.2324391075235
+
+    [K_256.metrics_mean_std.normalized_entropy]
+    mean = 0.9308503291167763
+    std = 0.0022585756946442467
+
+    [K_256.metrics_mean_std.occupancy_fraction]
+    mean = 1.0
+    std = 0.0
+
+    [K_256.metrics_mean_std.cluster_size_q75]
+    mean = 8418.333333333334
+    std = 122.910621320264
+
+    [K_256.metrics_mean_std.distortion_mean_squared]
+    mean = 0.17710708578427634
+    std = 4.1499427161347096e-5
+
+    [K_256.metrics_mean_std.occupancy_used]
+    mean = 256.0
+    std = 0.0
+
+    [K_256.metrics_mean_std.cluster_size_q95]
+    mean = 26009.333333333332
+    std = 478.50870768809773
+
+[K_32]
+runs = ["FashionMNIST_T2_S0_B0_K32_seed42", "FashionMNIST_T2_S0_B0_K32_seed123", "FashionMNIST_T2_S0_B0_K32_seed2026", "FashionMNIST_T2_S0_B0_K32_seed42", "FashionMNIST_T2_S0_B0_K32_seed123", "FashionMNIST_T2_S0_B0_K32_seed2026", "FashionMNIST_T2_S0_B0_K32_seed42", "FashionMNIST_T2_S0_B0_K32_seed123", "FashionMNIST_T2_S0_B0_K32_seed2026", "FashionMNIST_T2_S0_B0_K32_seed42", "FashionMNIST_T2_S0_B0_K32_seed123", "FashionMNIST_T2_S0_B0_K32_seed2026"]
+distortion_relative_improvement_vs_previous_K = 0.2232861917498576
+
+    [K_32.metrics_mean_std.cluster_size_min]
+    mean = 17015.0
+    std = 3010.4124755134926
+
+    [K_32.metrics_mean_std.cluster_size_q25]
+    mean = 38065.75
+    std = 2762.6511312012003
+
+    [K_32.metrics_mean_std.cluster_size_q50]
+    mean = 49357.833333333336
+    std = 1973.768261857291
+
+    [K_32.metrics_mean_std.cluster_size_q100]
+    mean = 208009.33333333334
+    std = 835.4553829916334
+
+    [K_32.metrics_mean_std.cluster_size_q0]
+    mean = 17015.0
+    std = 3010.4124755134926
+
+    [K_32.metrics_mean_std.top_cluster_share]
+    mean = 0.09703077385722624
+    std = 0.00038971752390051497
+
+    [K_32.metrics_mean_std.seed_stability_ari_mean]
+    mean = 0.8125273895458524
+    std = 0.008025610086387306
+
+    [K_32.metrics_mean_std.cluster_size_max]
+    mean = 208009.33333333334
+    std = 835.4553829916334
+
+    [K_32.metrics_mean_std.normalized_entropy]
+    mean = 0.9382300321690139
+    std = 0.0023579586162077587
+
+    [K_32.metrics_mean_std.occupancy_fraction]
+    mean = 1.0
+    std = 0.0
+
+    [K_32.metrics_mean_std.cluster_size_q75]
+    mean = 66486.33333333333
+    std = 5520.110021685723
+
+    [K_32.metrics_mean_std.distortion_mean_squared]
+    mean = 0.3456962803999583
+    std = 0.0012339455139088273
+
+    [K_32.metrics_mean_std.occupancy_used]
+    mean = 32.0
+    std = 0.0
+
+    [K_32.metrics_mean_std.cluster_size_q95]
+    mean = 172092.19999999995
+    std = 1083.9884945716187
+
+[K_64]
+runs = ["FashionMNIST_T2_S0_B0_K64_seed42", "FashionMNIST_T2_S0_B0_K64_seed123", "FashionMNIST_T2_S0_B0_K64_seed2026", "FashionMNIST_T2_S0_B0_K64_seed42", "FashionMNIST_T2_S0_B0_K64_seed123", "FashionMNIST_T2_S0_B0_K64_seed2026", "FashionMNIST_T2_S0_B0_K64_seed42", "FashionMNIST_T2_S0_B0_K64_seed123", "FashionMNIST_T2_S0_B0_K64_seed2026", "FashionMNIST_T2_S0_B0_K64_seed42", "FashionMNIST_T2_S0_B0_K64_seed123", "FashionMNIST_T2_S0_B0_K64_seed2026"]
+distortion_relative_improvement_vs_previous_K = 0.2146525092569665
+
+    [K_64.metrics_mean_std.cluster_size_min]
+    mean = 8694.0
+    std = 596.2799830464025
+
+    [K_64.metrics_mean_std.cluster_size_q25]
+    mean = 18184.75
+    std = 587.4752992873209
+
+    [K_64.metrics_mean_std.cluster_size_q50]
+    mean = 24076.5
+    std = 447.3089231473845
+
+    [K_64.metrics_mean_std.cluster_size_q100]
+    mean = 153512.33333333334
+    std = 5400.45077804257
+
+    [K_64.metrics_mean_std.cluster_size_q0]
+    mean = 8694.0
+    std = 596.2799830464025
+
+    [K_64.metrics_mean_std.top_cluster_share]
+    mean = 0.07160938531585985
+    std = 0.0025191654132731105
+
+    [K_64.metrics_mean_std.seed_stability_ari_mean]
+    mean = 0.7417367994350235
+    std = 0.03743338513977734
+
+    [K_64.metrics_mean_std.cluster_size_max]
+    mean = 153512.33333333334
+    std = 5400.45077804257
+
+    [K_64.metrics_mean_std.normalized_entropy]
+    mean = 0.9293644743935127
+    std = 0.0037889222110764117
+
+    [K_64.metrics_mean_std.occupancy_fraction]
+    mean = 1.0
+    std = 0.0
+
+    [K_64.metrics_mean_std.cluster_size_q75]
+    mean = 31580.166666666668
+    std = 1134.3737025203366
+
+    [K_64.metrics_mean_std.distortion_mean_squared]
+    mean = 0.2714917063713074
+    std = 0.0004460614596161374
+
+    [K_64.metrics_mean_std.occupancy_used]
+    mean = 64.0
+    std = 0.0
+
+    [K_64.metrics_mean_std.cluster_size_q95]
+    mean = 106430.68333333328
+    std = 1930.527578072106

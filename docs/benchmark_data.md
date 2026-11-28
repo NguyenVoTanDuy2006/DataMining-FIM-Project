@@ -6,7 +6,12 @@ bởi `scripts/groceries_demo.jl`; bốn benchmark dùng `prepare_input` trong
 `scripts/benchmark_processes.jl`. Không dùng Toy hoặc fixture lấy mẫu cho bước
 đối chiếu 5 CSDL. Xem lệnh chuẩn bị và chạy test trong [README](../README.md).
 
-Tải ngày 2026-11-16 từ [FIMI Repository](https://fimi.uantwerpen.be/data/).
+Nguồn gốc: tải ngày 2026-11-16 từ [FIMI Repository](https://fimi.uantwerpen.be/data/).
+Bản lưu công khai phục vụ nộp bài nằm tại
+[Hugging Face: Yelgsef/fimi-eclat-benchmarks](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks).
+`scripts/prepare_data.jl`, cũng được demo notebook gọi, tải từ bản lưu này ở
+phiên bản cố định `92ce74f1107250b7c8cd79df07ba415df58ca98d` và xác minh SHA-256.
+Bốn file được lưu nguyên byte, không đổi ID, thứ tự giao dịch hoặc khoảng trắng.
 Các file gốc nằm trong `data/benchmark/raw/`, được Git-ignore và chưa chỉnh sửa.
 Thống kê dưới đây được đếm trực tiếp từ file đã tải, không chép từ bảng mô tả.
 
@@ -22,13 +27,28 @@ Không loại bỏ các giao dịch giống nhau.
 
 ## Nguồn và checksum SHA-256
 
-- [chess.dat](https://fimi.uantwerpen.be/data/chess.dat): `A12EA887DF58A396709430AF5BF0A9A32D1F6EBA8E7C13DD41F28B98572C5DB2`
-- [mushroom.dat](https://fimi.uantwerpen.be/data/mushroom.dat): `6CF94BC482712C3936F0B40C921381AB2B776C3D9941880FECAC4D83CA5CBEB5`
-- [retail.dat](https://fimi.uantwerpen.be/data/retail.dat): `D967431BA522E32F0FBB243F2EE113ECD4CB374CB0234C1B0858DAE1D499A055`
-- [T10I4D100K.dat](https://fimi.uantwerpen.be/data/T10I4D100K.dat): `464D7B87AA7FDC0DC432DDAD0493515569B2968B0F229CE39399C454A8C62E0C`
+- [chess.dat](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks/resolve/92ce74f1107250b7c8cd79df07ba415df58ca98d/chess.dat): `A12EA887DF58A396709430AF5BF0A9A32D1F6EBA8E7C13DD41F28B98572C5DB2`
+- [mushroom.dat](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks/resolve/92ce74f1107250b7c8cd79df07ba415df58ca98d/mushroom.dat): `6CF94BC482712C3936F0B40C921381AB2B776C3D9941880FECAC4D83CA5CBEB5`
+- [retail.dat](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks/resolve/92ce74f1107250b7c8cd79df07ba415df58ca98d/retail.dat): `D967431BA522E32F0FBB243F2EE113ECD4CB374CB0234C1B0858DAE1D499A055`
+- [T10I4D100K.dat](https://huggingface.co/datasets/Yelgsef/fimi-eclat-benchmarks/resolve/92ce74f1107250b7c8cd79df07ba415df58ca98d/T10I4D100K.dat): `464D7B87AA7FDC0DC432DDAD0493515569B2968B0F229CE39399C454A8C62E0C`
 
-Khi chuẩn bị báo cáo, ghi nhận nguồn gốc Retail theo phần acknowledgement của FIMI.
-Chưa chuẩn bị bản lưu trữ Hugging Face/Kaggle cho notebook nộp bài.
+Bản lưu có dataset card ghi nguồn và file `SHA256SUMS`. Mushroom ở đây là bản
+FIMI có 8.124 giao dịch; không thay bằng bản 8.416 giao dịch ở một số kho khác.
+Để tải và chuẩn hóa:
+
+```sh
+julia --project=. scripts/prepare_data.jl
+```
+
+Các điều kiện sử dụng gốc vẫn áp dụng; bản lưu không cấp giấy phép mới cho dữ liệu.
+Chess và Mushroom do Roberto Bayardo chuẩn bị từ UCI; T10I4D100K được sinh bằng
+IBM Almaden Quest. Retail do Tom Brijs cung cấp. FIMI yêu cầu ghi nhận nguồn và
+cung cấp một bản công trình sử dụng Retail cho Tom Brijs; xem
+[điều kiện gốc](https://fimi.uantwerpen.be/data/) và
+[mô tả Retail](https://fimi.uantwerpen.be/data/retail.pdf).
+Tài liệu ghi nhận: T. Brijs, G. Swinnen, K. Vanhoof và G. Wets,
+“Using Association Rules for Product Assortment Decisions: A Case Study,”
+KDD, 1999, tr. 254–260.
 
 ## Chuẩn hóa khi chạy
 

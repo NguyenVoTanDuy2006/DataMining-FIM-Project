@@ -2,6 +2,10 @@
 function assign_words(X, centroids; chunk_size=128)
     d, n = size(X)
     size(centroids, 1) == d || throw(ArgumentError("Số chiều centroid không khớp"))
+    size(centroids, 2) > 0 || throw(ArgumentError("Codebook phải có ít nhất một centroid"))
+    chunk_size > 0 || throw(ArgumentError("chunk_size phải dương"))
+    all(isfinite, X) && all(isfinite, centroids) ||
+        throw(ArgumentError("Descriptors và centroids phải hữu hạn"))
     words = Vector{Int}(undef, n)
     for lo in 1:chunk_size:n
         for j in lo:min(lo + chunk_size - 1, n)

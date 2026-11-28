@@ -1,0 +1,133 @@
+\section{Ứng dụng thực tế}\label{sec:applications}
+\subsection{Groceries: phân tích giỏ hàng}\label{sec:groceries}
+\subsubsection{Bài toán và chuyển đổi dữ liệu}
+Phân tích giỏ hàng (\textit{market basket analysis}) tìm các nhóm
+sản phẩm thường được mua cùng nhau để sinh luật kết hợp~\cite{agrawal}.
+Bộ dữ liệu Groceries~\cite{groceries} gồm 9.835 giỏ và 169 sản phẩm.
+Nhóm chuẩn hóa tên, gán mã cho từng sản phẩm và xem mỗi giỏ là
+một giao dịch. Sản phẩm lặp trong cùng giỏ chỉ được tính một lần.
+Các giỏ giống nhau vẫn là những giao dịch riêng.
+
+\subsubsection{Sinh luật và lựa chọn ngưỡng}
+Từ một tập phổ biến $Z$ có ít nhất hai sản phẩm, nhóm chia $Z$
+thành hai vế khác rỗng $X$ và $Y$ để lập luật $X\Rightarrow Y$.
+Gọi $c(A)$ là số giỏ chứa toàn bộ tập $A$ và $N=9.835$ là tổng số giỏ.
+\begin{align}
+\operatorname{supp}(X\Rightarrow Y)&=\frac{c(X\cup Y)}{N},\\
+\operatorname{conf}(X\Rightarrow Y)&=\frac{c(X\cup Y)}{c(X)},\\
+\operatorname{lift}(X\Rightarrow Y)&=\frac{\operatorname{conf}(X\Rightarrow Y)}{c(Y)/N}.
+\end{align}
+Độ hỗ trợ (\textit{support}) cho biết tỷ lệ giỏ chứa cả hai vế.
+Độ tin cậy (\textit{confidence}) là tỷ lệ giỏ có $Y$ trong số các
+giỏ đã có $X$. Lift so tỷ lệ này với tần suất chung của $Y$.
+
+Nhóm khảo sát bốn ngưỡng hỗ trợ tối thiểu (\textit{minsup}) và ba
+ngưỡng tin cậy tối thiểu (\textit{minconf}), như trình bày trong
+Bảng~\ref{tab:params}.
+
+\begin{reporttable}
+\caption{Số tập phổ biến và số luật theo các ngưỡng hỗ trợ và tin cậy. Ba cột cuối là số luật tại từng minconf.}\label{tab:params}
+\centering\footnotesize
+\begin{tabular}{rrrrr}\toprule
+Hỗ trợ (\%) & Số tập & 30\% & 50\% & 70\% \\\midrule
+0,5 & 1.001 & 487 & 120 & 1 \\
+1,0 & 333 & 125 & 15 & 0 \\
+2,0 & 122 & 37 & 1 & 0 \\
+3,0 & 63 & 14 & 0 & 0 \\
+\bottomrule\end{tabular}
+\end{reporttable}
+
+Khi tăng minsup từ 0,5\% lên 1\%, số tập
+phổ biến giảm từ 1.001 xuống 333. Tại minconf 50\%, số luật tương ứng
+giảm từ 120 xuống 15; nếu tăng minsup lên 2\% và 3\%, chỉ còn một luật
+và không còn luật nào. Với 9.835 giao dịch, minsup 0,5\% và 1\%
+tương ứng ít nhất 50 và 99 giỏ chứa đồng thời cả hai vế.
+Nhóm chọn minsup 1\% để giữ mức hỗ trợ này và vẫn có đủ luật cho
+bảng mười luật hàng đầu tại minconf 50\%. Nếu giảm minconf xuống 30\%, hai mức minsup 2\%
+và 3\% vẫn cho 37 và 14 luật.
+
+Tại minsup 1\%, tăng minconf từ 30\% lên 50\% thu hẹp tập luật
+từ 125 xuống 15, còn mức 70\% loại toàn bộ luật. Ngưỡng 50\% yêu cầu
+ít nhất một nửa số giỏ chứa vế trái cũng chứa vế phải trên dữ liệu
+quan sát. Cấu hình 1\%/50\% giữ được một tập luật đủ gọn để đối chiếu
+và diễn giải, so với 487 luật ở cấu hình 0,5\%/30\%.
+
+Ngưỡng hỗ trợ 1\% bỏ qua các tổ hợp xuất hiện trong 50--98 giỏ
+mà mức 0,5\% có thể giữ lại. Tăng minconf cũng có thể loại các luật
+có lift cao nhưng độ tin cậy chưa đạt ngưỡng.
+Nhóm xếp luật theo lift; các luật cùng lift
+được phân hạng tiếp theo bằng độ tin cậy và độ hỗ trợ.
+
+\subsubsection{Mười luật nổi bật và ý nghĩa kinh doanh}
+Bảng~\ref{tab:rules} trình bày mười luật có lift cao nhất, sử dụng tên
+sản phẩm gốc trong dữ liệu. Các luật 1--4 có vế phải là
+\textit{other vegetables}, còn các luật 5--10 hướng tới
+\textit{whole milk}. Các tổ hợp gồm cả hai vế có độ hỗ trợ
+khoảng 1,01--1,45\%.
+
+\begin{table*}[!t]
+\caption{Mười luật Groceries có lift cao nhất ở ngưỡng hỗ trợ 1\% và độ tin cậy 50\%. Cột số giỏ đếm giao dịch chứa cả hai vế.}\label{tab:rules}
+\centering\footnotesize
+\begin{tabular}{rp{.31\textwidth}p{.15\textwidth}rrrr}\toprule
+\# & Vế trái $X$ & Vế phải $Y$ & Số giỏ & Hỗ trợ (\%) & Tin cậy (\%) & Lift \\\midrule
+1 & citrus fruit + root vegetables & other vegetables & 102 & 1,037 & 58,62 & 3,030 \\
+2 & root vegetables + tropical fruit & other vegetables & 121 & 1,230 & 58,45 & 3,021 \\
+3 & rolls/buns + root vegetables & other vegetables & 120 & 1,220 & 50,21 & 2,595 \\
+4 & root vegetables + yogurt & other vegetables & 127 & 1,291 & 50,00 & 2,584 \\
+5 & curd + yogurt & whole milk & 99 & 1,007 & 58,24 & 2,279 \\
+6 & butter + other vegetables & whole milk & 113 & 1,149 & 57,36 & 2,245 \\
+7 & root vegetables + tropical fruit & whole milk & 118 & 1,200 & 57,00 & 2,231 \\
+8 & root vegetables + yogurt & whole milk & 143 & 1,454 & 56,30 & 2,203 \\
+9 & domestic eggs + other vegetables & whole milk & 121 & 1,230 & 55,25 & 2,162 \\
+10 & whipped/sour cream + yogurt & whole milk & 107 & 1,088 & 52,45 & 2,053 \\
+\bottomrule\end{tabular}
+\end{table*}
+
+Nhóm luật 1--4 gợi ý khảo sát việc kết hợp các mặt hàng rau củ với
+những giỏ đã có trái cây, bánh mì hoặc \textit{yogurt}. Chẳng hạn, luật số 1
+được hỗ trợ bởi 102 trong 174 giỏ chứa đồng thời \textit{citrus fruit}
+và \textit{root vegetables}, tương ứng độ tin cậy 58,62\%.
+Trong toàn bộ dữ liệu, \textit{other vegetables} xuất hiện ở
+1.903 giỏ, chiếm 19,35\%. Lift 3,030 cho biết tỷ lệ xuất hiện của
+nhóm rau này trong các giỏ có vế trái cao hơn khoảng ba lần tỷ lệ
+chung. Có thể thử nghiệm gợi ý nhóm rau này cho giỏ đã có vế trái.
+Nhãn
+\textit{other vegetables} vẫn là một nhóm rộng, nên dữ liệu chưa
+cho biết loại rau cụ thể nào phù hợp để gợi ý.
+
+Nhóm luật 5--10 đều có vế phải là \textit{whole milk}. Sản phẩm này
+vốn phổ biến, xuất hiện trong 2.513 giỏ, tương ứng 25,55\% dữ liệu.
+Vì vậy, độ tin cậy cần được đọc cùng lift để xét mức đồng xuất hiện
+so với tần suất nền. Ở luật số 5, 99 trong 170 giỏ có
+\textit{curd} và \textit{yogurt} cũng chứa \textit{whole milk}:
+Độ tin cậy đạt 58,24\%, cao gấp 2,279 lần tỷ lệ chung của sữa.
+Các luật về bơ, trứng và sản phẩm sữa có thể cung cấp nhóm ứng viên
+cho gợi ý mua kèm hoặc bố trí trưng bày. Chúng chưa đủ để kết luận
+người mua đang chuẩn bị cùng một món ăn hay có cùng nhu cầu sử dụng.
+
+Trong một ứng dụng gợi ý, có thể kiểm tra các luật mà giỏ hiện tại
+đã chứa vế trái và chưa chứa vế phải, rồi chọn sản phẩm để hiển thị.
+Hai luật cùng vế trái \textit{root vegetables + tropical fruit}
+nhưng khác vế phải ở hàng 2 và 7 cho thấy cần xử lý nhiều gợi ý
+cùng lúc. Lift hỗ trợ xếp hạng liên hệ, còn số giỏ hỗ trợ cho biết
+số lần tổ hợp đã được quan sát; dữ liệu hiện có chưa phản ánh
+tồn kho, giá bán hoặc lợi nhuận để lựa chọn gợi ý theo hiệu quả kinh doanh.
+
+\subsubsection{Kiểm chứng và thời gian thực thi}
+Ở ngưỡng hỗ trợ 1\%, cả 333 tập mục và số hỗ trợ tương ứng đều khớp
+với SPMF. Trên Colab CPU, toàn bộ quy trình từ đọc dữ liệu đến
+sinh luật có thời gian trung vị 82,62 ms qua năm lượt sau làm nóng,
+với phiên bản Set. Số đo theo từng công đoạn được lưu cùng kết quả thực nghiệm.
+
+\subsubsection{Giới hạn áp dụng}
+Luật mô tả đồng xuất hiện trong giỏ hoàn tất, không cho biết thứ tự mua
+hoặc quan hệ nhân quả. Dữ liệu không có mã khách, thời gian, giá và khuyến
+mãi. Mười luật và các ngưỡng được chọn trên cùng bộ dữ liệu, chưa có đánh giá
+ngoài mẫu để xác định ngưỡng tối ưu hoặc tỷ lệ mua kèm khi triển khai.
+Chưa thể kết luận gợi ý làm tăng doanh thu hoặc luật ổn định theo thời gian.
+Đánh giá vận hành đòi hỏi dữ liệu mới và thí nghiệm A/B theo tỷ lệ
+chuyển đổi hoặc lợi nhuận. Số luật cũng không trực tiếp biểu thị độ phủ
+giao dịch do một giỏ có thể thỏa nhiều luật. Độ hỗ trợ đếm giỏ chứa cả
+$X\cup Y$; để đánh giá tần suất có thể kích hoạt gợi ý, cần đếm riêng
+tỷ lệ giỏ chứa vế trái của ít nhất một luật được chọn, và loại các
+trường hợp vế phải đã có trong giỏ.

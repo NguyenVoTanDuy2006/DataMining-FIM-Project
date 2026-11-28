@@ -7,7 +7,7 @@
 
 > **Nguyên tắc tiết kiệm thời gian/tài nguyên và lượt sửa bằng AI:** Trong giai đoạn phát triển, chỉ cần 01 smoke run `T2_K8_seed42` cho luồng chính. Không thực thi 15 K-means runs, không chạy toàn bộ 70k ảnh, không sinh mọi T1/T2/T3, không tạo centroid gallery toàn bộ và không quét nhiều minsup. Chỉ mở khóa full benchmark sau khi smoke end-to-end PASS.
 
-**Bằng chứng triển khai hiện tại:** `src/applications/FashionTC.jl`, các config CPU và `notebook/UD2/03_fashion_mnist_transaction_construction_cpu.ipynb`. CPU smoke dùng Clustering.jl 0.15.8, có `status=PASS`. Mục E (full data/benchmark) chưa chạy.
+**Bằng chứng triển khai hiện tại:** `src/applications/FashionTC.jl`, các config CPU và `notebooks/fashion-mnist/03_fashion_mnist_transaction_construction_cpu.ipynb`. CPU smoke dùng Clustering.jl 0.15.8, có `status=PASS`. Mục E (full data/benchmark) chưa chạy.
 
 ---
 

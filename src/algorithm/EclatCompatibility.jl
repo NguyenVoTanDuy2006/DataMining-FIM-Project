@@ -9,6 +9,7 @@ end
 function _mine_relative(transactions::AbstractVector{<:AbstractVector{<:Integer}}, minsup::Real,
     backend::Symbol)
     0 < minsup <= 1 || throw(ArgumentError("minsup must be in (0, 1]"))
+    backend in (:set, :bitvector) || throw(ArgumentError("Unsupported backend: $backend"))
     isempty(transactions) && return Dict{Tuple{Vararg{Int}},Int}()
     min_count = ceil(Int, minsup * length(transactions))
     return mine_count(transactions, min_count; backend)

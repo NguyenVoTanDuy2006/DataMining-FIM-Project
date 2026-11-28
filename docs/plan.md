@@ -32,7 +32,7 @@
 | ---------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------- |
 | **TV1 — Trung** | **Algorithm & Optimization Lead**  | Đọc paper; Eclat baseline; Eclat optimized; API; CLI; unit tests; xác minh SPMF                               | `EclatBaseline.jl`, `EclatOptimized.jl`, `EclatFIM.jl`, `test/runtests.jl`, tài liệu thuật toán | Cao              |
 | **TV2 — Khang** | **Benchmark & Market Basket Lead** | Chuẩn bị benchmark; runner/đo hiệu năng; tiền xử lý Groceries; association rules; bảng/biểu đồ                | `Benchmark.jl`, `Groceries.jl`, `AssociationRules.jl`, kết quả benchmarks, top-10 rules         | Trung bình–cao   |
-| **TV3 — Duy**   | **Visual Mining & Demo Lead**      | Đọc Fashion-MNIST; patch descriptors; K-means/codebook; transactions; phân tích visual pattern; tích hợp demo | `FashionMNIST.jl`, `FashionTC.jl`, plots, `notebook/UD2/release/`                                | Cao              |
+| **TV3 — Duy**   | **Visual Mining & Demo Lead**      | Đọc Fashion-MNIST; patch descriptors; K-means/codebook; transactions; phân tích visual pattern; tích hợp demo | `FashionMNIST.jl`, `FashionTC.jl`, plots, `notebooks/fashion-mnist/archive/release/`                                | Cao              |
 
 ### Quy định phối hợp
 
@@ -257,7 +257,7 @@ eclat-fim/
 │   ├── benchmarks/
 │   ├── groceries/
 │   └── fashion/
-├── notebook/UD2/
+├── notebooks/fashion-mnist/
 │   ├── release/
 │   └── experiments/
 └── docs/

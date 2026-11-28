@@ -413,8 +413,8 @@ Kết luận định lượng chỉ áp dụng cho các ngưỡng đã completed
 
 ## 6. Tái lập và audit
 
-- Mining notebook: `../../../../notebook/UD2/FIM_Mining_Experiments.ipynb`
-- Interpretation notebook: `../../../../notebook/UD2/FIM_Visual_Interpretation.ipynb`
+- Mining notebook: `../../../../notebooks/fashion-mnist/archive/release/03_frequent_itemset_mining.ipynb`
+- Interpretation notebook: `../../../../notebooks/fashion-mnist/archive/release/04_visual_interpretation.ipynb`
 - MCP log: `mcp_execution_log.md`
 - Input/config/hash/budget: `../input_manifest.toml`, `../config_snapshot.toml`
 - Full artifacts and statuses: `../README.md`
@@ -472,11 +472,11 @@ Mining `{mining}`; MCP execution `{execution}`; interpretation `{interpretation}
 
 ## Run order
 
-1. Open `notebook/UD2/FIM_Mining_Experiments.ipynb` in the repo Julia kernel and restart it.
+1. Open `notebooks/fashion-mnist/archive/release/03_frequent_itemset_mining.ipynb` in the repo Julia kernel and restart it.
 2. Run setup and input sanity cells, then P1 smoke/initialization. P1 only uses toy data.
 3. Run the P2 launch cell once. It starts a user-systemd supervisor outside the notebook kernel; check status with the bounded poll cell. Workers run one at a time under the recorded wall/memory/output budgets.
 4. After the supervisor is terminal, run the P3 analysis cell.
-5. Open `notebook/UD2/FIM_Visual_Interpretation.ipynb` in a clean Julia kernel and run top to bottom. It reads exact saved output and does not call Eclat.
+5. Open `notebooks/fashion-mnist/archive/release/04_visual_interpretation.ipynb` in a clean Julia kernel and run top to bottom. It reads exact saved output and does not call Eclat.
 6. Inspect the report and galleries. {('The confirmed annotations are recorded in `interpretation/pattern_annotations.csv`.' if interpretation == 'PASS' else 'A human reviewer must complete `interpretation/pattern_annotations.csv`.')}
 
 ## Files
