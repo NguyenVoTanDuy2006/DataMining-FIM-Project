@@ -1,0 +1,16 @@
+K,seed,flag,stop_reason,converged
+16,42,CONVERGED,library_tolerance,true
+16,123,CONVERGED,library_tolerance,true
+16,2026,CONVERGED,library_tolerance,true
+32,42,CONVERGED,library_tolerance,true
+32,123,CONVERGED,library_tolerance,true
+32,2026,CONVERGED,library_tolerance,true
+64,42,CONVERGED,library_tolerance,true
+64,123,CONVERGED,library_tolerance,true
+64,2026,CONVERGED,library_tolerance,true
+128,42,CONVERGED,library_tolerance,true
+128,123,CONVERGED,library_tolerance,true
+128,2026,CONVERGED,library_tolerance,true
+256,42,CONVERGED,library_tolerance,true
+256,123,CONVERGED,library_tolerance,true
+256,2026,CONVERGED,library_tolerance,true

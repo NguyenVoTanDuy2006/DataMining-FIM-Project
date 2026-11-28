@@ -1,0 +1,23 @@
+[pilot_c1]
+status = "COMPLETED_WITH_CENSORING"
+scope = "FULL_S0_S1_S3_S6B"
+updated_unix_seconds = 1.795812341573399e9
+rows = 60
+expected_runs = 60
+completed = 45
+censored_or_blocked = 15
+
+[analysis_a_b]
+expected_databases = 60
+status = "PARTIAL"
+scope = "FULL_S0_S1_S3_S6B"
+updated_unix_seconds = 1.795812123489992e9
+validated_databases = 45
+codebooks = 15
+labels_status = "COMPUTED"
+
+[final_decision]
+comparative_rows = 60
+status = "INCONCLUSIVE"
+updated_unix_seconds = 1.795812348964025e9
+automated_winner_selected = false

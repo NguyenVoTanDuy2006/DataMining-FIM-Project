@@ -1,0 +1,101 @@
+database_id,variant,item_ids_raw_namespace,decoded_items,multiplicity,length
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,85,10
+B0_K16_seed42_S1,S1,3 6 17 28 30 31 35 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,63,11
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,52,9
+B0_K16_seed42_S1,S1,2 7 18 23 34 39 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region3_word2;region3_word7;region4_word2;region4_word7,47,8
+B0_K16_seed42_S1,S1,3 6 17 28 30 31 35 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,31,10
+B0_K16_seed42_S1,S1,3 6 17 28 35 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,30,9
+B0_K16_seed42_S1,S1,3 6 17 28 30 35 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,28,10
+B0_K16_seed42_S1,S1,3 6 17 25 28 31 35 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,26,11
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 38 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word6;region3_word10;region4_word11;region4_word12;region4_word15,24,11
+B0_K16_seed42_S1,S1,3 6 17 28 35 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region3_word3;region4_word11;region4_word12;region4_word15,23,8
+B0_K16_seed42_S1,S1,3 6 17 28 30 35 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region3_word3;region4_word11;region4_word12;region4_word15,21,9
+B0_K16_seed42_S1,S1,3 17 28 31 35 42 59 60 63,region1_word3;region2_word1;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,20,9
+B0_K16_seed42_S1,S1,3 17 28 30 31 35 42 59 60 63,region1_word3;region2_word1;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,19,10
+B0_K16_seed42_S1,S1,2 7 18 21 23 34 39 50 55,region1_word2;region1_word7;region2_word2;region2_word5;region2_word7;region3_word2;region3_word7;region4_word2;region4_word7,18,9
+B0_K16_seed42_S1,S1,2 7 18 23 25 34 39 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region2_word9;region3_word2;region3_word7;region4_word2;region4_word7,18,9
+B0_K16_seed42_S1,S1,2 18 23 34 50,region1_word2;region2_word2;region2_word7;region3_word2;region4_word2,18,5
+B0_K16_seed42_S1,S1,3 4 24 28 30 31 35 42 59 60 63,region1_word3;region1_word4;region2_word8;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,18,11
+B0_K16_seed42_S1,S1,3 6 17 25 28 31 35 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,18,10
+B0_K16_seed42_S1,S1,3 6 17 28 30 31 35 38 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region2_word15;region3_word3;region3_word6;region3_word10;region4_word11;region4_word12;region4_word15,18,12
+B0_K16_seed42_S1,S1,2 7 18 23 32 34 39 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region2_word16;region3_word2;region3_word7;region4_word2;region4_word7,16,9
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 38 42 59 60,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word6;region3_word10;region4_word11;region4_word12,16,10
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 50 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region4_word2;region4_word11;region4_word12;region4_word15,16,10
+B0_K16_seed42_S1,S1,2 7 18 23 24 34 39 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region2_word8;region3_word2;region3_word7;region4_word2;region4_word7,15,9
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 38 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word6;region4_word11;region4_word12;region4_word15,14,10
+B0_K16_seed42_S1,S1,3 6 17 28 35 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region3_word3;region4_word12;region4_word15,14,7
+B0_K16_seed42_S1,S1,3 6 28 30 31 35 42 59 60 63,region1_word3;region1_word6;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,14,10
+B0_K16_seed42_S1,S1,3 17 28 30 35 42 59 60 63,region1_word3;region2_word1;region2_word12;region2_word14;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,14,9
+B0_K16_seed42_S1,S1,3 6 17 25 28 30 31 35 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,13,12
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region4_word12;region4_word15,13,8
+B0_K16_seed42_S1,S1,3 6 17 28 35 38 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region3_word3;region3_word6;region4_word11;region4_word12;region4_word15,13,9
+B0_K16_seed42_S1,S1,3 17 28 31 35 59 60 63,region1_word3;region2_word1;region2_word12;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,13,8
+B0_K16_seed42_S1,S1,2 7 10 18 23 34 39 42 50 55,region1_word2;region1_word7;region1_word10;region2_word2;region2_word7;region3_word2;region3_word7;region3_word10;region4_word2;region4_word7,12,10
+B0_K16_seed42_S1,S1,3 4 24 28 30 31 35 59 60 63,region1_word3;region1_word4;region2_word8;region2_word12;region2_word14;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,12,10
+B0_K16_seed42_S1,S1,3 4 28 30 31 35 42 59 60 63,region1_word3;region1_word4;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,12,10
+B0_K16_seed42_S1,S1,3 6 17 25 28 35 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,12,10
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 42 59 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word15,12,9
+B0_K16_seed42_S1,S1,2 7 18 23 34 50,region1_word2;region1_word7;region2_word2;region2_word7;region3_word2;region4_word2,11,6
+B0_K16_seed42_S1,S1,2 18 23 34 39 50 55,region1_word2;region2_word2;region2_word7;region3_word2;region3_word7;region4_word2;region4_word7,11,7
+B0_K16_seed42_S1,S1,2 18 32 34 45 46 48 49 60 61 62,region1_word2;region2_word2;region2_word16;region3_word2;region3_word13;region3_word14;region3_word16;region4_word1;region4_word12;region4_word13;region4_word14,11,11
+B0_K16_seed42_S1,S1,3 4 24 28 30 35 42 59 60 63,region1_word3;region1_word4;region2_word8;region2_word12;region2_word14;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,11,10
+B0_K16_seed42_S1,S1,3 6 17 27 28 31 35 42 59 63,region1_word3;region1_word6;region2_word1;region2_word11;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word15,11,10
+B0_K16_seed42_S1,S1,3 6 17 27 28 31 35 59 63,region1_word3;region1_word6;region2_word1;region2_word11;region2_word12;region2_word15;region3_word3;region4_word11;region4_word15,11,9
+B0_K16_seed42_S1,S1,3 17 25 28 31 35 42 59 60 63,region1_word3;region2_word1;region2_word9;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,11,10
+B0_K16_seed42_S1,S1,1 6 17 28 35 38 59 60 63,region1_word1;region1_word6;region2_word1;region2_word12;region3_word3;region3_word6;region4_word11;region4_word12;region4_word15,10,9
+B0_K16_seed42_S1,S1,2 7 10 18 23 25 34 39 50 55,region1_word2;region1_word7;region1_word10;region2_word2;region2_word7;region2_word9;region3_word2;region3_word7;region4_word2;region4_word7,10,10
+B0_K16_seed42_S1,S1,2 7 10 18 23 27 34 39 50 55,region1_word2;region1_word7;region1_word10;region2_word2;region2_word7;region2_word11;region3_word2;region3_word7;region4_word2;region4_word7,10,10
+B0_K16_seed42_S1,S1,3 6 17 25 28 31 35 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region2_word15;region3_word3;region4_word12;region4_word15,10,9
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 59 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region4_word11;region4_word15,10,8
+B0_K16_seed42_S1,S1,3 6 28 30 31 35 59 60 63,region1_word3;region1_word6;region2_word12;region2_word14;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,10,9
+B0_K16_seed42_S1,S1,2 7 10 18 21 23 34 39 50 55,region1_word2;region1_word7;region1_word10;region2_word2;region2_word5;region2_word7;region3_word2;region3_word7;region4_word2;region4_word7,9,10
+B0_K16_seed42_S1,S1,2 7 10 18 23 34 39 50 55,region1_word2;region1_word7;region1_word10;region2_word2;region2_word7;region3_word2;region3_word7;region4_word2;region4_word7,9,9
+B0_K16_seed42_S1,S1,2 7 18 20 23 34 39 50 55,region1_word2;region1_word7;region2_word2;region2_word4;region2_word7;region3_word2;region3_word7;region4_word2;region4_word7,9,9
+B0_K16_seed42_S1,S1,2 7 18 23 34 39 42 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region3_word2;region3_word7;region3_word10;region4_word2;region4_word7,9,9
+B0_K16_seed42_S1,S1,2 34 39 45 50 55 61 64,region1_word2;region3_word2;region3_word7;region3_word13;region4_word2;region4_word7;region4_word13;region4_word16,9,8
+B0_K16_seed42_S1,S1,3 6 17 28 30 31 35 38 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region2_word15;region3_word3;region3_word6;region4_word11;region4_word12;region4_word15,9,11
+B0_K16_seed42_S1,S1,3 6 17 28 30 31 35 50 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region2_word15;region3_word3;region4_word2;region4_word11;region4_word12;region4_word15,9,11
+B0_K16_seed42_S1,S1,3 10 17 25 27 28 35 38 49 60,region1_word3;region1_word10;region2_word1;region2_word9;region2_word11;region2_word12;region3_word3;region3_word6;region4_word1;region4_word12,9,10
+B0_K16_seed42_S1,S1,2 7 18 20 23 34 39 42 50 55,region1_word2;region1_word7;region2_word2;region2_word4;region2_word7;region3_word2;region3_word7;region3_word10;region4_word2;region4_word7,8,10
+B0_K16_seed42_S1,S1,2 7 18 21 23 39 50 55,region1_word2;region1_word7;region2_word2;region2_word5;region2_word7;region3_word7;region4_word2;region4_word7,8,8
+B0_K16_seed42_S1,S1,2 7 18 23 25 39 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region2_word9;region3_word7;region4_word2;region4_word7,8,8
+B0_K16_seed42_S1,S1,2 7 18 23 39 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region3_word7;region4_word2;region4_word7,8,7
+B0_K16_seed42_S1,S1,2 18 25 34 50,region1_word2;region2_word2;region2_word9;region3_word2;region4_word2,8,5
+B0_K16_seed42_S1,S1,2 18 34 39 50 55,region1_word2;region2_word2;region3_word2;region3_word7;region4_word2;region4_word7,8,6
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 38 50 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word6;region4_word2;region4_word11;region4_word12;region4_word15,8,11
+B0_K16_seed42_S1,S1,3 6 17 28 35 38 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region3_word3;region3_word6;region3_word10;region4_word11;region4_word12;region4_word15,8,10
+B0_K16_seed42_S1,S1,3 10 17 25 27 28 35 49 60,region1_word3;region1_word10;region2_word1;region2_word9;region2_word11;region2_word12;region3_word3;region4_word1;region4_word12,8,9
+B0_K16_seed42_S1,S1,3 17 28 31 35 42 59 60,region1_word3;region2_word1;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12,8,8
+B0_K16_seed42_S1,S1,3 17 28 31 42 59 60 63,region1_word3;region2_word1;region2_word12;region2_word15;region3_word10;region4_word11;region4_word12;region4_word15,8,8
+B0_K16_seed42_S1,S1,3 17 28 31 42 59 63,region1_word3;region2_word1;region2_word12;region2_word15;region3_word10;region4_word11;region4_word15,8,7
+B0_K16_seed42_S1,S1,6 17 28 31 35 38 59 60 63,region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word6;region4_word11;region4_word12;region4_word15,8,9
+B0_K16_seed42_S1,S1,18 34 39 50 55 61,region2_word2;region3_word2;region3_word7;region4_word2;region4_word7;region4_word13,8,6
+B0_K16_seed42_S1,S1,1 6 17 28 31 35 38 59 60 63,region1_word1;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word6;region4_word11;region4_word12;region4_word15,7,10
+B0_K16_seed42_S1,S1,2 7 10 18 23 24 34 39 50 55,region1_word2;region1_word7;region1_word10;region2_word2;region2_word7;region2_word8;region3_word2;region3_word7;region4_word2;region4_word7,7,10
+B0_K16_seed42_S1,S1,2 7 10 18 23 25 34 39 42 50 55,region1_word2;region1_word7;region1_word10;region2_word2;region2_word7;region2_word9;region3_word2;region3_word7;region3_word10;region4_word2;region4_word7,7,11
+B0_K16_seed42_S1,S1,2 7 18 23 34 39 43 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region3_word2;region3_word7;region3_word11;region4_word2;region4_word7,7,9
+B0_K16_seed42_S1,S1,3 6 17 25 28 30 31 35 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region2_word14;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,7,11
+B0_K16_seed42_S1,S1,3 6 17 25 28 35 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region3_word3;region4_word11;region4_word12;region4_word15,7,9
+B0_K16_seed42_S1,S1,3 6 17 28 30 31 35 42 59 60,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12,7,10
+B0_K16_seed42_S1,S1,3 6 17 28 31 35 42 59 60,region1_word3;region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12,7,9
+B0_K16_seed42_S1,S1,3 6 17 28 35 38 49 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region3_word3;region3_word6;region4_word1;region4_word11;region4_word12;region4_word15,7,10
+B0_K16_seed42_S1,S1,3 17 25 28 35 38 49 60,region1_word3;region2_word1;region2_word9;region2_word12;region3_word3;region3_word6;region4_word1;region4_word12,7,8
+B0_K16_seed42_S1,S1,6 17 28 31 35 59 60 63,region1_word6;region2_word1;region2_word12;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,7,8
+B0_K16_seed42_S1,S1,1 6 9 10 17 25 32 33 38 44 45 49 50 51 54 59 61,region1_word1;region1_word6;region1_word9;region1_word10;region2_word1;region2_word9;region2_word16;region3_word1;region3_word6;region3_word12;region3_word13;region4_word1;region4_word2;region4_word3;region4_word6;region4_word11;region4_word13,6,17
+B0_K16_seed42_S1,S1,1 6 17 28 38 60 63,region1_word1;region1_word6;region2_word1;region2_word12;region3_word6;region4_word12;region4_word15,6,7
+B0_K16_seed42_S1,S1,2 7 16 18 23 25 32 39 55,region1_word2;region1_word7;region1_word16;region2_word2;region2_word7;region2_word9;region2_word16;region3_word7;region4_word7,6,9
+B0_K16_seed42_S1,S1,2 7 18 23 29 34 39 50 55,region1_word2;region1_word7;region2_word2;region2_word7;region2_word13;region3_word2;region3_word7;region4_word2;region4_word7,6,9
+B0_K16_seed42_S1,S1,2 7 18 23 34 39 50 55 58,region1_word2;region1_word7;region2_word2;region2_word7;region3_word2;region3_word7;region4_word2;region4_word7;region4_word10,6,9
+B0_K16_seed42_S1,S1,2 18 23 32 34 39 50 55 56,region1_word2;region2_word2;region2_word7;region2_word16;region3_word2;region3_word7;region4_word2;region4_word7;region4_word8,6,9
+B0_K16_seed42_S1,S1,2 18 23 34 50 55,region1_word2;region2_word2;region2_word7;region3_word2;region4_word2;region4_word7,6,6
+B0_K16_seed42_S1,S1,2 18 29 34 50,region1_word2;region2_word2;region2_word13;region3_word2;region4_word2,6,5
+B0_K16_seed42_S1,S1,2 18 32 34 41 45 46 48 49 50 60 61 62,region1_word2;region2_word2;region2_word16;region3_word2;region3_word9;region3_word13;region3_word14;region3_word16;region4_word1;region4_word2;region4_word12;region4_word13;region4_word14,6,13
+B0_K16_seed42_S1,S1,2 27 32 34 45 46 48 49 60 61,region1_word2;region2_word11;region2_word16;region3_word2;region3_word13;region3_word14;region3_word16;region4_word1;region4_word12;region4_word13,6,10
+B0_K16_seed42_S1,S1,3 4 24 25 28 30 31 35 42 59 60 63,region1_word3;region1_word4;region2_word8;region2_word9;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,6,12
+B0_K16_seed42_S1,S1,3 4 24 25 28 30 31 35 59 60 63,region1_word3;region1_word4;region2_word8;region2_word9;region2_word12;region2_word14;region2_word15;region3_word3;region4_word11;region4_word12;region4_word15,6,11
+B0_K16_seed42_S1,S1,3 6 17 25 28 31 35 38 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region2_word15;region3_word3;region3_word6;region4_word11;region4_word12;region4_word15,6,11
+B0_K16_seed42_S1,S1,3 6 17 25 28 31 35 42 59 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region2_word15;region3_word3;region3_word10;region4_word11;region4_word15,6,10
+B0_K16_seed42_S1,S1,3 6 17 25 28 31 35 50 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region2_word12;region2_word15;region3_word3;region4_word2;region4_word11;region4_word12;region4_word15,6,11
+B0_K16_seed42_S1,S1,3 6 17 25 35 42 59 60 63,region1_word3;region1_word6;region2_word1;region2_word9;region3_word3;region3_word10;region4_word11;region4_word12;region4_word15,6,9
+B0_K16_seed42_S1,S1,3 6 17 27 28 30 31 35 42 59 63,region1_word3;region1_word6;region2_word1;region2_word11;region2_word12;region2_word14;region2_word15;region3_word3;region3_word10;region4_word11;region4_word15,6,11
+B0_K16_seed42_S1,S1,3 6 17 28 30 31 35 38 58 59 60 63,region1_word3;region1_word6;region2_word1;region2_word12;region2_word14;region2_word15;region3_word3;region3_word6;region4_word10;region4_word11;region4_word12;region4_word15,6,12

@@ -1,0 +1,14 @@
+completed_length_capped_runs = 108
+memory_cap_enforced = false
+peak_rss_measured = false
+closed_maximal_status = "NOT_EXACT"
+variants_per_codebook = 3
+engine_source_sha256 = "0a480452321e9024aaeced4b6334500ad3a9795c947aa03edc3f7d7ab227c4ed"
+config_sha256 = "5295078c2f9df53493c5dbeb94e4b1ff527a241dcced5f8be6ad6d6e8ad45e75"
+expected_runs = 108
+repetitions_configured = 3
+rows_written = 108
+selected_codebooks = 9
+adapter_source_sha256 = "a84759a8601e9a5cf00fa2ede08e522a498f68cef56dc727ad11d0447c163932"
+max_itemset_length = 4
+minsup_fractions = [0.01, 0.03, 0.05, 0.1]

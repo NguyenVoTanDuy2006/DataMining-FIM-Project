@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" width="840" height="388" viewBox="0 0 840 388"><title>ARI lưu từ TC4 theo K</title>
+<rect width="100%" height="100%" fill="#fff"/><g font-family="DejaVu Sans, sans-serif" fill="#1e293b">
+<text x="110" y="26" font-size="17" font-weight="700">ARI lưu từ TC4 theo K</text>
+<path d="M 110 308.0 H 805" stroke="#e2e8f0"/><text x="101" y="312.0" text-anchor="end" font-size="11">0</text>
+<path d="M 110 261.6 H 805" stroke="#e2e8f0"/><text x="101" y="265.6" text-anchor="end" font-size="11">0.2</text>
+<path d="M 110 215.2 H 805" stroke="#e2e8f0"/><text x="101" y="219.2" text-anchor="end" font-size="11">0.4</text>
+<path d="M 110 168.8 H 805" stroke="#e2e8f0"/><text x="101" y="172.8" text-anchor="end" font-size="11">0.6</text>
+<path d="M 110 122.39999999999998 H 805" stroke="#e2e8f0"/><text x="101" y="126.39999999999998" text-anchor="end" font-size="11">0.8</text>
+<path d="M 110 76.0 H 805" stroke="#e2e8f0"/><text x="101" y="80.0" text-anchor="end" font-size="11">1</text>
+<path d="M 110 76 V 308 H 805" fill="none" stroke="#64748b"/>
+<text x="110.0" y="329" text-anchor="middle" font-size="11">16</text>
+<text x="283.75" y="329" text-anchor="middle" font-size="11">32</text>
+<text x="457.5" y="329" text-anchor="middle" font-size="11">64</text>
+<text x="631.25" y="329" text-anchor="middle" font-size="11">128</text>
+<text x="805.0" y="329" text-anchor="middle" font-size="11">256</text>
+<text x="457.5" y="374" text-anchor="middle" font-size="13">K</text>
+<text transform="translate(24 192.0) rotate(-90)" text-anchor="middle" font-size="13">ARI</text>
+<path d="M 110 47 h 18" stroke="#2563eb" stroke-width="3" stroke-dasharray="none"/><text x="134" y="51" font-size="12">ARI</text>
+<circle cx="110.0" cy="101.18551072399043" r="4" fill="#2563eb" stroke="#fff"><title>ARI • 16 • 0.8914</title></circle>
+<path d="M 110.0 101.18551072399043 L 283.75 119.49364562536226" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="283.75" cy="119.49364562536226" r="4" fill="#2563eb" stroke="#fff"><title>ARI • 32 • 0.8125</title></circle>
+<path d="M 283.75 119.49364562536226 L 457.5 135.91706253107455" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="457.5" cy="135.91706253107455" r="4" fill="#2563eb" stroke="#fff"><title>ARI • 64 • 0.7417</title></circle>
+<path d="M 457.5 135.91706253107455 L 631.25 145.70269691217058" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="631.25" cy="145.70269691217058" r="4" fill="#2563eb" stroke="#fff"><title>ARI • 128 • 0.6996</title></circle>
+<path d="M 631.25 145.70269691217058 L 805.0 159.9747831005759" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="805.0" cy="159.9747831005759" r="4" fill="#2563eb" stroke="#fff"><title>ARI • 256 • 0.638</title></circle>
+</g></svg>

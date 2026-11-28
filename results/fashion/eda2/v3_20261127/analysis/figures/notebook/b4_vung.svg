@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" width="840" height="388" viewBox="0 0 840 388"><title>Tỷ lệ ảnh có item theo vùng/dải · K=32, seed=123</title>
+<rect width="100%" height="100%" fill="#fff"/><g font-family="DejaVu Sans, sans-serif" fill="#1e293b">
+<text x="110" y="26" font-size="17" font-weight="700">Tỷ lệ ảnh có item theo vùng/dải · K=32, seed=123</text>
+<path d="M 110 308.0 H 805" stroke="#e2e8f0"/><text x="101" y="312.0" text-anchor="end" font-size="11">0</text>
+<path d="M 110 261.6 H 805" stroke="#e2e8f0"/><text x="101" y="265.6" text-anchor="end" font-size="11">20</text>
+<path d="M 110 215.2 H 805" stroke="#e2e8f0"/><text x="101" y="219.2" text-anchor="end" font-size="11">40</text>
+<path d="M 110 168.8 H 805" stroke="#e2e8f0"/><text x="101" y="172.8" text-anchor="end" font-size="11">60</text>
+<path d="M 110 122.4 H 805" stroke="#e2e8f0"/><text x="101" y="126.4" text-anchor="end" font-size="11">80</text>
+<path d="M 110 76.0 H 805" stroke="#e2e8f0"/><text x="101" y="80.0" text-anchor="end" font-size="11">100</text>
+<path d="M 110 76 V 308 H 805" fill="none" stroke="#64748b"/>
+<text x="159.64285714285714" y="329" text-anchor="middle" font-size="11">Trên trái</text>
+<text x="258.92857142857144" y="329" text-anchor="middle" font-size="11">Trên phải</text>
+<text x="358.2142857142857" y="329" text-anchor="middle" font-size="11">Dưới trái</text>
+<text x="457.5" y="329" text-anchor="middle" font-size="11">Dưới phải</text>
+<text x="556.7857142857142" y="329" text-anchor="middle" font-size="11">Dải trên</text>
+<text x="656.0714285714286" y="329" text-anchor="middle" font-size="11">Dải giữa</text>
+<text x="755.3571428571429" y="329" text-anchor="middle" font-size="11">Dải dưới</text>
+<text x="457.5" y="374" text-anchor="middle" font-size="13">Vùng hoặc dải</text>
+<text transform="translate(24 192.0) rotate(-90)" text-anchor="middle" font-size="13">Tỷ lệ ảnh (%)</text>
+<path d="M 110 47 h 18" stroke="#be4a28" stroke-width="3" stroke-dasharray="none"/><text x="134" y="51" font-size="12">S1</text>
+<rect x="126.54761904761905" y="118.71782857142858" width="33.095238095238095" height="189.28217142857142" fill="#be4a28"><title>S1 • Trên trái • 81.5871</title></rect>
+<rect x="225.83333333333337" y="76.53359999999998" width="33.095238095238095" height="231.46640000000002" fill="#be4a28"><title>S1 • Trên phải • 99.77</title></rect>
+<rect x="325.11904761904765" y="76.06297142857144" width="33.095238095238095" height="231.93702857142856" fill="#be4a28"><title>S1 • Dưới trái • 99.9729</title></rect>
+<rect x="424.4047619047619" y="76.02651428571428" width="33.095238095238095" height="231.97348571428572" fill="#be4a28"><title>S1 • Dưới phải • 99.9886</title></rect>
+<path d="M 268 47 h 18" stroke="#087d66" stroke-width="3" stroke-dasharray="none"/><text x="292" y="51" font-size="12">S3</text>
+<rect x="556.7857142857142" y="100.99965714285713" width="33.095238095238095" height="207.00034285714287" fill="#087d66"><title>S3 • Dải trên • 89.2243</title></rect>
+<rect x="656.0714285714286" y="76.00331428571428" width="33.095238095238095" height="231.99668571428572" fill="#087d66"><title>S3 • Dải giữa • 99.9986</title></rect>
+<rect x="755.3571428571429" y="93.84411428571428" width="33.095238095238095" height="214.15588571428572" fill="#087d66"><title>S3 • Dải dưới • 92.3086</title></rect>
+</g></svg>

@@ -1,0 +1,320 @@
+pattern_id,database_id,K,seed,variant,itemset,decoded_items,support_count,support_fraction,example_tids,patch_coordinates,decodable,visual_coherence,nontriviality,redundancy,annotator_notes
+B0_K16_seed123_S0_m003_l1_LOW,B0_K16_seed123_S0,16,123,S0,4,word_4,35444,0.5063428571428571,1;2;3;4;5,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l1_MID,B0_K16_seed123_S0,16,123,S0,3,word_3,38863,0.5551857142857143,1;2;5;7;8,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l1_HIGH,B0_K16_seed123_S0,16,123,S0,16,word_16,40757,0.5822428571428572,1;2;4;6;7,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l2_LOW,B0_K16_seed123_S0,16,123,S0,2 16,word_2;word_16,18508,0.2644,1;6;8;9;10,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l2_MID,B0_K16_seed123_S0,16,123,S0,1 11,word_1;word_11,21911,0.3130142857142857,2;5;6;7;8,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l2_HIGH,B0_K16_seed123_S0,16,123,S0,7 10,word_7;word_10,26327,0.3761,8;9;10;11;12,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l3_LOW,B0_K16_seed123_S0,16,123,S0,3 5 15,word_3;word_5;word_15,9575,0.1367857142857143,2;17;19;22;23,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l3_MID,B0_K16_seed123_S0,16,123,S0,4 7 12,word_4;word_7;word_12,12805,0.18292857142857144,5;8;12;16;21,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l3_HIGH,B0_K16_seed123_S0,16,123,S0,2 6 8,word_2;word_6;word_8,16098,0.22997142857142858,6;8;10;11;12,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l4_LOW,B0_K16_seed123_S0,16,123,S0,9 12 15 16,word_9;word_12;word_15;word_16,5046,0.07208571428571428,13;41;46;61;92,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l4_MID,B0_K16_seed123_S0,16,123,S0,4 6 11 15,word_4;word_6;word_11;word_15,7287,0.1041,2;5;19;27;29,,true,pending,pending,pending,pending
+B0_K16_seed123_S0_m003_l4_HIGH,B0_K16_seed123_S0,16,123,S0,3 4 12 14,word_3;word_4;word_12;word_14,9684,0.13834285714285716,1;12;16;23;28,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l1_LOW,B0_K16_seed123_S1,16,123,S1,43,region3_word11,10230,0.14614285714285713,1;10;16;47;83,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l1_MID,B0_K16_seed123_S1,16,123,S1,45,region3_word13,19244,0.2749142857142857,3;4;13;14;20,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l1_HIGH,B0_K16_seed123_S1,16,123,S1,62,region4_word14,25572,0.3653142857142857,1;6;7;10;12,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l2_LOW,B0_K16_seed123_S1,16,123,S1,7 45,region1_word7;region3_word13,3921,0.05601428571428571,4;20;32;36;38,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l2_MID,B0_K16_seed123_S1,16,123,S1,3 39,region1_word3;region3_word7,6509,0.09298571428571428,8;26;28;50;65,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l2_HIGH,B0_K16_seed123_S1,16,123,S1,6 62,region1_word6;region4_word14,9962,0.14231428571428573,10;12;15;29;31,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l3_LOW,B0_K16_seed123_S1,16,123,S1,16 35 58,region1_word16;region3_word3;region4_word10,2722,0.03888571428571429,2;8;23;67;76,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l3_MID,B0_K16_seed123_S1,16,123,S1,6 19 58,region1_word6;region2_word3;region4_word10,3544,0.050628571428571426,2;8;12;26;45,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l3_HIGH,B0_K16_seed123_S1,16,123,S1,22 58 63,region2_word6;region4_word10;region4_word15,4802,0.0686,23;62;69;91;118,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l4_LOW,B0_K16_seed123_S1,16,123,S1,26 37 51 54,region2_word10;region3_word5;region4_word3;region4_word6,2348,0.033542857142857145,57;101;123;137;159,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l4_MID,B0_K16_seed123_S1,16,123,S1,3 51 54 56,region1_word3;region4_word3;region4_word6;region4_word8,2686,0.03837142857142857,50;54;170;246;264,,true,pending,pending,pending,pending
+B0_K16_seed123_S1_m003_l4_HIGH,B0_K16_seed123_S1,16,123,S1,15 45 47 63,region1_word15;region3_word13;region3_word15;region4_word15,3243,0.04632857142857143,4;29;38;62;73,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l1_LOW,B0_K16_seed123_S3,16,123,S3,41,BOTTOM_word9,15692,0.22417142857142858,1;10;16;17;21,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l1_MID,B0_K16_seed123_S3,16,123,S3,37,BOTTOM_word5,21023,0.30032857142857144,1;2;6;11;18,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l1_HIGH,B0_K16_seed123_S3,16,123,S3,16,TOP_word16,26120,0.37314285714285716,1;2;4;6;8,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l2_LOW,B0_K16_seed123_S3,16,123,S3,9 16,TOP_word9;TOP_word16,4919,0.07027142857142857,6;8;18;19;41,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l2_MID,B0_K16_seed123_S3,16,123,S3,39 40,BOTTOM_word7;BOTTOM_word8,7155,0.10221428571428572,4;5;10;11;12,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l2_HIGH,B0_K16_seed123_S3,16,123,S3,1 26,TOP_word1;MIDDLE_word10,9824,0.14034285714285713,2;17;32;43;50,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l3_LOW,B0_K16_seed123_S3,16,123,S3,1 3 33,TOP_word1;TOP_word3;BOTTOM_word1,2723,0.0389,17;67;99;140;147,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l3_MID,B0_K16_seed123_S3,16,123,S3,4 23 34,TOP_word4;MIDDLE_word7;BOTTOM_word2,3476,0.04965714285714286,8;23;26;28;65,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l3_HIGH,B0_K16_seed123_S3,16,123,S3,6 25 33,TOP_word6;MIDDLE_word9;BOTTOM_word1,4725,0.0675,17;27;33;41;126,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l4_LOW,B0_K16_seed123_S3,16,123,S3,5 12 21 22,TOP_word5;TOP_word12;MIDDLE_word5;MIDDLE_word6,2336,0.03337142857142857,41;169;186;187;189,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l4_MID,B0_K16_seed123_S3,16,123,S3,5 11 28 37,TOP_word5;TOP_word11;MIDDLE_word12;BOTTOM_word5,2683,0.03832857142857143,6;78;141;169;170,,true,pending,pending,pending,pending
+B0_K16_seed123_S3_m003_l4_HIGH,B0_K16_seed123_S3,16,123,S3,6 23 35 40,TOP_word6;MIDDLE_word7;BOTTOM_word3;BOTTOM_word8,3272,0.04674285714285714,8;10;12;23;45,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l1_LOW,B0_K32_seed42_S0,32,42,S0,13,word_13,23109,0.33012857142857144,1;7;9;10;12,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l1_MID,B0_K32_seed42_S0,32,42,S0,6,word_6,25686,0.3669428571428571,1;5;6;10;12,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l1_HIGH,B0_K32_seed42_S0,32,42,S0,26,word_26,30226,0.4318,1;6;8;12;16,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l2_LOW,B0_K32_seed42_S0,32,42,S0,18 20,word_18;word_20,7673,0.10961428571428572,14;16;29;40;44,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l2_MID,B0_K32_seed42_S0,32,42,S0,22 31,word_22;word_31,10166,0.14522857142857143,7;8;10;12;25,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l2_HIGH,B0_K32_seed42_S0,32,42,S0,10 28,word_10;word_28,14426,0.2060857142857143,1;5;8;19;23,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l3_LOW,B0_K32_seed42_S0,32,42,S0,8 24 25,word_8;word_24;word_25,3331,0.04758571428571429,27;29;37;44;49,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l3_MID,B0_K32_seed42_S0,32,42,S0,21 29 31,word_21;word_29;word_31,4664,0.06662857142857143,10;42;43;45;89,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l3_HIGH,B0_K32_seed42_S0,32,42,S0,9 10 28,word_9;word_10;word_28,6507,0.09295714285714286,5;40;41;65;71,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l4_LOW,B0_K32_seed42_S0,32,42,S0,2 14 26 30,word_2;word_14;word_26;word_30,2496,0.03565714285714286,6;41;95;137;157,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l4_MID,B0_K32_seed42_S0,32,42,S0,10 14 17 18,word_10;word_14;word_17;word_18,3044,0.04348571428571429,14;68;86;91;173,,true,pending,pending,pending,pending
+B0_K32_seed42_S0_m003_l4_HIGH,B0_K32_seed42_S0,32,42,S0,1 24 25 30,word_1;word_24;word_25;word_30,3939,0.05627142857142857,16;18;26;37;50,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l1_LOW,B0_K32_seed42_S1,32,42,S1,57,region2_word25,6471,0.09244285714285715,7;10;32;44;45,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l1_MID,B0_K32_seed42_S1,32,42,S1,49,region2_word17,12520,0.17885714285714285,9;13;20;35;37,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l1_HIGH,B0_K32_seed42_S1,32,42,S1,108,region4_word12,16680,0.2382857142857143,4;9;10;12;27,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l2_LOW,B0_K32_seed42_S1,32,42,S1,44 51,region2_word12;region2_word19,2889,0.04127142857142857,2;35;36;82;83,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l2_MID,B0_K32_seed42_S1,32,42,S1,56 104,region2_word24;region4_word8,3969,0.0567,4;29;49;62;66,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l2_HIGH,B0_K32_seed42_S1,32,42,S1,10 86,region1_word10;region3_word22,5555,0.07935714285714286,8;14;27;36;53,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l3_LOW,B0_K32_seed42_S1,32,42,S1,72 114 123,region3_word8;region4_word18;region4_word27,2333,0.03332857142857143,29;44;62;83;91,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l3_MID,B0_K32_seed42_S1,32,42,S1,46 52 97,region2_word14;region2_word20;region4_word1,2669,0.03812857142857143,52;142;189;206;239,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l3_HIGH,B0_K32_seed42_S1,32,42,S1,34 56 95,region2_word2;region2_word24;region3_word31,3243,0.04632857142857143,8;30;50;71;80,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l4_LOW,B0_K32_seed42_S1,32,42,S1,10 34 65 87,region1_word10;region2_word2;region3_word1;region3_word23,2219,0.0317,50;66;78;158;170,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l4_MID,B0_K32_seed42_S1,32,42,S1,27 40 59 123,region1_word27;region2_word8;region2_word27;region4_word27,2415,0.0345,73;96;105;118;124,,true,pending,pending,pending,pending
+B0_K32_seed42_S1_m003_l4_HIGH,B0_K32_seed42_S1,32,42,S1,14 34 46 78,region1_word14;region2_word2;region2_word14;region3_word14,2738,0.03911428571428571,19;27;33;46;49,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l1_LOW,B0_K32_seed42_S3,32,42,S3,6,TOP_word6,8466,0.12094285714285714,6;12;17;18;19,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l1_MID,B0_K32_seed42_S3,32,42,S3,78,BOTTOM_word14,12542,0.17917142857142856,6;11;19;24;27,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l1_HIGH,B0_K32_seed42_S3,32,42,S3,59,MIDDLE_word27,17506,0.2500857142857143,3;4;9;13;14,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l2_LOW,B0_K32_seed42_S3,32,42,S3,77 78,BOTTOM_word13;BOTTOM_word14,2892,0.04131428571428571,24;61;69;209;234,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l2_MID,B0_K32_seed42_S3,32,42,S3,92 95,BOTTOM_word28;BOTTOM_word31,3989,0.056985714285714285,40;48;50;187;189,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l2_HIGH,B0_K32_seed42_S3,32,42,S3,9 65,TOP_word9;BOTTOM_word1,5557,0.07938571428571428,2;22;25;30;41,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l3_LOW,B0_K32_seed42_S3,32,42,S3,2 64 95,TOP_word2;MIDDLE_word32;BOTTOM_word31,2343,0.03347142857142857,26;48;71;155;172,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l3_MID,B0_K32_seed42_S3,32,42,S3,24 34 87,TOP_word24;MIDDLE_word2;BOTTOM_word23,2669,0.03812857142857143,4;11;28;66;147,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l3_HIGH,B0_K32_seed42_S3,32,42,S3,31 33 38,TOP_word31;MIDDLE_word1;MIDDLE_word6,3247,0.04638571428571429,40;48;77;81;137,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l4_LOW,B0_K32_seed42_S3,32,42,S3,1 14 46 65,TOP_word1;TOP_word14;MIDDLE_word14;BOTTOM_word1,2223,0.03175714285714286,6;18;56;66;137,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l4_MID,B0_K32_seed42_S3,32,42,S3,1 10 33 58,TOP_word1;TOP_word10;MIDDLE_word1;MIDDLE_word26,2367,0.03381428571428571,52;113;160;169;170,,true,pending,pending,pending,pending
+B0_K32_seed42_S3_m003_l4_HIGH,B0_K32_seed42_S3,32,42,S3,11 24 33 63,TOP_word11;TOP_word24;MIDDLE_word1;MIDDLE_word31,2644,0.037771428571428574,30;57;125;160;172,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l1_LOW,B0_K32_seed123_S0,32,123,S0,17,word_17,21615,0.3087857142857143,3;4;9;13;14,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l1_MID,B0_K32_seed123_S0,32,123,S0,25,word_25,25641,0.3663,5;14;15;23;24,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l1_HIGH,B0_K32_seed123_S0,32,123,S0,7,word_7,31590,0.4512857142857143,4;8;10;11;12,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l2_LOW,B0_K32_seed123_S0,32,123,S0,10 21,word_10;word_21,7178,0.10254285714285714,1;6;8;10;16,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l2_MID,B0_K32_seed123_S0,32,123,S0,20 23,word_20;word_23,9697,0.13852857142857142,8;18;21;41;46,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l2_HIGH,B0_K32_seed123_S0,32,123,S0,6 28,word_6;word_28,13793,0.19704285714285713,5;8;11;13;16,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l3_LOW,B0_K32_seed123_S0,32,123,S0,20 23 28,word_20;word_23;word_28,3147,0.044957142857142855,8;18;41;118;137,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l3_MID,B0_K32_seed123_S0,32,123,S0,20 21 25,word_20;word_21;word_25,4352,0.06217142857142857,23;47;61;69;73,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l3_HIGH,B0_K32_seed123_S0,32,123,S0,4 5 18,word_4;word_5;word_18,6246,0.08922857142857143,2;11;17;18;19,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l4_LOW,B0_K32_seed123_S0,32,123,S0,2 23 26 29,word_2;word_23;word_26;word_29,2471,0.0353,8;10;45;82;118,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l4_MID,B0_K32_seed123_S0,32,123,S0,7 18 20 25,word_7;word_18;word_20;word_25,2983,0.042614285714285716,68;69;116;117;118,,true,pending,pending,pending,pending
+B0_K32_seed123_S0_m003_l4_HIGH,B0_K32_seed123_S0,32,123,S0,14 24 26 27,word_14;word_24;word_26;word_27,3894,0.05562857142857143,7;42;53;61;106,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l1_LOW,B0_K32_seed123_S1,32,123,S1,33,region2_word1,6086,0.08694285714285714,4;13;34;35;36,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l1_MID,B0_K32_seed123_S1,32,123,S1,42,region2_word10,12310,0.17585714285714285,10;12;16;25;42,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l1_HIGH,B0_K32_seed123_S1,32,123,S1,116,region4_word20,17348,0.24782857142857143,3;4;5;6;11,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l2_LOW,B0_K32_seed123_S1,32,123,S1,38 121,region2_word6;region4_word25,2935,0.041928571428571426,47;80;91;117;173,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l2_MID,B0_K32_seed123_S1,32,123,S1,111 118,region4_word15;region4_word22,4005,0.05721428571428572,4;27;36;37;46,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l2_HIGH,B0_K32_seed123_S1,32,123,S1,97 111,region4_word1;region4_word15,5527,0.07895714285714285,4;37;61;86;105,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l3_LOW,B0_K32_seed123_S1,32,123,S1,3 27 123,region1_word3;region1_word27;region4_word27,2349,0.033557142857142855,28;48;65;160;194,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l3_MID,B0_K32_seed123_S1,32,123,S1,47 57 121,region2_word15;region2_word25;region4_word25,2706,0.038657142857142855,23;29;62;115;138,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l3_HIGH,B0_K32_seed123_S1,32,123,S1,6 99 114,region1_word6;region4_word3;region4_word18,3322,0.04745714285714286,111;137;140;148;189,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l4_LOW,B0_K32_seed123_S1,32,123,S1,90 113 122 127,region3_word26;region4_word17;region4_word26;region4_word31,2252,0.03217142857142857,20;102;124;127;166,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l4_MID,B0_K32_seed123_S1,32,123,S1,49 52 113 116,region2_word17;region2_word20;region4_word17;region4_word20,2446,0.034942857142857144,20;36;38;96;105,,true,pending,pending,pending,pending
+B0_K32_seed123_S1_m003_l4_HIGH,B0_K32_seed123_S1,32,123,S1,35 59 73 108,region2_word3;region2_word27;region3_word9;region4_word12,2788,0.03982857142857143,1;5;21;25;48,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l1_LOW,B0_K32_seed123_S3,32,123,S3,19,TOP_word19,8183,0.1169,3;19;24;27;32,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l1_MID,B0_K32_seed123_S3,32,123,S3,69,BOTTOM_word5,13104,0.1872,6;11;19;24;27,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l1_HIGH,B0_K32_seed123_S3,32,123,S3,21,TOP_word21,17147,0.24495714285714285,1;4;6;8;9,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l2_LOW,B0_K32_seed123_S3,32,123,S3,4 15,TOP_word4;TOP_word15,2913,0.041614285714285715,2;4;19;29;33,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l2_MID,B0_K32_seed123_S3,32,123,S3,61 86,MIDDLE_word29;BOTTOM_word22,3940,0.056285714285714286,10;60;61;77;101,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l2_HIGH,B0_K32_seed123_S3,32,123,S3,37 88,MIDDLE_word5;BOTTOM_word24,5622,0.08031428571428571,6;19;22;33;106,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l3_LOW,B0_K32_seed123_S3,32,123,S3,26 47 96,TOP_word26;MIDDLE_word15;BOTTOM_word32,2345,0.0335,62;105;119;131;157,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l3_MID,B0_K32_seed123_S3,32,123,S3,2 12 41,TOP_word2;TOP_word12;MIDDLE_word9,2693,0.03847142857142857,39;52;59;72;74,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l3_HIGH,B0_K32_seed123_S3,32,123,S3,6 35 42,TOP_word6;MIDDLE_word3;MIDDLE_word10,3316,0.04737142857142857,8;16;42;43;48,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l4_LOW,B0_K32_seed123_S3,32,123,S3,3 11 35 92,TOP_word3;TOP_word11;MIDDLE_word3;BOTTOM_word28,2235,0.03192857142857143,12;26;30;40;74,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l4_MID,B0_K32_seed123_S3,32,123,S3,6 20 59 73,TOP_word6;TOP_word20;MIDDLE_word27;BOTTOM_word9,2442,0.034885714285714284,40;41;48;61;140,,true,pending,pending,pending,pending
+B0_K32_seed123_S3_m003_l4_HIGH,B0_K32_seed123_S3,32,123,S3,16 21 41 44,TOP_word16;TOP_word21;MIDDLE_word9;MIDDLE_word12,2809,0.04012857142857143,6;16;22;113;136,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l1_LOW,B0_K32_seed2026_S0,32,2026,S0,14,word_14,22811,0.3258714285714286,1;7;9;10;12,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l1_MID,B0_K32_seed2026_S0,32,2026,S0,20,word_20,26079,0.37255714285714286,2;5;6;7;8,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l1_HIGH,B0_K32_seed2026_S0,32,2026,S0,4,word_4,29943,0.42775714285714284,2;4;6;7;10,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l2_LOW,B0_K32_seed2026_S0,32,2026,S0,5 27,word_5;word_27,7086,0.10122857142857143,1;16;25;30;40,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l2_MID,B0_K32_seed2026_S0,32,2026,S0,17 21,word_17;word_21,9831,0.14044285714285715,4;13;20;23;27,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l2_HIGH,B0_K32_seed2026_S0,32,2026,S0,12 20,word_12;word_20,13594,0.1942,5;6;13;14;16,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l3_LOW,B0_K32_seed2026_S0,32,2026,S0,10 18 22,word_10;word_18;word_22,3140,0.04485714285714286,61;113;119;149;153,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l3_MID,B0_K32_seed2026_S0,32,2026,S0,7 12 21,word_7;word_12;word_21,4365,0.062357142857142854,21;41;57;89;100,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l3_HIGH,B0_K32_seed2026_S0,32,2026,S0,5 7 32,word_5;word_7;word_32,6207,0.08867142857142857,16;21;40;71;76,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l4_LOW,B0_K32_seed2026_S0,32,2026,S0,7 18 23 28,word_7;word_18;word_23;word_28,2467,0.035242857142857145,23;41;47;61;113,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l4_MID,B0_K32_seed2026_S0,32,2026,S0,3 9 10 29,word_3;word_9;word_10;word_29,2979,0.042557142857142856,27;82;83;96;102,,true,pending,pending,pending,pending
+B0_K32_seed2026_S0_m003_l4_HIGH,B0_K32_seed2026_S0,32,2026,S0,7 22 26 29,word_7;word_22;word_26;word_29,3844,0.054914285714285714,16;18;23;94;108,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l1_LOW,B0_K32_seed2026_S1,32,2026,S1,112,region4_word16,4887,0.06981428571428572,6;8;27;28;41,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l1_MID,B0_K32_seed2026_S1,32,2026,S1,79,region3_word15,11522,0.1646,3;14;15;20;35,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l1_HIGH,B0_K32_seed2026_S1,32,2026,S1,94,region3_word30,16460,0.23514285714285715,11;19;24;26;27,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l2_LOW,B0_K32_seed2026_S1,32,2026,S1,74 93,region3_word10;region3_word29,2856,0.0408,4;88;91;143;149,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l2_MID,B0_K32_seed2026_S1,32,2026,S1,41 106,region2_word9;region4_word10,3903,0.05575714285714286,15;64;73;77;82,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l2_HIGH,B0_K32_seed2026_S1,32,2026,S1,7 29,region1_word7;region1_word29,5416,0.07737142857142858,18;21;41;48;50,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l3_LOW,B0_K32_seed2026_S1,32,2026,S1,38 45 84,region2_word6;region2_word13;region3_word20,2337,0.03338571428571428,45;50;78;89;131,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l3_MID,B0_K32_seed2026_S1,32,2026,S1,105 116 126,region4_word9;region4_word20;region4_word30,2675,0.038214285714285715,27;32;33;37;41,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l3_HIGH,B0_K32_seed2026_S1,32,2026,S1,55 81 126,region2_word23;region3_word17;region4_word30,3251,0.04644285714285714,19;27;49;58;61,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l4_LOW,B0_K32_seed2026_S1,32,2026,S1,37 44 69 107,region2_word5;region2_word12;region3_word5;region4_word11,2232,0.03188571428571429,1;40;85;129;160,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l4_MID,B0_K32_seed2026_S1,32,2026,S1,2 7 35 103,region1_word2;region1_word7;region2_word3;region4_word7,2424,0.034628571428571425,30;41;106;145;155,,true,pending,pending,pending,pending
+B0_K32_seed2026_S1_m003_l4_HIGH,B0_K32_seed2026_S1,32,2026,S1,35 39 84 116,region2_word3;region2_word7;region3_word20;region4_word20,2779,0.0397,5;25;129;145;151,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l1_LOW,B0_K32_seed2026_S3,32,2026,S3,38,MIDDLE_word6,8092,0.1156,1;6;7;16;27,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l1_MID,B0_K32_seed2026_S3,32,2026,S3,53,MIDDLE_word21,12461,0.1780142857142857,9;13;20;23;32,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l1_HIGH,B0_K32_seed2026_S3,32,2026,S3,3,TOP_word3,16585,0.23692857142857143,2;5;11;12;16,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l2_LOW,B0_K32_seed2026_S3,32,2026,S3,87 94,BOTTOM_word23;BOTTOM_word30,2846,0.04065714285714286,6;32;33;36;66,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l2_MID,B0_K32_seed2026_S3,32,2026,S3,63 94,MIDDLE_word31;BOTTOM_word30,3841,0.05487142857142857,19;27;49;58;61,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l2_HIGH,B0_K32_seed2026_S3,32,2026,S3,3 4,TOP_word3;TOP_word4,5335,0.07621428571428572,2;22;30;33;43,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l3_LOW,B0_K32_seed2026_S3,32,2026,S3,7 62 63,TOP_word7;MIDDLE_word30;MIDDLE_word31,2338,0.0334,2;17;18;30;56,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l3_MID,B0_K32_seed2026_S3,32,2026,S3,23 50 53,TOP_word23;MIDDLE_word18;MIDDLE_word21,2699,0.03855714285714286,23;61;105;119;124,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l3_HIGH,B0_K32_seed2026_S3,32,2026,S3,43 58 86,MIDDLE_word11;MIDDLE_word26;BOTTOM_word22,3287,0.04695714285714286,6;16;22;45;108,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l4_LOW,B0_K32_seed2026_S3,32,2026,S3,34 39 73 78,MIDDLE_word2;MIDDLE_word7;BOTTOM_word9;BOTTOM_word14,2239,0.031985714285714284,1;47;61;142;154,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l4_MID,B0_K32_seed2026_S3,32,2026,S3,6 39 43 69,TOP_word6;MIDDLE_word7;MIDDLE_word11;BOTTOM_word5,2426,0.03465714285714286,80;89;123;125;152,,true,pending,pending,pending,pending
+B0_K32_seed2026_S3_m003_l4_HIGH,B0_K32_seed2026_S3,32,2026,S3,23 37 39 84,TOP_word23;MIDDLE_word5;MIDDLE_word7;BOTTOM_word20,2748,0.03925714285714286,26;40;50;68;101,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l1_LOW,B0_K64_seed42_S0,64,42,S0,5,word_5,12099,0.17284285714285713,1;6;11;16;40,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l1_MID,B0_K64_seed42_S0,64,42,S0,32,word_32,16397,0.23424285714285714,4;9;13;23;27,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l1_HIGH,B0_K64_seed42_S0,64,42,S0,37,word_37,18806,0.26865714285714287,8;10;17;26;27,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l2_LOW,B0_K64_seed42_S0,64,42,S0,3 18,word_3;word_18,3074,0.04391428571428571,41;136;147;148;171,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l2_MID,B0_K64_seed42_S0,64,42,S0,6 25,word_6;word_25,4180,0.05971428571428571,6;22;41;113;129,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l2_HIGH,B0_K64_seed42_S0,64,42,S0,8 54,word_8;word_54,6129,0.08755714285714286,15;24;36;37;46,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l3_LOW,B0_K64_seed42_S0,64,42,S0,11 29 31,word_11;word_29;word_31,2380,0.034,45;48;51;76;89,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l3_MID,B0_K64_seed42_S0,64,42,S0,23 59 62,word_23;word_59;word_62,2814,0.0402,8;12;26;45;48,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l3_HIGH,B0_K64_seed42_S0,64,42,S0,25 35 38,word_25;word_35;word_38,3612,0.0516,30;33;90;101;113,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l4_LOW,B0_K64_seed42_S0,64,42,S0,1 9 19 35,word_1;word_9;word_19;word_35,2254,0.0322,7;18;26;42;50,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l4_MID,B0_K64_seed42_S0,64,42,S0,3 19 20 31,word_3;word_19;word_20;word_31,2466,0.03522857142857143,1;45;51;57;123,,true,pending,pending,pending,pending
+B0_K64_seed42_S0_m003_l4_HIGH,B0_K64_seed42_S0,64,42,S0,19 35 38 57,word_19;word_35;word_38;word_57,2835,0.0405,19;101;106;118;150,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l1_LOW,B0_K64_seed42_S1,64,42,S1,246,region4_word54,4081,0.0583,62;105;118;121;133,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l1_MID,B0_K64_seed42_S1,64,42,S1,80,region2_word16,7622,0.10888571428571428,10;15;43;64;84,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l1_HIGH,B0_K64_seed42_S1,64,42,S1,205,region4_word13,10233,0.14618571428571428,1;13;15;16;28,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l2_LOW,B0_K64_seed42_S1,64,42,S1,10 126,region1_word10;region2_word62,2447,0.03495714285714286,8;48;50;58;71,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l2_MID,B0_K64_seed42_S1,64,42,S1,83 113,region2_word19;region2_word49,2917,0.041671428571428575,27;35;55;82;114,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l2_HIGH,B0_K64_seed42_S1,64,42,S1,84 223,region2_word20;region4_word31,3660,0.05228571428571428,1;5;40;54;59,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l3_LOW,B0_K64_seed42_S1,64,42,S1,65 88 95,region2_word1;region2_word24;region2_word31,2254,0.0322,28;57;71;129;152,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l3_MID,B0_K64_seed42_S1,64,42,S1,10 99 235,region1_word10;region2_word35;region4_word43,2439,0.03484285714285714,23;40;50;101;150,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l3_HIGH,B0_K64_seed42_S1,64,42,S1,129 134 193,region3_word1;region3_word6;region4_word1,2825,0.040357142857142855,5;48;76;123;140,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l4_LOW,B0_K64_seed42_S1,64,42,S1,38 78 102 230,region1_word38;region2_word14;region2_word38;region4_word38,2200,0.03142857142857143,66;68;95;169;177,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l4_MID,B0_K64_seed42_S1,64,42,S1,1 102 129 193,region1_word1;region2_word38;region3_word1;region4_word1,2348,0.033542857142857145,18;67;155;158;170,,true,pending,pending,pending,pending
+B0_K64_seed42_S1_m003_l4_HIGH,B0_K64_seed42_S1,64,42,S1,1 65 102 193,region1_word1;region2_word1;region2_word38;region4_word1,2551,0.036442857142857145,67;71;102;111;158,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l1_LOW,B0_K64_seed42_S3,64,42,S3,98,MIDDLE_word34,4893,0.0699,17;39;50;75;79,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l1_MID,B0_K64_seed42_S3,64,42,S3,73,MIDDLE_word9,7460,0.10657142857142857,1;7;16;42;43,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l1_HIGH,B0_K64_seed42_S3,64,42,S3,166,BOTTOM_word38,10760,0.15371428571428572,1;6;11;18;19,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l2_LOW,B0_K64_seed42_S3,64,42,S3,83 160,MIDDLE_word19;BOTTOM_word32,2471,0.0353,9;27;78;174;185,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l2_MID,B0_K64_seed42_S3,64,42,S3,171 190,BOTTOM_word43;BOTTOM_word62,2921,0.04172857142857143,11;18;140;150;177,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l2_HIGH,B0_K64_seed42_S3,64,42,S3,19 161,TOP_word19;BOTTOM_word33,3734,0.05334285714285714,10;20;33;36;66,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l3_LOW,B0_K64_seed42_S3,64,42,S3,1 102 166,TOP_word1;MIDDLE_word38;BOTTOM_word38,2259,0.03227142857142857,18;25;30;56;67,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l3_MID,B0_K64_seed42_S3,64,42,S3,90 102 166,MIDDLE_word26;MIDDLE_word38;BOTTOM_word38,2488,0.03554285714285714,25;41;92;169;189,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l3_HIGH,B0_K64_seed42_S3,64,42,S3,67 95 159,MIDDLE_word3;MIDDLE_word31;BOTTOM_word31,2890,0.04128571428571429,45;50;51;59;71,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l4_LOW,B0_K64_seed42_S3,64,42,S3,84 90 95 159,MIDDLE_word20;MIDDLE_word26;MIDDLE_word31;BOTTOM_word31,2192,0.03131428571428571,40;45;129;182;191,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l4_MID,B0_K64_seed42_S3,64,42,S3,1 65 90 129,TOP_word1;MIDDLE_word1;MIDDLE_word26;BOTTOM_word1,2332,0.03331428571428571,21;28;140;160;229,,true,pending,pending,pending,pending
+B0_K64_seed42_S3_m003_l4_HIGH,B0_K64_seed42_S3,64,42,S3,31 84 95 159,TOP_word31;MIDDLE_word20;MIDDLE_word31;BOTTOM_word31,2719,0.038842857142857144,40;45;51;59;85,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l1_LOW,B0_K64_seed123_S0,64,123,S0,43,word_43,12669,0.18098571428571428,4;7;12;16;18,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l1_MID,B0_K64_seed123_S0,64,123,S0,35,word_35,15966,0.22808571428571428,2;4;6;8;10,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l1_HIGH,B0_K64_seed123_S0,64,123,S0,62,word_62,18905,0.2700714285714286,1;4;6;8;9,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l2_LOW,B0_K64_seed123_S0,64,123,S0,31 34,word_31;word_34,3016,0.04308571428571428,92;126;128;143;146,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l2_MID,B0_K64_seed123_S0,64,123,S0,11 14,word_11;word_14,4186,0.0598,13;14;24;27;44,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l2_HIGH,B0_K64_seed123_S0,64,123,S0,13 29,word_13;word_29,6024,0.08605714285714286,19;48;50;58;67,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l3_LOW,B0_K64_seed123_S0,64,123,S0,6 26 33,word_6;word_26;word_33,2382,0.03402857142857143,33;50;54;61;67,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l3_MID,B0_K64_seed123_S0,64,123,S0,49 57 61,word_49;word_57;word_61,2799,0.039985714285714284,5;40;48;113;140,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l3_HIGH,B0_K64_seed123_S0,64,123,S0,2 25 39,word_2;word_25;word_39,3580,0.05114285714285714,29;79;92;105;115,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l4_LOW,B0_K64_seed123_S0,64,123,S0,6 27 37 57,word_6;word_27;word_37;word_57,2255,0.032214285714285716,42;61;101;117;120,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l4_MID,B0_K64_seed123_S0,64,123,S0,6 13 36 57,word_6;word_13;word_36;word_57,2461,0.03515714285714286,13;41;50;101;140,,true,pending,pending,pending,pending
+B0_K64_seed123_S0_m003_l4_HIGH,B0_K64_seed123_S0,64,123,S0,6 27 52 57,word_6;word_27;word_52;word_57,2808,0.04011428571428571,21;41;48;80;142,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l1_LOW,B0_K64_seed123_S1,64,123,S1,98,region2_word34,4078,0.058257142857142855,7;16;37;42;43,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l1_MID,B0_K64_seed123_S1,64,123,S1,41,region1_word41,7602,0.1086,2;20;26;35;38,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l1_HIGH,B0_K64_seed123_S1,64,123,S1,115,region2_word51,9990,0.1427142857142857,4;23;24;27;29,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l2_LOW,B0_K64_seed123_S1,64,123,S1,15 75,region1_word15;region2_word11,2445,0.03492857142857143,4;19;27;46;49,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l2_MID,B0_K64_seed123_S1,64,123,S1,152 195,region3_word24;region4_word3,2926,0.0418,42;43;85;94;106,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l2_HIGH,B0_K64_seed123_S1,64,123,S1,169 195,region3_word41;region4_word3,3734,0.05334285714285714,26;28;71;74;102,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l3_LOW,B0_K64_seed123_S1,64,123,S1,197 219 220,region4_word5;region4_word27;region4_word28,2284,0.03262857142857143,41;84;151;158;189,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l3_MID,B0_K64_seed123_S1,64,123,S1,67 91 236,region2_word3;region2_word27;region4_word44,2499,0.0357,5;48;71;87;129,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l3_HIGH,B0_K64_seed123_S1,64,123,S1,179 207 243,region3_word51;region4_word15;region4_word51,2911,0.04158571428571429,23;32;46;69;91,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l4_LOW,B0_K64_seed123_S1,64,123,S1,27 91 126 219,region1_word27;region2_word27;region2_word62;region4_word27,2235,0.03192857142857143,21;28;67;111;160,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l4_MID,B0_K64_seed123_S1,64,123,S1,57 77 91 219,region1_word57;region2_word13;region2_word27;region4_word27,2386,0.03408571428571429,41;48;140;150;158,,true,pending,pending,pending,pending
+B0_K64_seed123_S1_m003_l4_HIGH,B0_K64_seed123_S1,64,123,S1,3 67 68 195,region1_word3;region2_word3;region2_word4;region4_word3,2671,0.038157142857142855,8;26;182;226;227,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l1_LOW,B0_K64_seed123_S3,64,123,S3,188,BOTTOM_word60,4559,0.06512857142857142,23;29;57;62;77,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l1_MID,B0_K64_seed123_S3,64,123,S3,179,BOTTOM_word51,7105,0.1015,4;24;29;32;36,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l1_HIGH,B0_K64_seed123_S3,64,123,S3,133,BOTTOM_word5,10828,0.1546857142857143,6;11;18;19;25,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l2_LOW,B0_K64_seed123_S3,64,123,S3,21 146,TOP_word21;BOTTOM_word18,2464,0.0352,11;30;49;155;189,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l2_MID,B0_K64_seed123_S3,64,123,S3,76 172,MIDDLE_word12;BOTTOM_word44,2932,0.04188571428571428,28;39;40;72;81,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l2_HIGH,B0_K64_seed123_S3,64,123,S3,30 67,TOP_word30;MIDDLE_word3,3736,0.05337142857142857,26;45;50;51;71,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l3_LOW,B0_K64_seed123_S3,64,123,S3,33 73 76,TOP_word33;MIDDLE_word9;MIDDLE_word12,2271,0.03244285714285714,81;113;243;286;302,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l3_MID,B0_K64_seed123_S3,64,123,S3,67 131 134,MIDDLE_word3;BOTTOM_word3;BOTTOM_word6,2512,0.035885714285714285,5;45;48;50;80,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l3_HIGH,B0_K64_seed123_S3,64,123,S3,69 91 152,MIDDLE_word5;MIDDLE_word27;BOTTOM_word24,2925,0.04178571428571429,94;106;179;239;243,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l4_LOW,B0_K64_seed123_S3,64,123,S3,6 31 95 159,TOP_word6;TOP_word31;MIDDLE_word31;BOTTOM_word31,2217,0.03167142857142857,20;35;93;97;124,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l4_MID,B0_K64_seed123_S3,64,123,S3,69 79 133 143,MIDDLE_word5;MIDDLE_word15;BOTTOM_word5;BOTTOM_word15,2388,0.034114285714285715,11;33;58;150;200,,true,pending,pending,pending,pending
+B0_K64_seed123_S3_m003_l4_HIGH,B0_K64_seed123_S3,64,123,S3,67 91 131 164,MIDDLE_word3;MIDDLE_word27;BOTTOM_word3;BOTTOM_word36,2696,0.038514285714285716,5;12;26;50;129,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l1_LOW,B0_K64_seed2026_S0,64,2026,S0,31,word_31,12521,0.17887142857142857,1;5;6;10;12,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l1_MID,B0_K64_seed2026_S0,64,2026,S0,1,word_1,15350,0.21928571428571428,2;10;19;25;27,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l1_HIGH,B0_K64_seed2026_S0,64,2026,S0,27,word_27,18452,0.2636,12;16;17;21;25,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l2_LOW,B0_K64_seed2026_S0,64,2026,S0,20 51,word_20;word_51,3004,0.04291428571428572,11;19;23;46;66,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l2_MID,B0_K64_seed2026_S0,64,2026,S0,29 53,word_29;word_53,4136,0.05908571428571428,7;43;63;64;71,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l2_HIGH,B0_K64_seed2026_S0,64,2026,S0,27 30,word_27;word_30,6063,0.08661428571428571,17;25;28;40;57,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l3_LOW,B0_K64_seed2026_S0,64,2026,S0,23 25 31,word_23;word_25;word_31,2394,0.0342,10;12;26;45;79,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l3_MID,B0_K64_seed2026_S0,64,2026,S0,2 8 9,word_2;word_8;word_9,2822,0.04031428571428571,1;9;10;16;43,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l3_HIGH,B0_K64_seed2026_S0,64,2026,S0,17 18 62,word_17;word_18;word_62,3630,0.05185714285714286,4;27;32;36;82,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l4_LOW,B0_K64_seed2026_S0,64,2026,S0,2 7 35 48,word_2;word_7;word_35;word_48,2249,0.03212857142857143,1;159;170;190;191,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l4_MID,B0_K64_seed2026_S0,64,2026,S0,5 7 51 55,word_5;word_7;word_51;word_55,2477,0.035385714285714284,5;28;71;102;125,,true,pending,pending,pending,pending
+B0_K64_seed2026_S0_m003_l4_HIGH,B0_K64_seed2026_S0,64,2026,S0,32 35 40 64,word_32;word_35;word_40;word_64,2789,0.039842857142857145,37;53;61;86;127,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l1_LOW,B0_K64_seed2026_S1,64,2026,S1,209,region4_word17,3713,0.05304285714285714,38;61;96;117;119,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l1_MID,B0_K64_seed2026_S1,64,2026,S1,186,region3_word58,7389,0.10555714285714286,5;8;10;12;16,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l1_HIGH,B0_K64_seed2026_S1,64,2026,S1,183,region3_word55,9628,0.13754285714285713,5;23;25;40;41,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l2_LOW,B0_K64_seed2026_S1,64,2026,S1,61 114,region1_word61;region2_word50,2450,0.035,55;93;124;135;149,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l2_MID,B0_K64_seed2026_S1,64,2026,S1,69 227,region2_word5;region4_word35,2973,0.04247142857142857,28;42;45;48;50,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l2_HIGH,B0_K64_seed2026_S1,64,2026,S1,183 203,region3_word55;region4_word11,3704,0.05291428571428571,5;25;40;110;113,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l3_LOW,B0_K64_seed2026_S1,64,2026,S1,9 135 197,region1_word9;region3_word7;region4_word5,2264,0.032342857142857145,48;50;57;101;140,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l3_MID,B0_K64_seed2026_S1,64,2026,S1,71 197 215,region2_word7;region4_word5;region4_word23,2479,0.03541428571428572,26;28;30;111;140,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l3_HIGH,B0_K64_seed2026_S1,64,2026,S1,116 133 197,region2_word52;region3_word5;region4_word5,2888,0.04125714285714286,28;54;106;136;172,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l4_LOW,B0_K64_seed2026_S1,64,2026,S1,7 79 135 199,region1_word7;region2_word15;region3_word7;region4_word7,2196,0.03137142857142857,18;48;67;155;158,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l4_MID,B0_K64_seed2026_S1,64,2026,S1,5 133 197 215,region1_word5;region3_word5;region4_word5;region4_word23,2364,0.03377142857142857,28;54;65;126;227,,true,pending,pending,pending,pending
+B0_K64_seed2026_S1_m003_l4_HIGH,B0_K64_seed2026_S1,64,2026,S1,5 71 133 197,region1_word5;region2_word7;region3_word5;region4_word5,2646,0.0378,28;102;129;136;172,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l1_LOW,B0_K64_seed2026_S3,64,2026,S3,21,TOP_word21,4635,0.06621428571428571,11;17;19;56;70,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l1_MID,B0_K64_seed2026_S3,64,2026,S3,29,TOP_word29,7124,0.10177142857142857,1;10;43;77;82,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l1_HIGH,B0_K64_seed2026_S3,64,2026,S3,142,BOTTOM_word14,11063,0.15804285714285715,8;10;13;19;24,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l2_LOW,B0_K64_seed2026_S3,64,2026,S3,7 65,TOP_word7;MIDDLE_word1,2451,0.03501428571428571,2;48;50;56;102,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l2_MID,B0_K64_seed2026_S3,64,2026,S3,133 154,BOTTOM_word5;BOTTOM_word26,2948,0.042114285714285715,21;40;51;76;129,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l2_HIGH,B0_K64_seed2026_S3,64,2026,S3,39 133,TOP_word39;BOTTOM_word5,3773,0.0539,28;54;74;101;125,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l3_LOW,B0_K64_seed2026_S3,64,2026,S3,6 133 187,TOP_word6;BOTTOM_word5;BOTTOM_word59,2262,0.03231428571428571,5;26;50;59;144,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l3_MID,B0_K64_seed2026_S3,64,2026,S3,73 110 128,MIDDLE_word9;MIDDLE_word46;MIDDLE_word64,2504,0.03577142857142857,86;108;190;209;250,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l3_HIGH,B0_K64_seed2026_S3,64,2026,S3,73 96 128,MIDDLE_word9;MIDDLE_word32;MIDDLE_word64,2950,0.04214285714285714,53;58;61;86;88,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l4_LOW,B0_K64_seed2026_S3,64,2026,S3,5 7 69 71,TOP_word5;TOP_word7;MIDDLE_word5;MIDDLE_word7,2218,0.03168571428571428,28;50;57;77;172,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l4_MID,B0_K64_seed2026_S3,64,2026,S3,2 5 69 133,TOP_word2;TOP_word5;MIDDLE_word5;BOTTOM_word5,2326,0.03322857142857143,51;129;136;191;226,,true,pending,pending,pending,pending
+B0_K64_seed2026_S3_m003_l4_HIGH,B0_K64_seed2026_S3,64,2026,S3,71 128 135 187,MIDDLE_word7;MIDDLE_word64;BOTTOM_word7;BOTTOM_word59,2583,0.0369,18;41;52;56;95,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l1_LOW,B0_K128_seed123_S0,128,123,S0,82,word_82,6723,0.09604285714285714,9;19;29;33;38,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l1_MID,B0_K128_seed123_S0,128,123,S0,68,word_68,8785,0.1255,4;9;13;37;61,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l1_HIGH,B0_K128_seed123_S0,128,123,S0,47,word_47,11838,0.16911428571428572,21;26;27;39;41,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l2_LOW,B0_K128_seed123_S0,128,123,S0,41 61,word_41;word_61,2475,0.03535714285714286,8;56;90;143;193,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l2_MID,B0_K128_seed123_S0,128,123,S0,27 80,word_27;word_80,3053,0.04361428571428572,1;16;30;61;95,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l2_HIGH,B0_K128_seed123_S0,128,123,S0,14 27,word_14;word_27,4059,0.057985714285714286,42;47;100;106;118,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l3_LOW,B0_K128_seed123_S0,128,123,S0,35 70 86,word_35;word_70;word_86,2264,0.032342857142857145,40;81;87;110;148,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l3_MID,B0_K128_seed123_S0,128,123,S0,27 58 84,word_27;word_58;word_84,2508,0.03582857142857143,60;65;101;158;189,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l3_HIGH,B0_K128_seed123_S0,128,123,S0,6 61 76,word_6;word_61;word_76,2960,0.04228571428571429,16;40;71;76;140,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l4_LOW,B0_K128_seed123_S0,128,123,S0,15 25 26 95,word_15;word_25;word_26;word_95,2159,0.030842857142857144,32;69;73;105;149,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l4_MID,B0_K128_seed123_S0,128,123,S0,35 71 76 86,word_35;word_71;word_76;word_86,2238,0.031971428571428574,40;48;54;87;148,,true,pending,pending,pending,pending
+B0_K128_seed123_S0_m003_l4_HIGH,B0_K128_seed123_S0,128,123,S0,26 65 95 114,word_26;word_65;word_95;word_114,2326,0.03322857142857143,36;96;118;149;165,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l1_LOW,B0_K128_seed123_S1,128,123,S1,106,region1_word106,3418,0.04882857142857143,2;6;28;54;56,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l1_MID,B0_K128_seed123_S1,128,123,S1,312,region3_word56,4962,0.07088571428571429,1;15;28;80;129,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l1_HIGH,B0_K128_seed123_S1,128,123,S1,511,region4_word127,6748,0.0964,2;4;10;27;56,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l2_LOW,B0_K128_seed123_S1,128,123,S1,203 473,region2_word75;region4_word89,2320,0.03314285714285714,11;18;19;33;49,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l2_MID,B0_K128_seed123_S1,128,123,S1,239 387,region2_word111;region4_word3,2625,0.0375,8;28;54;76;85,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l2_HIGH,B0_K128_seed123_S1,128,123,S1,154 413,region2_word26;region4_word29,3248,0.0464,6;34;36;66;68,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l3_LOW,B0_K128_seed123_S1,128,123,S1,193 283 411,region2_word65;region3_word27;region4_word27,2247,0.0321,18;106;118;157;158,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l3_MID,B0_K128_seed123_S1,128,123,S1,84 340 468,region1_word84;region3_word84;region4_word84,2454,0.035057142857142856,30;66;68;78;99,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l3_HIGH,B0_K128_seed123_S1,128,123,S1,204 259 387,region2_word76;region3_word3;region4_word3,3138,0.044828571428571426,28;50;71;129;136,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l4_LOW,B0_K128_seed123_S1,128,123,S1,84 212 340 468,region1_word84;region2_word84;region3_word84;region4_word84,2147,0.03067142857142857,66;68;99;158;189,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l4_MID,B0_K128_seed123_S1,128,123,S1,204 332 387 460,region2_word76;region3_word76;region4_word3;region4_word76,2176,0.031085714285714286,12;28;80;85;172,,true,pending,pending,pending,pending
+B0_K128_seed123_S1_m003_l4_HIGH,B0_K128_seed123_S1,128,123,S1,27 155 283 411,region1_word27;region2_word27;region3_word27;region4_word27,2695,0.0385,25;67;145;158;160,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l1_LOW,B0_K128_seed123_S3,128,123,S3,321,BOTTOM_word65,2974,0.042485714285714286,3;20;36;46;74,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l1_MID,B0_K128_seed123_S3,128,123,S3,20,TOP_word20,4580,0.06542857142857143,20;34;35;93;126,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l1_HIGH,B0_K128_seed123_S3,128,123,S3,125,TOP_word125,6789,0.09698571428571429,8;9;18;42;56,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l2_LOW,B0_K128_seed123_S3,128,123,S3,6 26,TOP_word6;TOP_word26,2328,0.03325714285714286,13;68;93;174;201,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l2_MID,B0_K128_seed123_S3,128,123,S3,143 285,MIDDLE_word15;BOTTOM_word29,2681,0.0383,32;33;105;114;115,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l2_HIGH,B0_K128_seed123_S3,128,123,S3,65 203,TOP_word65;MIDDLE_word75,3328,0.047542857142857144,27;58;91;113;157,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l3_LOW,B0_K128_seed123_S3,128,123,S3,33 204 332,TOP_word33;MIDDLE_word76;BOTTOM_word76,2254,0.0322,76;152;172;198;243,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l3_MID,B0_K128_seed123_S3,128,123,S3,270 297 347,BOTTOM_word14;BOTTOM_word41;BOTTOM_word91,2424,0.034628571428571425,44;123;142;154;214,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l3_HIGH,B0_K128_seed123_S3,128,123,S3,155 204 214,MIDDLE_word27;MIDDLE_word76;MIDDLE_word86,2844,0.04062857142857143,16;42;48;77;94,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l4_LOW,B0_K128_seed123_S3,128,123,S3,131 204 259 332,MIDDLE_word3;MIDDLE_word76;BOTTOM_word3;BOTTOM_word76,2182,0.031171428571428572,12;28;40;76;85,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l4_MID,B0_K128_seed123_S3,128,123,S3,76 131 204 332,TOP_word76;MIDDLE_word3;MIDDLE_word76;BOTTOM_word76,2202,0.03145714285714286,28;40;136;172;182,,true,pending,pending,pending,pending
+B0_K128_seed123_S3_m003_l4_HIGH,B0_K128_seed123_S3,128,123,S3,155 204 283 332,MIDDLE_word27;MIDDLE_word76;BOTTOM_word27;BOTTOM_word76,2326,0.03322857142857143,30;48;65;67;155,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l1_LOW,B0_K256_seed42_S0,256,42,S0,234,word_234,3962,0.0566,1;2;8;28;67,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l1_MID,B0_K256_seed42_S0,256,42,S0,203,word_203,5029,0.07184285714285714,10;41;53;84;109,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l1_HIGH,B0_K256_seed42_S0,256,42,S0,156,word_156,6636,0.0948,4;9;23;32;38,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l2_LOW,B0_K256_seed42_S0,256,42,S0,44 191,word_44;word_191,2342,0.03345714285714286,39;45;52;130;197,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l2_MID,B0_K256_seed42_S0,256,42,S0,26 225,word_26;word_225,2683,0.03832857142857143,40;71;140;160;180,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l2_HIGH,B0_K256_seed42_S0,256,42,S0,96 104,word_96;word_104,3260,0.04657142857142857,34;35;68;83;93,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l3_LOW,B0_K256_seed42_S0,256,42,S0,1 31 208,word_1;word_31;word_208,2227,0.03181428571428571,28;85;89;111;172,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l3_MID,B0_K256_seed42_S0,256,42,S0,17 60 96,word_17;word_60;word_96,2372,0.03388571428571428,36;93;112;124;135,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l3_HIGH,B0_K256_seed42_S0,256,42,S0,17 80 96,word_17;word_80;word_96,2785,0.039785714285714285,36;93;124;186;188,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l4_LOW,B0_K256_seed42_S0,256,42,S0,96 165 208 215,word_96;word_165;word_208;word_215,2305,0.032928571428571425,101;145;170;217;233,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l4_MID,B0_K256_seed42_S0,256,42,S0,33 78 80 96,word_33;word_78;word_80;word_96,2613,0.037328571428571426,35;36;46;66;68,,true,pending,pending,pending,pending
+B0_K256_seed42_S0_m003_l4_HIGH,B0_K256_seed42_S0,256,42,S0,1 165 208 215,word_1;word_165;word_208;word_215,3024,0.0432,1;21;65;101;111,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l1_LOW,B0_K256_seed42_S1,256,42,S1,467,region2_word211,2763,0.039471428571428574,23;32;82;115;181,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l1_MID,B0_K256_seed42_S1,256,42,S1,902,region4_word134,3434,0.049057142857142855,12;39;78;90;95,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l1_HIGH,B0_K256_seed42_S1,256,42,S1,543,region3_word31,4689,0.06698571428571429,8;28;43;45;54,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l2_LOW,B0_K256_seed42_S1,256,42,S1,874 952,region4_word106;region4_word184,2297,0.03281428571428571,6;11;18;137;158,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l2_MID,B0_K256_seed42_S1,256,42,S1,938 1022,region4_word170;region4_word254,2656,0.037942857142857146,4;15;29;62;91,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l2_HIGH,B0_K256_seed42_S1,256,42,S1,215 471,region1_word215;region2_word215,3188,0.04554285714285714,25;67;111;145;155,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l3_LOW,B0_K256_seed42_S1,256,42,S1,513 769 799,region3_word1;region4_word1;region4_word31,2261,0.0323,8;12;28;111;125,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l3_MID,B0_K256_seed42_S1,256,42,S1,471 933 983,region2_word215;region4_word165;region4_word215,2373,0.0339,67;137;145;180;192,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l3_HIGH,B0_K256_seed42_S1,256,42,S1,257 421 769,region2_word1;region2_word165;region4_word1,2618,0.0374,28;129;136;217;242,,true,pending,pending,pending,pending
+B0_K256_seed42_S1_m003_l4_LOW,B0_K256_seed42_S1,256,42,S1,1 257 513 769,region1_word1;region2_word1;region3_word1;region4_word1,2162,0.030885714285714287,8;28;40;172;198,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l1_LOW,B0_K256_seed42_S3,256,42,S3,448,MIDDLE_word192,2709,0.0387,37;44;47;88;109,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l1_MID,B0_K256_seed42_S3,256,42,S3,7,TOP_word7,3459,0.049414285714285716,92;101;114;124;157,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l1_HIGH,B0_K256_seed42_S3,256,42,S3,485,MIDDLE_word229,4787,0.06838571428571429,27;45;48;50;76,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l2_LOW,B0_K256_seed42_S3,256,42,S3,1 447,TOP_word1;MIDDLE_word191,2312,0.03302857142857143,39;40;51;81;89,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l2_MID,B0_K256_seed42_S3,256,42,S3,10 168,TOP_word10;TOP_word168,2568,0.03668571428571429,13;73;113;149;173,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l2_HIGH,B0_K256_seed42_S3,256,42,S3,31 287,TOP_word31;MIDDLE_word31,3206,0.0458,8;12;45;54;85,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l3_LOW,B0_K256_seed42_S3,256,42,S3,1 257 421,TOP_word1;MIDDLE_word1;MIDDLE_word165,2216,0.031657142857142856,26;28;51;76;80,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l3_MID,B0_K256_seed42_S3,256,42,S3,165 421 677,TOP_word165;MIDDLE_word165;BOTTOM_word165,2542,0.036314285714285716,2;21;28;48;155,,true,pending,pending,pending,pending
+B0_K256_seed42_S3_m003_l3_HIGH,B0_K256_seed42_S3,256,42,S3,421 471 677,MIDDLE_word165;MIDDLE_word215;BOTTOM_word165,2861,0.04087142857142857,2;16;67;101;155,,true,pending,pending,pending,pending

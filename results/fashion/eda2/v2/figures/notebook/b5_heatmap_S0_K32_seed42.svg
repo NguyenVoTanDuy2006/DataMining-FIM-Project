@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="610" viewBox="0 0 760 610"><rect width="100%" height="100%" fill="white"/><text x="22" y="30" font-size="18" font-family="sans-serif">Jaccard trung bình theo cặp lớp · S0 · K=32 · seed=42</text>
+<text x="97" y="130.0" text-anchor="end" font-size="11" font-family="sans-serif">T-shirt</text><text x="126.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">0</text>
+<rect x="105" y="105" width="42" height="42" fill="rgb(185,185,245)" stroke="white"/><text x="126.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.32</text>
+<rect x="147" y="105" width="42" height="42" fill="rgb(209,209,245)" stroke="white"/><text x="168.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.19</text>
+<rect x="189" y="105" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="210.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="231" y="105" width="42" height="42" fill="rgb(193,193,245)" stroke="white"/><text x="252.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="273" y="105" width="42" height="42" fill="rgb(190,190,245)" stroke="white"/><text x="294.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="315" y="105" width="42" height="42" fill="rgb(195,195,245)" stroke="white"/><text x="336.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="357" y="105" width="42" height="42" fill="rgb(189,189,245)" stroke="white"/><text x="378.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.3</text>
+<rect x="399" y="105" width="42" height="42" fill="rgb(196,196,245)" stroke="white"/><text x="420.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.26</text>
+<rect x="441" y="105" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="462.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="483" y="105" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="504.0" y="130.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<text x="97" y="172.0" text-anchor="end" font-size="11" font-family="sans-serif">Trouser</text><text x="168.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">1</text>
+<rect x="105" y="147" width="42" height="42" fill="rgb(209,209,245)" stroke="white"/><text x="126.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.19</text>
+<rect x="147" y="147" width="42" height="42" fill="rgb(179,179,245)" stroke="white"/><text x="168.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.35</text>
+<rect x="189" y="147" width="42" height="42" fill="rgb(200,200,245)" stroke="white"/><text x="210.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.24</text>
+<rect x="231" y="147" width="42" height="42" fill="rgb(194,194,245)" stroke="white"/><text x="252.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="273" y="147" width="42" height="42" fill="rgb(196,196,245)" stroke="white"/><text x="294.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.26</text>
+<rect x="315" y="147" width="42" height="42" fill="rgb(220,220,245)" stroke="white"/><text x="336.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.13</text>
+<rect x="357" y="147" width="42" height="42" fill="rgb(205,205,245)" stroke="white"/><text x="378.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.21</text>
+<rect x="399" y="147" width="42" height="42" fill="rgb(221,221,245)" stroke="white"/><text x="420.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.13</text>
+<rect x="441" y="147" width="42" height="42" fill="rgb(206,206,245)" stroke="white"/><text x="462.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.21</text>
+<rect x="483" y="147" width="42" height="42" fill="rgb(206,206,245)" stroke="white"/><text x="504.0" y="172.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.21</text>
+<text x="97" y="214.0" text-anchor="end" font-size="11" font-family="sans-serif">Pullover</text><text x="210.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">2</text>
+<rect x="105" y="189" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="126.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="147" y="189" width="42" height="42" fill="rgb(200,200,245)" stroke="white"/><text x="168.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.24</text>
+<rect x="189" y="189" width="42" height="42" fill="rgb(186,186,245)" stroke="white"/><text x="210.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<rect x="231" y="189" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="252.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="273" y="189" width="42" height="42" fill="rgb(186,186,245)" stroke="white"/><text x="294.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<rect x="315" y="189" width="42" height="42" fill="rgb(197,197,245)" stroke="white"/><text x="336.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.25</text>
+<rect x="357" y="189" width="42" height="42" fill="rgb(188,188,245)" stroke="white"/><text x="378.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.3</text>
+<rect x="399" y="189" width="42" height="42" fill="rgb(199,199,245)" stroke="white"/><text x="420.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.24</text>
+<rect x="441" y="189" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="462.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="483" y="189" width="42" height="42" fill="rgb(190,190,245)" stroke="white"/><text x="504.0" y="214.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<text x="97" y="256.0" text-anchor="end" font-size="11" font-family="sans-serif">Dress</text><text x="252.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">3</text>
+<rect x="105" y="231" width="42" height="42" fill="rgb(193,193,245)" stroke="white"/><text x="126.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="147" y="231" width="42" height="42" fill="rgb(194,194,245)" stroke="white"/><text x="168.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="189" y="231" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="210.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="231" y="231" width="42" height="42" fill="rgb(187,187,245)" stroke="white"/><text x="252.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<rect x="273" y="231" width="42" height="42" fill="rgb(188,188,245)" stroke="white"/><text x="294.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.3</text>
+<rect x="315" y="231" width="42" height="42" fill="rgb(203,203,245)" stroke="white"/><text x="336.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.22</text>
+<rect x="357" y="231" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="378.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="399" y="231" width="42" height="42" fill="rgb(206,206,245)" stroke="white"/><text x="420.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.2</text>
+<rect x="441" y="231" width="42" height="42" fill="rgb(194,194,245)" stroke="white"/><text x="462.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="483" y="231" width="42" height="42" fill="rgb(196,196,245)" stroke="white"/><text x="504.0" y="256.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.26</text>
+<text x="97" y="298.0" text-anchor="end" font-size="11" font-family="sans-serif">Coat</text><text x="294.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">4</text>
+<rect x="105" y="273" width="42" height="42" fill="rgb(190,190,245)" stroke="white"/><text x="126.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="147" y="273" width="42" height="42" fill="rgb(196,196,245)" stroke="white"/><text x="168.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.26</text>
+<rect x="189" y="273" width="42" height="42" fill="rgb(186,186,245)" stroke="white"/><text x="210.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<rect x="231" y="273" width="42" height="42" fill="rgb(188,188,245)" stroke="white"/><text x="252.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.3</text>
+<rect x="273" y="273" width="42" height="42" fill="rgb(181,181,245)" stroke="white"/><text x="294.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.34</text>
+<rect x="315" y="273" width="42" height="42" fill="rgb(201,201,245)" stroke="white"/><text x="336.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.23</text>
+<rect x="357" y="273" width="42" height="42" fill="rgb(190,190,245)" stroke="white"/><text x="378.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="399" y="273" width="42" height="42" fill="rgb(198,198,245)" stroke="white"/><text x="420.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.25</text>
+<rect x="441" y="273" width="42" height="42" fill="rgb(190,190,245)" stroke="white"/><text x="462.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="483" y="273" width="42" height="42" fill="rgb(185,185,245)" stroke="white"/><text x="504.0" y="298.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<text x="97" y="340.0" text-anchor="end" font-size="11" font-family="sans-serif">Sandal</text><text x="336.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">5</text>
+<rect x="105" y="315" width="42" height="42" fill="rgb(195,195,245)" stroke="white"/><text x="126.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="147" y="315" width="42" height="42" fill="rgb(220,220,245)" stroke="white"/><text x="168.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.13</text>
+<rect x="189" y="315" width="42" height="42" fill="rgb(197,197,245)" stroke="white"/><text x="210.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.25</text>
+<rect x="231" y="315" width="42" height="42" fill="rgb(203,203,245)" stroke="white"/><text x="252.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.22</text>
+<rect x="273" y="315" width="42" height="42" fill="rgb(201,201,245)" stroke="white"/><text x="294.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.23</text>
+<rect x="315" y="315" width="42" height="42" fill="rgb(180,180,245)" stroke="white"/><text x="336.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.34</text>
+<rect x="357" y="315" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="378.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="399" y="315" width="42" height="42" fill="rgb(187,187,245)" stroke="white"/><text x="420.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<rect x="441" y="315" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="462.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="483" y="315" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="504.0" y="340.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<text x="97" y="382.0" text-anchor="end" font-size="11" font-family="sans-serif">Shirt</text><text x="378.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">6</text>
+<rect x="105" y="357" width="42" height="42" fill="rgb(189,189,245)" stroke="white"/><text x="126.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.3</text>
+<rect x="147" y="357" width="42" height="42" fill="rgb(205,205,245)" stroke="white"/><text x="168.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.21</text>
+<rect x="189" y="357" width="42" height="42" fill="rgb(188,188,245)" stroke="white"/><text x="210.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.3</text>
+<rect x="231" y="357" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="252.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="273" y="357" width="42" height="42" fill="rgb(190,190,245)" stroke="white"/><text x="294.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="315" y="357" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="336.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="357" y="357" width="42" height="42" fill="rgb(187,187,245)" stroke="white"/><text x="378.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.3</text>
+<rect x="399" y="357" width="42" height="42" fill="rgb(197,197,245)" stroke="white"/><text x="420.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.25</text>
+<rect x="441" y="357" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="462.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="483" y="357" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="504.0" y="382.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<text x="97" y="424.0" text-anchor="end" font-size="11" font-family="sans-serif">Sneaker</text><text x="420.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">7</text>
+<rect x="105" y="399" width="42" height="42" fill="rgb(196,196,245)" stroke="white"/><text x="126.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.26</text>
+<rect x="147" y="399" width="42" height="42" fill="rgb(221,221,245)" stroke="white"/><text x="168.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.13</text>
+<rect x="189" y="399" width="42" height="42" fill="rgb(199,199,245)" stroke="white"/><text x="210.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.24</text>
+<rect x="231" y="399" width="42" height="42" fill="rgb(206,206,245)" stroke="white"/><text x="252.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.2</text>
+<rect x="273" y="399" width="42" height="42" fill="rgb(198,198,245)" stroke="white"/><text x="294.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.25</text>
+<rect x="315" y="399" width="42" height="42" fill="rgb(187,187,245)" stroke="white"/><text x="336.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<rect x="357" y="399" width="42" height="42" fill="rgb(197,197,245)" stroke="white"/><text x="378.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.25</text>
+<rect x="399" y="399" width="42" height="42" fill="rgb(178,178,245)" stroke="white"/><text x="420.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.35</text>
+<rect x="441" y="399" width="42" height="42" fill="rgb(194,194,245)" stroke="white"/><text x="462.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="483" y="399" width="42" height="42" fill="rgb(183,183,245)" stroke="white"/><text x="504.0" y="424.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.33</text>
+<text x="97" y="466.0" text-anchor="end" font-size="11" font-family="sans-serif">Bag</text><text x="462.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">8</text>
+<rect x="105" y="441" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="126.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="147" y="441" width="42" height="42" fill="rgb(206,206,245)" stroke="white"/><text x="168.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.21</text>
+<rect x="189" y="441" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="210.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="231" y="441" width="42" height="42" fill="rgb(194,194,245)" stroke="white"/><text x="252.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="273" y="441" width="42" height="42" fill="rgb(190,190,245)" stroke="white"/><text x="294.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="315" y="441" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="336.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="357" y="441" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="378.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="399" y="441" width="42" height="42" fill="rgb(194,194,245)" stroke="white"/><text x="420.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.27</text>
+<rect x="441" y="441" width="42" height="42" fill="rgb(188,188,245)" stroke="white"/><text x="462.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.3</text>
+<rect x="483" y="441" width="42" height="42" fill="rgb(187,187,245)" stroke="white"/><text x="504.0" y="466.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<text x="97" y="508.0" text-anchor="end" font-size="11" font-family="sans-serif">Ankle boot</text><text x="504.0" y="543" text-anchor="middle" font-size="10" font-family="sans-serif">9</text>
+<rect x="105" y="483" width="42" height="42" fill="rgb(192,192,245)" stroke="white"/><text x="126.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="147" y="483" width="42" height="42" fill="rgb(206,206,245)" stroke="white"/><text x="168.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.21</text>
+<rect x="189" y="483" width="42" height="42" fill="rgb(190,190,245)" stroke="white"/><text x="210.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.29</text>
+<rect x="231" y="483" width="42" height="42" fill="rgb(196,196,245)" stroke="white"/><text x="252.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.26</text>
+<rect x="273" y="483" width="42" height="42" fill="rgb(185,185,245)" stroke="white"/><text x="294.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<rect x="315" y="483" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="336.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="357" y="483" width="42" height="42" fill="rgb(191,191,245)" stroke="white"/><text x="378.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.28</text>
+<rect x="399" y="483" width="42" height="42" fill="rgb(183,183,245)" stroke="white"/><text x="420.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.33</text>
+<rect x="441" y="483" width="42" height="42" fill="rgb(187,187,245)" stroke="white"/><text x="462.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.31</text>
+<rect x="483" y="483" width="42" height="42" fill="rgb(172,172,245)" stroke="white"/><text x="504.0" y="508.0" text-anchor="middle" font-size="11" font-family="sans-serif">0.38</text>
+<text x="315" y="573" text-anchor="middle" font-size="12" font-family="sans-serif">Lớp cột</text><text transform="translate(18 315) rotate(-90)" text-anchor="middle" font-size="12" font-family="sans-serif">Lớp hàng</text></svg>

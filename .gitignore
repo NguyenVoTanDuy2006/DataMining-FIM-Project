@@ -47,3 +47,15 @@ results/fashion/tc/*
 !results/fashion/tc/tc4_weighted_kmeans_k64/
 !results/fashion/tc/tc4_weighted_kmeans_k128/
 !results/fashion/tc/tc4_weighted_kmeans_k256/
+
+# Keep compact EDA2 evidence and the earlier Colab Eclat benchmark in Git.
+# Full transaction bundles and resume checkpoints stay local under eda2/archive/.
+!results/fashion/eda2/
+results/fashion/eda2/*
+!results/fashion/eda2/README.md
+!results/fashion/eda2/v2/
+!results/fashion/eda2/v2/**
+!results/fashion/eda2/v3_20261127/
+!results/fashion/eda2/v3_20261127/**
+!results/fashion/colab_report_20261125/
+!results/fashion/colab_report_20261125/**

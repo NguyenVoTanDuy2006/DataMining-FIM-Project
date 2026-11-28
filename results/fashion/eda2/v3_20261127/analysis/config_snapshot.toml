@@ -1,0 +1,41 @@
+[input]
+baseline_root = "/content/fashion-fim/results/fashion/experiment_notebooks/20261127T181640Z/S0"
+expected_images = 70000
+expected_k = [16, 32, 64, 128, 256]
+expected_seeds = [42, 123, 2026]
+scope = "FULL_S0_S1_S3_S6B"
+spatial_root = "/content/fashion-eda2-20261127T181640Z/spatial"
+variants = ["S0", "S1", "S3", "S6-B"]
+
+[pilot]
+common_max_itemset_length = 2
+common_minsup_fraction = 0.03
+deep_max_itemset_length = 4
+deep_repetitions = 3
+minsup_fractions = [0.01, 0.03, 0.05, 0.1]
+
+[resources]
+deep_timeout_seconds = 1800
+max_itemsets_per_run = 2000000
+max_pair_candidates = 20000000
+memory_cap_bytes = 8589934592
+memory_cap_enforced = false
+per_database_timeout_seconds = 600
+
+[run]
+fail_fast_on_invalid_input = false
+output_root = "/content/fashion-eda2-20261127T181640Z/analysis"
+overwrite_source_artifacts = false
+resume = true
+run_id = "FashionMNIST_EDA2_B0_S0_S1_S3_S6B_v3"
+
+[sampling]
+class_between_pair_target = 50000
+class_pair_sampling_seed = 2026
+class_within_pair_target = 50000
+jaccard_pair_sample_size = 20000
+pair_sampling_seed = 2026
+
+[support]
+rare_support_max = 0.01
+ubiquitous_support_min = 0.9

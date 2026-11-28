@@ -1,0 +1,7 @@
+expected_databases = 45
+expected_codebooks = 15
+validated_codebooks = 15
+validated_databases = 45
+blocked_databases = 0
+status = "PASS"
+blocked_database_ids = []

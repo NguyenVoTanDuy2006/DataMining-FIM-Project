@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" width="840" height="388" viewBox="0 0 840 388"><title>Độ dài giao dịch trung bình</title>
+<rect width="100%" height="100%" fill="#fff"/><g font-family="DejaVu Sans, sans-serif" fill="#1e293b">
+<text x="110" y="26" font-size="17" font-weight="700">Độ dài giao dịch trung bình</text>
+<path d="M 110 308.0 H 805" stroke="#e2e8f0"/><text x="101" y="312.0" text-anchor="end" font-size="11">0</text>
+<path d="M 110 261.6 H 805" stroke="#e2e8f0"/><text x="101" y="265.6" text-anchor="end" font-size="11">5</text>
+<path d="M 110 215.2 H 805" stroke="#e2e8f0"/><text x="101" y="219.2" text-anchor="end" font-size="11">10</text>
+<path d="M 110 168.8 H 805" stroke="#e2e8f0"/><text x="101" y="172.8" text-anchor="end" font-size="11">15</text>
+<path d="M 110 122.4 H 805" stroke="#e2e8f0"/><text x="101" y="126.4" text-anchor="end" font-size="11">20</text>
+<path d="M 110 76.0 H 805" stroke="#e2e8f0"/><text x="101" y="80.0" text-anchor="end" font-size="11">25</text>
+<path d="M 110 76 V 308 H 805" fill="none" stroke="#64748b"/>
+<text x="110.0" y="329" text-anchor="middle" font-size="11">16</text>
+<text x="283.75" y="329" text-anchor="middle" font-size="11">32</text>
+<text x="457.5" y="329" text-anchor="middle" font-size="11">64</text>
+<text x="631.25" y="329" text-anchor="middle" font-size="11">128</text>
+<text x="805.0" y="329" text-anchor="middle" font-size="11">256</text>
+<text x="457.5" y="374" text-anchor="middle" font-size="13">K</text>
+<text transform="translate(24 192.0) rotate(-90)" text-anchor="middle" font-size="13">Item / ảnh</text>
+<path d="M 110 47 h 18" stroke="#2563eb" stroke-width="3" stroke-dasharray="none"/><text x="134" y="51" font-size="12">S0</text>
+<circle cx="110.0" cy="226.15062095238096" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 16 • 8.82</title></circle>
+<path d="M 110.0 226.15062095238096 L 283.75 194.1979017142857" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="283.75" cy="194.1979017142857" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 32 • 12.2632</title></circle>
+<path d="M 283.75 194.1979017142857 L 457.5 168.40864914285714" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="457.5" cy="168.40864914285714" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 64 • 15.0422</title></circle>
+<path d="M 457.5 168.40864914285714 L 631.25 141.6805699047619" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="631.25" cy="141.6805699047619" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 128 • 17.9224</title></circle>
+<path d="M 631.25 141.6805699047619 L 805.0 118.93171047619046" stroke="#2563eb" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="805.0" cy="118.93171047619046" r="4" fill="#2563eb" stroke="#fff"><title>S0 • 256 • 20.3737</title></circle>
+<path d="M 268 47 h 18" stroke="#be4a28" stroke-width="3" stroke-dasharray="6 3"/><text x="292" y="51" font-size="12">S1</text>
+<circle cx="110.0" cy="164.69996342857144" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 16 • 15.4418</title></circle>
+<path d="M 110.0 164.69996342857144 L 283.75 139.859392" stroke="#be4a28" stroke-width="2" stroke-dasharray="6 3"/>
+<circle cx="283.75" cy="139.859392" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 32 • 18.1186</title></circle>
+<path d="M 283.75 139.859392 L 457.5 120.05052495238095" stroke="#be4a28" stroke-width="2" stroke-dasharray="6 3"/>
+<circle cx="457.5" cy="120.05052495238095" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 64 • 20.2532</title></circle>
+<path d="M 457.5 120.05052495238095 L 631.25 101.23961142857144" stroke="#be4a28" stroke-width="2" stroke-dasharray="6 3"/>
+<circle cx="631.25" cy="101.23961142857144" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 128 • 22.2802</title></circle>
+<path d="M 631.25 101.23961142857144 L 805.0 84.91967085714285" stroke="#be4a28" stroke-width="2" stroke-dasharray="6 3"/>
+<circle cx="805.0" cy="84.91967085714285" r="4" fill="#be4a28" stroke="#fff"><title>S1 • 256 • 24.0388</title></circle>
+<path d="M 426 47 h 18" stroke="#087d66" stroke-width="3" stroke-dasharray="none"/><text x="450" y="51" font-size="12">S3</text>
+<circle cx="110.0" cy="183.55970742857144" r="4" fill="#087d66" stroke="#fff"><title>S3 • 16 • 13.4095</title></circle>
+<path d="M 110.0 183.55970742857144 L 283.75 155.46415390476193" stroke="#087d66" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="283.75" cy="155.46415390476193" r="4" fill="#087d66" stroke="#fff"><title>S3 • 32 • 16.4371</title></circle>
+<path d="M 283.75 155.46415390476193 L 457.5 134.2731855238095" stroke="#087d66" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="457.5" cy="134.2731855238095" r="4" fill="#087d66" stroke="#fff"><title>S3 • 64 • 18.7206</title></circle>
+<path d="M 457.5 134.2731855238095 L 631.25 113.14028342857145" stroke="#087d66" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="631.25" cy="113.14028342857145" r="4" fill="#087d66" stroke="#fff"><title>S3 • 128 • 20.9978</title></circle>
+<path d="M 631.25 113.14028342857145 L 805.0 94.88453485714285" stroke="#087d66" stroke-width="2" stroke-dasharray="none"/>
+<circle cx="805.0" cy="94.88453485714285" r="4" fill="#087d66" stroke="#fff"><title>S3 • 256 • 22.965</title></circle>
+<path d="M 584 47 h 18" stroke="#7c3aed" stroke-width="3" stroke-dasharray="none"/><text x="608" y="51" font-size="12">S6-B</text>
+</g></svg>
