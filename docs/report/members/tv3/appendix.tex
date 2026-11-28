@@ -1,0 +1,228 @@
+\clearpage
+\appendices
+
+\section{Khảo sát cấu hình và đặc điểm giao dịch}
+\label{app:fashion_configuration}
+
+\textit{Kích thước vùng ảnh.}
+Lưới không chồng lấp trên ảnh $28\times28$ tạo 196, 49 hoặc 16 vùng khi cạnh vùng lần lượt là 2, 4 hoặc 7 pixel. Vùng nhỏ cho phép lọc nền chi tiết hơn nhưng làm tăng số vectơ cần xử lý. Vùng lớn chứa nhiều điểm ảnh lân cận hơn và có thể trộn nền với đường biên của vật thể. Trong phép đối chiếu $4\times4$ với $7\times7$, khi cả hai lưới loại khoảng 39,3\% số vùng, tỷ lệ gradient bị mất lần lượt là 5,92\% và 14,00\%. Kết quả là căn cứ thực nghiệm để dùng lưới $4\times4$.
+
+\textit{Lọc nền.}
+Quy tắc phát hành giữ một vùng nếu có ít nhất một pixel lớn hơn 29. Trên 70.000 ảnh, quy tắc này loại 37,50\% số vùng và làm mất 4,41\% tổng độ lớn gradient; mọi ảnh đều còn vùng. Tổng số descriptor dùng trong lượt K-means là 2.143.746 trên 3.430.000 vùng ban đầu.
+
+\textit{Khảo sát số cụm.}
+Thí nghiệm khảo sát năm kích thước từ điển $K\in\{16,32,64,128,256\}$, mỗi giá trị chạy với ba seed. Cả 15 lượt fit đều hội tụ và sử dụng đủ số cụm. Độ méo giảm khi tăng $K$, nhưng mức giảm tương đối giữa $K=16$ và $K=32$ (khoảng 21,8\%) gần bằng mức giữa $K=32$ và $K=64$ (khoảng 22,0\%); vì vậy không thấy một điểm gãy rõ tại $K=32$. Bảng~\ref{tab:fashion_k_appendix} tổng hợp độ méo, độ dài giao dịch và số cặp phổ biến trung bình. Đây là trung bình của phép khảo sát nhiều seed; số đo của lượt tạo gói hiện tại được trình bày riêng trong Bảng~\ref{tab:kmeans_configuration}.
+
+\begin{center}
+    \captionof{table}{Độ méo và đặc trưng giao dịch BoVW nhị phân theo kích thước từ điển}
+    \label{tab:fashion_k_appendix}
+    \scriptsize
+    \setlength{\tabcolsep}{2.5pt}
+    \begin{tabular}{@{}c c c r@{}}
+        \toprule
+        $K$ & $\bar{D}\pm s_D$ & $\overline{|T|}$ & $\bar{n}_2$ \\
+        \midrule
+        16  & $0{,}4463\pm0{,}0065$ & $8{,}82$  & $120{,}0$ \\
+        32  & $0{,}3488\pm0{,}0037$ & $12{,}26$ & $487{,}3$ \\
+        64  & $0{,}2720\pm0{,}0006$ & $15{,}04$ & $1.451{,}3$ \\
+        128 & $0{,}2179\pm0{,}0005$ & $17{,}92$ & $1.489{,}7$ \\
+        256 & $0{,}1769\pm0{,}0001$ & $20{,}37$ & $638{,}3$ \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\noindent\parbox{\columnwidth}{\scriptsize Mỗi hàng lấy trung bình ba seed. $\bar{D}\pm s_D$ là độ méo trung bình và độ lệch chuẩn; $\overline{|T|}$ là độ dài giao dịch trung bình; $\bar{n}_2$ là số cặp phổ biến trung bình tại ngưỡng hỗ trợ 3\% (2.100/70.000), giới hạn độ dài hai. Số cặp mô tả lượng kết quả cần rà soát, không đo trực tiếp chất lượng ngữ nghĩa.}
+
+Quyết định chọn $K=32$ dựa trên độ gọn của giao dịch và khối lượng mẫu cần rà soát, không dựa riêng vào độ méo. Với BoVW nhị phân, độ dài giao dịch trung bình tăng từ 8,82 mục tại $K=16$ lên 12,26 tại $K=32$ và 15,04 tại $K=64$. Ở cùng ngưỡng hỗ trợ 3\% và giới hạn độ dài hai, số cặp tăng từ 120 lên 487,3 rồi 1.451,3. Như vậy, $K=32$ tạo nhiều cặp hơn rõ rệt so với $K=16$, nhưng vẫn giữ giao dịch ngắn hơn và số cặp cần rà soát thấp hơn so với $K=64$. Các giá trị lớn hơn không làm số cặp tăng đều: $K=128$ tạo 1.489,7 cặp trung bình, còn $K=256$ tạo 638,3 dù giao dịch dài nhất. Riêng các số đếm này không chứng minh codebook có chất lượng ngữ nghĩa tốt hơn.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/tv3_k32_bovw/kmeans_distortion.pdf}\\[2pt]
+    \includegraphics[width=\columnwidth]{figures/tv3_k32_bovw/frequent_pairs.pdf}
+    \caption{Độ méo trung bình theo $K$ (trên) và số cặp từ thị giác phổ biến tại ngưỡng hỗ trợ 3\% (dưới). Số cặp là trung bình ba seed, với giới hạn độ dài hai.}
+    \label{fig:fashion_k_tradeoff}
+\end{figure}
+
+\textit{Cấu trúc giao dịch và các cách biểu diễn vị trí.}
+Mỗi ảnh được chia thành lưới $7\times7$ gồm 49 vị trí patch $4\times4$. Sau lọc nền, mỗi patch được giữ lại nhận một mã từ thị giác $w$ từ codebook chung. BoVW nhị phân bỏ qua tọa độ và giữ tập các mã khác nhau xuất hiện trong ảnh; do đó, mỗi giao dịch biểu diễn câu hỏi những từ thị giác nào thường cùng xuất hiện, không gắn chúng với một vị trí cố định. Nhãn lớp được lưu trong metadata và không tham gia tạo mục.
+
+Hai cách biểu diễn vị trí dùng cùng patch và mã từ thị giác nhưng thêm thông tin vùng vào mục. \textit{Biểu diễn theo vùng 2$\times$2} cắt lưới sau hàng 3 và cột 3 thành bốn vùng tuyệt đối. Mục có dạng $(R_i,w)$, trong đó $R_i$ là vùng và $w$ là mã; bốn vùng có lần lượt 9, 12, 12 và 16 vị trí patch. \textit{Biểu diễn theo ba dải ngang} gom các hàng 1--2, 3--5 và 6--7 thành dải trên, giữa và dưới. Mục có dạng $(B_j,w)$; ba dải có lần lượt 14, 21 và 14 vị trí patch. Cùng một mã xuất hiện ở hai vùng hoặc dải sẽ tạo hai mục khác nhau.
+
+Trong phép so sánh tại $K=32$, BoVW nhị phân tạo trung bình 487,3 cặp phổ biến; biểu diễn theo vùng 2$\times$2 và theo ba dải ngang lần lượt tạo 1.894 và 1.661,3 cặp ở cùng ngưỡng hỗ trợ và giới hạn khai thác. Số lượng lớn hơn phản ánh việc thêm thông tin vị trí làm mở rộng tập mục cần rà soát, nhưng không cho biết các mẫu dễ diễn giải hơn hay có giá trị dự đoán cao hơn. Vì vậy, BoVW nhị phân được giữ làm biểu diễn chính nhờ quy tắc trực tiếp và giao dịch gọn; các cách có xét vị trí phục vụ đối chiếu ảnh hưởng của vùng ảnh.
+
+\textit{Minh họa quy tắc biểu diễn.}
+Biểu diễn quan hệ lân cận cục bộ xét các cặp patch phân biệt đã được giữ lại nếu khoảng cách Manhattan $d_{\mathrm{M}}=|r_a-r_b|+|c_a-c_b|$ thuộc $\{1,2\}$. Cặp khác hàng tạo mục có hướng \texttt{ABOVE} theo thứ tự từ trên xuống; cặp khác cột tạo \texttt{LEFT\_OF} theo thứ tự từ trái sang phải. Một cặp chéo có thể tạo cả hai quan hệ. Chỉ tọa độ trong lưới thật được xét, không nối vòng qua mép và patch bị lọc không tham gia. Hình~\ref{fig:fashion_spatial_encoding_schematic} minh họa quy tắc này cùng hai cách biểu diễn theo vùng và dải; các mã từ trong sơ đồ chỉ là ví dụ.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/tv3_k32_bovw/spatial_encoding_schematic.pdf}
+    \caption{Minh họa cách biểu diễn theo vùng 2$\times$2, ba dải ngang và quan hệ lân cận cục bộ trên cùng lưới patch.}
+    \label{fig:fashion_spatial_encoding_schematic}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/tv3_k32_bovw/codebook_centroids.pdf}
+    \caption{Các descriptor tâm cụm của codebook $K=32$, seed 123. Mỗi ô là một mẫu mức xám $4\times4$, không phải ảnh lớp hay nhãn ngữ nghĩa.}
+    \label{fig:fashion_codebook_centroids}
+\end{figure}
+
+\textit{Phạm vi kết luận.}
+$K=32$ kết hợp BoVW nhị phân là cấu hình cơ sở thực dụng cho mục tiêu khai phá và rà soát mẫu, không phải nghiệm tối ưu đã được chứng minh theo mọi tiêu chí. Kết quả khảo sát không xác nhận biểu diễn này tốt hơn mọi cách mã hóa vị trí. Codebook và giao dịch được tạo từ cả 70.000 ảnh, gồm cả tập kiểm thử gốc; do đó, các kết quả phục vụ phân tích khai phá mẫu, không phải đánh giá dự đoán độc lập.
+
+\textit{Thống kê giao dịch của gói hiện tại.}
+Sau khi gộp các mã lặp trong từng ảnh, 70.000 giao dịch có 856.373 lượt xuất hiện của 32 mã. Độ dài giao dịch từ 2 đến 24; trung bình 12,2339, trung vị 12 và độ lệch chuẩn tổng thể 3,0061. Mật độ là $856\,373/(70\,000\times32)=38,23\%$. Không có giao dịch rỗng.
+
+Tham khảo \href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/dbadabc4af05070c602b3bcd890150fcd496c885/docs/UD2/TC_plan.md}{khảo sát tiền xử lý ảnh} và \href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/dbadabc4af05070c602b3bcd890150fcd496c885/notebook/UD2/demo/01_image_exploration.ipynb}{phần khảo sát ảnh}.
+
+\newpage
+\section{Đối chiếu kết quả khai thác}
+\label{app:fashion_eclat}
+
+\textit{Độ hỗ trợ trên BoVW nhị phân.}
+Gọi $D(w)$ là tập giao dịch chứa từ thị giác $w$ và $N$ là số giao dịch. Độ hỗ trợ của tập mục $X$ là
+\[
+    \operatorname{supp}(X)
+    = \frac{\left|\bigcap_{w\in X} D(w)\right|}{N}.
+\]
+Chẳng hạn, với ba giao dịch $\{1,6\}$, $\{6,24\}$ và $\{1,6,24\}$, tập $\{1,6\}$ có độ hỗ trợ $2/3$.
+
+\textit{Đối chiếu hai backend.}
+Bảng~\ref{tab:fashion_audit_appendix} ghi số tập mục trả về trên cùng bộ giao dịch và kết quả so sánh đầy đủ từng tập cùng số hỗ trợ. Cả sáu ngưỡng đều đạt PASS.
+
+\begin{center}
+    \captionof{table}{Đối chiếu Set và BitVector trên gói hiện tại}
+    \label{tab:fashion_audit_appendix}
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{@{}crrrc@{}}
+        \toprule
+        Ngưỡng & Số hỗ trợ tối thiểu & Set & BitVector & Đối chiếu \\
+        \midrule
+        80\% & 56.000 & 0 & 0 & PASS \\
+        60\% & 42.000 & 1 & 1 & PASS \\
+        40\% & 28.000 & 11 & 11 & PASS \\
+        20\% & 14.000 & 145 & 145 & PASS \\
+        10\% & 7.000 & 1.098 & 1.098 & PASS \\
+         5\% & 3.500 & 6.185 & 6.185 & PASS \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Tại ngưỡng 5\%, phân bố độ dài tập mục là:
+
+\begin{center}
+    \captionof{table}{Số tập mục theo độ dài ở ngưỡng 5\%}
+    \label{tab:fashion_itemset_lengths}
+    \footnotesize
+    \begin{tabular}{@{}rr@{}}
+        \toprule
+        Độ dài & Số tập mục \\
+        \midrule
+        1 & 32 \\
+        2 & 482 \\
+        3 & 2.468 \\
+        4 & 2.681 \\
+        5 & 508 \\
+        6 & 14 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\textit{Thời gian Eclat.}
+Bảng~\ref{tab:fashion_eclat_measurements} ghi số đo trong tiến trình riêng cho sáu ngưỡng. Tỷ số được tính bằng thời gian Set chia cho thời gian BitVector; giá trị lớn hơn 1 nghĩa là BitVector nhanh hơn trong lượt đo đó.
+
+\begin{center}
+    \captionof{table}{Thời gian Eclat theo cách cài đặt và ngưỡng hỗ trợ}
+    \label{tab:fashion_eclat_measurements}
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{@{}c r r r@{}}
+        \toprule
+        Ngưỡng & Set (s) & BitVector (s) & Tỷ số Set/BitVector \\
+        \midrule
+        80\% & 4,580 & 4,161 & 1,10$\times$ \\
+        60\% & 4,755 & 4,493 & 1,06$\times$ \\
+        40\% & 5,260 & 5,380 & 0,98$\times$ \\
+        20\% & 7,629 & 6,097 & 1,25$\times$ \\
+        10\% & 11,862 & 7,467 & 1,59$\times$ \\
+         5\% & 20,937 & 8,727 & 2,40$\times$ \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Mỗi cấu hình được đo một lượt, không có lượt làm nóng và không đo lặp; do đó bảng không đủ để kết luận chênh lệch thời gian có ổn định giữa các lần chạy hay môi trường hay không. Thời gian tiến trình đo tính từ lúc đọc tệp giao dịch đến khi ghi kết quả.
+
+\newpage
+\section{Phân tích mẫu theo lớp}
+\label{app:fashion_enrichment}
+
+\textit{Các mẫu đại diện ở ngưỡng 5\%.}
+Bảng~\ref{tab:fashion_representative_patterns} ghi bốn mẫu được chọn theo quy tắc phân tích đã áp dụng: mẫu đơn hỗ trợ cao nhất, cặp hỗ trợ cao nhất, tập từ ba mã trở lên hỗ trợ cao nhất và một mẫu nhiều mã có hỗ trợ dưới 10\%. Mẫu cuối có mức làm giàu cao nhất trong bốn ví dụ, nhưng vẫn là mô tả hậu nghiệm trên toàn bộ dữ liệu.
+
+\begin{center}
+    \captionof{table}{Bốn mẫu đại diện được truy vết}
+    \label{tab:fashion_representative_patterns}
+    \scriptsize
+    \setlength{\tabcolsep}{2pt}
+    \begin{tabular}{@{}l r r l r@{}}
+        \toprule
+        Mẫu & Hỗ trợ & Toàn cục (\%) & \shortstack{Lớp $E$ cao nhất\\Tỷ lệ trong lớp (\%)} & $E_{\max}$ \\
+        \midrule
+        $\{6\}$ & 49.181 & 70,259 & Sandal (90,94) & 1,294 \\
+        $\{6,12\}$ & 29.223 & 41,747 & T-shirt/top (62,20) & 1,490 \\
+        $\{6,12,22\}$ & 16.218 & 23,169 & Sandal (37,30) & 1,610 \\
+        $\{6,15,17\}$ & 6.991 & 9,987 & Sandal (31,17) & 3,121 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\textit{Số tập được làm giàu theo lớp.}
+Ở ngưỡng hỗ trợ 5\%, số tập mục có $E(X,c)\geq2$ theo lớp lần lượt là:
+
+\begin{center}
+    \captionof{table}{Số tập mục có hệ số làm giàu ít nhất 2 theo lớp}
+    \label{tab:fashion_enriched_counts_by_class}
+    \scriptsize
+    \begin{tabular}{@{}l r@{\qquad}l r@{}}
+        \toprule
+        Lớp & Số tập mục & Lớp & Số tập mục \\
+        \midrule
+        T-shirt/top & 424 & Trouser & 468 \\
+        Pullover & 317 & Dress & 275 \\
+        Coat & 742 & Sandal & 480 \\
+        Shirt & 169 & Sneaker & 572 \\
+        Bag & 154 & Ankle boot & 1.710 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Các số đếm không loại trừ nhau vì cùng một tập mục có thể được làm giàu trong nhiều lớp. Ankle boot có số tập đạt ngưỡng nhiều nhất (1.710), nhưng con số này không đồng nghĩa với độ chính xác phân loại hay khả năng nhận diện lớp.
+
+\textit{Một mẫu nhiều mã cho mỗi lớp.}
+Bảng~\ref{tab:fashion_top_pattern_per_class} liệt kê các hàng trong Hình~\ref{fig:fashion_class_pattern_heatmap}. Mỗi mẫu được chọn trong nhóm có ít nhất 10\% ảnh của lớp đích hỗ trợ; cột tỷ lệ trong lớp là $P(X\mid c)$.
+
+\begin{center}
+    \captionof{table}{Mẫu có hệ số làm giàu cao nhất trong từng lớp}
+    \label{tab:fashion_top_pattern_per_class}
+    \scriptsize
+    \setlength{\tabcolsep}{2pt}
+    \begin{tabular}{@{}l l r r r@{}}
+        \toprule
+        Lớp đích & Mẫu & Số ảnh hỗ trợ & Tỷ lệ trong lớp (\%) & $E(X,c)$ \\
+        \midrule
+        T-shirt/top & $\{4,8,20,29\}$ & 3.665 & 18,20 & 3,476 \\
+        Trouser & $\{13,14,26,29\}$ & 3.922 & 31,11 & 5,553 \\
+        Pullover & $\{4,9,11,19\}$ & 4.174 & 22,56 & 3,783 \\
+        Dress & $\{4,8,10,26\}$ & 3.780 & 17,36 & 3,214 \\
+        Coat & $\{3,9,12,19,31\}$ & 3.511 & 18,54 & 3,697 \\
+        Sandal & $\{6,22,23,30\}$ & 3.759 & 26,37 & 4,911 \\
+        Shirt & $\{5,12,18,31\}$ & 3.659 & 13,89 & 2,656 \\
+        Sneaker & $\{5,15,24,30\}$ & 3.849 & 21,46 & 3,902 \\
+        Bag & $\{5,12,17\}$ & 3.674 & 25,11 & 4,785 \\
+        Ankle boot & $\{3,10,15,22\}$ & 3.518 & 25,91 & 5,156 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Các tỷ lệ này mô tả đồng xuất hiện của từ thị giác trong ảnh thuộc mỗi lớp. Nhãn lớp được dùng sau khai thác; do codebook và tập mục đều được tạo từ cả tập huấn luyện lẫn kiểm thử, không xem các con số là đánh giá độc lập. Xem \href{https://github.com/NguyenVoTanDuy2006/DataMining-FIM-Project/blob/dbadabc4af05070c602b3bcd890150fcd496c885/notebook/UD2/demo/03_transaction_exploration_and_mining.ipynb}{tài liệu phân tích giao dịch trên GitHub} để biết quy tắc chọn, kiểm tra đối chiếu và truy vết.

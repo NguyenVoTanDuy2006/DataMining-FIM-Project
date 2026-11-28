@@ -1,0 +1,43 @@
+% Compile here: xelatex --disable-installer -jobname=Report_TV2 Report_TV2.tex
+\documentclass[conference,a4paper]{IEEEtran}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb,graphicx,booktabs,array,url}
+\usepackage[hidelinks,unicode]{hyperref}
+\graphicspath{{figures/}{../../../../results/benchmarks/}}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\newcommand{\bv}{\texttt{BitVector}}
+\newcommand{\st}{\texttt{Set}}
+% Keep float-only pages aligned at the top instead of spreading objects apart.
+\makeatletter
+\newenvironment{reportfigure}{\par\medskip\noindent\begin{minipage}{\columnwidth}\def\@captype{figure}\centering}{\end{minipage}\par\medskip}
+\newenvironment{reporttable}{\par\medskip\noindent\begin{minipage}{\columnwidth}\def\@captype{table}\centering}{\end{minipage}\par\medskip}
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{12pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\setlength{\@dblfptop}{0pt}
+\setlength{\@dblfpsep}{12pt}
+\setlength{\@dblfpbot}{0pt plus 1fil}
+\makeatother
+\begin{document}
+\raggedbottom
+\setcounter{section}{1}
+\input{benchmark}
+\input{groceries}
+\newpage
+\begin{thebibliography}{9}
+\bibitem{zaki} M. J. Zaki, ``Scalable Algorithms for Association Mining,'' \emph{IEEE Transactions on Knowledge and Data Engineering}, vol. 12, no. 3, pp. 372--390, 2000, doi: 10.1109/69.846291.
+\bibitem{spmf} P. Fournier-Viger et al., ``The SPMF Open-Source Data Mining Library Version 2,'' in \emph{ECML PKDD 2016}, LNCS 9853, pp. 36--40, 2016, doi: 10.1007/978-3-319-46131-1\_8.
+\bibitem{agrawal} R. Agrawal and R. Srikant, ``Fast Algorithms for Mining Association Rules,'' in \emph{Proceedings of the 20th VLDB Conference}, pp. 487--499, 1994. [Online]. Available: \url{https://www.vldb.org/conf/1994/P487.PDF}
+\bibitem{fimi} FIMI Repository, ``Frequent Itemset Mining Dataset Repository.'' [Online]. Available: \url{https://fimi.uantwerpen.be/data/}. Dữ liệu tải ngày 16/11/2026.
+\bibitem{groceries} stedy, ``Machine Learning with R datasets: groceries.csv,'' kho dữ liệu công khai. [Online]. Available: \url{https://github.com/stedy/Machine-Learning-with-R-datasets/blob/master/groceries.csv}
+\bibitem{windowsrss} Microsoft, ``PROCESS\_MEMORY\_COUNTERS structure (psapi.h).'' [Online]. Available: \url{https://learn.microsoft.com/en-us/windows/win32/api/psapi/ns-psapi-process_memory_counters}
+\end{thebibliography}
+\onecolumn
+\EclatBenchmarkAppendix
+\end{document}

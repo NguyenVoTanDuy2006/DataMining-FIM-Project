@@ -1,0 +1,53 @@
+% Compile here: xelatex -jobname=Report_TV3 Report_TV3.tex
+\documentclass[conference,a4paper]{IEEEtran}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+\usepackage[english,vietnamese]{babel}
+\defaultfontfeatures{Ligatures=TeX}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts,algorithmic,booktabs,graphicx,capt-of,textcomp,xcolor,url}
+\usepackage[hidelinks,unicode]{hyperref}
+\graphicspath{{figures/}}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{12pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\setlength{\@dblfptop}{0pt}
+\setlength{\@dblfpsep}{12pt}
+\setlength{\@dblfpbot}{0pt plus 1fil}
+\makeatother
+\begin{document}
+\selectlanguage{vietnamese}
+\raggedbottom
+\title{Khai thác tập mục phổ biến từ ảnh Fashion-MNIST}
+\author{\IEEEauthorblockN{Nguyễn Võ Tấn Duy}
+\IEEEauthorblockA{Thành viên 3 --- Đồ án môn Khai thác dữ liệu và ứng dụng\\
+Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM}}
+\maketitle
+
+\begin{abstract}
+Báo cáo chuyển 70.000 ảnh Fashion-MNIST thành giao dịch túi từ thị giác
+nhị phân và khai thác tập mục phổ biến bằng hai backend Eclat. K-means
+với 32 cụm hội tụ sau 220 vòng trong giới hạn 400 vòng; hai backend
+khớp kết quả tại cả sáu ngưỡng, với 6.185 tập mục ở minsup 5\%. Các mẫu
+được đối chiếu với ảnh và phân tích theo lớp. Thời gian một lượt ở
+ngưỡng 5\% là 20,94 giây với Set và 8,73 giây với BitVector; do không
+có warm-up hay đo lặp, số liệu này chỉ có giá trị tham khảo. Vì cả ảnh
+huấn luyện và kiểm thử được dùng để học từ điển và khai thác, kết quả
+hỗ trợ phân tích mô tả, không phải đánh giá phân loại độc lập.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Fashion-MNIST, túi từ thị giác nhị phân, Eclat, tập mục phổ biến.
+\end{IEEEkeywords}
+
+\setcounter{section}{2}
+\input{fashion.tex}
+\input{references.tex}
+\input{appendix.tex}
+\end{document}
