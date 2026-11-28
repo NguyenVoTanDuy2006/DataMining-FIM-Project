@@ -11,24 +11,64 @@ Lưới không chồng lấp trên ảnh $28\times28$ tạo 196, 49 hoặc 16 v�
 Quy tắc phát hành giữ một vùng nếu có ít nhất một pixel lớn hơn 29. Trên 70.000 ảnh, quy tắc này loại 37,50\% số vùng và làm mất 4,41\% tổng độ lớn gradient; mọi ảnh đều còn vùng. Tổng số descriptor dùng trong lượt K-means là 2.143.746 trên 3.430.000 vùng ban đầu.
 
 \textit{Khảo sát số cụm.}
-Bảng~\ref{tab:fashion_k_appendix} lưu kết quả khảo sát cấu hình trước khi tạo gói hiện tại. Các số này mô tả phép khảo sát $K$ đã lưu; số đo K-means của gói đang phân tích được trình bày riêng trong Bảng~\ref{tab:kmeans_configuration}.
+Thí nghiệm khảo sát năm kích thước từ điển $K\in\{16,32,64,128,256\}$, mỗi giá trị chạy với ba seed. Cả 15 lượt fit đều hội tụ và sử dụng đủ số cụm. Độ méo giảm khi tăng $K$, nhưng mức giảm tương đối giữa $K=16$ và $K=32$ (khoảng 21,8\%) gần bằng mức giữa $K=32$ và $K=64$ (khoảng 22,0\%); vì vậy không thấy một điểm gãy rõ tại $K=32$. Bảng~\ref{tab:fashion_k_appendix} tổng hợp độ méo, độ dài giao dịch và số cặp phổ biến trung bình. Đây là trung bình của phép khảo sát nhiều seed; số đo của lượt tạo gói hiện tại được trình bày riêng trong Bảng~\ref{tab:kmeans_configuration}.
 
 \begin{center}
-    \captionof{table}{Kết quả khảo sát cấu hình K-means}
+    \captionof{table}{Độ méo và đặc trưng giao dịch BoVW nhị phân theo kích thước từ điển}
     \label{tab:fashion_k_appendix}
-    \footnotesize
-    \begin{tabular}{@{}rrrr@{}}
+    \scriptsize
+    \setlength{\tabcolsep}{2.5pt}
+    \begin{tabular}{@{}c c c r@{}}
         \toprule
-        $K$ & Độ méo & Số mã trung bình/giao dịch & Hội tụ \\
+        $K$ & $\bar{D}\pm s_D$ & $\overline{|T|}$ & $\bar{n}_2$ \\
         \midrule
-        16  & 0,441 &  9,00 & Có \\
-        32  & 0,347 & 12,27 & Có \\
-        64  & 0,271 & 15,11 & Có \\
-        128 & 0,219 & 17,99 & Có \\
-        256 & 0,177 & 20,29 & Chưa \\
+        16  & $0{,}4463\pm0{,}0065$ & $8{,}82$  & $120{,}0$ \\
+        32  & $0{,}3488\pm0{,}0037$ & $12{,}26$ & $487{,}3$ \\
+        64  & $0{,}2720\pm0{,}0006$ & $15{,}04$ & $1.451{,}3$ \\
+        128 & $0{,}2179\pm0{,}0005$ & $17{,}92$ & $1.489{,}7$ \\
+        256 & $0{,}1769\pm0{,}0001$ & $20{,}37$ & $638{,}3$ \\
         \bottomrule
     \end{tabular}
 \end{center}
+
+\noindent\parbox{\columnwidth}{\scriptsize Mỗi hàng lấy trung bình ba seed. $\bar{D}\pm s_D$ là độ méo trung bình và độ lệch chuẩn; $\overline{|T|}$ là độ dài giao dịch trung bình; $\bar{n}_2$ là số cặp phổ biến trung bình tại ngưỡng hỗ trợ 3\% (2.100/70.000), giới hạn độ dài hai. Số cặp mô tả lượng kết quả cần rà soát, không đo trực tiếp chất lượng ngữ nghĩa.}
+
+Quyết định chọn $K=32$ dựa trên độ gọn của giao dịch và khối lượng mẫu cần rà soát, không dựa riêng vào độ méo. Với BoVW nhị phân, độ dài giao dịch trung bình tăng từ 8,82 mục tại $K=16$ lên 12,26 tại $K=32$ và 15,04 tại $K=64$. Ở cùng ngưỡng hỗ trợ 3\% và giới hạn độ dài hai, số cặp tăng từ 120 lên 487,3 rồi 1.451,3. Như vậy, $K=32$ tạo nhiều cặp hơn rõ rệt so với $K=16$, nhưng vẫn giữ giao dịch ngắn hơn và số cặp cần rà soát thấp hơn so với $K=64$. Các giá trị lớn hơn không làm số cặp tăng đều: $K=128$ tạo 1.489,7 cặp trung bình, còn $K=256$ tạo 638,3 dù giao dịch dài nhất. Riêng các số đếm này không chứng minh codebook có chất lượng ngữ nghĩa tốt hơn.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/tv3_k32_bovw/kmeans_distortion.pdf}\\[2pt]
+    \includegraphics[width=\columnwidth]{figures/tv3_k32_bovw/frequent_pairs.pdf}
+    \caption{Độ méo trung bình theo $K$ (trên) và số cặp từ thị giác phổ biến tại ngưỡng hỗ trợ 3\% (dưới). Số cặp là trung bình ba seed, với giới hạn độ dài hai.}
+    \label{fig:fashion_k_tradeoff}
+\end{figure}
+
+\textit{Cấu trúc giao dịch và các cách biểu diễn vị trí.}
+Mỗi ảnh được chia thành lưới $7\times7$ gồm 49 vị trí patch $4\times4$. Sau lọc nền, mỗi patch được giữ lại nhận một mã từ thị giác $w$ từ codebook chung. BoVW nhị phân bỏ qua tọa độ và giữ tập các mã khác nhau xuất hiện trong ảnh; do đó, mỗi giao dịch biểu diễn câu hỏi những từ thị giác nào thường cùng xuất hiện, không gắn chúng với một vị trí cố định. Nhãn lớp được lưu trong metadata và không tham gia tạo mục.
+
+Hai cách biểu diễn vị trí dùng cùng patch và mã từ thị giác nhưng thêm thông tin vùng vào mục. \textit{Biểu diễn theo vùng 2$\times$2} cắt lưới sau hàng 3 và cột 3 thành bốn vùng tuyệt đối. Mục có dạng $(R_i,w)$, trong đó $R_i$ là vùng và $w$ là mã; bốn vùng có lần lượt 9, 12, 12 và 16 vị trí patch. \textit{Biểu diễn theo ba dải ngang} gom các hàng 1--2, 3--5 và 6--7 thành dải trên, giữa và dưới. Mục có dạng $(B_j,w)$; ba dải có lần lượt 14, 21 và 14 vị trí patch. Cùng một mã xuất hiện ở hai vùng hoặc dải sẽ tạo hai mục khác nhau.
+
+Trong phép so sánh tại $K=32$, BoVW nhị phân tạo trung bình 487,3 cặp phổ biến; biểu diễn theo vùng 2$\times$2 và theo ba dải ngang lần lượt tạo 1.894 và 1.661,3 cặp ở cùng ngưỡng hỗ trợ và giới hạn khai thác. Số lượng lớn hơn phản ánh việc thêm thông tin vị trí làm mở rộng tập mục cần rà soát, nhưng không cho biết các mẫu dễ diễn giải hơn hay có giá trị dự đoán cao hơn. Vì vậy, BoVW nhị phân được giữ làm biểu diễn chính nhờ quy tắc trực tiếp và giao dịch gọn; các cách có xét vị trí phục vụ đối chiếu ảnh hưởng của vùng ảnh.
+
+\textit{Minh họa quy tắc biểu diễn.}
+Biểu diễn quan hệ lân cận cục bộ xét các cặp patch phân biệt đã được giữ lại nếu khoảng cách Manhattan $d_{\mathrm{M}}=|r_a-r_b|+|c_a-c_b|$ thuộc $\{1,2\}$. Cặp khác hàng tạo mục có hướng \texttt{ABOVE} theo thứ tự từ trên xuống; cặp khác cột tạo \texttt{LEFT\_OF} theo thứ tự từ trái sang phải. Một cặp chéo có thể tạo cả hai quan hệ. Chỉ tọa độ trong lưới thật được xét, không nối vòng qua mép và patch bị lọc không tham gia. Hình~\ref{fig:fashion_spatial_encoding_schematic} minh họa quy tắc này cùng hai cách biểu diễn theo vùng và dải; các mã từ trong sơ đồ chỉ là ví dụ.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/tv3_k32_bovw/spatial_encoding_schematic.pdf}
+    \caption{Minh họa cách biểu diễn theo vùng 2$\times$2, ba dải ngang và quan hệ lân cận cục bộ trên cùng lưới patch.}
+    \label{fig:fashion_spatial_encoding_schematic}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/tv3_k32_bovw/codebook_centroids.pdf}
+    \caption{Các descriptor tâm cụm của codebook $K=32$, seed 123. Mỗi ô là một mẫu mức xám $4\times4$, không phải ảnh lớp hay nhãn ngữ nghĩa.}
+    \label{fig:fashion_codebook_centroids}
+\end{figure}
+
+\textit{Phạm vi kết luận.}
+$K=32$ kết hợp BoVW nhị phân là cấu hình cơ sở thực dụng cho mục tiêu khai phá và rà soát mẫu, không phải nghiệm tối ưu đã được chứng minh theo mọi tiêu chí. Kết quả khảo sát không xác nhận biểu diễn này tốt hơn mọi cách mã hóa vị trí. Codebook và giao dịch được tạo từ cả 70.000 ảnh, gồm cả tập kiểm thử gốc; do đó, các kết quả phục vụ phân tích khai phá mẫu, không phải đánh giá dự đoán độc lập.
 
 \textit{Thống kê giao dịch của gói hiện tại.}
 Sau khi gộp các mã lặp trong từng ảnh, 70.000 giao dịch có 856.373 lượt xuất hiện của 32 mã. Độ dài giao dịch từ 2 đến 24; trung bình 12,2339, trung vị 12 và độ lệch chuẩn tổng thể 3,0061. Mật độ là $856\,373/(70\,000\times32)=38,23\%$. Không có giao dịch rỗng.

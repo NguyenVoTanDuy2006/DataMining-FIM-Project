@@ -80,6 +80,8 @@ Trong lượt này, K-means dừng theo tiêu chuẩn hội tụ của thư vi�
 
 Ở bước cuối, với ảnh $I_i$, gọi $J_i$ là tập chỉ số các vùng được giữ lại và $\mathcal{W}_i=(w_{i,j})_{j\in J_i}$ là dãy mã được gán cho các vùng đó. BoVW nhị phân tạo giao dịch $T_i=\operatorname{sort}(\operatorname{unique}(\mathcal{W}_i))$: mỗi mã chỉ xuất hiện một lần và các mã được sắp xếp tăng dần. Tọa độ vùng được lưu riêng để truy vết, không đưa vào $T_i$. Bộ giao dịch hiện tại có 70.000 ảnh, không có giao dịch rỗng, tổng cộng 856.373 lượt xuất hiện của 32 mã. Độ dài trung bình là 12,2339 mã, trung vị 12; chi tiết phân bố được trình bày trong Phụ lục~\ref{app:fashion_configuration}.
 
+Khảo sát năm giá trị $K$ với ba seed chọn $K=32$ làm mức cân bằng: ở ngưỡng 3\%, số cặp trung bình là 487,3 (so với 120 ở $K=16$ và 1.451,3 ở $K=64$), với giao dịch ngắn hơn $K=64$ (12,26 so với 15,04 mục). BoVW nhị phân được chọn vì mỗi giao dịch chỉ giữ các mã khác nhau, giúp khai phá đồng xuất hiện mà không áp đặt vị trí; biểu diễn theo vùng và dải dùng để đối chiếu. Vì độ méo vẫn giảm khi tăng $K$, $K=32$ là lựa chọn thực dụng, không phải mức tối ưu đã được chứng minh; chi tiết ở Phụ lục~\ref{app:fashion_configuration}.
+
 \subsection{Thiết kế thực nghiệm khai thác}
 
 Eclat tổ chức dữ liệu theo chiều dọc~\cite{Zaki2000}. Với mỗi mã thị giác, thuật toán lưu danh sách số thứ tự các giao dịch có chứa mã đó. Với tập mã $X$, thuật toán lấy phần giao giữa các danh sách tương ứng; số giao dịch còn lại là số ảnh chứa đồng thời mọi mã trong $X$. Nhóm so sánh hai cách lưu các danh sách này trên cùng bộ giao dịch BoVW nhị phân: Set lưu các số thứ tự hiện diện, còn BitVector biểu diễn chúng bằng các bit và lấy phần giao bằng phép AND.
