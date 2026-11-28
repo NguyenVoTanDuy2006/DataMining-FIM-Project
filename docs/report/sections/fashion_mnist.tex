@@ -308,3 +308,18 @@ Sau khi chọn cấu hình, huấn luyện lại trên toàn bộ 60.000 ảnh
 và đánh giá một lần trên 10.000 ảnh kiểm thử giữ riêng. Kết quả
 so với BoVW nhị phân trên tập này sẽ cho biết đặc trưng tập mục
 hoặc thông tin vị trí có cải thiện khả năng dự đoán hay không.
+
+\subsubsection{Kết luận}
+
+Trong phạm vi khai phá mô tả, BoVW nhị phân với patch $4\times4$
+và $K=32$ tạo ra các tập mục có thể truy vết về vùng ảnh, đồng thời
+cho thấy mức độ xuất hiện khác nhau giữa các lớp. Hai backend Set
+và BitVector cho cùng kết quả ở sáu ngưỡng hỗ trợ đã khảo sát.
+Lựa chọn $K=32$ là một cấu hình thực dụng để tiếp tục phân tích,
+không phải cấu hình tối ưu đã được chứng minh; các hệ số làm giàu
+cũng chưa chứng minh khả năng phân loại. Do từ điển và các tập mục
+được xây dựng trên cả 70.000 ảnh, kết quả hiện tại không phải phép
+đánh giá dự đoán độc lập. Hướng phân loại chỉ có thể được kết luận
+sau khi toàn bộ bước học từ điển, khai thác và chọn đặc trưng được
+thực hiện bên trong từng fold huấn luyện, rồi đánh giá cuối cùng trên
+tập kiểm thử được giữ riêng.
